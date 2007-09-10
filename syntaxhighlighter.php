@@ -99,19 +99,9 @@ class AGSyntaxHighlighter {
 	// This function checks for the BBCode cheaply so we don't waste CPU cycles on regex if it's not needed
 	// It's in a seperate function since it's used in mulitple places (makes it easier to edit)
 	function CheckForBBCode( $content ) {
-		// PHP5+
-		if ( function_exists('stristr') ) {
-			if ( stristr( $content, '[sourcecode' ) && stristr( $content, '[/sourcecode]' ) ) return TRUE;
-			if ( stristr( $content, '[source' ) && stristr( $content, '[/source]' ) ) return TRUE;
-			if ( stristr( $content, '[code' ) && stristr( $content, '[/code]' ) ) return TRUE;
-		}
-
-		// PHP4
-		else {
-			if ( strstr( $content, '[sourcecode' ) && strstr( $content, '[/sourcecode]' ) ) return TRUE;
-			if ( strstr( $content, '[source' ) && strstr( $content, '[/source]' ) ) return TRUE;
-			if ( strstr( $content, '[code' ) && strstr( $content, '[/code]' ) ) return TRUE;
-		}
+		if ( stristr( $content, '[sourcecode' ) && stristr( $content, '[/sourcecode]' ) ) return TRUE;
+		if ( stristr( $content, '[source' ) && stristr( $content, '[/source]' ) ) return TRUE;
+		if ( stristr( $content, '[code' ) && stristr( $content, '[/code]' ) ) return TRUE;
 
 		return FALSE;
 	}
