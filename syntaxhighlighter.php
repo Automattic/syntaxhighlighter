@@ -6,6 +6,7 @@ Plugin Name:  SyntaxHighlighter
 Plugin URI:   http://wordpress.org/extend/plugins/syntaxhighlighter/
 Version:      1.0.0
 Description:  An advanced upload-and-activate WordPress implementation of Alex Gorbatchev's <a href="http://code.google.com/p/syntaxhighlighter/">SyntaxHighlighter</a> JavaScript code highlighting package. See WordPress.com's "<a href="http://faq.wordpress.com/2007/09/03/how-do-i-post-source-code/">How do I post source code?</a>" for details.
+Author:       <a href="http://photomatt.net/">Matt</a> & <a href="http://www.viper007bond.com/">Viper007Bond</a>
 
 **************************************************************************
 
@@ -107,7 +108,7 @@ class AGSyntaxHighlighter {
 	}
 
 
-	// This function is a wrapper for preg_match_all() so we don't have duplicate code all over the place
+	// This function is a wrapper for preg_match_all() that grabs all BBCode calls
 	// It's in a seperate function since it's used in mulitple places (makes it easier to edit)
 	function GetBBCode( $content, $addslashes = FALSE ) {
 		$regex = '/\[(sourcecod|sourc|cod)(e language=|e lang=|e=)';
