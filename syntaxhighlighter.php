@@ -120,7 +120,7 @@ class AGSyntaxHighlighter {
 	// This function is a wrapper for preg_match_all() so we don't have duplicate code all over the place
 	// It's in a seperate function since it's used in mulitple places (makes it easier to edit)
 	function GetBBCode( $content, $addslashes = FALSE ) {
-		$regex = '/\[(sourcecod|cod)(e language=|e lang=|e=)';
+		$regex = '/\[(sourcecod|sourc|cod)(e language=|e lang=|e=)';
 		if ( $addslashes ) $regex .= '\\\\';
 		$regex .= '([\'"])' . $this->languagesregex;
 		if ( $addslashes ) $regex .= '\\\\';
