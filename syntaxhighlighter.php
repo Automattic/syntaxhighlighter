@@ -195,7 +195,7 @@ class AGSyntaxHighlighter {
 	function FileLoader() {
 		?>
 
-<!-- AGSyntaxHighlighter Stuff -->
+<!-- SyntaxHighlighter Stuff -->
 <script type="text/javascript" src="<?php echo $this->pluginurl; ?>shCore.js"></script>
 <?php foreach ( $this->jsfiles2load as $filename => $foobar ) : ?>
 <script type="text/javascript" src="<?php echo $this->pluginurl . $filename; ?>"></script>
