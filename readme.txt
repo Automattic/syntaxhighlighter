@@ -9,9 +9,9 @@ Easily post source code such as PHP or HTML and display it in a styled box.
 
 == Description ==
 
-SyntaxHighlighter allows you to easily post code without loosing it's formatting or making any changes. It even provides syntax highlighting for certain languages.
+SyntaxHighlighter allows you to easily post syntax highlighted code all without loosing it's formatting or making an manual changes.
 
-Here's a list of supported languages as well as their aliases (for use in your post).
+It supports the following languages (the alias for use in the post is listed next to the name):
 
 * C++ -- `cpp`, `c`, `c++`
 * C# -- `c#`, `c-sharp`, `csharp`
@@ -44,15 +44,15 @@ This should result in the following file structure:
     - plugins
         - syntaxhighlighter
             | readme.txt
-	    | screenshot-1.png
+            | screenshot-1.png
             | syntaxhighlighter.php
             - files
                 | clipboard.swf
                 | shBrushCpp.js
                 | shBrushCSharp.js
-		| [...]
-		| shCore.js
-		| SyntaxHighlighter.css`
+                | [...]
+                | shCore.js
+                | SyntaxHighlighter.css`
 
 **See Also:** ["Installing Plugins" article on the WP Codex](http://codex.wordpress.org/Managing_Plugins#Installing_Plugins)
 
@@ -66,7 +66,7 @@ Just wrap your code in `[sourcecode language='css']code here[/sourcecode]`. The 
 
 == Frequently Asked Questions ==
 
-= The BBCode in my post is being replaced with `<pre>` just fine, but I don't see the syntax highlighting! =
+= The BBCode in my post is being replaced with `&lt;pre&gt;` just fine, but I don't see the syntax highlighting! =
 
 Make sure your theme's footer has `<?php wp_footer(); ?>` somewhere in it, otherwise the JavaScript highlighting files won't be loaded.
 
@@ -85,9 +85,11 @@ Find `[sourcecode language='css']code here[/sourcecode]` too long to type? Here'
 * `[source language='css']code here[/source]`
 * `[code language='css']code here[/code]`
 
+
 * `[sourcecode lang='css']code here[/sourcecode]`
 * `[source lang='css']code here[/source]`
 * `[code lang='css']code here[/code]`
+
 
 * `[sourcecode='css']code here[/sourcecode]`
 * `[source='css']code here[/source]`
