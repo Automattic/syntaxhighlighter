@@ -66,7 +66,7 @@ Just wrap your code in `[sourcecode language='css']code here[/sourcecode]`. The 
 
 == Frequently Asked Questions ==
 
-= The BBCode in my post is being replaced with `&lt;pre&gt;` just fine, but I don't see the syntax highlighting! =
+= The BBCode in my post is being replaced with &lt;pre&gt;'s just fine, but I don't see the syntax highlighting! =
 
 Make sure your theme's footer has `<?php wp_footer(); ?>` somewhere in it, otherwise the JavaScript highlighting files won't be loaded.
 
