@@ -14,9 +14,9 @@
 .dp-highlighter ol li,
 .dp-highlighter ol li span 
 {
-	margin: 0 !important;
-	padding: 0 !important;
-	border: none !important;
+	margin: 0;
+	padding: 0;
+	border: none;
 }
 
 .dp-highlighter a,
