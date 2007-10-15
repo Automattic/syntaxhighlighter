@@ -1,7 +1,15 @@
 ﻿.dp-highlighter
+.dp-highlighter ol,
+.dp-highlighter ol li,
+.dp-highlighter ol li span 
 {
-	font-family: "Consolas", "Courier New", Courier, mono, serif;
+	font-weight: normal;
+	font-family: "Consolas", "Courier New", Courier, mono, serif !important;
 	font-size: 12px;
+}
+
+.dp-highlighter
+{
 	background-color: #E7E5DC;
 	width: 99%;
 	overflow: auto;

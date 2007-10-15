@@ -97,6 +97,11 @@ Find `[sourcecode language='css']code here[/sourcecode]` too long to type? Here'
 
 == ChangeLog ==
 
+**Version 1.0.1**
+
+* Minor CSS fixes.
+* Filter text widgets to allow posting of code.
+
 **Version 1.0.0**
 
 * Initial release!

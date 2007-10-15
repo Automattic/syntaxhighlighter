@@ -4,7 +4,7 @@
 
 Plugin Name:  SyntaxHighlighter
 Plugin URI:   http://wordpress.org/extend/plugins/syntaxhighlighter/
-Version:      1.0.0
+Version:      1.0.1
 Description:  An advanced upload-and-activate WordPress implementation of Alex Gorbatchev's <a href="http://code.google.com/p/syntaxhighlighter/">SyntaxHighlighter</a> JavaScript code highlighting package. See WordPress.com's "<a href="http://faq.wordpress.com/2007/09/03/how-do-i-post-source-code/">How do I post source code?</a>" for details.
 Author:       <a href="http://photomatt.net/">Matt</a> & <a href="http://www.viper007bond.com/">Viper007Bond</a>
 
@@ -36,14 +36,16 @@ class AGSyntaxHighlighter {
 		add_action( 'wp_footer', array(&$this, 'FileLoader'), 1000 );
 		add_action( 'admin_footer', array(&$this, 'FileLoader'), 1000 ); // For viewing comments in admin area
 
+		// Find and replace the BBCode
 		add_filter( 'the_content', array(&$this, 'BBCodeToHTML'), 8 );
-
-		// Comment out or delete this next line to stop commenters from being able to post code
-		add_filter( 'comment_text', array(&$this, 'BBCodeToHTML'), 8 );
+		add_filter( 'widget_text', array(&$this, 'BBCodeToHTML'), 8 );
 
 		// Account for TinyMCE
 		add_filter( 'content_save_pre', array(&$this, 'TinyMCEDecode'), 8 );
 		add_filter( 'the_editor_content', array(&$this, 'TinyMCEEncode'), 8 );
+
+		// Uncomment this next line to allow commenters to post code
+		//add_filter( 'comment_text', array(&$this, 'BBCodeToHTML'), 8 );
 	}
 
 
