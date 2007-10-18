@@ -6,7 +6,7 @@ Plugin Name:  SyntaxHighlighter
 Plugin URI:   http://wordpress.org/extend/plugins/syntaxhighlighter/
 Version:      1.1
 Description:  An advanced upload-and-activate WordPress implementation of Alex Gorbatchev's <a href="http://code.google.com/p/syntaxhighlighter/">SyntaxHighlighter</a> JavaScript code highlighting package. See WordPress.com's "<a href="http://faq.wordpress.com/2007/09/03/how-do-i-post-source-code/">How do I post source code?</a>" for details.
-Author:       <a href="http://photomatt.net/">Matt</a> & <a href="http://www.viper007bond.com/">Viper007Bond</a>
+Author:       <a href="http://photomatt.net/">Matt</a>, <a href="http://www.viper007bond.com/">Viper007Bond</a>, and <a href="http://blogwaffe.com/">mdawaffe</a>
 
 **************************************************************************
 

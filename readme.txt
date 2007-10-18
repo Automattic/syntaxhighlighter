@@ -1,5 +1,5 @@
 === SyntaxHighlighter ===
-Contributors: matt, Viper007Bond
+Contributors: matt, Viper007Bond, mdawaffe
 Tags: code, sourcecode, php, xhtml, html, css
 Requires at least: 2.0
 Tested up to: 2.3.0
