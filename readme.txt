@@ -2,7 +2,6 @@
 Contributors: matt, Viper007Bond, mdawaffe
 Tags: code, sourcecode, php, xhtml, html, css
 Requires at least: 2.0
-Tested up to: 2.3.0
 Stable tag: trunk
 
 Easily post source code such as PHP or HTML and display it in a styled box.

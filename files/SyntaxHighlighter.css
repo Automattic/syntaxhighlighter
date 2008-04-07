@@ -4,7 +4,7 @@
 .dp-highlighter ol li span 
 {
 	font-weight: normal;
-	font-family: "Consolas", "Courier New", Courier, mono, serif !important;
+	font-family: "Consolas", "Monaco", "Courier New", Courier, monospace !important;
 	font-size: 12px;
 }
 
