@@ -96,6 +96,10 @@ Find `[sourcecode language='css']code here[/sourcecode]` too long to type? Here'
 
 == ChangeLog ==
 
+**Version 1.1.1**
+
+* Encode single quotes so `wptexturize()` doesn't transform them into fancy quotes and screw up code.
+
 **Version 1.1.0**
 
 * mdawaffe [fixed](http://dev.wp-plugins.org/ticket/703) an encoding issue relating to kses and users without the `unfiltered_html` capability. Mad props to mdawaffe.
