@@ -4,7 +4,7 @@
 
 Plugin Name:  SyntaxHighlighter
 Plugin URI:   http://wordpress.org/extend/plugins/syntaxhighlighter/
-Version:      1.1.1
+Version:      1.1.2
 Description:  An advanced upload-and-activate WordPress implementation of Alex Gorbatchev's <a href="http://code.google.com/p/syntaxhighlighter/">SyntaxHighlighter</a> JavaScript code highlighting package. See WordPress.com's "<a href="http://faq.wordpress.com/2007/09/03/how-do-i-post-source-code/">How do I post source code?</a>" for details.
 Author:       <a href="http://photomatt.net/">Matt</a>, <a href="http://www.viper007bond.com/">Viper007Bond</a>, and <a href="http://blogwaffe.com/">mdawaffe</a>
 
@@ -12,7 +12,7 @@ Author:       <a href="http://photomatt.net/">Matt</a>, <a href="http://www.vipe
 
 Credits:
 
-* Matt ( photomatt.net ) -- original concept and code on WP.com
+* Matt ( ma.tt ) -- original concept and code on WP.com
 * Viper007Bond ( viper007bond.com ) -- current plugin version
 
 Simply put, Matt deserves the majority of the credit for this plugin.
@@ -64,7 +64,8 @@ class AGSyntaxHighlighter {
 	// Set some variables now that we've given all other plugins a chance to load
 	function SetVariables() {
 		$this->pluginurl = apply_filters( 'agsyntaxhighlighter_url', get_bloginfo( 'wpurl' ) . '/wp-content/plugins/syntaxhighlighter/files/' );
-
+		if ( defined( 'WP_CONTENT_URL' ) )
+			$this->pluginurl = apply_filters( 'agsyntaxhighlighter_url', WP_CONTENT_URL . '/plugins/syntaxhighlighter/files/' );
 		// Define all allowed languages and allow plugins to modify this
 		$this->languages = apply_filters( 'agsyntaxhighlighter_languages', array(
 			'cpp'        => 'shBrushCpp.js',
