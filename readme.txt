@@ -1,4 +1,4 @@
-+=== SyntaxHighlighter Evolved ===
+=== SyntaxHighlighter Evolved ===
 Contributors: Viper007Bond
 Tags: code, sourcecode, php, xhtml, html, css
 Requires at least: 2.7
