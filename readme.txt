@@ -13,7 +13,7 @@ SyntaxHighlighter Evolved allows you to easily post syntax-highlighted code to y
 
 For a list of supported languages (all widely used languages are supported), please [click here](http://alexgorbatchev.com/wiki/SyntaxHighlighter:Brushes).
 
-###SyntaxHighlighter "Evolved"? Why Evolved?###
+**SyntaxHighlighter "Evolved"? Why Evolved?**
 
 Starting with v2.0.0, this plugin was renamed from "SyntaxHighlighter" to "SyntaxHighlighter Evolved". This was done to better stand out against the many very poorly named [forks](http://en.wikipedia.org/wiki/Fork_%28software_development%29) of v1.x of this plugin. I am not an author of any of those plugins, they just used my old code as a base for their version. Although I am of course biased, I'd argue this plugin is the best of all of them.
 
