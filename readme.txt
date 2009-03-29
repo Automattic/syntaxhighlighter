@@ -1,5 +1,6 @@
 === SyntaxHighlighter Evolved ===
 Contributors: Viper007Bond
+Donate link: http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/donate/
 Tags: code, sourcecode, php, xhtml, html, css
 Requires at least: 2.7
 Tested up to: 2.8
