@@ -9,7 +9,7 @@ Easily post syntax-highlighted code to your site without having to modify the co
 
 == Description ==
 
-SyntaxHighlighter allows you to easily post syntax-highlighted code to your site without loosing it's formatting or making any manual changes. It uses the [SyntaxHighlighter JavaScript package by Alex Gorbatchev](http://alexgorbatchev.com/wiki/SyntaxHighlighter) and a bit of code by [Automattic](http://wordpress.com/).
+SyntaxHighlighter Evolved allows you to easily post syntax-highlighted code to your site without loosing it's formatting or making any manual changes. It uses the [SyntaxHighlighter JavaScript package by Alex Gorbatchev](http://alexgorbatchev.com/wiki/SyntaxHighlighter) and a bit of code by [Automattic](http://wordpress.com/).
 
 For a list of supported languages (all widely used languages are supported), please [click here](http://alexgorbatchev.com/wiki/SyntaxHighlighter:Brushes).
 
