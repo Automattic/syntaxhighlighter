@@ -39,6 +39,8 @@ Just wrap your code in `[language]`, such as `[php]code here[/php]` or `[css]cod
 
 You do not need to escape HTML entities or anything, just post your code as-is. The plugin will handle the rest.
 
+The shortcodes accept a wide variety of parameters. For details, see the bottom of the plugin's settings page.
+
 == Frequently Asked Questions ==
 
 = The code boxes seem to be missing their styling. What's wrong? =
@@ -52,6 +54,7 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 == Screenshots ==
 
 1. Example code display of some PHP inside some HTML.
+2. A part of the Settings page which controls the defaults.
 
 == ChangeLog ==
 
