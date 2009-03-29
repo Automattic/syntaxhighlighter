@@ -1,31 +1,21 @@
-=== SyntaxHighlighter ===
-Contributors: matt, Viper007Bond, mdawaffe
++=== SyntaxHighlighter Evolved ===
+Contributors: Viper007Bond
 Tags: code, sourcecode, php, xhtml, html, css
-Requires at least: 2.0
+Requires at least: 2.7
+Tested up to: 2.8
 Stable tag: trunk
 
-Easily post source code such as PHP or HTML and display it in a styled box.
+Easily post syntax-highlighted code to your site without having to modify the code at all.
 
 == Description ==
 
-SyntaxHighlighter allows you to easily post syntax highlighted code all without loosing it's formatting or making an manual changes.
+SyntaxHighlighter allows you to easily post syntax-highlighted code to your site without loosing it's formatting or making any manual changes. It uses the [SyntaxHighlighter JavaScript package by Alex Gorbatchev](http://alexgorbatchev.com/wiki/SyntaxHighlighter) and a bit of code by [Automattic](http://wordpress.com/).
 
-It supports the following languages (the alias for use in the post is listed next to the name):
+For a list of supported languages (all widely used languages are supported), please [click here](http://alexgorbatchev.com/wiki/SyntaxHighlighter:Brushes).
 
-* C++ -- `cpp`, `c`, `c++`
-* C# -- `c#`, `c-sharp`, `csharp`
-* CSS -- `css`
-* Delphi -- `delphi`, `pascal`
-* Java -- `java`
-* JavaScript -- `js`, `jscript`, `javascript`
-* PHP -- `php`
-* Python -- `py`, `python`
-* Ruby -- `rb`, `ruby`, `rails`, `ror`
-* SQL -- `sql`
-* VB -- `vb`, `vb.net`
-* XML/HTML -- `xml`, `html`, `xhtml`, `xslt`
+###SyntaxHighlighter "Evolved"? Why Evolved?###
 
-This plugin uses the [SyntaxHighlighter JavaScript package by Alex Gorbatchev](http://code.google.com/p/syntaxhighlighter/).
+Starting with v2.0.0, this plugin was renamed from "SyntaxHighlighter" to "SyntaxHighlighter Evolved". This was done to better stand out against the many very poorly named [forks](http://en.wikipedia.org/wiki/Fork_%28software_development%29) of v1.x of this plugin. I am not an author of any of those plugins, they just used my old code as a base for their version. Although I am of course biased, I'd argue this plugin is the best of all of them.
 
 == Installation ==
 
@@ -35,23 +25,7 @@ To upgrade from a previous version of this plugin, delete the entire folder and 
 
 ###Uploading The Plugin###
 
-Extract all files from the ZIP file, making sure to keep the file structure intact, and then upload it to `/wp-content/plugins/`.
-
-This should result in the following file structure:
-
-`- wp-content
-    - plugins
-        - syntaxhighlighter
-            | readme.txt
-            | screenshot-1.png
-            | syntaxhighlighter.php
-            - files
-                | clipboard.swf
-                | shBrushCpp.js
-                | shBrushCSharp.js
-                | [...]
-                | shCore.js
-                | SyntaxHighlighter.css`
+Extract all files from the ZIP file, **making sure to keep the file/folder structure intact**, and then upload it to `/wp-content/plugins/`.
 
 **See Also:** ["Installing Plugins" article on the WP Codex](http://codex.wordpress.org/Managing_Plugins#Installing_Plugins)
 
@@ -61,40 +35,29 @@ Go to the admin area of your WordPress install and click on the "Plugins" menu. 
 
 ###Plugin Usage###
 
-Just wrap your code in `[sourcecode language='css']code here[/sourcecode]`. The language attribute is **required**! See the [plugin's description](http://wordpress.org/extend/plugins/syntaxhighlighter/) for a list of valid language attributes.
+Just wrap your code in `[language]`, such as `[php]code here[/php]` or `[css]code here[/css]`. For a list of supported languages (all widely used languages are supported), please [click here](http://alexgorbatchev.com/wiki/SyntaxHighlighter:Brushes).
+
+You do not need to escape HTML entities or anything, just post your code as-is. The plugin will handle the rest.
 
 == Frequently Asked Questions ==
 
-= The BBCode in my post is being replaced with &lt;pre&gt;'s just fine, but I don't see the syntax highlighting! =
+= The code boxes seem to be missing their styling. What's wrong? =
 
-Make sure your theme's footer has `<?php wp_footer(); ?>` somewhere in it, otherwise the JavaScript highlighting files won't be loaded.
+Make sure your theme's `header.php` file has `<?php wp_head(); ?>` somewhere inside of the `<head>`, otherwise the CSS files won't be loaded.
 
-= I still see the BBCode in my post. What gives? =
+= The code is just being displayed raw. It isn't being converted into a code box or anything. What's wrong?  =
 
-Make sure you correctly use the BBCode with a valid language attribute. A malformed usage of it won't result in replacement.
+Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere inside of it, otherwise the Javascript files won't be loaded.
 
 == Screenshots ==
 
-1. Example code display. In this particular example, the default `wp-config.php` file contents are shown.
-
-== Other BBCode Methods ==
-
-Find `[sourcecode language='css']code here[/sourcecode]` too long to type? Here's some alternative examples:
-
-* `[source language='css']code here[/source]`
-* `[code language='css']code here[/code]`
-
-
-* `[sourcecode lang='css']code here[/sourcecode]`
-* `[source lang='css']code here[/source]`
-* `[code lang='css']code here[/code]`
-
-
-* `[sourcecode='css']code here[/sourcecode]`
-* `[source='css']code here[/source]`
-* `[code='css']code here[/code]`
+1. Example code display of some PHP inside some HTML.
 
 == ChangeLog ==
+
+**Version 2.0.0**
+
+* Complete recode from scratch. Features v2 of Alex Gorbatchev's script, usage of shortcodes, and so much more.
 
 **Version 1.1.1**
 
