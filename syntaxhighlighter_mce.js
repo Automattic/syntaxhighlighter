@@ -1,6 +1,7 @@
 /*
  * Syntax Highlighter shortcode plugin
  * Based on v20090208 from WordPress.com
+ * Andrew Ozz kicks ass
  */
 
 (function() {
@@ -62,10 +63,14 @@
 	tinymce.PluginManager.add('syntaxhighlighter', tinymce.plugins.SyntaxHighlighterPlugin);
 })();
 
+var syntaxHLlast = 0;
 function pre_wpautop2(content) {
-	content = content.replace(new RegExp('\\[(' + syntaxHLcodes + ')[^\\]]*\\][\\s\\S]+?\\[\\/\\1\\]', 'gi'), function(a) {
-		return a.replace(/<br ?\/?>[\r\n]*/g, '<wp_temp>').replace(/<\/?p( [^>]*)?>[\r\n]*/g, '<wp_temp>');
-	});
+	var d = new Date(), time = d.getTime();
+
+	if ( time - syntaxHLlast < 500 )
+		return content;
+	
+	syntaxHLlast = time;
 
 	content = content.replace(new RegExp('<pre>\\s*\\[(' + syntaxHLcodes + ')', 'gi'), '[$1');
 	content = content.replace(new RegExp('\\[\\/(' + syntaxHLcodes + ')\\]\\s*<\\/pre>', 'gi'), '[/$1]');
@@ -76,7 +81,7 @@ function pre_wpautop2(content) {
 		return a.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
 	});
 
-	return content.replace(/<wp_temp>/g, '\n');
+	return content;
 }
 
 function wpautop2(content) {

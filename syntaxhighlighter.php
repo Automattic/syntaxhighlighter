@@ -4,8 +4,8 @@
 
 Plugin Name:  SyntaxHighlighter Evolved
 Plugin URI:   http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/
-Version:      2.0.0
-Description:  Easily post syntax-highlighted code to your site without having to modify the code at all. Uses Alex Gorbatchev's <a href="http://alexgorbatchev.com/wiki/SyntaxHighlighter">SyntaxHighlighter</a> and code by <a href="http://automattic.com/">Automattic</a>.
+Version:      2.0.1
+Description:  Easily post syntax-highlighted code to your site without having to modify the code at all. Uses Alex Gorbatchev's <a href="http://alexgorbatchev.com/wiki/SyntaxHighlighter">SyntaxHighlighter</a> and code by <a href="http://wordpress.com/">Andrew Ozz of Automattic</a>.
 Author:       Viper007Bond
 Author URI:   http://www.viper007bond.com/
 
@@ -16,14 +16,13 @@ Thanks to:
 * Alex Gorbatchev for writing such an awesome Javascript-powered synatax
   highlighter script
 
-* Automattic for writing the TinyMCE plugin and azaozz for helping me
-  expand it's capabilities for use in this plugin.
+* Andrew Ozz of Automattic for writing the TinyMCE plugin
 
 **************************************************************************/
 
 class SyntaxHighlighter {
 	// All of these variables are private. Filters are provided for things that can be modified.
-	var $pluginver       = '2.0.0';   // Plugin version
+	var $pluginver       = '2.0.1';   // Plugin version
 	var $agshver         = '2.0.296'; // Alex Gorbatchev's SyntaxHighlighter version
 	var $settings        = array();   // Contains the user's settings
 	var $defaultsettings = array();   // Contains the default settings
@@ -41,34 +40,34 @@ class SyntaxHighlighter {
 		load_plugin_textdomain( 'syntaxhighlighter', FALSE, '/syntaxhighlighter/localization' );
 
 		// Register brush scripts
-		wp_register_script( 'syntaxhighlighter-core',             plugins_url('/syntaxhighlighter/syntaxhighlighter/scripts/shCore.js'),            array(),                         $this->agshver );
-		wp_register_script( 'syntaxhighlighter-brush-bash',       plugins_url('/syntaxhighlighter/syntaxhighlighter/scripts/shBrushBash.js'),       array('syntaxhighlighter-core'), $this->agshver );
-		wp_register_script( 'syntaxhighlighter-brush-csharp',     plugins_url('/syntaxhighlighter/syntaxhighlighter/scripts/shBrushCSharp.js'),     array('syntaxhighlighter-core'), $this->agshver );
-		wp_register_script( 'syntaxhighlighter-brush-cpp',        plugins_url('/syntaxhighlighter/syntaxhighlighter/scripts/shBrushCpp.js'),        array('syntaxhighlighter-core'), $this->agshver );
-		wp_register_script( 'syntaxhighlighter-brush-css',        plugins_url('/syntaxhighlighter/syntaxhighlighter/scripts/shBrushCss.js'),        array('syntaxhighlighter-core'), $this->agshver );
-		wp_register_script( 'syntaxhighlighter-brush-delphi',     plugins_url('/syntaxhighlighter/syntaxhighlighter/scripts/shBrushDelphi.js'),     array('syntaxhighlighter-core'), $this->agshver );
-		wp_register_script( 'syntaxhighlighter-brush-diff',       plugins_url('/syntaxhighlighter/syntaxhighlighter/scripts/shBrushDiff.js'),       array('syntaxhighlighter-core'), $this->agshver );
-		wp_register_script( 'syntaxhighlighter-brush-groovy',     plugins_url('/syntaxhighlighter/syntaxhighlighter/scripts/shBrushGroovy.js'),     array('syntaxhighlighter-core'), $this->agshver );
-		wp_register_script( 'syntaxhighlighter-brush-jscript',    plugins_url('/syntaxhighlighter/syntaxhighlighter/scripts/shBrushJScript.js'),    array('syntaxhighlighter-core'), $this->agshver );
-		wp_register_script( 'syntaxhighlighter-brush-java',       plugins_url('/syntaxhighlighter/syntaxhighlighter/scripts/shBrushJava.js'),       array('syntaxhighlighter-core'), $this->agshver );
-		wp_register_script( 'syntaxhighlighter-brush-perl',       plugins_url('/syntaxhighlighter/syntaxhighlighter/scripts/shBrushPerl.js'),       array('syntaxhighlighter-core'), $this->agshver );
-		wp_register_script( 'syntaxhighlighter-brush-php',        plugins_url('/syntaxhighlighter/syntaxhighlighter/scripts/shBrushPhp.js'),        array('syntaxhighlighter-core'), $this->agshver );
-		wp_register_script( 'syntaxhighlighter-brush-plain',      plugins_url('/syntaxhighlighter/syntaxhighlighter/scripts/shBrushPlain.js'),      array('syntaxhighlighter-core'), $this->agshver );
-		wp_register_script( 'syntaxhighlighter-brush-python',     plugins_url('/syntaxhighlighter/syntaxhighlighter/scripts/shBrushPython.js'),     array('syntaxhighlighter-core'), $this->agshver );
-		wp_register_script( 'syntaxhighlighter-brush-ruby',       plugins_url('/syntaxhighlighter/syntaxhighlighter/scripts/shBrushRuby.js'),       array('syntaxhighlighter-core'), $this->agshver );
-		wp_register_script( 'syntaxhighlighter-brush-scala',      plugins_url('/syntaxhighlighter/syntaxhighlighter/scripts/shBrushScala.js'),      array('syntaxhighlighter-core'), $this->agshver );
-		wp_register_script( 'syntaxhighlighter-brush-sql',        plugins_url('/syntaxhighlighter/syntaxhighlighter/scripts/shBrushSql.js'),        array('syntaxhighlighter-core'), $this->agshver );
-		wp_register_script( 'syntaxhighlighter-brush-vb',         plugins_url('/syntaxhighlighter/syntaxhighlighter/scripts/shBrushVb.js'),         array('syntaxhighlighter-core'), $this->agshver );
-		wp_register_script( 'syntaxhighlighter-brush-xml',        plugins_url('/syntaxhighlighter/syntaxhighlighter/scripts/shBrushXml.js'),        array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_script( 'syntaxhighlighter-core',             plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shCore.js'),            array(),                         $this->agshver );
+		wp_register_script( 'syntaxhighlighter-brush-bash',       plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushBash.js'),       array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_script( 'syntaxhighlighter-brush-csharp',     plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushCSharp.js'),     array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_script( 'syntaxhighlighter-brush-cpp',        plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushCpp.js'),        array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_script( 'syntaxhighlighter-brush-css',        plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushCss.js'),        array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_script( 'syntaxhighlighter-brush-delphi',     plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushDelphi.js'),     array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_script( 'syntaxhighlighter-brush-diff',       plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushDiff.js'),       array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_script( 'syntaxhighlighter-brush-groovy',     plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushGroovy.js'),     array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_script( 'syntaxhighlighter-brush-jscript',    plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushJScript.js'),    array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_script( 'syntaxhighlighter-brush-java',       plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushJava.js'),       array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_script( 'syntaxhighlighter-brush-perl',       plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushPerl.js'),       array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_script( 'syntaxhighlighter-brush-php',        plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushPhp.js'),        array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_script( 'syntaxhighlighter-brush-plain',      plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushPlain.js'),      array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_script( 'syntaxhighlighter-brush-python',     plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushPython.js'),     array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_script( 'syntaxhighlighter-brush-ruby',       plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushRuby.js'),       array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_script( 'syntaxhighlighter-brush-scala',      plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushScala.js'),      array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_script( 'syntaxhighlighter-brush-sql',        plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushSql.js'),        array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_script( 'syntaxhighlighter-brush-vb',         plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushVb.js'),         array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_script( 'syntaxhighlighter-brush-xml',        plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushXml.js'),        array('syntaxhighlighter-core'), $this->agshver );
 
 		// Register theme stylesheets
-		wp_register_style(  'syntaxhighlighter-core',             plugins_url('/syntaxhighlighter/syntaxhighlighter/styles/shCore.css'),            array(),                         $this->agshver );
-		wp_register_style(  'syntaxhighlighter-theme-default',    plugins_url('/syntaxhighlighter/syntaxhighlighter/styles/shThemeDefault.css'),    array('syntaxhighlighter-core'), $this->agshver );
-		wp_register_style(  'syntaxhighlighter-theme-django',     plugins_url('/syntaxhighlighter/syntaxhighlighter/styles/shThemeDjango.css'),     array('syntaxhighlighter-core'), $this->agshver );
-		wp_register_style(  'syntaxhighlighter-theme-emacs',      plugins_url('/syntaxhighlighter/syntaxhighlighter/styles/shThemeEmacs.css'),      array('syntaxhighlighter-core'), $this->agshver );
-		wp_register_style(  'syntaxhighlighter-theme-fadetogrey', plugins_url('/syntaxhighlighter/syntaxhighlighter/styles/shThemeFadeToGrey.css'), array('syntaxhighlighter-core'), $this->agshver );
-		wp_register_style(  'syntaxhighlighter-theme-midnight',   plugins_url('/syntaxhighlighter/syntaxhighlighter/styles/shThemeMidnight.css'),   array('syntaxhighlighter-core'), $this->agshver );
-		wp_register_style(  'syntaxhighlighter-theme-rdark',      plugins_url('/syntaxhighlighter/syntaxhighlighter/styles/shThemeRDark.css'),      array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_style(  'syntaxhighlighter-core',             plugins_url('syntaxhighlighter/syntaxhighlighter/styles/shCore.css'),            array(),                         $this->agshver );
+		wp_register_style(  'syntaxhighlighter-theme-default',    plugins_url('syntaxhighlighter/syntaxhighlighter/styles/shThemeDefault.css'),    array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_style(  'syntaxhighlighter-theme-django',     plugins_url('syntaxhighlighter/syntaxhighlighter/styles/shThemeDjango.css'),     array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_style(  'syntaxhighlighter-theme-emacs',      plugins_url('syntaxhighlighter/syntaxhighlighter/styles/shThemeEmacs.css'),      array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_style(  'syntaxhighlighter-theme-fadetogrey', plugins_url('syntaxhighlighter/syntaxhighlighter/styles/shThemeFadeToGrey.css'), array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_style(  'syntaxhighlighter-theme-midnight',   plugins_url('syntaxhighlighter/syntaxhighlighter/styles/shThemeMidnight.css'),   array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_style(  'syntaxhighlighter-theme-rdark',      plugins_url('syntaxhighlighter/syntaxhighlighter/styles/shThemeRDark.css'),      array('syntaxhighlighter-core'), $this->agshver );
 
 		// Register hooks
 		add_action( 'admin_menu',                   array(&$this, 'register_settings_page') );
@@ -82,6 +81,7 @@ class SyntaxHighlighter {
 		add_filter( 'the_editor_content',           array(&$this, 'decode_shortcode_contents'), 1 );
 		add_filter( 'content_save_pre',             array(&$this, 'encode_shortcode_contents'), 1 );
 		add_filter( 'save_post',                    array(&$this, 'mark_as_encoded'),           10, 2 );
+		add_filter( 'plugin_action_links',          array(&$this, 'plugin_action_links'),       10, 2 );
 
 		// Create list of brush aliases and map them to their real brushes
 		$this->brushes = apply_filters( 'syntaxhighlighter_brushes', array(
@@ -185,7 +185,7 @@ class SyntaxHighlighter {
 
 	// Add the custom TinyMCE plugin which wraps plugin shortcodes in <pre> in TinyMCE
 	function add_tinymce_plugin( $plugins ) {
-		$plugins['syntaxhighlighter'] = plugins_url('/syntaxhighlighter/syntaxhighlighter_mce.js');
+		$plugins['syntaxhighlighter'] = plugins_url('syntaxhighlighter/syntaxhighlighter_mce.js');
 		return $plugins;
 	}
 
@@ -193,6 +193,20 @@ class SyntaxHighlighter {
 	// Break the TinyMCE cache
 	function break_tinymce_cache( $version ) {
 		return $version . '-syntaxhighlighter' . $this->pluginver;
+	}
+
+
+	// Add a "Settings" link to the plugins page
+	function plugin_action_links( $links, $file ) {
+		static $this_plugin;
+		
+		if( empty($this_plugin) )
+			$this_plugin = plugin_basename(__FILE__);
+
+		if ( $file == $this_plugin )
+			$links[] = '<a href="' . admin_url( 'options-general.php?page=syntaxhighlighter' ) . '">' . __('Settings', 'syntaxhighlighter') . '</a>';
+
+		return $links;
 	}
 
 
@@ -326,7 +340,7 @@ class SyntaxHighlighter {
 		wp_print_scripts( $scripts );
 
 		echo "<script type='text/javascript'>\n";
-		echo "	SyntaxHighlighter.config.clipboardSwf = '" . js_escape( plugins_url('/syntaxhighlighter/syntaxhighlighter/scripts/clipboard.swf') ) . "';\n";
+		echo "	SyntaxHighlighter.config.clipboardSwf = '" . js_escape( plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/clipboard.swf') ) . "';\n";
 		echo "	SyntaxHighlighter.config.strings.expandSource = '" . $this->js_escape_singlequotes( __( 'expand source', 'syntaxhighlighter' ) ) . "';\n";
 		echo "	SyntaxHighlighter.config.strings.viewSource = '" . $this->js_escape_singlequotes( __( 'view source', 'syntaxhighlighter' ) ) . "';\n";
 		echo "	SyntaxHighlighter.config.strings.copyToClipboard = '" . $this->js_escape_singlequotes( __( 'copy to clipboard', 'syntaxhighlighter' ) ) . "';\n";
