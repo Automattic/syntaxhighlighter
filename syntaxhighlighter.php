@@ -4,8 +4,8 @@
 
 Plugin Name:  SyntaxHighlighter Evolved
 Plugin URI:   http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/
-Version:      2.0.1
-Description:  Easily post syntax-highlighted code to your site without having to modify the code at all. Uses Alex Gorbatchev's <a href="http://alexgorbatchev.com/wiki/SyntaxHighlighter">SyntaxHighlighter</a> and code by <a href="http://wordpress.com/">Andrew Ozz of Automattic</a>.
+Version:      2.1.0
+Description:  Easily post syntax-highlighted code to your site without having to modify the code at all. Uses Alex Gorbatchev's <a href="http://alexgorbatchev.com/wiki/SyntaxHighlighter">SyntaxHighlighter</a> v2.0.320 and code by <a href="http://wordpress.com/">Andrew Ozz of Automattic</a>.
 Author:       Viper007Bond
 Author URI:   http://www.viper007bond.com/
 
@@ -22,8 +22,8 @@ Thanks to:
 
 class SyntaxHighlighter {
 	// All of these variables are private. Filters are provided for things that can be modified.
-	var $pluginver       = '2.0.1';   // Plugin version
-	var $agshver         = '2.0.296'; // Alex Gorbatchev's SyntaxHighlighter version
+	var $pluginver       = '2.1.0';   // Plugin version
+	var $agshver         = '2.0.320'; // Alex Gorbatchev's SyntaxHighlighter version
 	var $settings        = array();   // Contains the user's settings
 	var $defaultsettings = array();   // Contains the default settings
 	var $brushes         = array();   // Array of aliases => brushes
@@ -41,6 +41,7 @@ class SyntaxHighlighter {
 
 		// Register brush scripts
 		wp_register_script( 'syntaxhighlighter-core',             plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shCore.js'),            array(),                         $this->agshver );
+		wp_register_script( 'syntaxhighlighter-brush-as3',        plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushAS3.js'),        array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-bash',       plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushBash.js'),       array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-csharp',     plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushCSharp.js'),     array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-cpp',        plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushCpp.js'),        array('syntaxhighlighter-core'), $this->agshver );
@@ -50,9 +51,11 @@ class SyntaxHighlighter {
 		wp_register_script( 'syntaxhighlighter-brush-groovy',     plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushGroovy.js'),     array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-jscript',    plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushJScript.js'),    array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-java',       plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushJava.js'),       array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_script( 'syntaxhighlighter-brush-javafx',     plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushJavaFX.js'),     array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-perl',       plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushPerl.js'),       array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-php',        plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushPhp.js'),        array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-plain',      plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushPlain.js'),      array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_script( 'syntaxhighlighter-brush-powershell', plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushPowerShell.js'), array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-python',     plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushPython.js'),     array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-ruby',       plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushRuby.js'),       array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-scala',      plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushScala.js'),      array('syntaxhighlighter-core'), $this->agshver );
@@ -85,42 +88,48 @@ class SyntaxHighlighter {
 
 		// Create list of brush aliases and map them to their real brushes
 		$this->brushes = apply_filters( 'syntaxhighlighter_brushes', array(
-			'bash'       => 'bash',
-			'shell'      => 'bash',
-			'c-sharp'    => 'csharp',
-			'csharp'     => 'csharp',
-			'cpp'        => 'cpp',
-			'c'          => 'cpp',
-			'css'        => 'css',
-			'delphi'     => 'delphi',
-			'pas'        => 'delphi',
-			'pascal'     => 'delphi',
-			'diff'       => 'diff',
-			'patch'      => 'diff',
-			'groovy'     => 'groovy',
-			'js'         => 'jscript',
-			'jscript'    => 'jscript',
-			'javascript' => 'jscript',
-			'java'       => 'java',
-			'perl'       => 'perl',
-			'pl'         => 'perl',
-			'php'        => 'php',
-			'plain'      => 'plain',
-			'text'       => 'plain',
-			'py'         => 'python',
-			'python'     => 'python',
-			'rails'      => 'ruby',
-			'ror'        => 'ruby',
-			'ruby'       => 'ruby',
-			'scala'      => 'scala',
-			'sql'        => 'sql',
-			'vb'         => 'vb',
-			'vbnet'      => 'vb',
-			'xml'        => 'xml',
-			'xhtml'      => 'xml',
-			'xslt'       => 'xml',
-			'html'       => 'xml',
-			'xhtml'      => 'xml',
+			'as3'           => 'as3',
+			'actionscript3' => 'as3',
+			'bash'          => 'bash',
+			'shell'         => 'bash',
+			'c-sharp'       => 'csharp',
+			'csharp'        => 'csharp',
+			'cpp'           => 'cpp',
+			'c'             => 'cpp',
+			'css'           => 'css',
+			'delphi'        => 'delphi',
+			'pas'           => 'delphi',
+			'pascal'        => 'delphi',
+			'diff'          => 'diff',
+			'patch'         => 'diff',
+			'groovy'        => 'groovy',
+			'js'            => 'jscript',
+			'jscript'       => 'jscript',
+			'javascript'    => 'jscript',
+			'java'          => 'java',
+			'jfx'           => 'javafx',
+			'javafx'        => 'javafx',
+			'perl'          => 'perl',
+			'pl'            => 'perl',
+			'php'           => 'php',
+			'plain'         => 'plain',
+			'text'          => 'plain',
+			'ps'            => 'powershell',
+			'powershell'    => 'powershell',
+			'py'            => 'python',
+			'python'        => 'python',
+			'rails'         => 'ruby',
+			'ror'           => 'ruby',
+			'ruby'          => 'ruby',
+			'scala'         => 'scala',
+			'sql'           => 'sql',
+			'vb'            => 'vb',
+			'vbnet'         => 'vb',
+			'xml'           => 'xml',
+			'xhtml'         => 'xml',
+			'xslt'          => 'xml',
+			'html'          => 'xml',
+			'xhtml'         => 'xml',
 		) );
 
 		// Create list of themes and their human readable names
@@ -142,13 +151,13 @@ class SyntaxHighlighter {
 			'classname'  => '',
 			'collapse'   => 0,
 			'firstline'  => 1,
-			'fontsize'   => 100,
 			'gutter'     => 1,
 			'light'      => 0,
 			'ruler'      => 0,
 			'smarttabs'  => 1,
 			'tabsize'    => 4,
 			'toolbar'    => 1,
+			'wraplines'  => 1,
 		) );
 
 		// Setup the settings by using the default as a base and then adding in any changed values
@@ -363,9 +372,6 @@ class SyntaxHighlighter {
 		if ( 1 != $this->settings['firstline'] )
 			echo "	SyntaxHighlighter.defaults['first-line'] = " . $this->settings['firstline'] . ";\n";
 
-		if ( 100 != $this->settings['fontsize'] )
-			echo "	SyntaxHighlighter.defaults['font-size'] = '" . $this->settings['fontsize'] . "%';\n";
-
 		if ( 1 != $this->settings['gutter'] )
 			echo "	SyntaxHighlighter.defaults['gutter'] = false;\n";
 
@@ -383,6 +389,9 @@ class SyntaxHighlighter {
 
 		if ( 1 != $this->settings['toolbar'] )
 			echo "	SyntaxHighlighter.defaults['toolbar'] = false;\n";
+
+		if ( 1 != $this->settings['wraplines'] )
+			echo "	SyntaxHighlighter.defaults['wrap-lines'] = false;\n";
 
 		echo "	SyntaxHighlighter.all();\n";
 		echo "</script>\n";
@@ -437,6 +446,7 @@ class SyntaxHighlighter {
 			'smarttabs'  => false,
 			'tabsize'    => false,
 			'toolbar'    => false,
+			'wraplines'  => false,
 		), $atts ) );
 
 		// Check for language shortcode tag such as [php]code[/php]
@@ -496,6 +506,7 @@ class SyntaxHighlighter {
 				'htmlscript' => 'html-script',
 				'smarttabs'  => 'smart-tabs',
 				'tabsize'    => 'tab-size',
+				'wraplines'  => 'wrap-lines',
 			);
 			if ( !empty($rename_map[$key]) )
 				$key = $rename_map[$key];
@@ -581,6 +592,7 @@ class SyntaxHighlighter {
 					<label for="syntaxhighlighter-ruler"><input name="syntaxhighlighter-ruler" type="checkbox" id="syntaxhighlighter-ruler" value="1" <?php checked( $this->settings['ruler'], 1 ); ?> /> <?php _e('Show a ruler column along the top of the code box', 'syntaxhighlighter'); ?></label><br />
 					<label for="syntaxhighlighter-light"><input name="syntaxhighlighter-light" type="checkbox" id="syntaxhighlighter-light" value="1" <?php checked( $this->settings['light'], 1 ); ?> /> <?php _e('Use the light display mode, best for single lines of code', 'syntaxhighlighter'); ?></label><br />
 					<label for="syntaxhighlighter-smarttabs"><input name="syntaxhighlighter-smarttabs" type="checkbox" id="syntaxhighlighter-smarttabs" value="1" <?php checked( $this->settings['smarttabs'], 1 ); ?> /> <?php _e('Use smart tabs allowing tabs being used for alignment', 'syntaxhighlighter'); ?></label>
+					<label for="syntaxhighlighter-wraplines"><input name="syntaxhighlighter-wraplines" type="checkbox" id="syntaxhighlighter-wraplines" value="1" <?php checked( $this->settings['wraplines'], 1 ); ?> /> <?php _e('Wrap long lines, using an icon to show where line wraps occur (disabling this will make a scrollbar show instead)', 'syntaxhighlighter'); ?></label>
 				</fieldset>
 			</td>
 		</tr>
@@ -591,13 +603,6 @@ class SyntaxHighlighter {
 		<tr valign="top">
 			<th scope="row"><label for="syntaxhighlighter-firstline"><?php _e('Starting Line Number', 'syntaxhighlighter'); ?></label></th>
 			<td><input name="syntaxhighlighter-firstline" type="text" id="syntaxhighlighter-firstline" value="<?php echo attribute_escape( $this->settings['firstline'] ); ?>" class="small-text" /></td>
-		</tr>
-		<tr valign="top" style="display:none">
-			<th scope="row">
-				<label for="syntaxhighlighter-fontsize"><?php _e('Font Size (Percentage)', 'syntaxhighlighter'); ?></label>
-				<br /><strong>THIS CURRENTLY DOESN'T WORK</strong>
-			</th>
-			<td><input name="syntaxhighlighter-fontsize" type="text" id="syntaxhighlighter-fontsize" value="<?php echo attribute_escape( $this->settings['fontsize'] ); ?>" class="small-text" />%</td>
 		</tr>
 		<tr valign="top">
 			<th scope="row"><label for="syntaxhighlighter-tabsize"><?php _e('Tab Size', 'syntaxhighlighter'); ?></label></th>
@@ -665,6 +670,7 @@ class SyntaxHighlighter {
 		<li><?php printf( __("%s &#8212; Toggle light mode which disables the gutter, toolbar, and ruler all at once.", 'syntaxhighlighter'), '<code>light</code>' ); ?></li>
 		<li><?php printf( __("%s &#8212; Toggle the column ruler at the top of the code box.", 'syntaxhighlighter'), '<code>ruler</code>' ); ?></li>
 		<li><?php printf( __("%s &#8212; Toggle the toolbar containing the helpful buttons.", 'syntaxhighlighter'), '<code>toolbar</code>' ); ?></li>
+		<li><?php printf( __("%s &#8212; Toggle line wrapping.", 'syntaxhighlighter'), '<code>wraplines</code>' ); ?></li>
 	</ul>
 
 	<p><?php _e('Some example shortcodes:', 'syntaxhighlighter'); ?></p>
@@ -710,10 +716,10 @@ class SyntaxHighlighter {
 			$settings['ruler']      = ( !empty($_POST['syntaxhighlighter-ruler']) )      ? 1 : 0;
 			$settings['smarttabs']  = ( !empty($_POST['syntaxhighlighter-smarttabs']) )  ? 1 : 0;
 			$settings['toolbar']    = ( !empty($_POST['syntaxhighlighter-toolbar']) )    ? 1 : 0;
+			$settings['wraplines']  = ( !empty($_POST['syntaxhighlighter-wraplines']) )  ? 1 : 0;
 
 			$settings['classname']  = ( !empty($_POST['syntaxhighlighter-classname']) )       ? stripslashes( trim( $_POST['syntaxhighlighter-classname'] ) ) : $this->defaultsettings['classname'];
 			$settings['firstline']  = (int) ( !empty($_POST['syntaxhighlighter-firstline']) ) ? stripslashes( $_POST['syntaxhighlighter-firstline'] )         : $this->defaultsettings['firstline'];
-			$settings['fontsize']   = (int) ( !empty($_POST['syntaxhighlighter-fontsize']) )  ? stripslashes( $_POST['syntaxhighlighter-fontsize'] )          : $this->defaultsettings['fontsize'];
 			$settings['tabsize']    = (int) ( !empty($_POST['syntaxhighlighter-tabsize']) )   ? stripslashes( $_POST['syntaxhighlighter-tabsize'] )           : $this->defaultsettings['tabsize'];
 		}
 
