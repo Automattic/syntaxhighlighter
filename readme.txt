@@ -59,6 +59,10 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 
 == ChangeLog ==
 
+**Version 2.1.0**
+
+* Updated to reflect the new features of [v2.0.320 of Alex's script](http://alexgorbatchev.com/wiki/SyntaxHighlighter:Changes:2.0.320). Note the `stripBrs` parameter is not supported in my plugin as it is not needed in this implementation.
+
 **Version 2.0.1**
 
 * Andrew Ozz was kind enough to fix a bug related to `<p>`'s being stripped when switching from the Visual to HTML tab
