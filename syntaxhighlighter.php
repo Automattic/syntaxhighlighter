@@ -4,7 +4,7 @@
 
 Plugin Name:  SyntaxHighlighter Evolved
 Plugin URI:   http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/
-Version:      2.1.0
+Version:      2.2.0
 Description:  Easily post syntax-highlighted code to your site without having to modify the code at all. Uses Alex Gorbatchev's <a href="http://alexgorbatchev.com/wiki/SyntaxHighlighter">SyntaxHighlighter</a> v2.0.320 and code by <a href="http://wordpress.com/">Andrew Ozz of Automattic</a>.
 Author:       Viper007Bond
 Author URI:   http://www.viper007bond.com/
@@ -22,7 +22,7 @@ Thanks to:
 
 class SyntaxHighlighter {
 	// All of these variables are private. Filters are provided for things that can be modified.
-	var $pluginver       = '2.1.0';   // Plugin version
+	var $pluginver       = '2.2.0';   // Plugin version
 	var $agshver         = '2.0.320'; // Alex Gorbatchev's SyntaxHighlighter version
 	var $settings        = array();   // Contains the user's settings
 	var $defaultsettings = array();   // Contains the default settings
@@ -37,7 +37,7 @@ class SyntaxHighlighter {
 		if ( !function_exists( 'plugins_url' ) ) return;
 
 		// Load localization domain
-		load_plugin_textdomain( 'syntaxhighlighter', FALSE, '/syntaxhighlighter/localization' );
+		load_plugin_textdomain( 'syntaxhighlighter', false, '/syntaxhighlighter/localization' );
 
 		// Register brush scripts
 		wp_register_script( 'syntaxhighlighter-core',             plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shCore.js'),            array(),                         $this->agshver );
@@ -76,9 +76,10 @@ class SyntaxHighlighter {
 		add_action( 'admin_menu',                   array(&$this, 'register_settings_page') );
 		add_action( 'admin_post_syntaxhighlighter', array(&$this, 'save_settings') );
 		add_action( 'admin_head',                   array(&$this, 'admin_head') );
+		add_action( 'wp_head',                      array(&$this, 'frontend_styling') );
+		add_action( 'wp_footer',                    array(&$this, 'maybe_output_scripts'),      15 );
 		add_filter( 'the_content',                  array(&$this, 'parse_shortcodes'),          9 );
 		add_filter( 'widget_text',                  array(&$this, 'parse_shortcodes'),          9 );
-		add_action( 'wp_footer',                    array(&$this, 'maybe_output_scripts'),      15 );
 		add_filter( 'mce_external_plugins',         array(&$this, 'add_tinymce_plugin') );
 		add_filter( 'tiny_mce_version',             array(&$this, 'break_tinymce_cache') );
 		add_filter( 'the_editor_content',           array(&$this, 'decode_shortcode_contents'), 1 );
@@ -87,6 +88,8 @@ class SyntaxHighlighter {
 		add_filter( 'plugin_action_links',          array(&$this, 'plugin_action_links'),       10, 2 );
 
 		// Create list of brush aliases and map them to their real brushes
+		// The key is the shortcode tag and language alias
+		// The value is the script handle suffix: syntaxhighlighter-brush-ThisBitHere  (your plugin needs to register the script itself)
 		$this->brushes = apply_filters( 'syntaxhighlighter_brushes', array(
 			'as3'           => 'as3',
 			'actionscript3' => 'as3',
@@ -234,6 +237,11 @@ class SyntaxHighlighter {
 		echo "</script>\n";
 
 		echo "<style type='text/css'>.bulletlist li { list-style-type: disc; margin-left: 25px; }</style>\n";
+	}
+
+
+	function frontend_styling() {
+		echo '	<style type="text/css">.syntaxhighlighter { font-size: 12px !important; }</style>' . "\n";
 	}
 
 
@@ -470,16 +478,19 @@ class SyntaxHighlighter {
 			else
 				$lang = 'text';
 
+			// All language aliases are lowercase
+			$lang = strtolower( $lang );
+
 			// Validate passed attribute
 			if ( !isset($this->brushes[$lang]) )
 				return $code;
 		}
 
-		// Ensure lowercase
-		$lang = strtolower( $lang );
+		// Switch from the alias to the real brush name (so custom aliases can be used)
+		$lang = $this->brushes[$lang];
 
 		// Register this brush as used so it's script will be outputted
-		$this->usedbrushes[$this->brushes[$lang]] = true;
+		$this->usedbrushes[$lang] = true;
 
 		$params = array();
 		$params[] = "brush: $lang;";
