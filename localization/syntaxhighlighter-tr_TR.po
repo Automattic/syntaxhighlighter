@@ -1,0 +1,276 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Viper007Bond
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/syntaxhighlighter\n"
+"POT-Creation-Date: 2009-03-29 05:19+0000\n"
+"PO-Revision-Date: 2009-07-06 12:36+0200\n"
+"Last-Translator: Alper <alpinux@hotmail.co.uk>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: syntaxhighlighter.php:128
+msgid "Default"
+msgstr "Varsayılan"
+
+#: syntaxhighlighter.php:129
+msgid "Django"
+msgstr "Avakado Yeşili"
+
+#: syntaxhighlighter.php:130
+msgid "Emacs"
+msgstr "Siyah"
+
+#: syntaxhighlighter.php:131
+msgid "Fade to Grey"
+msgstr "Gri"
+
+#: syntaxhighlighter.php:132
+msgid "Midnight"
+msgstr "Gece Yarısı"
+
+#: syntaxhighlighter.php:133
+msgid "RDark"
+msgstr "Prusya Mavisi"
+
+#: syntaxhighlighter.php:134
+msgid "[None]"
+msgstr "Hiçbiri"
+
+#: syntaxhighlighter.php:181
+#: syntaxhighlighter.php:526
+msgid "SyntaxHighlighter Settings"
+msgstr "SyntaxHighlighter Ayarlari"
+
+#. #-#-#-#-#  plugin.pot (PACKAGE VERSION)  #-#-#-#-#
+#. Plugin Name of an extension
+#: syntaxhighlighter.php:181
+msgid "SyntaxHighlighter"
+msgstr "SyntaxHighlighter"
+
+#: syntaxhighlighter.php:329
+msgid "expand source"
+msgstr "kaynağı genişlet"
+
+#: syntaxhighlighter.php:330
+msgid "view source"
+msgstr "kaynağı göster"
+
+#: syntaxhighlighter.php:331
+msgid "copy to clipboard"
+msgstr "panoya kopyala"
+
+#: syntaxhighlighter.php:332
+msgid "The code is in your clipboard now"
+msgstr "Simdi panoya kopyalandi."
+
+#: syntaxhighlighter.php:333
+msgid "print"
+msgstr "yazdır"
+
+#: syntaxhighlighter.php:334
+msgid "?"
+msgstr "?"
+
+#: syntaxhighlighter.php:335
+msgid ""
+"SyntaxHighlighter\\n"
+"\\n"
+msgstr ""
+"SyntaxHighlighter\\n"
+"\\n"
+
+#: syntaxhighlighter.php:336
+msgid "Can't find brush for: "
+msgstr "Fırça bulunamadı :"
+
+#: syntaxhighlighter.php:337
+msgid "Brush wasn't configured for html-script option: "
+msgstr "Firça Html-script seçenegi için yapilandirilmis degil: "
+
+#: syntaxhighlighter.php:509
+msgid "Settings reset to defaults."
+msgstr "Varsayilan ayarlara dön."
+
+#: syntaxhighlighter.php:517
+msgid "Are you sure you want to reset your settings to the defaults?"
+msgstr "Varsayilan ayarlara geri dönmek istediginize emin misiniz ?"
+
+#: syntaxhighlighter.php:536
+msgid "Color Theme"
+msgstr "Tema rengi"
+
+#: syntaxhighlighter.php:551
+msgid "Defaults"
+msgstr "Varsayılan"
+
+#: syntaxhighlighter.php:553
+msgid "All of the settings below can also be configured on a per-code box basis."
+msgstr "Asagidaki tüm ayarlar \"tik\" isareti konularak yapilandirilabilir."
+
+#: syntaxhighlighter.php:557
+#: syntaxhighlighter.php:560
+msgid "Miscellaneous"
+msgstr "Çeşitli Ayarlar"
+
+#: syntaxhighlighter.php:562
+msgid "Display line numbers"
+msgstr "Satir numaralarini göster."
+
+#: syntaxhighlighter.php:563
+msgid "Display the toolbar"
+msgstr "Araç çubugunu göster"
+
+#: syntaxhighlighter.php:564
+msgid "Automatically make URLs clickable"
+msgstr "Url'leri otomatik tiklanabilir yap"
+
+#: syntaxhighlighter.php:565
+msgid "Collapse code boxes"
+msgstr "Kod kutusunu daralt"
+
+#: syntaxhighlighter.php:566
+msgid "Show a ruler column along the top of the code box"
+msgstr "Sütun için cetveli  görüntüle"
+
+#: syntaxhighlighter.php:567
+msgid "Use the light display mode, best for single lines of code"
+msgstr "En iyi tek satir için aydinlatma modunu kullan."
+
+#: syntaxhighlighter.php:568
+msgid "Use smart tabs allowing tabs being used for alignment"
+msgstr "Hizalama için akilli sekmeleri kullan."
+
+#: syntaxhighlighter.php:573
+msgid "Additional CSS Class(es)"
+msgstr "Ek CSS Sinif(lar)i"
+
+#: syntaxhighlighter.php:577
+msgid "Starting Line Number"
+msgstr "Satir baslama numarasi"
+
+#: syntaxhighlighter.php:582
+msgid "Font Size (Percentage)"
+msgstr "Yazi boyutu (Yüzde olarak)"
+
+#: syntaxhighlighter.php:588
+msgid "Tab Size"
+msgstr "Sekme Boyutu"
+
+#: syntaxhighlighter.php:594
+msgid "Save Changes"
+msgstr "Degisiklikleri kaydet"
+
+#: syntaxhighlighter.php:595
+msgid "Reset to Defaults"
+msgstr "Varsayilan ayarlara dön"
+
+#: syntaxhighlighter.php:600
+msgid "Preview"
+msgstr "Önizleme"
+
+#: syntaxhighlighter.php:602
+msgid "Click &quot;Save Changes&quot; to update this preview."
+msgstr "Önizlemeyi güncellemek için &quot;Degisiklikleri Kaydet&quot; tiklayin"
+
+#: syntaxhighlighter.php:637
+msgid "Shortcode Parameters"
+msgstr "Kisakod parametreleri"
+
+#: syntaxhighlighter.php:639
+#, php-format
+msgid "These are the parameters you can pass to the shortcode and what they do. For the booleans (i.e. on/off), pass %1$s/%2$s or %3$s/%4$s."
+msgstr "Asağıdakı parametreleri uygulamak istediginiz yerde girebilirsiniz. (i.e. on/off), pass %1$s/%2$s or %3$s/%4$s."
+
+#: syntaxhighlighter.php:642
+#, php-format
+msgid "%1$s or %2$s &#8212; The language syntax to highlight with. You can alternately just use that as the tag, such as <code>[php]code[/php]</code>. <a href=\"%3$s\">Click here</a> for a list of valid tags (under &quot;aliases&quot;)."
+msgstr "%1$s or %2$s &#8212; Dili sözdizimi ile vurgulamak için. Alternatif olarak bu etiketi kullanabilrsiniz, örneğin <code>[php]code[/php]</code>. <a href=\"%3$s\">Tıkla</a> geçerli etiketlerin listesi için ( &quot;aliases&quot; altında)."
+
+#: syntaxhighlighter.php:643
+#, php-format
+msgid "%s &#8212; Toggle automatic URL linking."
+msgstr "%s &#8212; Geçiş için otomatik URL bağlantısı."
+
+#: syntaxhighlighter.php:644
+#, php-format
+msgid "%s &#8212; Add an additional CSS class to the code box."
+msgstr "%s &#8212; Kod kutusunu ek bir CSS sınıf eklemek."
+
+#: syntaxhighlighter.php:645
+#, php-format
+msgid "%s &#8212; Toggle collapsing the code box by default, requiring a click to expand it. Good for large code posts."
+msgstr "%s &#8212; Kod kutusunu daraltın, büyültmek için tıklama gerekir. Uzun kodlar için kullanışlı."
+
+#: syntaxhighlighter.php:646
+#, php-format
+msgid "%s &#8212; An interger specifying what number the first line should be (for the line numbering)."
+msgstr "%s &#8212; Satir numarasinin ne olacağna dair bir tamsayi."
+
+#: syntaxhighlighter.php:647
+#, php-format
+msgid "%s &#8212; Toggle the left-side line numbering."
+msgstr "%s &#8212; Sol tarafı satır numaralama."
+
+#: syntaxhighlighter.php:648
+#, php-format
+msgid "%s &#8212; A comma-sperated list of line numbers to highlight."
+msgstr "%s &#8212; Virgülle ayrilmiş listelerin satir numaralarını vurgulamak."
+
+#: syntaxhighlighter.php:649
+#, php-format
+msgid "%s &#8212; Toggle highlighting any extra HTML/XML. Good for when you're mixing HTML/XML with another language, such as having PHP inside an HTML web page. The above preview has it enabled for example."
+msgstr "%s &#8212; extra html/xml leri vurgulamak için, Html/Xml leri bir başka dil ile karışık kullandığınzda iyidir. Örneğin, PHp'nin HTML sayfasinda kullanmak gibi. Yukardaki önizleme buna bir örnektir."
+
+#: syntaxhighlighter.php:650
+#, php-format
+msgid "%s &#8212; Toggle light mode which disables the gutter, toolbar, and ruler all at once."
+msgstr "%s &#8212; Numaranladırmayı, araç çubuğuınu, cetveli bir seferde kaldıran sade mod."
+
+#: syntaxhighlighter.php:651
+#, php-format
+msgid "%s &#8212; Toggle the column ruler at the top of the code box."
+msgstr "%s &#8212; Kodu kutusunun üstündeki sütun cetveli aktifleştir."
+
+#: syntaxhighlighter.php:652
+#, php-format
+msgid "%s &#8212; Toggle the toolbar containing the helpful buttons."
+msgstr "%s &#8212; Geçiş yapmak için araç çubuğu içeren yararlı düğmeler."
+
+#: syntaxhighlighter.php:655
+msgid "Some example shortcodes:"
+msgstr "Bazı örnek kodlar:"
+
+#: syntaxhighlighter.php:658
+#: syntaxhighlighter.php:659
+#: syntaxhighlighter.php:660
+#: syntaxhighlighter.php:661
+msgid "your code here"
+msgstr "kod buraya"
+
+#: syntaxhighlighter.php:676
+msgid "Cheatin&#8217; uh?"
+msgstr "Hile ha ?"
+
+#. Plugin URI of an extension
+msgid "http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/"
+msgstr "http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/"
+
+#. Description of an extension
+msgid "Easily post code to your blog while still maintaining complete control over it's display. Uses Alex Gorbatchev's <a href=\"http://code.google.com/p/syntaxhighlighter/\">SyntaxHighlighter</a> and code by <a href=\"http://automattic.com/\">Automattic</a>."
+msgstr "%s &#8212; extra html/xml leri vurgulamak için. Html/Xml leri bir başka dil ile karışık kullandığınzda iyidir. Örneğin, PHp'nin HTML sayfasinda kullanmak gibi. Yukardaki önizleme buna bir örnektir."
+
+#. Author of an extension
+msgid "Viper007Bond"
+msgstr "Viper007Bond"
+
+#. Author URI of an extension
+msgid "http://www.viper007bond.com/"
+msgstr "http://www.viper007bond.com/"
+

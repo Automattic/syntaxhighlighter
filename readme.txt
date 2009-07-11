@@ -66,6 +66,7 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 * Force a specific font size for the code so themes don't mess with it.
 * Allow the usage of custom aliases that aren't allowed by the highlighting package. Props [Anton Shevchuk](http://anton.shevchuk.name/).
 * Danish translation thanks to [Georg S. Adamsen](http://wordpress.blogos.dk/2009/05/07/syntaks-farvning-%E2%80%93-syntax-highlighting/).
+* Turkish translation thanks to [Alper](http://turkcekaynak.net/).
 
 **Version 2.1.0**
 
