@@ -59,6 +59,10 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 
 == ChangeLog ==
 
+**Version 2.2.1**
+
+* Italian transation thanks to [gidibao](http://gidibao.net/index.php/2009/07/22/syntaxhighlighter-evolved-in-italiano/).
+
 **Version 2.2.0**
 
 * Stop whitespace from being stripped when switching editor views. Props [Abel Braaksma](http://www.undermyhat.org/blog/2009/07/fix-for-leading-whitespace-bug-in-syntaxhighlighter-evolved-for-wordpress/).
