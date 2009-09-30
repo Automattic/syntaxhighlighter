@@ -59,6 +59,11 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 
 == ChangeLog ==
 
+**Version 2.2.2**
+
+* Updated TinyMCE plugin thanks to Andrew Ozz. This fixes the unresponsive script errors and has various other improvements.
+* Chinese translation thanks to Hinker Liu.
+
 **Version 2.2.1**
 
 * Italian transation thanks to [gidibao](http://gidibao.net/index.php/2009/07/22/syntaxhighlighter-evolved-in-italiano/).
