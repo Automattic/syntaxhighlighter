@@ -75,12 +75,16 @@ Major overhaul, mainly to extend flexibility so that this plugin could be used o
 * Overhaul of the TinyMCE plugin that assists in keeping your code sound when switching editor views. Thanks to Andrew Ozz!
 * This plugin's stylesheets are now dynamically loaded. If they aren't needed, they aren't loaded.
 * Lots of sanitization of shortcode attributes. Invalid keys/values are no longer used.
-* Chinese translation thanks to Hinker Liu. Will need updating for v2.3.0.
 * New filter to control what shortcodes are registered. Used by WordPress.com to trim down the number of them.
 * Saving of user's settings is now done using `register_setting()` instead of manually handing `$_POST`. Yay!
 * By default, a post meta is used to mark posts as being encoded using the 2.x encoding format. This is bad for a site like WordPress.com. You can use the new `syntaxhighlighter_pre_getcodeformat` filter to return `1` or `2` (based on say `post_modified`). See `SyntaxHighlighter:get_code_format()` for more details. Don't forget to `remove_action( 'save_post', array(&$SyntaxHighlighter, 'mark_as_encoded'), 10, 2 );` to stop the post meta from being added.
 * New `syntaxhighlighter_precode` filter to modify raw code before it's highlighted.
 * New `syntaxhighlighter_democode` filter to modify example code on the settings page.
+
+Localizations:
+
+* Danish translation update thanks to [Georg S. Adamsen](http://wordpress.blogos.dk/).
+* Chinese translation thanks to Hinker Liu. Will need updating for v2.3.0.
 
 **Version 2.2.1**
 
