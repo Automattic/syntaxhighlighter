@@ -1,5 +1,5 @@
 === SyntaxHighlighter Evolved ===
-Contributors: Viper007Bond
+Contributors: Viper007Bond, Automattic
 Donate link: http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/donate/
 Tags: code, sourcecode, php, xhtml, html, css
 Requires at least: 2.7
@@ -20,7 +20,7 @@ Starting with v2.0.0, this plugin was renamed from "SyntaxHighlighter" to "Synta
 
 == Installation ==
 
-###Updgrading From A Previous Version###
+###Upgrading From A Previous Version###
 
 To upgrade from a previous version of this plugin, delete the entire folder and files from the previous version of the plugin and then follow the installation instructions below.
 
@@ -59,10 +59,27 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 
 == ChangeLog ==
 
-**Version 2.2.2**
+**Version 2.3.0**
 
-* Updated TinyMCE plugin thanks to Andrew Ozz. This fixes the unresponsive script errors and has various other improvements.
-* Chinese translation thanks to Hinker Liu.
+Major overhaul, mainly to extend flexibility so that this plugin could be used on WordPress.com without actual code modification (only actions/filters are used instead to modify it).
+
+* Updated SyntaxHighlighter package to v2.1.364. Highlights of the [changelog](http://alexgorbatchev.com/wiki/SyntaxHighlighter:Changes:2.1.364) include:
+	* ColdFusion brush (aliases: `coldfusion`, `cf`)
+	* Erlang brush (aliases: `erl`, `erlang`)
+	* Objective-C brush (aliases: `objc`, `obj-c`)
+	* Eclipse theme
+	* `padlinenumbers` parameter. Set it to `false` for no line number padding, `true` for automatic padding, or an integer (number) for forced padding.
+	* `rb` alias for Ruby
+* Commenters can now use this plugin to post code.
+* Plugin's shortcodes now work inside of the text widget again. Requires WordPress 2.9+ though.
+* This plugin's stylesheets are now dynamically loaded. If they aren't needed, they aren't loaded.
+* Lots of sanitization of shortcode attributes. Invalid keys/values are no longer used.
+* Chinese translation thanks to Hinker Liu. Will need updating for v2.3.0.
+* New filter to control what shortcodes are registered. Used by WordPress.com to trim down the number of them.
+* Saving of user's settings is now done using `register_setting()` instead of manually handing `$_POST`. Yay!
+* By default, a post meta is used to mark posts as being encoded using the 2.x encoding format. This is bad for a site like WordPress.com. You can use the new `syntaxhighlighter_pre_getcodeformat` filter to return `1` or `2` (based on say `post_modified`). See `SyntaxHighlighter:get_code_format()` for more details. Don't forget to `remove_action( 'save_post', array(&$SyntaxHighlighter, 'mark_as_encoded'), 10, 2 );` to stop the post meta from being added.
+* New `syntaxhighlighter_precode` filter to modify raw code before it's highlighted.
+* New `syntaxhighlighter_democode` filter to modify example code on the settings page.
 
 **Version 2.2.1**
 
