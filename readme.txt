@@ -72,6 +72,7 @@ Major overhaul, mainly to extend flexibility so that this plugin could be used o
 	* `rb` alias for Ruby
 * Commenters can now use this plugin to post code.
 * Plugin's shortcodes now work inside of the text widget again. Requires WordPress 2.9+ though.
+* Overhaul of the TinyMCE plugin that assists in keeping your code sound when switching editor views. Thanks to Andrew Ozz!
 * This plugin's stylesheets are now dynamically loaded. If they aren't needed, they aren't loaded.
 * Lots of sanitization of shortcode attributes. Invalid keys/values are no longer used.
 * Chinese translation thanks to Hinker Liu. Will need updating for v2.3.0.
