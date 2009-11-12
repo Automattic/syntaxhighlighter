@@ -6,17 +6,15 @@ Requires at least: 2.7
 Tested up to: 2.8
 Stable tag: trunk
 
-Easily post syntax-highlighted code to your site without having to modify the code at all.
+Easily post syntax-highlighted code to your site without having to modify the code at all. As seen on WordPress.com.
 
 == Description ==
 
-SyntaxHighlighter Evolved allows you to easily post syntax-highlighted code to your site without loosing it's formatting or making any manual changes. It uses the [SyntaxHighlighter JavaScript package by Alex Gorbatchev](http://alexgorbatchev.com/wiki/SyntaxHighlighter) and a bit of code by [Andrew Ozz of Automattic](http://wordpress.com/).
+SyntaxHighlighter Evolved allows you to easily post syntax-highlighted code to your site without loosing it's formatting or making any manual changes. It uses the [SyntaxHighlighter JavaScript package by Alex Gorbatchev](http://alexgorbatchev.com/wiki/SyntaxHighlighter).
 
 For a list of supported languages (all widely used languages are supported), please [click here](http://alexgorbatchev.com/wiki/SyntaxHighlighter:Brushes).
 
-**SyntaxHighlighter "Evolved"? Why Evolved?**
-
-Starting with v2.0.0, this plugin was renamed from "SyntaxHighlighter" to "SyntaxHighlighter Evolved". This was done to better stand out against the many very poorly named [forks](http://en.wikipedia.org/wiki/Fork_%28software_development%29) of v1.x of this plugin. I am not an author of any of those plugins, they just used my old code as a base for their version. Although I am of course biased, I'd argue this plugin is the best of all of them.
+*As seen on WordPress.com.*
 
 == Installation ==
 
@@ -61,7 +59,7 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 
 **Version 2.3.0**
 
-Major overhaul, mainly to extend flexibility so that this plugin could be used on WordPress.com without actual code modification (only actions/filters are used instead to modify it).
+Major overhaul, mainly to extend flexibility so that this plugin could be used on WordPress.com without any more plugin code modification (only actions/filters are used instead to modify it).
 
 * Updated SyntaxHighlighter package to v2.1.364. Highlights of the [changelog](http://alexgorbatchev.com/wiki/SyntaxHighlighter:Changes:2.1.364) include:
 	* ColdFusion brush (aliases: `coldfusion`, `cf`)
