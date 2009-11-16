@@ -12,7 +12,7 @@ Easily post syntax-highlighted code to your site without having to modify the co
 
 SyntaxHighlighter Evolved allows you to easily post syntax-highlighted code to your site without loosing it's formatting or making any manual changes. It uses the [SyntaxHighlighter JavaScript package by Alex Gorbatchev](http://alexgorbatchev.com/wiki/SyntaxHighlighter).
 
-For a list of supported languages (all widely used languages are supported), please [click here](http://alexgorbatchev.com/wiki/SyntaxHighlighter:Brushes).
+For a list of supported languages (most widely used languages are supported), please [click here](http://alexgorbatchev.com/wiki/SyntaxHighlighter:Brushes).
 
 *As seen on WordPress.com.*
 
@@ -56,6 +56,13 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 2. A part of the Settings page which controls the defaults.
 
 == ChangeLog ==
+
+**Version 2.3.1**
+
+* Additional CSS to help prevent themes from breaking SyntaxHighlighter (stopping `code { display: block; }`).
+* Add a grey border to the default theme when line numbering is enabled.
+* Italian transation update thanks to [gidibao](http://gidibao.net/).
+* Minor code improvements.
 
 **Version 2.3.0**
 

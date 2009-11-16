@@ -7,80 +7,86 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SyntaxHighlighter Evolved in italiano\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/syntaxhighlighter\n"
-"POT-Creation-Date: 2009-03-29 05:19+0000\n"
-"PO-Revision-Date: 2009-07-22 12:33+0100\n"
+"POT-Creation-Date: 2009-11-09 08:55+0000\n"
+"PO-Revision-Date: 2009-11-11 11:43+0100\n"
 "Last-Translator: Gianni Diurno (aka gidibao) <gidibao@gmail.com>\n"
 "Language-Team: Gianni Diurno | http://gidibao.net/ <gidibao@gmail.com>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Italian\n"
 "X-Poedit-Country: ITALY\n"
 
-#: syntaxhighlighter.php:128
+#: syntaxhighlighter.php:206
 msgid "Default"
 msgstr "Predefinito"
 
-#: syntaxhighlighter.php:129
+#: syntaxhighlighter.php:207
 msgid "Django"
 msgstr "Django"
 
-#: syntaxhighlighter.php:130
+#: syntaxhighlighter.php:208
+msgid "Eclipse"
+msgstr "Eclipse"
+
+#: syntaxhighlighter.php:209
 msgid "Emacs"
 msgstr "Emacs"
 
-#: syntaxhighlighter.php:131
+#: syntaxhighlighter.php:210
 msgid "Fade to Grey"
 msgstr "Fade to Grey"
 
-#: syntaxhighlighter.php:132
+#: syntaxhighlighter.php:211
 msgid "Midnight"
 msgstr "Midnight"
 
-#: syntaxhighlighter.php:133
+#: syntaxhighlighter.php:212
 msgid "RDark"
 msgstr "RDark"
 
-#: syntaxhighlighter.php:134
+#: syntaxhighlighter.php:213
 msgid "[None]"
 msgstr "[nessuno]"
 
-#: syntaxhighlighter.php:181
-#: syntaxhighlighter.php:526
+#: syntaxhighlighter.php:220
+#: syntaxhighlighter.php:842
 msgid "SyntaxHighlighter Settings"
 msgstr "Impostazioni SyntaxHighlighter"
 
-#. #-#-#-#-#  plugin.pot (PACKAGE VERSION)  #-#-#-#-#
-#. Plugin Name of an extension
-#: syntaxhighlighter.php:181
+#: syntaxhighlighter.php:220
 msgid "SyntaxHighlighter"
 msgstr "SyntaxHighlighter"
 
-#: syntaxhighlighter.php:329
-msgid "expand source"
-msgstr "espandi sorgente"
+#: syntaxhighlighter.php:251
+msgid "Settings"
+msgstr "Impostazioni"
 
-#: syntaxhighlighter.php:330
+#: syntaxhighlighter.php:539
+msgid "show source"
+msgstr "mostra sorgente"
+
+#: syntaxhighlighter.php:540
 msgid "view source"
 msgstr "vedi sorgente"
 
-#: syntaxhighlighter.php:331
+#: syntaxhighlighter.php:541
 msgid "copy to clipboard"
 msgstr "copia negli appunti"
 
-#: syntaxhighlighter.php:332
+#: syntaxhighlighter.php:542
 msgid "The code is in your clipboard now"
 msgstr "Il codice é da ora nei tuoi appunti"
 
-#: syntaxhighlighter.php:333
+#: syntaxhighlighter.php:543
 msgid "print"
 msgstr "stampa"
 
-#: syntaxhighlighter.php:334
+#: syntaxhighlighter.php:544
 msgid "?"
 msgstr "info"
 
-#: syntaxhighlighter.php:335
+#: syntaxhighlighter.php:545
 msgid ""
 "SyntaxHighlighter\\n"
 "\\n"
@@ -88,185 +94,224 @@ msgstr ""
 "SyntaxHighlighter\\n"
 "\\n"
 
-#: syntaxhighlighter.php:336
+#: syntaxhighlighter.php:546
 msgid "Can't find brush for: "
 msgstr "Non é stato possibile trovare il file di sintassi per: "
 
-#: syntaxhighlighter.php:337
+#: syntaxhighlighter.php:547
 msgid "Brush wasn't configured for html-script option: "
 msgstr "Il file di sintassi non é stato configurato per l'opzione html-script"
 
-#: syntaxhighlighter.php:509
-msgid "Settings reset to defaults."
-msgstr "Ripristina le impostazioni alle predefinite"
-
-#: syntaxhighlighter.php:517
+#: syntaxhighlighter.php:830
 msgid "Are you sure you want to reset your settings to the defaults?"
 msgstr "Sei certo di volere ripristinare le impostazioni alle predefinite?"
 
-#: syntaxhighlighter.php:536
+#: syntaxhighlighter.php:834
+msgid "Settings reset to defaults."
+msgstr "Ripristina le impostazioni alle predefinite"
+
+#: syntaxhighlighter.php:851
 msgid "Color Theme"
 msgstr "Colore del tema"
 
-#: syntaxhighlighter.php:551
+#: syntaxhighlighter.php:866
 msgid "Defaults"
 msgstr "Parametri predefiniti"
 
-#: syntaxhighlighter.php:553
-msgid "All of the settings below can also be configured on a per-code box basis."
-msgstr "Tutte le impostazioni qui sotto potranno essere configurate anche separatamente per ogni singola casella di codice (via shortcode)."
+#: syntaxhighlighter.php:868
+msgid "All of the settings below can be configured on a per-code box basis, but you can control the defaults of all code boxes here."
+msgstr "Tutte le impostazioni qui sotto potranno essere configurate singolarmente comunque, sarà altresì possibile controllare qui tutte le caselle predefinite per i codici."
 
-#: syntaxhighlighter.php:557
-#: syntaxhighlighter.php:560
+#: syntaxhighlighter.php:872
+#: syntaxhighlighter.php:875
 msgid "Miscellaneous"
 msgstr "Varie"
 
-#: syntaxhighlighter.php:562
+#: syntaxhighlighter.php:877
 msgid "Display line numbers"
 msgstr "mostra la numerazione delle linee"
 
-#: syntaxhighlighter.php:563
+#: syntaxhighlighter.php:878
 msgid "Display the toolbar"
 msgstr "mostra la barra degli strumenti"
 
-#: syntaxhighlighter.php:564
+#: syntaxhighlighter.php:879
 msgid "Automatically make URLs clickable"
 msgstr "rendi gli URL cliccabili (in automatico)"
 
-#: syntaxhighlighter.php:565
+#: syntaxhighlighter.php:880
 msgid "Collapse code boxes"
 msgstr "comprimi le caselle del codice"
 
-#: syntaxhighlighter.php:566
-msgid "Show a ruler column along the top of the code box"
-msgstr "mostra in alto del box per il codice una riga graduata per le colonne"
-
-#: syntaxhighlighter.php:567
+#: syntaxhighlighter.php:881
 msgid "Use the light display mode, best for single lines of code"
 msgstr "utilizza la modalità light del tema, ideale per le singole linee di codice"
 
-#: syntaxhighlighter.php:568
+#: syntaxhighlighter.php:882
 msgid "Use smart tabs allowing tabs being used for alignment"
 msgstr "utilizza le smart tabs in modo che le tag siano utilizzate per l'allineamento"
 
-#: syntaxhighlighter.php:573
+#: syntaxhighlighter.php:883
+msgid "Wrap long lines (disabling this will make a scrollbar show instead)"
+msgstr "Wrap per le righe di grandi dimensioni (disattivando l'opzione si otterrà una barra di scorrimento)"
+
+#: syntaxhighlighter.php:884
+msgid "Enable &quot;HTML script&quot; mode by default (see the bottom of this page for details). Checking this box is not recommended as this mode only works with certain languages."
+msgstr "Abilita la modalità &quot;HTML script&quot; come predefinita (vedi i dettagli a fondo pagina). La selezione di questa casella non é raccomandabile poiché la funzione lavora solamente con alcuni linguaggi."
+
+#: syntaxhighlighter.php:889
 msgid "Additional CSS Class(es)"
 msgstr "classe/i CSS addizionali"
 
-#: syntaxhighlighter.php:577
+#: syntaxhighlighter.php:893
 msgid "Starting Line Number"
 msgstr "Numero di inizio linea"
 
-#: syntaxhighlighter.php:582
-msgid "Font Size (Percentage)"
-msgstr "Dimensione font (percentuale)"
+#: syntaxhighlighter.php:897
+msgid "Line Number Padding"
+msgstr "Padding numerazione linea"
 
-#: syntaxhighlighter.php:588
+#: syntaxhighlighter.php:902
+msgid "Off"
+msgstr "Spento"
+
+#: syntaxhighlighter.php:903
+msgid "Automatic"
+msgstr "Automatico"
+
+#: syntaxhighlighter.php:921
 msgid "Tab Size"
 msgstr "Dimensione tab"
 
-#: syntaxhighlighter.php:594
+#: syntaxhighlighter.php:927
 msgid "Save Changes"
 msgstr "Salva le modifiche"
 
-#: syntaxhighlighter.php:595
+#: syntaxhighlighter.php:928
 msgid "Reset to Defaults"
 msgstr "Ripristina alle predefinite"
 
-#: syntaxhighlighter.php:600
+#: syntaxhighlighter.php:933
 msgid "Preview"
 msgstr "Anteprima della casella"
 
-#: syntaxhighlighter.php:602
+#: syntaxhighlighter.php:935
 msgid "Click &quot;Save Changes&quot; to update this preview."
 msgstr "Clicca &quot;Salva le modifiche&quot; per visualizzare l'anteprima aggiornata."
 
-#: syntaxhighlighter.php:637
+#: syntaxhighlighter.php:947
+msgid "PHP Code Example"
+msgstr "Codice PHP di esempio"
+
+#: syntaxhighlighter.php:949
+msgid "Hello World!"
+msgstr "Hello World!"
+
+#: syntaxhighlighter.php:951
+msgid "This line is highlighted."
+msgstr "Questa linea é evidenziata."
+
+#: syntaxhighlighter.php:954
+msgid ""
+"\t\tThis\tis\tan\r\n"
+"\t\texample\tof\tsmart\r\n"
+"\t\ttabs."
+msgstr ""
+"\t\tQuesto\té\tun\r\n"
+"\t\tesempio\tdi\tsmart\r\n"
+"\t\ttabs."
+
+#: syntaxhighlighter.php:969
 msgid "Shortcode Parameters"
 msgstr "Parametri per lo shortcode"
 
-#: syntaxhighlighter.php:639
+#: syntaxhighlighter.php:971
 #, php-format
 msgid "These are the parameters you can pass to the shortcode and what they do. For the booleans (i.e. on/off), pass %1$s/%2$s or %3$s/%4$s."
 msgstr "Lista dei parametri (e loro funzioni) che potrai inserire nello shortcode. Per i booleani (es: on/off), inserisci %1$s/%2$s oppure %3$s/%4$s."
 
-#: syntaxhighlighter.php:642
+#: syntaxhighlighter.php:974
 #, php-format
 msgid "%1$s or %2$s &#8212; The language syntax to highlight with. You can alternately just use that as the tag, such as <code>[php]code[/php]</code>. <a href=\"%3$s\">Click here</a> for a list of valid tags (under &quot;aliases&quot;)."
 msgstr "%1$s oppure %2$s &#8212; Il linguaggio da evidenziare. Potrai in alternativa utilizzarne il solo nome. Ad esempio: <code>[php]code[/php]</code>. <a href=\"%3$s\">Clicca qui</a> per la lista dei tag validi (sotto &quot;aliases&quot;)."
 
-#: syntaxhighlighter.php:643
+#: syntaxhighlighter.php:975
 #, php-format
 msgid "%s &#8212; Toggle automatic URL linking."
 msgstr "%s &#8212; Commutazione automatica collegamento ad un URL."
 
-#: syntaxhighlighter.php:644
+#: syntaxhighlighter.php:976
 #, php-format
 msgid "%s &#8212; Add an additional CSS class to the code box."
 msgstr "%s &#8212; Aggiungi una classe CSS addizionale alla casella per il codice."
 
-#: syntaxhighlighter.php:645
+#: syntaxhighlighter.php:977
 #, php-format
 msgid "%s &#8212; Toggle collapsing the code box by default, requiring a click to expand it. Good for large code posts."
 msgstr "%s &#8212; Commuta in automatico (predefinita) la compressione della casella. Sarà necessario cliccare sulla casella per espanderla. Ottimo per l'inserimento di codici di grande dimensione."
 
-#: syntaxhighlighter.php:646
+#: syntaxhighlighter.php:978
 #, php-format
 msgid "%s &#8212; An interger specifying what number the first line should be (for the line numbering)."
 msgstr "%s &#8212; Un numero intero per definire con quale numero abbia inizio la prima linea (per la numerazione)."
 
-#: syntaxhighlighter.php:647
+#: syntaxhighlighter.php:979
 #, php-format
 msgid "%s &#8212; Toggle the left-side line numbering."
 msgstr "%s &#8212; Commutazione numerazione della linea nel lato sinistro."
 
-#: syntaxhighlighter.php:648
+#: syntaxhighlighter.php:980
 #, php-format
 msgid "%s &#8212; A comma-sperated list of line numbers to highlight."
 msgstr "%s &#8212; Lista delle linee da evidenziare (numeri separati da una virgola)."
 
-#: syntaxhighlighter.php:649
+#: syntaxhighlighter.php:981
 #, php-format
-msgid "%s &#8212; Toggle highlighting any extra HTML/XML. Good for when you're mixing HTML/XML with another language, such as having PHP inside an HTML web page. The above preview has it enabled for example."
-msgstr "%s &#8212; Commuta mettendo in evidenza ogni HTML/XML extra. Ottima soluzione qualora utilizzassi del HTML/XML con un altro linguaggio (ad esempio del codice PHP inserito nel HTML di una pagina web). Vedi l'anteprima qui sopra."
+msgid "%s &#8212; Toggle highlighting any extra HTML/XML. Good for when you're mixing HTML/XML with another language, such as having PHP inside an HTML web page. The above preview has it enabled for example. This only works with certain languages."
+msgstr "%s &#8212; Commuta mettendo in evidenza ogni HTML/XML extra. Ottima soluzione qualora utilizzassi del HTML/XML con un altro linguaggio (ad esempio del codice PHP inserito nel HTML di una pagina web). Vedi l'anteprima qui sopra. Questa funziona solamente per alcuni linguaggi."
 
-#: syntaxhighlighter.php:650
+#: syntaxhighlighter.php:982
 #, php-format
-msgid "%s &#8212; Toggle light mode which disables the gutter, toolbar, and ruler all at once."
-msgstr "%s &#8212; Commuta alla modalità light del tema disattivando contemporaneamente il gutter, la toolbar e la riga graduata."
+msgid "%s &#8212; Toggle light mode which disables the gutter and toolbar all at once."
+msgstr "%s &#8212; Commuta alla modalità light del tema disattivando contemporaneamente il gutter e la toolbar."
 
-#: syntaxhighlighter.php:651
+#: syntaxhighlighter.php:983
 #, php-format
-msgid "%s &#8212; Toggle the column ruler at the top of the code box."
-msgstr "%s &#8212; Commuta la riga graduata posizionata nella parte superiore del box per il codice."
+msgid "%s &#8212; Controls line number padding. Valid values are <code>false</code> (no padding), <code>true</code> (automatic padding), or an integer (forced padding)."
+msgstr "%s &#8212; Controlla il padding per la linea di numerazione. I valori validi sono <code>false</code> (nessun padding), <code>true</code> (padding automatico) oppure un numero intero (padding forzato)."
 
-#: syntaxhighlighter.php:652
+#: syntaxhighlighter.php:984
 #, php-format
 msgid "%s &#8212; Toggle the toolbar containing the helpful buttons."
 msgstr "%s &#8212; Commutazione toolbar contenente i pulsanti opzione."
 
-#: syntaxhighlighter.php:655
+#: syntaxhighlighter.php:985
+#, php-format
+msgid "%s &#8212; Toggle line wrapping."
+msgstr "%s &#8212; Commuta il wrapping della riga."
+
+#: syntaxhighlighter.php:988
 msgid "Some example shortcodes:"
 msgstr "Alcuni esempi di shortcode:"
 
-#: syntaxhighlighter.php:658
-#: syntaxhighlighter.php:659
-#: syntaxhighlighter.php:660
-#: syntaxhighlighter.php:661
+#: syntaxhighlighter.php:991
+#: syntaxhighlighter.php:992
+#: syntaxhighlighter.php:993
+#: syntaxhighlighter.php:994
 msgid "your code here"
 msgstr "inserisci qui il tuo codice"
 
-#: syntaxhighlighter.php:676
-msgid "Cheatin&#8217; uh?"
-msgstr "Problemi! uh?"
+#. Plugin Name of an extension
+msgid "SyntaxHighlighter Evolved"
+msgstr "SyntaxHighlighter Evolved"
 
 #. Plugin URI of an extension
 msgid "http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/"
 msgstr "http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/"
 
 #. Description of an extension
-msgid "Easily post code to your blog while still maintaining complete control over it's display. Uses Alex Gorbatchev's <a href=\"http://code.google.com/p/syntaxhighlighter/\">SyntaxHighlighter</a> and code by <a href=\"http://automattic.com/\">Automattic</a>."
-msgstr "Inserisci con semplicità il codice nel tuo blog avendo il completo controllo di quanto verrà mostrato. Utilizza il <a href=\"http://code.google.com/p/syntaxhighlighter/\">SyntaxHighlighter</a> di Alex Gorbatchev ed il codice di <a href=\"http://automattic.com/\">Automattic</a>."
+msgid "Easily post syntax-highlighted code to your site without having to modify the code at all. Uses Alex Gorbatchev's <a href=\"http://alexgorbatchev.com/wiki/SyntaxHighlighter\">SyntaxHighlighter</a> v2.0.320 and some code by <a href=\"http://wordpress.com/\">Andrew Ozz of Automattic</a>."
+msgstr "Inserisci con semplicità il codice syntax-highlight nel tuo blog senza l'obbligo di doverlo modificare. Utilizza il <a href=\"http://alexgorbatchev.com/wiki/SyntaxHighlighter\">SyntaxHighlighter</a> v2.0.320 di Alex Gorbatchev ed un po' di codice da <a href=\"http://wordpress.com/\">Andrew Ozz di Automattic</a>."
 
 #. Author of an extension
 msgid "Viper007Bond"
@@ -275,4 +320,18 @@ msgstr "Viper007Bond"
 #. Author URI of an extension
 msgid "http://www.viper007bond.com/"
 msgstr "http://www.viper007bond.com/"
+
+#~ msgid "expand source"
+#~ msgstr "espandi sorgente"
+#~ msgid "Show a ruler column along the top of the code box"
+#~ msgstr ""
+#~ "mostra in alto del box per il codice una riga graduata per le colonne"
+#~ msgid "Font Size (Percentage)"
+#~ msgstr "Dimensione font (percentuale)"
+#~ msgid "%s &#8212; Toggle the column ruler at the top of the code box."
+#~ msgstr ""
+#~ "%s &#8212; Commuta la riga graduata posizionata nella parte superiore del "
+#~ "box per il codice."
+#~ msgid "Cheatin&#8217; uh?"
+#~ msgstr "Problemi! uh?"
 

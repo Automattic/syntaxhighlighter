@@ -68,6 +68,11 @@
 	position: relative !important;
 }
 
+.syntaxhighlighter code 
+{
+	display: inline !important;
+}
+
 .syntaxhighlighter .bold 
 {
 	font-weight: bold !important;

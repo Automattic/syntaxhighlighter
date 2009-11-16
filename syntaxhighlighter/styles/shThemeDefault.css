@@ -36,6 +36,8 @@
 .syntaxhighlighter
 {
 	background-color: #fff !important;
+	border: 1px solid #E0E0E0 !important;
+	padding: 0 !important;
 }
 
 /* Highlighed line number */
@@ -96,6 +98,8 @@
 {
 	color: red !important;
 }
+
+.nogutter { border: none !important; }
 
 /************************************
  * Actual syntax highlighter colors.
