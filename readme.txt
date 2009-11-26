@@ -12,7 +12,9 @@ Easily post syntax-highlighted code to your site without having to modify the co
 
 SyntaxHighlighter Evolved allows you to easily post syntax-highlighted code to your site without loosing it's formatting or making any manual changes. It uses the [SyntaxHighlighter JavaScript package by Alex Gorbatchev](http://alexgorbatchev.com/wiki/SyntaxHighlighter).
 
-For a list of supported languages (most widely used languages are supported), please [click here](http://alexgorbatchev.com/wiki/SyntaxHighlighter:Brushes).
+For a live demo, see [this plugin's homepage](http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/).
+
+For a list of supported languages (most widely used languages are supported), see the [WordPress.com support document](http://en.support.wordpress.com/code/posting-source-code/).
 
 *As seen on WordPress.com.*
 
@@ -56,6 +58,11 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 2. A part of the Settings page which controls the defaults.
 
 == ChangeLog ==
+
+**Version 2.3.2**
+
+* Allow `\0` inside of code posts for low-access users. Previously it was stripped by KSES. Also introduces new filter that can be used to escape other similar types of strings.
+* Remove `min-height` CSS. I don't see the point of it and it's screwing it up in certain themes.
 
 **Version 2.3.1**
 

@@ -55,8 +55,8 @@
 	font-weight: normal !important;
 	font-style: normal !important;
 	font-size: 1em !important;
-	min-height: inherit !important; /* For IE8, FF & WebKit */
-	min-height: auto !important; /* For IE7 */
+	/*min-height: inherit !important; *//* For IE8, FF & WebKit */
+	/*min-height: auto !important;*/ /* For IE7 */
 	direction: ltr !important;
 }
 
