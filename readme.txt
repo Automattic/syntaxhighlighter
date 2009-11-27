@@ -61,6 +61,7 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 
 **Version 2.3.3**
 
+* Add `print` to PHP keywords. Props bundyxc.
 * Changes to make this plugin work properly with code that creates posts from outside of the admin area, namely the [P2 theme](http://p2theme.com/).
 
 **Version 2.3.2**

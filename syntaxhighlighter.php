@@ -23,7 +23,7 @@ Thanks to:
 class SyntaxHighlighter {
 	// All of these variables are private. Filters are provided for things that can be modified.
 	var $pluginver       = '2.3.3';   // Plugin version
-	var $agshver         = '2.1.364'; // Alex Gorbatchev's SyntaxHighlighter version
+	var $agshver         = '2.1.364a'; // Alex Gorbatchev's SyntaxHighlighter version
 	var $settings        = array();   // Contains the user's settings
 	var $defaultsettings = array();   // Contains the default settings
 	var $brushes         = array();   // Array of aliases => brushes
