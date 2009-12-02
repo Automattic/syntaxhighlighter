@@ -16,7 +16,7 @@ For a live demo, see [this plugin's homepage](http://www.viper007bond.com/wordpr
 
 For a list of supported languages (most widely used languages are supported), see the [WordPress.com support document](http://en.support.wordpress.com/code/posting-source-code/).
 
-*As seen on WordPress.com.*
+*[As seen on WordPress.com.](http://en.blog.wordpress.com/2009/12/02/better-source-code-posting/)*
 
 == Installation ==
 
