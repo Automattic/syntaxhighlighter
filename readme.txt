@@ -59,6 +59,11 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 
 == ChangeLog ==
 
+**Version 2.3.4**
+
+* Use the `get_comment_text` filter instead of the `comment_text` filter to make sure to catch the output everywhere.
+* Allow `on` and `off` as parameter values.
+
 **Version 2.3.3**
 
 * Add `print` to PHP keywords. Props bundyxc.

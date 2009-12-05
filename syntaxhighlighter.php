@@ -4,7 +4,7 @@
 
 Plugin Name:  SyntaxHighlighter Evolved
 Plugin URI:   http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/
-Version:      2.3.3
+Version:      2.3.4
 Description:  Easily post syntax-highlighted code to your site without having to modify the code at all. Uses Alex Gorbatchev's <a href="http://alexgorbatchev.com/wiki/SyntaxHighlighter">SyntaxHighlighter</a> v2.0.320 and some code by <a href="http://wordpress.com/">Andrew Ozz of Automattic</a>.
 Author:       Viper007Bond
 Author URI:   http://www.viper007bond.com/
@@ -16,13 +16,13 @@ Thanks to:
 * Alex Gorbatchev for writing such an awesome Javascript-powered synatax
   highlighter script
 
-* Andrew Ozz of Automattic for writing the TinyMCE plugin
+* Andrew Ozz for writing the TinyMCE plugin
 
 **************************************************************************/
 
 class SyntaxHighlighter {
 	// All of these variables are private. Filters are provided for things that can be modified.
-	var $pluginver       = '2.3.3';   // Plugin version
+	var $pluginver       = '2.3.4';   // Plugin version
 	var $agshver         = '2.1.364a'; // Alex Gorbatchev's SyntaxHighlighter version
 	var $settings        = array();   // Contains the user's settings
 	var $defaultsettings = array();   // Contains the default settings
@@ -108,7 +108,7 @@ class SyntaxHighlighter {
 		// Register comment hooks
 		add_filter( 'comment_edit_pre',           array(&$this, 'decode_shortcode_contents'),                 1 );
 		add_filter( 'pre_comment_content',        array(&$this, 'encode_shortcode_contents_slashed'),         1 );
-		add_filter( 'comment_text',               array(&$this, 'parse_shortcodes_comment'),                  7 );
+		add_filter( 'get_comment_text',           array(&$this, 'parse_shortcodes_comment'),                  7 );
 
 		// Register widget hooks
 		// Requires change added in WordPress 2.9
@@ -789,9 +789,9 @@ class SyntaxHighlighter {
 			switch ( $allowed_atts[$key] ) {
 				case 'boolean':
 					$value = strtolower( $value );
-					if ( 'true' === $value || '1' === $value )
+					if ( 'true' === $value || '1' === $value || 'on' == $value )
 						$value = 'true';
-					elseif ( 'false' === $value || '0' === $value )
+					elseif ( 'false' === $value || '0' === $value || 'off' == $value )
 						$value = 'false';
 					else
 						continue 2; // Invalid value, ditch parameter
