@@ -14,7 +14,7 @@
  * 
  */
 
-dp.sh.Brushes.ObjC = function() {
+SyntaxHighlighter.brushes.ObjC = function() {
 	
 	var datatypes =	'char bool BOOL double float int long short id void';
 	
@@ -31,13 +31,13 @@ dp.sh.Brushes.ObjC = function() {
 	keywords += 'using uuid virtual volatile whcar_t while';
 	
 	this.regexList = [
-		{ regex: dp.sh.RegexLib.SingleLineCComments,	css: 'comment' },		// one line comments
-		{ regex: dp.sh.RegexLib.MultiLineCComments,		css: 'comment' },		// multiline comments
-		{ regex: dp.sh.RegexLib.DoubleQuotedString,		css: 'string' },		// double quoted strings
-		{ regex: dp.sh.RegexLib.SingleQuotedString,		css: 'string' },		// single quoted strings
+		{ regex: SyntaxHighlighter.regexLib.singleLineCComments,	css: 'comment' },		// one line comments
+		{ regex: SyntaxHighlighter.regexLib.multiLineCComments,		css: 'comment' },		// multiline comments
+		{ regex: SyntaxHighlighter.regexLib.doubleQuotedString,		css: 'string' },		// double quoted strings
+		{ regex: SyntaxHighlighter.regexLib.singleQuotedString,		css: 'string' },		// single quoted strings
 		{ regex: new RegExp('^ *#.*', 'gm'),						css: 'preprocessor' },	// preprocessor
-		{ regex: new RegExp(this.GetKeywords(datatypes), 'gm'),		css: 'datatypes' },		// datatypes
-		{ regex: new RegExp(this.GetKeywords(keywords), 'gm'),		css: 'keyword' },		// keyword
+		{ regex: new RegExp(this.getKeywords(datatypes), 'gm'),		css: 'datatypes' },		// datatypes
+		{ regex: new RegExp(this.getKeywords(keywords), 'gm'),		css: 'keyword' },		// keyword
 		{ regex: new RegExp('\\bNS\\w+\\b', 'g'),					css: 'keyword' },		// keyword
 		{ regex: new RegExp('@\\w+\\b', 'g'),						css: 'keyword' },		// keyword
 		{ regex: new RegExp('@"(?:\\.|(\\\\\\")|[^\\""\\n])*"', 'g'),	css: 'string' }	// objc string		
@@ -45,5 +45,5 @@ dp.sh.Brushes.ObjC = function() {
 	
 }
 
-dp.sh.Brushes.ObjC.prototype = new dp.sh.Highlighter();
-dp.sh.Brushes.ObjC.Aliases = ['objc', 'obj-c'];
+SyntaxHighlighter.brushes.ObjC.prototype = new SyntaxHighlighter.Highlighter();
+SyntaxHighlighter.brushes.ObjC.aliases = ['objc', 'obj-c'];

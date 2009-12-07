@@ -4,7 +4,7 @@
 
 Plugin Name:  SyntaxHighlighter Evolved
 Plugin URI:   http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/
-Version:      2.3.4
+Version:      2.3.5
 Description:  Easily post syntax-highlighted code to your site without having to modify the code at all. Uses Alex Gorbatchev's <a href="http://alexgorbatchev.com/wiki/SyntaxHighlighter">SyntaxHighlighter</a> v2.0.320 and some code by <a href="http://wordpress.com/">Andrew Ozz of Automattic</a>.
 Author:       Viper007Bond
 Author URI:   http://www.viper007bond.com/
@@ -22,8 +22,8 @@ Thanks to:
 
 class SyntaxHighlighter {
 	// All of these variables are private. Filters are provided for things that can be modified.
-	var $pluginver       = '2.3.4';   // Plugin version
-	var $agshver         = '2.1.364a'; // Alex Gorbatchev's SyntaxHighlighter version
+	var $pluginver       = '2.3.5';   // Plugin version
+	var $agshver         = '2.1.364b'; // Alex Gorbatchev's SyntaxHighlighter version
 	var $settings        = array();   // Contains the user's settings
 	var $defaultsettings = array();   // Contains the default settings
 	var $brushes         = array();   // Array of aliases => brushes
@@ -56,7 +56,6 @@ class SyntaxHighlighter {
 		wp_register_script( 'syntaxhighlighter-brush-java',       plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushJava.js'),       array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-javafx',     plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushJavaFX.js'),     array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-jscript',    plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushJScript.js'),    array('syntaxhighlighter-core'), $this->agshver );
-		wp_register_script( 'syntaxhighlighter-brush-objc',       plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushObjC.js'),       array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-perl',       plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushPerl.js'),       array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-php',        plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushPhp.js'),        array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-plain',      plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushPlain.js'),      array('syntaxhighlighter-core'), $this->agshver );
@@ -67,6 +66,10 @@ class SyntaxHighlighter {
 		wp_register_script( 'syntaxhighlighter-brush-sql',        plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushSql.js'),        array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-vb',         plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushVb.js'),         array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-xml',        plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushXml.js'),        array('syntaxhighlighter-core'), $this->agshver );
+
+		// Register some popular third-party brushes
+		wp_register_script( 'syntaxhighlighter-brush-latex',      plugins_url('syntaxhighlighter/third-party-brushes/shBrushLatex.js'),            array('syntaxhighlighter-core'), '20090613'     );
+		wp_register_script( 'syntaxhighlighter-brush-objc',       plugins_url('syntaxhighlighter/third-party-brushes/shBrushObjC.js'),             array('syntaxhighlighter-core'), '20091207'     );
 
 		// Register theme stylesheets
 		wp_register_style(  'syntaxhighlighter-core',             plugins_url('syntaxhighlighter/syntaxhighlighter/styles/shCore.css'),            array(),                         $this->agshver );
@@ -168,6 +171,8 @@ class SyntaxHighlighter {
 			'js'            => 'jscript',
 			'jscript'       => 'jscript',
 			'javascript'    => 'jscript',
+			'latex'         => 'latex',
+			'tex'           => 'latex',
 			'objc'          => 'objc',
 			'obj-c'         => 'objc',
 			'perl'          => 'perl',

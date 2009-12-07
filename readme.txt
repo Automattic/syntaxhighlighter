@@ -59,29 +59,35 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 
 == ChangeLog ==
 
-**Version 2.3.4**
+= Version 2.3.5 =
+
+* Move third-party brushes to their own folder to make it easier to keep track of them.
+* Fix broken Objective-C brush. Props Yoav.
+* Add LaTeX brush. This won't render LaTex, it will merely allow you to post LaTeX souce. Props [Jorge Martinez de Salinas](http://www.jorgemarsal.com/blog/2009/06/13/latex-brush-for-syntax-highlighter-plus-wordpress-plugin/).
+
+= Version 2.3.4 =
 
 * Use the `get_comment_text` filter instead of the `comment_text` filter to make sure to catch the output everywhere.
 * Allow `on` and `off` as parameter values.
 
-**Version 2.3.3**
+= Version 2.3.3 =
 
 * Add `print` to PHP keywords. Props bundyxc.
 * Changes to make this plugin work properly with code that creates posts from outside of the admin area, namely the [P2 theme](http://p2theme.com/).
 
-**Version 2.3.2**
+= Version 2.3.2 =
 
 * Allow `\0` inside of code posts for low-access users. Previously it was stripped by KSES. Also introduces new filter that can be used to escape other similar types of strings.
 * Remove `min-height` CSS. I don't see the point of it and it's screwing it up in certain themes.
 
-**Version 2.3.1**
+= Version 2.3.1 =
 
 * Additional CSS to help prevent themes from breaking SyntaxHighlighter (stopping `code { display: block; }`).
 * Add a grey border to the default theme when line numbering is enabled.
 * Italian transation update thanks to [gidibao](http://gidibao.net/).
 * Minor code improvements.
 
-**Version 2.3.0**
+= Version 2.3.0 =
 
 Major overhaul, mainly to extend flexibility so that this plugin could be used on WordPress.com without any more plugin code modification (only actions/filters are used instead to modify it).
 
@@ -108,11 +114,11 @@ Localizations:
 * Danish translation update thanks to [Georg S. Adamsen](http://wordpress.blogos.dk/).
 * Chinese translation thanks to Hinker Liu. Will need updating for v2.3.0.
 
-**Version 2.2.1**
+= Version 2.2.1 =
 
 * Italian transation thanks to [gidibao](http://gidibao.net/index.php/2009/07/22/syntaxhighlighter-evolved-in-italiano/).
 
-**Version 2.2.0**
+= Version 2.2.0 =
 
 * Stop whitespace from being stripped when switching editor views. Props [Abel Braaksma](http://www.undermyhat.org/blog/2009/07/fix-for-leading-whitespace-bug-in-syntaxhighlighter-evolved-for-wordpress/).
 * Fixed an issue with SyntaxHighlighter itself in which the Bash highlighter had issues with `<` and `>`.
@@ -121,32 +127,32 @@ Localizations:
 * Danish translation thanks to [Georg S. Adamsen](http://wordpress.blogos.dk/2009/05/07/syntaks-farvning-%E2%80%93-syntax-highlighting/).
 * Turkish translation thanks to [Alper](http://turkcekaynak.net/).
 
-**Version 2.1.0**
+= Version 2.1.0 =
 
 * Updated to reflect the new features of [v2.0.320 of Alex's script](http://alexgorbatchev.com/wiki/SyntaxHighlighter:Changes:2.0.320). Note the `stripBrs` parameter is not supported in my plugin as it is not needed in this implementation.
 
-**Version 2.0.1**
+= Version 2.0.1 =
 
 * Andrew Ozz was kind enough to fix a bug related to `<p>`'s being stripped when switching from the Visual to HTML tab
 * Added a link to the settings page to the plugins page in the admin area
 
-**Version 2.0.0**
+= Version 2.0.0 =
 
 * Complete recode from scratch. Features v2 of Alex Gorbatchev's script, usage of shortcodes, and so much more.
 
-**Version 1.1.1**
+= Version 1.1.1 =
 
 * Encode single quotes so `wptexturize()` doesn't transform them into fancy quotes and screw up code.
 
-**Version 1.1.0**
+= Version 1.1.0 =
 
 * mdawaffe [fixed](http://dev.wp-plugins.org/ticket/703) an encoding issue relating to kses and users without the `unfiltered_html` capability. Mad props to mdawaffe.
 
-**Version 1.0.1**
+= Version 1.0.1 =
 
 * Minor CSS fixes.
 * Filter text widgets to allow posting of code.
 
-**Version 1.0.0**
+= Version 1.0.0 =
 
 * Initial release!
