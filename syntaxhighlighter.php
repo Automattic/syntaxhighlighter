@@ -4,7 +4,7 @@
 
 Plugin Name:  SyntaxHighlighter Evolved
 Plugin URI:   http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/
-Version:      2.3.5
+Version:      2.3.6
 Description:  Easily post syntax-highlighted code to your site without having to modify the code at all. Uses Alex Gorbatchev's <a href="http://alexgorbatchev.com/wiki/SyntaxHighlighter">SyntaxHighlighter</a> v2.0.320 and some code by <a href="http://wordpress.com/">Andrew Ozz of Automattic</a>.
 Author:       Viper007Bond
 Author URI:   http://www.viper007bond.com/
@@ -22,16 +22,17 @@ Thanks to:
 
 class SyntaxHighlighter {
 	// All of these variables are private. Filters are provided for things that can be modified.
-	var $pluginver       = '2.3.5';   // Plugin version
-	var $agshver         = '2.1.364b'; // Alex Gorbatchev's SyntaxHighlighter version
-	var $settings        = array();   // Contains the user's settings
-	var $defaultsettings = array();   // Contains the default settings
-	var $brushes         = array();   // Array of aliases => brushes
-	var $shortcodes      = array();   // Array of shortcodes to use
-	var $themes          = array();   // Array of themes
-	var $usedbrushes     = array();   // Stores used brushes so we know what to output
-	var $encoded         = false;     // Used to mark that a character encode took place
-	var $codeformat      = false;     // If set, SyntaxHighlighter::get_code_format() will return this value
+	var $pluginver               = '2.3.6';    // Plugin version
+	var $agshver                 = '2.1.364b'; // Alex Gorbatchev's SyntaxHighlighter version
+	var $settings                = array();    // Contains the user's settings
+	var $defaultsettings         = array();    // Contains the default settings
+	var $brushes                 = array();    // Array of aliases => brushes
+	var $shortcodes              = array();    // Array of shortcodes to use
+	var $themes                  = array();    // Array of themes
+	var $usedbrushes             = array();    // Stores used brushes so we know what to output
+	var $encoded                 = false;      // Used to mark that a character encode took place
+	var $codeformat              = false;      // If set, SyntaxHighlighter::get_code_format() will return this value
+	var $pre_comment_content_ran = false;      // It's possible for the "pre_comment_content" filter to run multiple times, so keep track
 
 	// Initalize the plugin by registering the hooks
 	function __construct() {
@@ -68,7 +69,9 @@ class SyntaxHighlighter {
 		wp_register_script( 'syntaxhighlighter-brush-xml',        plugins_url('syntaxhighlighter/syntaxhighlighter/scripts/shBrushXml.js'),        array('syntaxhighlighter-core'), $this->agshver );
 
 		// Register some popular third-party brushes
+		wp_register_script( 'syntaxhighlighter-brush-fsharp',     plugins_url('syntaxhighlighter/third-party-brushes/shBrushFSharp.js'),           array('syntaxhighlighter-core'), '20091003'     );
 		wp_register_script( 'syntaxhighlighter-brush-latex',      plugins_url('syntaxhighlighter/third-party-brushes/shBrushLatex.js'),            array('syntaxhighlighter-core'), '20090613'     );
+		wp_register_script( 'syntaxhighlighter-brush-matlabkey',  plugins_url('syntaxhighlighter/third-party-brushes/shBrushMatlabKey.js'),        array('syntaxhighlighter-core'), '20091209'     );
 		wp_register_script( 'syntaxhighlighter-brush-objc',       plugins_url('syntaxhighlighter/third-party-brushes/shBrushObjC.js'),             array('syntaxhighlighter-core'), '20091207'     );
 
 		// Register theme stylesheets
@@ -105,41 +108,38 @@ class SyntaxHighlighter {
 
 
 		// Register generic hooks
-		add_filter( 'the_content',                array(&$this, 'parse_shortcodes'),                          7 );
+		add_filter( 'the_content',                array(&$this, 'parse_shortcodes'),                              7 );
 		add_action( 'admin_menu',                 array(&$this, 'register_settings_page') ); // Not is_admin() only for my admin bar plugin + others
 
+		// Admin hooks
+		add_action( 'admin_init',                 array(&$this, 'register_setting') );
+		add_action( 'admin_head',                 array(&$this, 'output_shortcodes_for_tinymce') );
+		add_action( 'admin_footer',               array(&$this, 'maybe_output_scripts'),                          15 ); // For comments
+		add_filter( 'mce_external_plugins',       array(&$this, 'add_tinymce_plugin') );
+		add_filter( 'tiny_mce_version',           array(&$this, 'break_tinymce_cache') );
+		add_filter( 'the_editor_content',         array(&$this, 'the_editor_content'),                            1 );
+		add_filter( 'content_save_pre',           array(&$this, 'encode_shortcode_contents_slashed_noquickedit'), 1 );
+		add_filter( 'save_post',                  array(&$this, 'mark_as_encoded'),                               10, 2 );
+		add_filter( 'plugin_action_links',        array(&$this, 'settings_link'),                                 10, 2 );
+
 		// Register comment hooks
-		add_filter( 'comment_edit_pre',           array(&$this, 'decode_shortcode_contents'),                 1 );
-		add_filter( 'pre_comment_content',        array(&$this, 'encode_shortcode_contents_slashed'),         1 );
-		add_filter( 'get_comment_text',           array(&$this, 'parse_shortcodes_comment'),                  7 );
+		add_filter( 'comment_edit_pre',           array(&$this, 'decode_shortcode_contents'),                     1 );
+		add_filter( 'pre_comment_content',        array(&$this, 'encode_shortcode_contents_slashed'),             1 );
+		add_filter( 'comment_text',               array(&$this, 'parse_shortcodes_comment'),                      7 );
 
 		// Register widget hooks
 		// Requires change added in WordPress 2.9
 		if ( class_exists('WP_Embed') ) {
-			add_filter( 'widget_text',            array(&$this, 'widget_text_output'),                        7, 2 );
-			add_filter( 'widget_update_callback', array(&$this, 'widget_text_save'),                          1, 4 );
-			add_filter( 'widget_form_callback',   array(&$this, 'widget_text_form'),                          1, 2 );
+			add_filter( 'widget_text',            array(&$this, 'widget_text_output'),                            7, 2 );
+			add_filter( 'widget_update_callback', array(&$this, 'widget_text_save'),                              1, 4 );
+			add_filter( 'widget_form_callback',   array(&$this, 'widget_text_form'),                              1, 2 );
 		}
 
-		// Frontend-only stuff
-		if ( !is_admin() ) {
-			add_action( 'wp_footer',              array(&$this, 'maybe_output_scripts'),                      15 );
-
-			// No longer works since JS adds CSS after this
-			// Perhaps it's better if the code fontsize matches the blog fontsize...
-			//add_action( 'wp_head',                array(&$this, 'enforce_font_size') );
-		}
-
-		// Other hooks designed for admin, but themes like P2 use outside of admin
-		add_action( 'admin_init',             array(&$this, 'register_setting') );
-		add_action( 'admin_head',             array(&$this, 'output_shortcodes_for_tinymce') );
-		add_action( 'admin_footer',           array(&$this, 'maybe_output_scripts'),                          15 ); // For comments
-		add_filter( 'mce_external_plugins',   array(&$this, 'add_tinymce_plugin') );
-		add_filter( 'tiny_mce_version',       array(&$this, 'break_tinymce_cache') );
-		add_filter( 'the_editor_content',     array(&$this, 'the_editor_content'),                            1 );
-		add_filter( 'content_save_pre',       array(&$this, 'encode_shortcode_contents_slashed_noquickedit'), 1 );
-		add_filter( 'save_post',              array(&$this, 'mark_as_encoded'),                               10, 2 );
-		add_filter( 'plugin_action_links',    array(&$this, 'settings_link'),                                 10, 2 );
+		// Frontend stuff
+		add_action( 'wp_footer',                  array(&$this, 'maybe_output_scripts'),                          15 );
+		// No longer works since JS adds CSS after this
+		// Perhaps it's better if the code fontsize matches the blog fontsize...
+		//add_action( 'wp_head',                array(&$this, 'enforce_font_size') );
 
 
 		// Create list of brush aliases and map them to their real brushes
@@ -164,6 +164,7 @@ class SyntaxHighlighter {
 			'patch'         => 'diff',
 			'erl'           => 'erlang',
 			'erlang'        => 'erlang',
+			'fsharp'        => 'fsharp',
 			'groovy'        => 'groovy',
 			'java'          => 'java',
 			'jfx'           => 'javafx',
@@ -173,6 +174,7 @@ class SyntaxHighlighter {
 			'javascript'    => 'jscript',
 			'latex'         => 'latex',
 			'tex'           => 'latex',
+			'matlab'        => 'matlabkey',
 			'objc'          => 'objc',
 			'obj-c'         => 'objc',
 			'perl'          => 'perl',
@@ -326,6 +328,14 @@ class SyntaxHighlighter {
 
 	// HTML entity encode the contents of shortcodes. Expects slashed content. Aborts if AJAX.
 	function encode_shortcode_contents_slashed_noquickedit( $content ) {
+
+		// In certain weird circumstances, the content gets run through "pre_comment_content" twice
+		// Keep track and don't allow this filter to be run twice
+		// I couldn't easily figure out why this happens and didn't bother looking into it further as this works fine
+		if ( true == $this->pre_comment_content_ran )
+			return $content;
+		$this->pre_comment_content_ran = true;
+
 		// Post quick edits aren't decoded for display, so we don't need to encode them (again)
 		if ( !empty($_POST) && !empty($_POST['action']) && 'inline-save' == $_POST['action'] )
 			return $content;
