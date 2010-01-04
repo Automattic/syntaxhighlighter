@@ -4,7 +4,7 @@
 
 Plugin Name:  SyntaxHighlighter Evolved
 Plugin URI:   http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/
-Version:      2.3.6
+Version:      2.3.7
 Description:  Easily post syntax-highlighted code to your site without having to modify the code at all. Uses Alex Gorbatchev's <a href="http://alexgorbatchev.com/wiki/SyntaxHighlighter">SyntaxHighlighter</a> v2.0.320 and some code by <a href="http://wordpress.com/">Andrew Ozz of Automattic</a>.
 Author:       Viper007Bond
 Author URI:   http://www.viper007bond.com/
@@ -22,17 +22,17 @@ Thanks to:
 
 class SyntaxHighlighter {
 	// All of these variables are private. Filters are provided for things that can be modified.
-	var $pluginver               = '2.3.6';    // Plugin version
-	var $agshver                 = '2.1.364b'; // Alex Gorbatchev's SyntaxHighlighter version
-	var $settings                = array();    // Contains the user's settings
-	var $defaultsettings         = array();    // Contains the default settings
-	var $brushes                 = array();    // Array of aliases => brushes
-	var $shortcodes              = array();    // Array of shortcodes to use
-	var $themes                  = array();    // Array of themes
-	var $usedbrushes             = array();    // Stores used brushes so we know what to output
-	var $encoded                 = false;      // Used to mark that a character encode took place
-	var $codeformat              = false;      // If set, SyntaxHighlighter::get_code_format() will return this value
-	var $pre_comment_content_ran = false;      // It's possible for the "pre_comment_content" filter to run multiple times, so keep track
+	var $pluginver            = '2.3.7';    // Plugin version
+	var $agshver              = '2.1.364b'; // Alex Gorbatchev's SyntaxHighlighter version
+	var $settings             = array();    // Contains the user's settings
+	var $defaultsettings      = array();    // Contains the default settings
+	var $brushes              = array();    // Array of aliases => brushes
+	var $shortcodes           = array();    // Array of shortcodes to use
+	var $themes               = array();    // Array of themes
+	var $usedbrushes          = array();    // Stores used brushes so we know what to output
+	var $encoded              = false;      // Used to mark that a character encode took place
+	var $codeformat           = false;      // If set, SyntaxHighlighter::get_code_format() will return this value
+	var $content_save_pre_ran = false;      // It's possible for the "content_save_pre" filter to run multiple times, so keep track
 
 	// Initalize the plugin by registering the hooks
 	function __construct() {
@@ -88,6 +88,7 @@ class SyntaxHighlighter {
 		// Create array of default settings (you can use the filter to modify these)
 		$this->defaultsettings = (array) apply_filters( 'syntaxhighlighter_defaultsettings', array(
 			'theme'          => 'default',
+			'loadallbrushes' => 0,
 			'autolinks'      => 1,
 			'classname'      => '',
 			'collapse'       => 0,
@@ -329,12 +330,12 @@ class SyntaxHighlighter {
 	// HTML entity encode the contents of shortcodes. Expects slashed content. Aborts if AJAX.
 	function encode_shortcode_contents_slashed_noquickedit( $content ) {
 
-		// In certain weird circumstances, the content gets run through "pre_comment_content" twice
+		// In certain weird circumstances, the content gets run through "content_save_pre" twice
 		// Keep track and don't allow this filter to be run twice
 		// I couldn't easily figure out why this happens and didn't bother looking into it further as this works fine
-		if ( true == $this->pre_comment_content_ran )
+		if ( true == $this->content_save_pre_ran )
 			return $content;
-		$this->pre_comment_content_ran = true;
+		$this->content_save_pre_ran = true;
 
 		// Post quick edits aren't decoded for display, so we don't need to encode them (again)
 		if ( !empty($_POST) && !empty($_POST['action']) && 'inline-save' == $_POST['action'] )
@@ -494,6 +495,9 @@ class SyntaxHighlighter {
 	// Output any needed scripts. This is meant for the footer.
 	function maybe_output_scripts() {
 		global $wp_styles;
+
+		if ( 1 == $this->settings['loadallbrushes'] )
+			$this->usedbrushes = array_flip( array_values( $this->brushes ) );
 
 		if ( empty($this->usedbrushes) )
 			return;
@@ -892,6 +896,15 @@ class SyntaxHighlighter {
 				</select>
 			</td>
 		</tr>
+		<tr valign="top">
+			<th scope="row"><?php _e('Load All Brushes', 'syntaxhighlighter'); ?></th>
+			<td>
+				<fieldset>
+					<legend class="hidden"><?php _e('Load All Brushes', 'syntaxhighlighter'); ?></legend>
+					<label for="syntaxhighlighter-loadallbrushes"><input name="syntaxhighlighter_settings[loadallbrushes]" type="checkbox" id="syntaxhighlighter-loadallbrushes" value="1" <?php checked( $this->settings['loadallbrushes'], 1 ); ?> /> <?php _e('Always load all language files (for directly using <code>&lt;pre&gt;</code> tags rather than shortcodes)<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If left unchecked (default), then language files will only be loaded when needed', 'syntaxhighlighter'); ?></label>
+				</fieldset>
+			</td>
+		</tr>
 	</table>
 
 	<h3><?php _e('Defaults', 'syntaxhighlighter'); ?></h3>
@@ -1039,22 +1052,23 @@ class SyntaxHighlighter {
 			$settings = $this->defaultsettings;
 			$_REQUEST['_wp_http_referer'] = add_query_arg( 'defaults', 'true', $_REQUEST['_wp_http_referer'] );
 		} else {
-			$settings['theme']      = ( !empty($settings['theme']) && isset($this->themes[$settings['theme']]) ) ? strtolower($settings['theme']) : $this->defaultsettings['theme'];
+			$settings['theme']          = ( !empty($settings['theme']) && isset($this->themes[$settings['theme']]) ) ? strtolower($settings['theme']) : $this->defaultsettings['theme'];
 
-			$settings['autolinks']  = ( !empty($settings['autolinks']) ) ? 1 : 0;
-			$settings['collapse']   = ( !empty($settings['collapse']) )  ? 1 : 0;
-			$settings['gutter']     = ( !empty($settings['gutter']) )    ? 1 : 0;
-			$settings['light']      = ( !empty($settings['light']) )     ? 1 : 0;
-			$settings['smarttabs']  = ( !empty($settings['smarttabs']) ) ? 1 : 0;
-			$settings['toolbar']    = ( !empty($settings['toolbar']) )   ? 1 : 0;
-			$settings['wraplines']  = ( !empty($settings['wraplines']) ) ? 1 : 0;
+			$settings['loadallbrushes'] = ( !empty($settings['loadallbrushes']) ) ? 1 : 0;
+			$settings['autolinks']      = ( !empty($settings['autolinks']) )      ? 1 : 0;
+			$settings['collapse']       = ( !empty($settings['collapse']) )       ? 1 : 0;
+			$settings['gutter']         = ( !empty($settings['gutter']) )         ? 1 : 0;
+			$settings['light']          = ( !empty($settings['light']) )          ? 1 : 0;
+			$settings['smarttabs']      = ( !empty($settings['smarttabs']) )      ? 1 : 0;
+			$settings['toolbar']        = ( !empty($settings['toolbar']) )        ? 1 : 0;
+			$settings['wraplines']      = ( !empty($settings['wraplines']) )      ? 1 : 0;
 
 			if ( 'true' != $settings['padlinenumbers'] && 'false' != $settings['padlinenumbers'] )
 				$settings['padlinenumbers'] = (int) $settings['padlinenumbers'];
 
-			$settings['classname']  = ( !empty($settings['classname']) )       ? preg_replace( '/[^ A-Za-z0-9_-]*/', '', $settings['classname'] ) : '';
-			$settings['firstline']  = (int) ( !empty($settings['firstline']) ) ? $settings['firstline'] : $this->defaultsettings['firstline'];
-			$settings['tabsize']    = (int) ( !empty($settings['tabsize']) )   ? $settings['tabsize']   : $this->defaultsettings['tabsize'];
+			$settings['classname']      = ( !empty($settings['classname']) )       ? preg_replace( '/[^ A-Za-z0-9_-]*/', '', $settings['classname'] ) : '';
+			$settings['firstline']      = (int) ( !empty($settings['firstline']) ) ? $settings['firstline'] : $this->defaultsettings['firstline'];
+			$settings['tabsize']        = (int) ( !empty($settings['tabsize']) )   ? $settings['tabsize']   : $this->defaultsettings['tabsize'];
 		}
 
 		return $settings;

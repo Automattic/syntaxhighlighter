@@ -59,6 +59,10 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 
 == ChangeLog ==
 
+= Version 2.3.7 =
+
+* Add a checkbox to settings page to force all language brushes to always be loaded, even if they aren't needed. This is incase anyone wants to use the `<pre>` tags directly (without the shortcode), for example if they use [this Windows Live Writer plugin](http://sourcecodeplugin.codeplex.com/).
+
 = Version 2.3.6 =
 
 * Add F-Sharp brush by [Steve Gilham](http://stevegilham.blogspot.com/2009/10/syntaxhighlighter-20-brushes-for-f-and.html).
