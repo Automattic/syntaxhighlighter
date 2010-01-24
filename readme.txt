@@ -71,7 +71,7 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 
 * Add F-Sharp brush by [Steve Gilham](http://stevegilham.blogspot.com/2009/10/syntaxhighlighter-20-brushes-for-f-and.html).
 * Add MATLAB brush by [Will Schleter](http://ef.engr.utk.edu/matlab/syntaxhighlighter/) (only highlights popular keywords to avoid browser lockups).
-* Prevent double-encoding of shortcode contents save. I still have no idea why the `pre_comment_content` filter is sometimes run twice.
+* Prevent double-encoding of shortcode contents save. I still have no idea why the `content_save_pre` filter is sometimes run twice.
 
 = Version 2.3.5 =
 
