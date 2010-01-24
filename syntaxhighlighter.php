@@ -4,7 +4,7 @@
 
 Plugin Name:  SyntaxHighlighter Evolved
 Plugin URI:   http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/
-Version:      2.3.7
+Version:      2.3.8
 Description:  Easily post syntax-highlighted code to your site without having to modify the code at all. Uses Alex Gorbatchev's <a href="http://alexgorbatchev.com/wiki/SyntaxHighlighter">SyntaxHighlighter</a> v2.0.320 and some code by <a href="http://wordpress.com/">Andrew Ozz of Automattic</a>.
 Author:       Viper007Bond
 Author URI:   http://www.viper007bond.com/
@@ -22,7 +22,7 @@ Thanks to:
 
 class SyntaxHighlighter {
 	// All of these variables are private. Filters are provided for things that can be modified.
-	var $pluginver            = '2.3.7';    // Plugin version
+	var $pluginver            = '2.3.8';    // Plugin version
 	var $agshver              = '2.1.364b'; // Alex Gorbatchev's SyntaxHighlighter version
 	var $settings             = array();    // Contains the user's settings
 	var $defaultsettings      = array();    // Contains the default settings
@@ -173,7 +173,7 @@ class SyntaxHighlighter {
 			'js'            => 'jscript',
 			'jscript'       => 'jscript',
 			'javascript'    => 'jscript',
-			'latex'         => 'latex',
+			//'latex'         => 'latex',
 			'tex'           => 'latex',
 			'matlab'        => 'matlabkey',
 			'objc'          => 'objc',
