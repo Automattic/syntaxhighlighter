@@ -44,13 +44,9 @@ The shortcodes accept a wide variety of parameters. For details, see the bottom 
 
 == Frequently Asked Questions ==
 
-= The code boxes seem to be missing their styling. What's wrong? =
-
-Make sure your theme's `header.php` file has `<?php wp_head(); ?>` somewhere inside of the `<head>`, otherwise the CSS files won't be loaded.
-
 = The code is just being displayed raw. It isn't being converted into a code box or anything. What's wrong?  =
 
-Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere inside of it, otherwise the Javascript files won't be loaded.
+Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere inside of it, otherwise the plugin won't be able to do it's thing.
 
 == Screenshots ==
 
