@@ -1,7 +1,7 @@
 === SyntaxHighlighter Evolved ===
 Contributors: Viper007Bond, Automattic
 Donate link: http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/donate/
-Tags: code, sourcecode, php, xhtml, html, css
+Tags: code, sourcecode, php, xhtml, html, css, WordPress.com
 Requires at least: 2.8
 Tested up to: 3.0
 Stable tag: trunk
