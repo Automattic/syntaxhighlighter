@@ -102,7 +102,6 @@ class SyntaxHighlighter {
 			'smarttabs'      => 1,
 			'tabsize'        => 4,
 			'toolbar'        => 1,
-			'wraplines'      => 1,
 		) );
 
 		// Create the settings array by merging the user's settings and the defaults
@@ -643,9 +642,6 @@ class SyntaxHighlighter {
 		if ( 1 != $this->settings['toolbar'] )
 			echo "	SyntaxHighlighter.defaults['toolbar'] = false;\n";
 
-		if ( 1 != $this->settings['wraplines'] )
-			echo "	SyntaxHighlighter.defaults['wrap-lines'] = false;\n";
-
 ?>	SyntaxHighlighter.all();
 </script>
 <?php
@@ -709,7 +705,6 @@ class SyntaxHighlighter {
 			'tabsize'        => false,
 			'title'          => false,
 			'toolbar'        => false,
-			'wraplines'      => false,
 		), $atts ) );
 
 		// Check for language shortcode tag such as [php]code[/php]
@@ -766,7 +761,6 @@ class SyntaxHighlighter {
 			'padlinenumbers' => 'pad-line-numbers',
 			'smarttabs'      => 'smart-tabs',
 			'tabsize'        => 'tab-size',
-			'wraplines'      => 'wrap-lines',
 		);
 
 		// Allowed configuration parameters and their type
@@ -786,7 +780,6 @@ class SyntaxHighlighter {
 			'tab-size'         => 'integer',
 			'title'            => 'other',
 			'toolbar'          => 'boolean',
-			'wrap-lines'       => 'boolean',
 		) );
 
 		$title = '';
@@ -962,7 +955,6 @@ class SyntaxHighlighter {
 					<label for="syntaxhighlighter-collapse"><input name="syntaxhighlighter_settings[collapse]" type="checkbox" id="syntaxhighlighter-collapse" value="1" <?php checked( $this->settings['collapse'], 1 ); ?> /> <?php _e( 'Collapse code boxes', 'syntaxhighlighter' ); ?></label><br />
 					<label for="syntaxhighlighter-light"><input name="syntaxhighlighter_settings[light]" type="checkbox" id="syntaxhighlighter-light" value="1" <?php checked( $this->settings['light'], 1 ); ?> /> <?php _e( 'Use the light display mode, best for single lines of code', 'syntaxhighlighter' ); ?></label><br />
 					<label for="syntaxhighlighter-smarttabs"><input name="syntaxhighlighter_settings[smarttabs]" type="checkbox" id="syntaxhighlighter-smarttabs" value="1" <?php checked( $this->settings['smarttabs'], 1 ); ?> /> <?php _e( 'Use smart tabs allowing tabs being used for alignment', 'syntaxhighlighter' ); ?></label><br />
-					<label for="syntaxhighlighter-wraplines"><input name="syntaxhighlighter_settings[wraplines]" type="checkbox" id="syntaxhighlighter-wraplines" value="1" <?php checked( $this->settings['wraplines'], 1 ); ?> /> <?php _e( 'Wrap long lines (disabling this will make a scrollbar show instead)', 'syntaxhighlighter' ); ?></label><br />
 					<!--<label for="syntaxhighlighter-htmlscript"><input name="syntaxhighlighter_settings[htmlscript]" type="checkbox" id="syntaxhighlighter-htmlscript" value="1" <?php checked( $this->settings['htmlscript'], 1 ); ?> /> <?php _e( 'Enable &quot;HTML script&quot; mode by default (see the bottom of this page for details). Checking this box is not recommended as this mode only works with certain languages.', 'syntaxhighlighter' ); ?></label>-->
 				</fieldset>
 			</td>
@@ -1065,7 +1057,6 @@ class SyntaxHighlighter {
 		<li><?php printf( __( '%s &#8212; Controls line number padding. Valid values are <code>false</code> (no padding), <code>true</code> (automatic padding), or an integer (forced padding).', 'syntaxhighlighter' ), '<code>padlinenumbers</code>' ); ?></li>
 		<li><?php printf( __( '%1$s &#8212; Sets some text to show up before the code. Very useful when combined with the %2$s parameter.', 'syntaxhighlighter' ), '<code>title</code>', '<code>collapse</code>' ); ?></li>
 		<li><?php printf( __( '%s &#8212; Toggle the toolbar containing the helpful buttons.', 'syntaxhighlighter' ), '<code>toolbar</code>' ); ?></li>
-		<li><?php printf( __( '%s &#8212; Toggle line wrapping.', 'syntaxhighlighter' ), '<code>wraplines</code>' ); ?></li>
 	</ul>
 
 	<p><?php _e( 'Some example shortcodes:', 'syntaxhighlighter' ); ?></p>
@@ -1100,7 +1091,6 @@ class SyntaxHighlighter {
 			$settings['light']          = ( !empty($settings['light']) )          ? 1 : 0;
 			$settings['smarttabs']      = ( !empty($settings['smarttabs']) )      ? 1 : 0;
 			$settings['toolbar']        = ( !empty($settings['toolbar']) )        ? 1 : 0;
-			$settings['wraplines']      = ( !empty($settings['wraplines']) )      ? 1 : 0;
 
 			if ( 'true' != $settings['padlinenumbers'] && 'false' != $settings['padlinenumbers'] )
 				$settings['padlinenumbers'] = (int) $settings['padlinenumbers'];
