@@ -62,6 +62,7 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 * BuddyPress support! Props [Rich](http://blog.etiviti.com/).
 * Add third-party Clojure brush by [Travis Whitton](http://travis-whitton.blogspot.com/2009/06/syntaxhighlighter-for-clojure.html).
 * Add third-party R language brush by [Yihui Xie](http://yihui.name/en/2010/09/syntaxhighlighter-brush-for-the-r-language).
+* Ukrainian transation update thanks to [AzzePis](http://wordpress.co.ua/).
 
 = Version 2.3.8 =
 

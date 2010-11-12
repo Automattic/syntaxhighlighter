@@ -1,0 +1,330 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Dmitro Kondryuk <blog@wordpress.co.ua>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Viper007Bond
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#msgid ""
+#msgstr ""
+#: syntaxhighlighter.php:209
+msgid "Default"
+msgstr "По замовчуванню"
+
+#: syntaxhighlighter.php:210
+msgid "Django"
+msgstr "Django"
+
+#: syntaxhighlighter.php:211
+msgid "Eclipse"
+msgstr "Eclipse"
+
+#: syntaxhighlighter.php:212
+msgid "Emacs"
+msgstr "Emacs"
+
+#: syntaxhighlighter.php:213
+msgid "Fade to Grey"
+msgstr "З переходом в сірий"
+
+#: syntaxhighlighter.php:214
+msgid "Midnight"
+msgstr "Північ"
+
+#: syntaxhighlighter.php:215
+msgid "RDark"
+msgstr "RDark"
+
+#: syntaxhighlighter.php:216
+msgid "[None]"
+msgstr "Жодного"
+
+#: syntaxhighlighter.php:223
+#: syntaxhighlighter.php:845
+msgid "SyntaxHighlighter Settings"
+msgstr "Налаштування SyntaxHighlighter"
+
+#: syntaxhighlighter.php:223
+msgid "SyntaxHighlighter"
+msgstr "SyntaxHighlighter"
+
+#: syntaxhighlighter.php:254
+msgid "Settings"
+msgstr "Налаштування"
+
+#: syntaxhighlighter.php:542
+msgid "show source"
+msgstr "показати код"
+
+#: syntaxhighlighter.php:543
+msgid "view source"
+msgstr "дивитись код"
+
+#: syntaxhighlighter.php:544
+msgid "copy to clipboard"
+msgstr "скопіювати у буфер"
+
+#: syntaxhighlighter.php:545
+msgid "The code is in your clipboard now"
+msgstr "Код скопійовано у буфер"
+
+#: syntaxhighlighter.php:546
+msgid "print"
+msgstr "друк"
+
+#: syntaxhighlighter.php:547
+msgid "?"
+msgstr "?"
+
+#: syntaxhighlighter.php:548
+msgid ""
+"SyntaxHighlighter\\n"
+"\\n"
+msgstr ""
+"SyntaxHighlighter\\n"
+"\\n"
+
+#: syntaxhighlighter.php:549
+msgid "Can't find brush for: "
+msgstr "Не можу знайти \"кольорову схему\" для:"
+
+#: syntaxhighlighter.php:550
+msgid "Brush wasn't configured for html-script option: "
+msgstr "\"Кольорова схема\" не налаштована для  опції html-script"
+
+#: syntaxhighlighter.php:833
+msgid "Are you sure you want to reset your settings to the defaults?"
+msgstr "Ви впевнені, що хочете повернутися до стандартних налаштувань?"
+
+#: syntaxhighlighter.php:837
+msgid "Settings reset to defaults."
+msgstr "Налаштування зкинуті до стандартних"
+
+#: syntaxhighlighter.php:854
+msgid "Color Theme"
+msgstr "Кольорова схема"
+
+#: syntaxhighlighter.php:869
+msgid "Defaults"
+msgstr "За замовчуванням"
+
+#: syntaxhighlighter.php:871
+msgid "All of the settings below can be configured on a per-code box basis, but you can control the defaults of all code boxes here."
+msgstr "Усі налаштування можуть бути сконфігуровані при використанні коротких кодів, але Ви можете також зробити налаштування для усіх блоків коду тут"
+
+#: syntaxhighlighter.php:875
+#: syntaxhighlighter.php:878
+msgid "Miscellaneous"
+msgstr "Інше"
+
+#: syntaxhighlighter.php:880
+msgid "Display line numbers"
+msgstr "Показувати номери рядків"
+
+#: syntaxhighlighter.php:881
+msgid "Display the toolbar"
+msgstr "Показувати панель інструментів"
+
+#: syntaxhighlighter.php:882
+msgid "Automatically make URLs clickable"
+msgstr "Робити лінки клікабельними"
+
+#: syntaxhighlighter.php:883
+msgid "Collapse code boxes"
+msgstr "Звертати блоки коду"
+
+#: syntaxhighlighter.php:884
+msgid "Use the light display mode, best for single lines of code"
+msgstr "Використовувати \"легкий\" вигляд (добре для однорядкового коду)"
+
+#: syntaxhighlighter.php:885
+msgid "Use smart tabs allowing tabs being used for alignment"
+msgstr "Використовувати закладки"
+
+#: syntaxhighlighter.php:886
+msgid "Wrap long lines (disabling this will make a scrollbar show instead)"
+msgstr "Переносити слова у довгих рядках"
+
+#: syntaxhighlighter.php:887
+msgid "Enable &quot;HTML script&quot; mode by default (see the bottom of this page for details). Checking this box is not recommended as this mode only works with certain languages."
+msgstr "Активувати &quot;HTML script&quot; режим по замовчуванню (деталі внизу сторінки). Не рекомендується відмічати цю опцію, в цьому режимі плагін працює лише з декількома мовами."
+
+#: syntaxhighlighter.php:892
+msgid "Additional CSS Class(es)"
+msgstr "Додаткові класи CSS"
+
+#: syntaxhighlighter.php:896
+msgid "Starting Line Number"
+msgstr "Початковий номер рядка"
+
+#: syntaxhighlighter.php:900
+msgid "Line Number Padding"
+msgstr "Відступ в номерах рядків"
+
+#: syntaxhighlighter.php:903
+msgid "Load All Brushes"
+msgstr "Підгружати усі стилі"
+
+#: syntaxhighlighter.php:904
+msgid "Always load all language files (for directly using <code>&lt;pre&gt;</code> tags rather than shortcodes)<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If left unchecked (default), then language files will only be loaded when needed"
+msgstr "Завжди завантажувати усі файли мов для підсвітки (для використання з тегом <code>&lt;pre&gt;</code> замість використання коротких кодів)<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Якщо не вмикати(по замовчуванню), тоді файли будуть підгружатись тільки при потребі"
+
+#: syntaxhighlighter.php:905
+msgid "Off"
+msgstr "Вимкнути"
+
+#: syntaxhighlighter.php:906
+msgid "Automatic"
+msgstr "Автоматично"
+
+#: syntaxhighlighter.php:924
+msgid "Tab Size"
+msgstr "Розмір закладки"
+
+#: syntaxhighlighter.php:930
+msgid "Save Changes"
+msgstr "Зберегти зміни"
+
+#: syntaxhighlighter.php:931
+msgid "Reset to Defaults"
+msgstr "Відновати початкові налаштування"
+
+#: syntaxhighlighter.php:936
+msgid "Preview"
+msgstr "Прев'ю"
+
+#: syntaxhighlighter.php:938
+msgid "Click &quot;Save Changes&quot; to update this preview."
+msgstr "Натисніть &quot;Зберегти зміни&quot; аби оновити прев'ю, що наведене нижче."
+
+#: syntaxhighlighter.php:950
+msgid "PHP Code Example"
+msgstr "Приклад PHP коду"
+
+#: syntaxhighlighter.php:952
+msgid "Hello World!"
+msgstr "Привіт світ!"
+
+#: syntaxhighlighter.php:954
+msgid "This line is highlighted."
+msgstr "Цей рядок підсвічений"
+
+#: syntaxhighlighter.php:957
+msgid ""
+"\t\tThis\tis\tan\r\n"
+"\t\texample\tof\tsmart\r\n"
+"\t\ttabs."
+msgstr ""
+"\t\tThis\tis\tan\r\n"
+"\t\texample\tof\tsmart\r\n"
+"\t\ttabs."
+
+#: syntaxhighlighter.php:972
+msgid "Shortcode Parameters"
+msgstr "Параметри коротких кодів"
+
+#: syntaxhighlighter.php:974
+#, php-format
+msgid "These are the parameters you can pass to the shortcode and what they do. For the booleans (i.e. on/off), pass %1$s/%2$s or %3$s/%4$s."
+msgstr "Параметри, які Ви можете використати у коротких кодах, та їх призначення. Для логічних параметрів (як увімкнути/вимкнути), використовується %1$s/%2$s або %3$s/%4$s."
+
+#: syntaxhighlighter.php:977
+#, php-format
+msgid "%1$s or %2$s &#8212; The language syntax to highlight with. You can alternately just use that as the tag, such as <code>[php]code[/php]</code>. <a href=\"%3$s\">Click here</a> for a list of valid tags (under &quot;aliases&quot;)."
+msgstr "1%s або %2$s &#8212; Мова, синтаксис якої потрібно підсвічувати. Можете скористатись тегом, наприклад, <code>[php]code[/php]</code>. Для перегляду усіх варіантів <a href=\"%3$s\">натисніть тут</a>"
+
+#: syntaxhighlighter.php:978
+#, php-format
+msgid "%s &#8212; Toggle automatic URL linking."
+msgstr "%s &#8212; Дозволяє увімкнути чи вимкнути \"активність\" лінків (автоматичо робить лінки \"клікабельними\"). По замовчуванню - увімкнено."
+
+#: syntaxhighlighter.php:979
+#, php-format
+msgid "%s &#8212; Add an additional CSS class to the code box."
+msgstr "%s &#8212; Додати додатковий клас CSS  до блоку з кодом"
+
+#: syntaxhighlighter.php:980
+#, php-format
+msgid "%s &#8212; Toggle collapsing the code box by default, requiring a click to expand it. Good for large code posts."
+msgstr "%s &#8212; Дозволяє увімкнути чи вимкнути показ блоку у зверненому вигляді. Якщо увімкнете, блок буде прихованим."
+
+#: syntaxhighlighter.php:981
+#, php-format
+msgid "%s &#8212; An interger specifying what number the first line should be (for the line numbering)."
+msgstr "%s &#8212; Вкажіть число, починаючи з якого нумерувати рядки"
+
+#: syntaxhighlighter.php:982
+#, php-format
+msgid "%s &#8212; Toggle the left-side line numbering."
+msgstr "%s &#8212; Дозволяє увімкнути чи вимкнути нумерацію рядків."
+
+#: syntaxhighlighter.php:983
+#, php-format
+msgid "%s &#8212; A comma-sperated list of line numbers to highlight."
+msgstr "%s &#8212; Список номерів рядків через кому, які треба \"підсвітити\""
+
+#: syntaxhighlighter.php:984
+#, php-format
+msgid "%s &#8212; Toggle highlighting any extra HTML/XML. Good for when you're mixing HTML/XML with another language, such as having PHP inside an HTML web page. The above preview has it enabled for example. This only works with certain languages."
+msgstr "%s &#8212; Дозволяє увімкнути чи вимкнути підсвітку  HTML/XML коду. Наприклад корисно, коли Ви публікуєте змішаний код ( HTML/XML та PHP, чи інш.) Працює з обмеженою кількістю мов."
+
+#: syntaxhighlighter.php:985
+#, php-format
+msgid "%s &#8212; Toggle light mode which disables the gutter and toolbar all at once."
+msgstr "%s &#8212; Дозволяє увімкнути чи вимкнути полегшену версію блоку з кодом (без нумерації рядків та панелі інструментів)"
+
+#: syntaxhighlighter.php:986
+#, php-format
+msgid "%s &#8212; Controls line number padding. Valid values are <code>false</code> (no padding), <code>true</code> (automatic padding), or an integer (forced padding)."
+msgstr "%s &#8212; Контролює відступ в номерах рядків. Може приймати значення <code>false</code> (без відступів), <code>true</code> (з автоматичними відступами) або число (примусовий відступ на Х знаків)."
+
+#: syntaxhighlighter.php:987
+#, php-format
+msgid "%s &#8212; Toggle the toolbar containing the helpful buttons."
+msgstr "%s &#8212; Дозволяє увімкнути чи вимкнути панель інструментів з корисними кнопками"
+
+#: syntaxhighlighter.php:988
+#, php-format
+msgid "%s &#8212; Toggle line wrapping."
+msgstr "%s &#8212; Дозволяє увімкнути чи вимкнути перенесення слів в довгих рядках коду."
+
+#: syntaxhighlighter.php:991
+msgid "Some example shortcodes:"
+msgstr "декілька коротких кодів для прикладу"
+
+#: syntaxhighlighter.php:994
+#: syntaxhighlighter.php:995
+#: syntaxhighlighter.php:996
+#: syntaxhighlighter.php:997
+msgid "your code here"
+msgstr "ваш код тут"
+
+#. Plugin Name of an extension
+msgid "SyntaxHighlighter Evolved"
+msgstr "SyntaxHighlighter Evolved"
+
+#. Plugin URI of an extension
+msgid "http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/"
+msgstr "http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/"
+
+#. Description of an extension
+msgid "Easily post syntax-highlighted code to your site without having to modify the code at all. Uses Alex Gorbatchev's <a href=\"http://alexgorbatchev.com/wiki/SyntaxHighlighter\">SyntaxHighlighter</a> v2.0.320 and some code by <a href=\"http://wordpress.com/\">Andrew Ozz of Automattic</a>."
+msgstr "Легко підсвічує код на Вашому сайті за допомогою коротких кодів. Використовує <a href=\"http://alexgorbatchev.com/wiki/SyntaxHighlighter\">SyntaxHighlighter</a> v2.0.320 від Alex Gorbatchev та деякі доробки від <a href=\"http://wordpress.com/\">Andrew Ozz з Automattic</a>."
+
+#. Author of an extension
+msgid "Viper007Bond"
+msgstr "Viper007Bond"
+
+#. Author URI of an extension
+msgid "http://www.viper007bond.com/"
+msgstr "http://www.viper007bond.com/"
+
