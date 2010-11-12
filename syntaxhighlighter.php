@@ -5,7 +5,7 @@
 Plugin Name:  SyntaxHighlighter Evolved
 Plugin URI:   http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/
 Version:      3.0.0
-Description:  Easily post syntax-highlighted code to your site without having to modify the code at all. Uses Alex Gorbatchev's <a href="http://alexgorbatchev.com/wiki/SyntaxHighlighter">SyntaxHighlighter</a> v2.0.320 and some code by <a href="http://wordpress.com/">Andrew Ozz of Automattic</a>.
+Description:  Easily post syntax-highlighted code to your site without having to modify the code at all. Uses Alex Gorbatchev's <a href="http://alexgorbatchev.com/wiki/SyntaxHighlighter">SyntaxHighlighter</a> and some code by <a href="http://wordpress.com/">Andrew Ozz of Automattic</a>.
 Author:       Viper007Bond
 Author URI:   http://www.viper007bond.com/
 
