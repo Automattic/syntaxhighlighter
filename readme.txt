@@ -55,6 +55,15 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 
 == ChangeLog ==
 
+= Version 3.1.0 =
+
+* Allow choosing between v2.x and v3.x of the SyntaxHighlighting package. Some people prefer the old one and there's nothing wrong with it really.
+* Fix broken TinyMCE plugin URL.
+* Force LTR text in v3.x.
+* If global collapse default is on, force on the toolbar and force off light mode to avoid the code block from disappearing.
+* Make the demo on the settings page the width of the content area on the front end so it's a better example of what the code will look like.
+* Bring back v2.x specific settings like `linewrap`.
+
 = Version 3.0.0 =
 
 * Updated to SyntaxHighlighter v3.0.83. See [changes](http://alexgorbatchev.com/SyntaxHighlighter/whatsnew.html). Main highlight is the ability to directly copy the code or double-click it to highlight it all.
