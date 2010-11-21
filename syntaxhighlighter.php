@@ -109,7 +109,7 @@ class SyntaxHighlighter {
 
 		// Dynamically set folder and version names for SynaxHighlighter
 		$this->shfolder = ( 2 == $this->settings['shversion'] ) ? 'syntaxhighlighter2' : 'syntaxhighlighter3';
-		$this->agshver  = ( 2 == $this->settings['shversion'] ) ? '2.1.364' : '3.0.83';
+		$this->agshver  = ( 2 == $this->settings['shversion'] ) ? '2.1.364' : '3.0.83b';
 
 		// Register brush scripts
 		wp_register_script( 'syntaxhighlighter-core',             plugins_url('syntaxhighlighter/' . $this->shfolder . '/scripts/shCore.js'),            array(),                         $this->agshver );
