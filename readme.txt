@@ -55,6 +55,11 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 
 == ChangeLog ==
 
+= Version 3.1.1 =
+
+* Fix default title setting not working.
+* Force `<code>` to be inline. Fixes issues with themes that do `code { display: block; }`.
+
 = Version 3.1.0 =
 
 * Allow choosing between v2.x and v3.x of the SyntaxHighlighting package. Some people prefer the old one and there's nothing wrong with it really.
