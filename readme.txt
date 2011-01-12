@@ -59,6 +59,7 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 
 * Fix default title setting not working.
 * Force `<code>` to be inline. Fixes issues with themes that do `code { display: block; }`.
+* Added Japanese translation thanks to [Makoto](http://projects.makotokw.com/redmine/projects/wp-plugins/wiki/Translation).
 
 = Version 3.1.0 =
 
