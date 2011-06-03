@@ -55,6 +55,12 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 
 == ChangeLog ==
 
+= Version 3.1.2 =
+
+* Register some placeholder shortcodes so that `strip_shortcodes()` and such work properly. Previously the shortcodes were only registered during the brief moment that they were processed by one of this plugin's filters.
+* Add a `notranslate` CSS class to the `<pre>` output so that Google won't attempt to translate it. Props [Otto](http://ottopress.com/2011/google-translation-tip/).
+* Run the CSS classes aka SyntaxHighlighter script parameters through a filter.
+
 = Version 3.1.1 =
 
 * Fix default title setting not working.
