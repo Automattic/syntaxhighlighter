@@ -55,6 +55,11 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 
 == ChangeLog ==
 
+= Version 3.1.3 =
+
+* Hide vertical overflow so that a vertical scrollbar doesn't show up in Chrome. Props Caio Proiete. Bump SH script version to bust browser caches.
+* Allow the plugin's shortcodes to be escaped using double brackets like so: `[[code]Foobar[/code]]`. This is a core feature, but calling `do_shortcode()` on the content as it went into the database caused the extra brackets to be stripped.
+
 = Version 3.1.2 =
 
 * Register some placeholder shortcodes so that `strip_shortcodes()` and such work properly. Previously the shortcodes were only registered during the brief moment that they were processed by one of this plugin's filters.

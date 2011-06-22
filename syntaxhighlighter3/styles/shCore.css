@@ -58,6 +58,7 @@
   margin: 1em 0 1em 0 !important;
   position: relative !important;
   overflow: auto !important;
+  overflow-y: hidden !important;
   font-size: 1em !important;
 }
 .syntaxhighlighter code {
