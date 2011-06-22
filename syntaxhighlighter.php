@@ -383,13 +383,13 @@ class SyntaxHighlighter {
 
 	// The main filter for the post contents. The regular shortcode filter can't be used as it's post-wpautop().
 	function parse_shortcodes( $content ) {
-		return $this->shortcode_hack( $content, array( &$this, 'shortcode_callback') );
+		return $this->shortcode_hack( $content, array( &$this, 'shortcode_callback' ) );
 	}
 
 
 	// HTML entity encode the contents of shortcodes
 	function encode_shortcode_contents( $content ) {
-		return $this->shortcode_hack( $content, array( &$this, 'encode_shortcode_contents_callback') );
+		return $this->shortcode_hack( $content, array( &$this, 'encode_shortcode_contents_callback' ) );
 	}
 
 
@@ -419,7 +419,7 @@ class SyntaxHighlighter {
 
 	// HTML entity decode the contents of shortcodes
 	function decode_shortcode_contents( $content ) {
-		return $this->shortcode_hack( $content, array( &$this, 'decode_shortcode_contents_callback') );
+		return $this->shortcode_hack( $content, array( &$this, 'decode_shortcode_contents_callback' ) );
 	}
 
 
