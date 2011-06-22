@@ -11,7 +11,7 @@ Author URI:   http://www.viper007bond.com/
 
 **************************************************************************
 
-Thanks to:
+Thanks to: 
 
 * Alex Gorbatchev for writing the Javascript-powered synatax highlighter script
 
