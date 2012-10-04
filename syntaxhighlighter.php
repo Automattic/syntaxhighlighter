@@ -45,7 +45,7 @@ class SyntaxHighlighter {
 		// Display hooks
 		add_filter( 'the_content',                        array( &$this, 'parse_shortcodes' ),                              7 ); // Posts
 		add_filter( 'comment_text',                       array( &$this, 'parse_shortcodes_comment' ),                      7 ); // Comments
-		add_filter( 'bp_get_the_topic_post_content',      array( &$this, 'parse_shortcodes_comment' ),                      7 ); // BuddyPress
+		add_filter( 'bp_get_the_topic_post_content',      array( &$this, 'parse_shortcodes' ),                              7 ); // BuddyPress
 		add_filter( 'bbp_get_topic_content', array( &$this, 'parse_shortcodes' ), 											7 ); // bbPress Forums
     	add_filter( 'bbp_get_reply_content', array( &$this, 'parse_shortcodes' ), 											7 ); // bbPress Forums
 
@@ -56,7 +56,7 @@ class SyntaxHighlighter {
 		add_filter( 'group_forum_topic_text_before_save', array( &$this, 'encode_shortcode_contents_slashed' ),             1 ); // BuddyPress
 		add_filter( 'bbp_new_topic_pre_content', array( &$this, 'encode_shortcode_contents_slashed' ), 						1 ); // bbPress Forums
     	add_filter( 'bbp_new_reply_pre_content', array( &$this, 'encode_shortcode_contents_slashed' ), 						1 ); // bbPress Forums
-
+    
 
 		// Out of the database for editing
 		add_filter( 'the_editor_content',                 array( &$this, 'the_editor_content' ),                            1 ); // Posts
@@ -299,7 +299,7 @@ class SyntaxHighlighter {
 	// Add a "Settings" link to the plugins page
 	function settings_link( $links, $file ) {
 		static $this_plugin;
-
+		
 		if( empty($this_plugin) )
 			$this_plugin = plugin_basename(__FILE__);
 
