@@ -1,0 +1,12 @@
+SOFTWARE MODIFICATIONS
+======================
+
+Last update: 2012, october, the 14th
+
+This software has been modified by the Geek Class community.
+Website is http://geekclass.it
+Email is info@geekclass.it
+
+This modified software uses the same license of the original one.
+
+Modifications: see the git repository commits. 
