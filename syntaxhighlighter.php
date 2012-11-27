@@ -46,12 +46,22 @@ class SyntaxHighlighter {
 		add_filter( 'the_content',                        array( &$this, 'parse_shortcodes' ),                              7 ); // Posts
 		add_filter( 'comment_text',                       array( &$this, 'parse_shortcodes_comment' ),                      7 ); // Comments
 		add_filter( 'bp_get_the_topic_post_content',      array( &$this, 'parse_shortcodes' ),                              7 ); // BuddyPress
+		add_filter( 'bbp_get_topic_content',			  array( &$this, 'parse_shortcodes' ),                       		7 ); // bbPress
+		add_filter( 'bbp_get_reply_content',			  array( &$this, 'parse_shortcodes' ),                       		7 ); // bbPress
 
 		// Into the database
 		add_filter( 'content_save_pre',                   array( &$this, 'encode_shortcode_contents_slashed_noquickedit' ), 1 ); // Posts
 		add_filter( 'pre_comment_content',                array( &$this, 'encode_shortcode_contents_slashed' ),             1 ); // Comments
 		add_filter( 'group_forum_post_text_before_save',  array( &$this, 'encode_shortcode_contents_slashed' ),             1 ); // BuddyPress
 		add_filter( 'group_forum_topic_text_before_save', array( &$this, 'encode_shortcode_contents_slashed' ),             1 ); // BuddyPress
+		add_filter( 'bbp_new_topic_pre_content',		  array( &$this, 'encode_shortcode_contents_slashed' ),            	1 ); // bbPress
+		add_filter( 'bbp_new_reply_pre_content',		  array( &$this, 'encode_shortcode_contents_slashed' ),            	1 ); // bbPress
+		add_filter( 'bbp_edit_topic_pre_content',		  array( &$this, 'encode_shortcode_contents_slashed' ),           	1 ); // bbPress
+		add_filter( 'bbp_edit_reply_pre_content',		  array( &$this, 'encode_shortcode_contents_slashed' ),            	1 ); // bbPress
+
+		// Out of the database for decoded display
+		add_filter( 'bbp_get_topic_content',			  array( &$this, 'decode_shortcode_contents' ),						1); // bbPress 
+		add_filter( 'bbp_get_reply_content',			  array( &$this, 'decode_shortcode_contents' ), 					1); // bbPress
 
 		// Out of the database for editing
 		add_filter( 'the_editor_content',                 array( &$this, 'the_editor_content' ),                            1 ); // Posts
@@ -73,6 +83,10 @@ class SyntaxHighlighter {
 		add_filter( 'tiny_mce_version',                   array( &$this, 'break_tinymce_cache' ) );
 		add_filter( 'save_post',                          array( &$this, 'mark_as_encoded' ),                               10, 2 );
 		add_filter( 'plugin_action_links',                array( &$this, 'settings_link' ),                                 10, 2 );
+
+		// Load scortcodes script for bbPress if front-end tinymce editing is enabled
+		if ( function_exists('bbp_use_wp_editor') && bbp_use_wp_editor() )
+			add_action( 'bbp_head',						  array( &$this, 'output_shortcodes_for_tinymce' ) );	// bbPress
 
 		// Register widget hooks
 		// Requires change added in WordPress 2.9
