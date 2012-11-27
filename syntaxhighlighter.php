@@ -461,7 +461,8 @@ class SyntaxHighlighter {
 		// New code format (stored encoded in database)
 		if ( 2 == $this->get_code_format( $post ) ) {
 			// If TinyMCE is disabled or the HTML tab is set to be displayed first, we need to decode the HTML
-			if ( !user_can_richedit() || 'html' == wp_default_editor() )
+			// bbPress front-end editor tinymce html tab needs decoding ( when visual tab is displayed first ) 
+			if ( !user_can_richedit() || 'html' == wp_default_editor() || ( class_exists('bbPress') && !is_admin() ) )
 				$content = $this->decode_shortcode_contents( $content );
 		}
 
