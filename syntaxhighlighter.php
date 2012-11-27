@@ -69,6 +69,9 @@ class SyntaxHighlighter {
 		add_filter( 'bp_get_the_topic_text',              array( &$this, 'decode_shortcode_contents' ),                     1 ); // BuddyPress
 		add_filter( 'bp_get_the_topic_post_edit_text',    array( &$this, 'decode_shortcode_contents' ),                     1 ); // BuddyPress
 
+		// Exempt shortcodes from wp_texturize()
+		add_filter( 'no_texturize_shortcodes',			  array( &$this, 'no_texturize_shortcodes' ) ); //bbPress
+
 		// Outputting SyntaxHighlighter's JS and CSS
 		add_action( 'wp_head',                            array( &$this, 'output_header_placeholder' ),                     15 );
 		add_action( 'admin_head',                         array( &$this, 'output_header_placeholder' ),                     15 ); // For comments
@@ -86,7 +89,7 @@ class SyntaxHighlighter {
 
 		// Load scortcodes script for bbPress if front-end tinymce editing is enabled
 		if ( function_exists('bbp_use_wp_editor') && bbp_use_wp_editor() )
-			add_action( 'bbp_head',						  array( &$this, 'output_shortcodes_for_tinymce' ) );	// bbPress
+			add_action( 'bbp_head',						  array( &$this, 'output_shortcodes_for_tinymce' ) ); // bbPress
 
 		// Register widget hooks
 		// Requires change added in WordPress 2.9
@@ -336,6 +339,14 @@ class SyntaxHighlighter {
 	}
 
 
+	// A filter function that exempts shortcodes from wptexturize()
+	function no_texturize_shortcodes( $exempted_shortcodes = array() ) {
+		foreach ( $this->shortcodes as $shortcode )
+			$exempted_shortcodes[] = $shortcode;
+		return $exempted_shortcodes;
+	}
+	
+	
 	// A filter function that runs do_shortcode() but only with this plugin's shortcodes
 	function shortcode_hack( $content, $callback ) {
 		global $shortcode_tags;
