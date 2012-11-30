@@ -46,18 +46,32 @@ class SyntaxHighlighter {
 		add_filter( 'the_content',                        array( &$this, 'parse_shortcodes' ),                              7 ); // Posts
 		add_filter( 'comment_text',                       array( &$this, 'parse_shortcodes_comment' ),                      7 ); // Comments
 		add_filter( 'bp_get_the_topic_post_content',      array( &$this, 'parse_shortcodes' ),                              7 ); // BuddyPress
+		add_filter( 'bbp_get_topic_content',              array( &$this, 'parse_shortcodes' ),                              7 ); // bbPress
+		add_filter( 'bbp_get_reply_content',              array( &$this, 'parse_shortcodes' ),                              7 ); // bbPress
 
 		// Into the database
-		add_filter( 'content_save_pre',                   array( &$this, 'encode_shortcode_contents_slashed_noquickedit' ), 1 ); // Posts
+		add_filter( 'content_save_pre',                   array( &$this, 'encode_shortcode_contents_slashed_noquickedit' ),   1 ); // Posts
 		add_filter( 'pre_comment_content',                array( &$this, 'encode_shortcode_contents_slashed' ),             1 ); // Comments
 		add_filter( 'group_forum_post_text_before_save',  array( &$this, 'encode_shortcode_contents_slashed' ),             1 ); // BuddyPress
 		add_filter( 'group_forum_topic_text_before_save', array( &$this, 'encode_shortcode_contents_slashed' ),             1 ); // BuddyPress
+		add_filter( 'bbp_new_topic_pre_content',          array( &$this, 'encode_shortcode_contents_slashed_noquickedit' ), 1 ); // bbPress
+		add_filter( 'bbp_new_reply_pre_content',          array( &$this, 'encode_shortcode_contents_slashed_noquickedit' ), 1 ); // bbPress
+		add_filter( 'bbp_edit_topic_pre_content',         array( &$this, 'encode_shortcode_contents_slashed_noquickedit' ), 1 ); // bbPress
+		add_filter( 'bbp_edit_reply_pre_content',         array( &$this, 'encode_shortcode_contents_slashed_noquickedit' ), 1 ); // bbPress
+
+		// Out of the database for decoded display
+		add_filter( '_wp_post_revision_field_post_content', array( &$this, 'decode_shortcode_contents' ),                   1); // Revisions
+		add_filter( 'bbp_get_topic_content',                array( &$this, 'decode_shortcode_contents' ),                   1); // bbPress 
+		add_filter( 'bbp_get_reply_content',                array( &$this, 'decode_shortcode_contents' ),                   1); // bbPress
 
 		// Out of the database for editing
 		add_filter( 'the_editor_content',                 array( &$this, 'the_editor_content' ),                            1 ); // Posts
 		add_filter( 'comment_edit_pre',                   array( &$this, 'decode_shortcode_contents' ),                     1 ); // Comments
 		add_filter( 'bp_get_the_topic_text',              array( &$this, 'decode_shortcode_contents' ),                     1 ); // BuddyPress
 		add_filter( 'bp_get_the_topic_post_edit_text',    array( &$this, 'decode_shortcode_contents' ),                     1 ); // BuddyPress
+
+		// Exempt shortcodes from wp_texturize
+		add_filter( 'no_texturize_shortcodes',            array( &$this, 'no_texturize_shortcodes' ) );     // bbPress
 
 		// Outputting SyntaxHighlighter's JS and CSS
 		add_action( 'wp_head',                            array( &$this, 'output_header_placeholder' ),                     15 );
@@ -66,13 +80,18 @@ class SyntaxHighlighter {
 		add_action( 'admin_footer',                       array( &$this, 'maybe_output_scripts' ),                          15 ); // For comments
 
 		// Admin hooks
-		add_action( 'admin_init',                         array( &$this, 'register_setting' ) );
-		add_action( 'admin_menu',                         array( &$this, 'register_settings_page' ) );
-		add_action( 'admin_head',                         array( &$this, 'output_shortcodes_for_tinymce' ) );
-		add_filter( 'mce_external_plugins',               array( &$this, 'add_tinymce_plugin' ) );
-		add_filter( 'tiny_mce_version',                   array( &$this, 'break_tinymce_cache' ) );
-		add_filter( 'save_post',                          array( &$this, 'mark_as_encoded' ),                               10, 2 );
-		add_filter( 'plugin_action_links',                array( &$this, 'settings_link' ),                                 10, 2 );
+		add_action( 'admin_init',							array( &$this, 'register_setting' ) );
+		add_action( 'admin_menu',							array( &$this, 'register_settings_page' ) );
+		add_action( 'admin_head',							array( &$this, 'output_shortcodes_for_tinymce' ) );
+		add_filter( 'bbp_after_get_the_content_parse_args',	array( &$this, 'force_bbp_tiny_editor' ) );      // bbPress
+		add_filter( 'tiny_mce_before_init', 				array( &$this,	'tinymce_before_init') );        // bbPress	
+		add_filter( 'mce_external_plugins',					array( &$this, 'add_tinymce_plugin' ) );
+		add_filter( 'save_post',							array( &$this, 'mark_as_encoded' ),                               10, 2 );
+		add_filter( 'plugin_action_links',					array( &$this, 'settings_link' ),                                 10, 2 );
+
+		// Load scortcodes script for bbPress if front-end tinymce editing is enabled
+		if ( function_exists('bbp_use_wp_editor') && bbp_use_wp_editor() )
+			add_action( 'bbp_head',                       array( &$this, 'output_shortcodes_for_tinymce' ) );// bbPress
 
 		// Register widget hooks
 		// Requires change added in WordPress 2.9
@@ -282,10 +301,36 @@ class SyntaxHighlighter {
 		return $plugins;
 	}
 
-
-	// Break the TinyMCE cache
-	function break_tinymce_cache( $version ) {
-		return $version . '-sh' . $this->pluginver;
+	// Filter tinymce so that it does not reformat the preformatted code so badly
+	function tinymce_before_init( $args) {
+		$elements = array(	
+			'blockquote',
+			'center',
+			'dir',
+			'div',
+			'dl',
+			'fieldset',
+			'form',
+			'h1','h2','h3','h4','h5','h6',
+			'hr',
+			'isindex',
+			'noframes',
+			'noscript',
+			'ol',
+			'p',
+			'table',
+			'ul',
+		);
+				
+		$children = "+pre['address']";
+		
+		foreach ($elements as $element)
+			$children .= ",+pre[$element]";
+		
+		$args['valid_children'] = $children;
+		$args['paste_strip_class_attributes'] = 'none';
+		
+		return $args;
 	}
 
 
@@ -300,6 +345,13 @@ class SyntaxHighlighter {
 			$links[] = '<a href="' . admin_url( 'options-general.php?page=syntaxhighlighter' ) . '">' . __( 'Settings', 'syntaxhighlighter' ) . '</a>';
 
 		return $links;
+	}
+
+
+	// Force bbPress to use tiny not teeny mce so that our mceplugin will load
+	function force_bbp_tiny_editor( $args = array() ) {
+    	$args['teeny'] = false;
+    	return $args;
 	}
 
 
@@ -322,6 +374,14 @@ class SyntaxHighlighter {
 	}
 
 
+	// A filter function that exempts shortcodes from wptexturize()
+	function no_texturize_shortcodes( $exempted_shortcodes = array() ) {
+		foreach ( $this->shortcodes as $shortcode )
+			$exempted_shortcodes[] = $shortcode;
+		return $exempted_shortcodes;
+	}
+	
+	
 	// A filter function that runs do_shortcode() but only with this plugin's shortcodes
 	function shortcode_hack( $content, $callback ) {
 		global $shortcode_tags;
@@ -401,7 +461,8 @@ class SyntaxHighlighter {
 
 	// HTML entity encode the contents of shortcodes. Expects slashed content. Aborts if AJAX.
 	function encode_shortcode_contents_slashed_noquickedit( $content ) {
-
+	  // Cases which do not need encoding
+		
 		// In certain weird circumstances, the content gets run through "content_save_pre" twice
 		// Keep track and don't allow this filter to be run twice
 		// I couldn't easily figure out why this happens and didn't bother looking into it further as this works fine
@@ -409,10 +470,28 @@ class SyntaxHighlighter {
 			return $content;
 		$this->content_save_pre_ran = true;
 
-		// Post quick edits aren't decoded for display, so we don't need to encode them (again)
-		if ( !empty($_POST) && !empty($_POST['action']) && 'inline-save' == $_POST['action'] )
+		// Post quick edits (wp-admin)
+		if ( !empty( $_POST ) && !empty( $_POST['action'] ) && 'inline-save' == $_POST['action'] )
 			return $content;
+		
+		// bbPress (front-end) admin links for topic split or merge
+		if (  !empty( $_POST ) && !empty( $_POST['action'] ) &&  ( 'bbp-split-topic' == $_POST['action'] || 'bbp-merge-topic' == $_POST['action'] ) ) 
+			return  $content;
+	
+		// bbPress (front-end) admin links for trash
+		if (  !empty( $_GET ) && !empty( $_GET['action'] ) && ( 'bbp_toggle_topic_trash' == $_GET['action'] || 'bbp_toggle_reply_trash' == $_GET['action'] ) )
+			return  $content;
+		
+		// bbPress admin links (front-end) and quick links (wp-admin) for spam
+		if ( !empty( $_GET ) && !empty( $_GET['action'] ) && ( 'bbp_toggle_topic_spam' == $_GET['action'] ||  'bbp_toggle_reply_spam' == $_GET['action'] ) )
+			return  $content;
+		
+	  // Cases which need decoding
 
+		// Trashed posts (wp-admin) need to be decoded on undo and restore (untrashing) 
+		if (  !empty( $_GET ) && !empty( $_GET['action'] ) && 'untrash' == $_GET['action'] )
+			return $this->decode_shortcode_contents( $content );
+			
 		return $this->encode_shortcode_contents_slashed( $content );
 	}
 
@@ -447,7 +526,8 @@ class SyntaxHighlighter {
 		// New code format (stored encoded in database)
 		if ( 2 == $this->get_code_format( $post ) ) {
 			// If TinyMCE is disabled or the HTML tab is set to be displayed first, we need to decode the HTML
-			if ( !user_can_richedit() || 'html' == wp_default_editor() )
+			// bbPress front-end editor tinymce html tab needs decoding ( when visual tab is displayed first ) 
+			if ( !user_can_richedit() || 'html' == wp_default_editor() || ( class_exists('bbPress') && !is_admin() ) )
 				$content = $this->decode_shortcode_contents( $content );
 		}
 
