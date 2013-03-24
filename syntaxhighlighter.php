@@ -46,6 +46,7 @@ class SyntaxHighlighter {
 		add_filter( 'the_content',                        array( &$this, 'parse_shortcodes' ),                              7 ); // Posts
 		add_filter( 'comment_text',                       array( &$this, 'parse_shortcodes_comment' ),                      7 ); // Comments
 		add_filter( 'bp_get_the_topic_post_content',      array( &$this, 'parse_shortcodes' ),                              7 ); // BuddyPress
+		add_filter( 'bbp_get_reply_content',              array( &$this, 'parse_shortcodes' ),                              7 ); // BuddyPress
 
 		// Into the database
 		add_filter( 'content_save_pre',                   array( &$this, 'encode_shortcode_contents_slashed_noquickedit' ), 1 ); // Posts
@@ -292,7 +293,7 @@ class SyntaxHighlighter {
 	// Add a "Settings" link to the plugins page
 	function settings_link( $links, $file ) {
 		static $this_plugin;
-		
+
 		if( empty($this_plugin) )
 			$this_plugin = plugin_basename(__FILE__);
 
