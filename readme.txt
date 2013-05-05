@@ -55,6 +55,10 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 
 == ChangeLog ==
 
+= Version 3.1.7 =
+
+* XHTML validation fix by adding `type` attribute to `<style>` tag. Props [NoMad1337](http://www.tacticalcode.de/).
+
 = Version 3.1.6 =
 
 * Kill off v2 copy-to-clipboard SWF file due to XSS security issue with the file. If you want to be able to copy/paste, use the better v3.

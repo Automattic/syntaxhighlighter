@@ -561,7 +561,7 @@ class SyntaxHighlighter {
 	// Output an anchor in the header for the Javascript to use.
 	// In the <head>, we don't know if we'll need this plugin's CSS and JavaScript yet but we will in the footer.
 	function output_header_placeholder() {
-		echo '<style id="syntaxhighlighteranchor"></style>' . "\n";
+		echo '<style type="text/css" id="syntaxhighlighteranchor"></style>' . "\n";
 	}
 
 
