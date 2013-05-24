@@ -318,10 +318,12 @@ class SyntaxHighlighter {
 		echo "</script>\n";
 	}
 
-	// A filter function that exempts shortcodes from wptexturize()
+	// Adds this plugin's shortcodes to the list of shortcodes that wptexturize() shouldn't modify
 	function no_texturize_shortcodes( $exempted_shortcodes = array() ) {
-		foreach ( $this->shortcodes as $shortcode )
+		foreach ( $this->shortcodes as $shortcode ) {
 			$exempted_shortcodes[] = $shortcode;
+		}
+
 		return $exempted_shortcodes;
 	}
 
