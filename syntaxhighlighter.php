@@ -47,6 +47,9 @@ class SyntaxHighlighter {
 		add_filter( 'comment_text',                       array( $this, 'parse_shortcodes_comment' ),                      7 ); // Comments
 		add_filter( 'bp_get_the_topic_post_content',      array( $this, 'parse_shortcodes' ),                              7 ); // BuddyPress
 
+		// Exempt shortcodes from wptexturize()
+		add_filter( 'no_texturize_shortcodes',            array( $this, 'no_texturize_shortcodes' ) );
+	
 		// Into the database
 		add_filter( 'content_save_pre',                   array( $this, 'encode_shortcode_contents_slashed_noquickedit' ), 1 ); // Posts
 		add_filter( 'pre_comment_content',                array( $this, 'encode_shortcode_contents_slashed' ),             1 ); // Comments
@@ -315,6 +318,12 @@ class SyntaxHighlighter {
 		echo "</script>\n";
 	}
 
+	// A filter function that exempts shortcodes from wptexturize()
+	function no_texturize_shortcodes( $exempted_shortcodes = array() ) {
+		foreach ( $this->shortcodes as $shortcode )
+			$exempted_shortcodes[] = $shortcode;
+		return $exempted_shortcodes;
+	}
 
 	// A filter function that runs do_shortcode() but only with this plugin's shortcodes
 	function shortcode_hack( $content, $callback ) {
