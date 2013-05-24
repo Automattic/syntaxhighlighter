@@ -47,7 +47,7 @@ class SyntaxHighlighter {
 		add_filter( 'comment_text',                       array( $this, 'parse_shortcodes_comment' ),                      7 ); // Comments
 		add_filter( 'bp_get_the_topic_post_content',      array( $this, 'parse_shortcodes' ),                              7 ); // BuddyPress
 
-		// Exempt shortcodes from wp_texturize()
+		// Exempt shortcodes from wptexturize()
 		add_filter( 'no_texturize_shortcodes',            array( $this, 'no_texturize_shortcodes' ) );
 	
 		// Into the database
