@@ -76,6 +76,7 @@ class SyntaxHighlighter {
 		add_filter( 'tiny_mce_version',                   array( $this, 'break_tinymce_cache' ) );
 		add_filter( 'save_post',                          array( $this, 'mark_as_encoded' ),                               10, 2 );
 		add_filter( 'plugin_action_links',                array( $this, 'settings_link' ),                                 10, 2 );
+		add_filter( 'mce_css',                            array( $this, 'editor_style' ) );
 
 		// Register widget hooks
 		// Requires change added in WordPress 2.9
@@ -305,6 +306,14 @@ class SyntaxHighlighter {
 		return $links;
 	}
 
+	function editor_style( $mce_css ) {
+		if ( ! empty( $mce_css ) )
+			$mce_css .= ',';
+	
+		$mce_css .= plugins_url( 'syntaxhighlighter/styles/syntaxhighlighter-editor-style.css' );
+	
+		return $mce_css;
+	}
 
 	// Output list of shortcode tags for the TinyMCE plugin
 	function output_shortcodes_for_tinymce() {
