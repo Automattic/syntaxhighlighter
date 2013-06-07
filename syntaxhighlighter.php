@@ -72,6 +72,7 @@ class SyntaxHighlighter {
 		add_action( 'admin_init',                         array( $this, 'register_setting' ) );
 		add_action( 'admin_menu',                         array( $this, 'register_settings_page' ) );
 		add_action( 'admin_head',                         array( $this, 'output_shortcodes_for_tinymce' ) );
+		add_filter( 'tiny_mce_before_init',               array( $this, 'tinymce_before_init') );
 		add_filter( 'mce_external_plugins',               array( $this, 'add_tinymce_plugin' ) );
 		add_filter( 'tiny_mce_version',                   array( $this, 'break_tinymce_cache' ) );
 		add_filter( 'save_post',                          array( $this, 'mark_as_encoded' ),                               10, 2 );
@@ -278,6 +279,76 @@ class SyntaxHighlighter {
 		register_setting( 'syntaxhighlighter_settings', 'syntaxhighlighter_settings', array( $this, 'validate_settings' ) );
 	}
 
+	// Filter tiny mce's valid children so it does not clean up the <pre> tags that contain unescaped block-level elements
+	function tinymce_before_init( $args ) {
+		// Create a list of tags to be allowed as children of <pre>
+		$elements = array(	
+			'address',
+			'article',
+			'aside',
+			'audio',
+			'blockquote',
+			'body',
+			'br',
+			'button',
+			'canvas',
+			'center',
+			'col',
+			'colgroup',
+			'dd',
+			'dir',
+			'div',
+			'dl',
+			'dt',
+			'embed',
+			'fieldset',
+			'figcaption',
+			'figure',
+			'footer',
+			'form',
+			'h1','h2','h3','h4','h5','h6',
+			'header',
+			'hgroup',
+			'hr',
+			'isindex',
+			'map',
+			'noframes',
+			'noscript',
+			'object',
+			'ol',
+			'output',
+			'p',
+			'progress',
+			'section',
+			'table',
+			'tfoot',
+			'tbody',
+			'textarea',
+			'th',
+			'thead',
+			'tr',
+			'ul',
+			'video'
+		);
+
+		$children = '';
+		
+		foreach ( $elements as $element ) {
+			$children .= '+pre[' . $element . '],';
+		}
+		
+		// Remove the trailing comma
+		$children = substr( $children, 0, -1 );
+
+		// Add to but don't overwrite exitsting valid_children
+		if ( isset( $args['valid_children'] ) && ! empty( $args['valid_children'] ) ) {
+			$args['valid_children'] .= ',' . $children;
+		} else {
+			$args['valid_children'] = $children;
+		}
+		
+		return $args;
+	}
 
 	// Add the custom TinyMCE plugin which wraps plugin shortcodes in <pre> in TinyMCE
 	function add_tinymce_plugin( $plugins ) {
