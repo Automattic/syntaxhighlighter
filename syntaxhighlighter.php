@@ -430,6 +430,18 @@ class SyntaxHighlighter {
 		if ( ! empty( $_POST ) && !empty( $_POST['action'] ) && 'inline-save' == $_POST['action'] )
 			return $content;
 
+		// bbPress (front-end) admin links for topic split or merge and reply move
+		if (  !empty( $_POST ) && !empty( $_POST['action'] ) &&  ( 'bbp-move-reply' == $_POST['action'] || 'bbp-split-topic' == $_POST['action'] || 'bbp-merge-topic' == $_POST['action'] ) ) 
+			return  $content;
+	
+		// bbPress (front-end) admin links for trash
+		if (  !empty( $_GET ) && !empty( $_GET['action'] ) && ( 'bbp_toggle_topic_trash' == $_GET['action'] || 'bbp_toggle_reply_trash' == $_GET['action'] ) )
+			return  $content;
+		
+		// bbPress admin links (front-end) and quick links (wp-admin) for spam
+		if ( !empty( $_GET ) && !empty( $_GET['action'] ) && ( 'bbp_toggle_topic_spam' == $_GET['action'] ||  'bbp_toggle_reply_spam' == $_GET['action'] ) )
+			return  $content;
+		
 		return $this->encode_shortcode_contents_slashed( $content );
 	}
 
