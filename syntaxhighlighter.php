@@ -418,6 +418,10 @@ class SyntaxHighlighter {
 		if ( ! empty( $_POST ) && !empty( $_POST['action'] ) && 'inline-save' == $_POST['action'] )
 			return $content;
 
+		// Trashed and untrashed posts (wp-admin) aren't decoded for display, so we don't need to encode them (again) either
+		if (  !empty( $_GET ) && !empty( $_GET['action'] ) && ( 'trash' == $_GET['action'] || 'untrash' == $_GET['action'] ) )
+			return $content;
+		
 		return $this->encode_shortcode_contents_slashed( $content );
 	}
 
