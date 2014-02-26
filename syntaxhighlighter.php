@@ -223,7 +223,7 @@ class SyntaxHighlighter {
 
 
 			// This is an all-in-one loader for SyntaxHighlighter
-			wp_register_script( 'syntaxhighlighter-autoloader', plugins_url( 'sh3-loader.js', __FILE__ ), $this->pluginver );
+			wp_register_script( 'syntaxhighlighter-autoloader', plugins_url( 'sh3-loader.js', __FILE__ ), array(), $this->pluginver );
 
 			// Pass some dynamic values to the above JavaScript file
 			wp_localize_script( 'syntaxhighlighter-autoloader', 'SyntaxHighlighterEvolved', array(
