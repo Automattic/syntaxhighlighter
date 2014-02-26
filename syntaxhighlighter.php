@@ -44,8 +44,10 @@ class SyntaxHighlighter {
 	function __construct() {
 		global $wp_version;
 
-		if ( ! version_compare( $wp_version, '3.3', '>=' ) )
+		// Requires WordPress 3.3+
+		if ( ! version_compare( $wp_version, '3.3', '>=' ) ) {
 			return;
+		}
 
 		// Load localization domain
 		load_plugin_textdomain( 'syntaxhighlighter', false, dirname( plugin_basename( __FILE__ ) ) . '/localization/' );
