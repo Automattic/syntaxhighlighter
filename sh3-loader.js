@@ -89,30 +89,35 @@ for ( var i = 0; i < SyntaxHighlighterEvolved.brushes.third_party.length; i++ ) 
  */
 SyntaxHighlighter.autoloader.apply( null, SyntaxHighlighterEvolved.brushes.core.concat( SyntaxHighlighterEvolved.brushes.third_party ) );
 
-// Injects stylesheets into the <head>
+// Inject stylesheets into the <head>
 (function(){
-	var corecss = document.createElement( 'link' );
-	var themecss = document.createElement( 'link' );
-	var corecssurl = SyntaxHighlighterEvolved.plugin_url + '/syntaxhighlighter3/styles/shCore.css?ver=' + SyntaxHighlighterEvolved.sh_version;
-	if ( corecss.setAttribute ) {
-		corecss.setAttribute( 'rel', 'stylesheet' );
-		corecss.setAttribute( 'type', 'text/css' );
-		corecss.setAttribute( 'href', corecssurl );
-	} else {
-		corecss.rel = 'stylesheet';
-		corecss.href = corecssurl;
+	var anchor = document.getElementById( 'syntaxhighlighteranchor' );
+	var anchorParent = anchor.parentNode;
+
+	if ( SyntaxHighlighterEvolved.core_theme_url ) {
+		var corecss = document.createElement( 'link' );
+		if ( corecss.setAttribute ) {
+			corecss.setAttribute( 'rel', 'stylesheet' );
+			corecss.setAttribute( 'type', 'text/css' );
+			corecss.setAttribute( 'href', SyntaxHighlighterEvolved.core_theme_url );
+		} else {
+			corecss.rel = 'stylesheet';
+			corecss.href = SyntaxHighlighterEvolved.core_theme_url;
+		}
+		anchorParent.insertBefore( corecss, anchor );
 	}
-	document.getElementsByTagName( 'head' )[0].insertBefore( corecss, document.getElementById( 'syntaxhighlighteranchor' ) );
-	if ( themecss.setAttribute ) {
-		themecss.setAttribute( 'rel', 'stylesheet' );
-		themecss.setAttribute( 'type', 'text/css' );
-		themecss.setAttribute( 'href', SyntaxHighlighterEvolved.theme_url );
-	} else {
-		themecss.rel = 'stylesheet';
-		themecss.href = SyntaxHighlighterEvolved.theme_url;
+	if ( SyntaxHighlighterEvolved.user_theme_url ) {
+		var themecss = document.createElement( 'link' );
+		if ( themecss.setAttribute ) {
+			themecss.setAttribute( 'rel', 'stylesheet' );
+			themecss.setAttribute( 'type', 'text/css' );
+			themecss.setAttribute( 'href', SyntaxHighlighterEvolved.user_theme_url );
+		} else {
+			themecss.rel = 'stylesheet';
+			themecss.href = SyntaxHighlighterEvolved.user_theme_url;
+		}
+		anchorParent.insertBefore( themecss, anchor );
 	}
-	//document.getElementById('syntaxhighlighteranchor').appendChild( themecss );
-	document.getElementsByTagName( 'head' )[0].insertBefore( themecss, document.getElementById( 'syntaxhighlighteranchor' ) );
 })();
 
 // Set some defaults, from the settings page

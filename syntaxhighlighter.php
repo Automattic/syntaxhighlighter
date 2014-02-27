@@ -254,9 +254,10 @@ class SyntaxHighlighter {
 
 
 
+			$this->set_theme_urls();
 
 			// This is an all-in-one loader for SyntaxHighlighter
-			wp_register_script( 'syntaxhighlighter-autoloader', plugins_url( 'sh3-loader.js', __FILE__ ), array(), $this->pluginver );
+			wp_register_script( 'syntaxhighlighter-autoloader', plugins_url( 'sh3-loader.js', __FILE__ ), array(), $this->pluginver, true );
 
 			// Pass some dynamic values to the above JavaScript file
 			wp_localize_script( 'syntaxhighlighter-autoloader', 'SyntaxHighlighterEvolved', array(
@@ -366,77 +367,29 @@ class SyntaxHighlighter {
 		) );
 	}
 
-
-/*
-public function set_theme_urls() {
+	public function set_theme_urls() {
 		global $wp_styles;
 
-		// Is the base stylesheet needed?
-		if ( 'none' != $this->settings['theme'] ) {
-
-			// Is the user's selected theme in the theme list?
-			$theme = ( ! empty( $this->themes[ $this->settings['theme'] ] ) ) ? strtolower( $this->settings['theme'] ) : $this->defaultsettings['theme'];
-
-			// Is it registered with WordPress too?
-			$theme = 'syntaxhighlighter-theme-' . $theme;
-
-			if ( ! empty( $wp_styles ) && ! empty( $wp_styles->registered ) && ! empty( $wp_styles->registered[ $theme ] ) && ! empty( $wp_styles->registered[ $theme ]->src ) ) {
-				$this->$user_theme_url
-			}
-		}
-
-
-
-
-
-		$needcore = false;
 		if ( 'none' == $this->settings['theme'] ) {
-			$needcore = true;
-		} else {
-			$theme = ( !empty($this->themes[$this->settings['theme']]) ) ? strtolower($this->settings['theme']) : $this->defaultsettings['theme'];
-			$theme = 'syntaxhighlighter-theme-' . $theme;
-
-			// See if the requested theme has been registered
-			if ( !empty($wp_styles) && !empty($wp_styles->registered) && !empty($wp_styles->registered[$theme]) && !empty($wp_styles->registered[$theme]->src) ) {
-
-				// Users can register their own stylesheet and may opt to not load the core stylesheet if they wish for some reason
-				if ( is_array($wp_styles->registered[$theme]->deps) && in_array( 'syntaxhighlighter-core', $wp_styles->registered[$theme]->deps ) )
-					$needcore = true;
-			}
-
-			// Otherwise use the default theme
-			else {
-				$theme = 'syntaxhighlighter-theme-' . $this->defaultsettings['theme'];
-				$needcore = true;
-			}
+			return;
 		}
 
+		$theme = ( ! empty( $this->themes[ $this->settings['theme'] ] ) ) ? strtolower( $this->settings['theme'] ) : $this->defaultsettings['theme'];
 
-		if ( $needcore && !empty($wp_styles) && !empty($wp_styles->registered) && !empty($wp_styles->registered['syntaxhighlighter-core']) && !empty($wp_styles->registered['syntaxhighlighter-core']->src) ) :
+		// Is it registered with WordPress?
+		$theme = 'syntaxhighlighter-theme-' . $theme;
+		if ( ! empty( $wp_styles ) && ! empty( $wp_styles->registered ) && ! empty( $wp_styles->registered[ $theme ] ) && ! empty( $wp_styles->registered[ $theme ]->src ) ) {
+			$this->user_theme_url = add_query_arg( 'ver', $this->agshver, $wp_styles->registered[ $theme ]->src );
 
-			/*
-			if ( $needcore && !empty($wp_styles) && !empty($wp_styles->registered) && !empty($wp_styles->registered['syntaxhighlighter-core']) && !empty($wp_styles->registered['syntaxhighlighter-core']->src) ) :
-				$corecssurl = add_query_arg( 'ver', $this->agshver, $wp_styles->registered['syntaxhighlighter-core']->src );
-				$corecssurl = apply_filters( 'syntaxhighlighter_csscoreurl', $corecssurl );
-				?>
-				var corecssurl = "<?php echo esc_js( $corecssurl ); ?>";
-				if ( corecss.setAttribute ) {
-				corecss.setAttribute( "rel", "stylesheet" );
-				corecss.setAttribute( "type", "text/css" );
-				corecss.setAttribute( "href", corecssurl );
-				} else {
-				corecss.rel = "stylesheet";
-				corecss.href = corecssurl;
+			// Does the user's theme require the core CSS?
+			if ( is_array( $wp_styles->registered[ $theme ]->deps ) && in_array( 'syntaxhighlighter-core', $wp_styles->registered[ $theme ]->deps ) ) {
+
+				if ( ! empty( $wp_styles ) && ! empty( $wp_styles->registered ) && ! empty( $wp_styles->registered['syntaxhighlighter-core'] ) && ! empty( $wp_styles->registered['syntaxhighlighter-core']->src ) ) {
+					$this->core_theme_url = add_query_arg( 'ver', $this->agshver, $wp_styles->registered['syntaxhighlighter-core']->src );
 				}
-				document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
-			<?php
-			endif; // Endif $needcore
-
-		if ( 'none' != $this->settings['theme'] ) :
-			var themecssurl = "<?php echo esc_js( apply_filters( 'syntaxhighlighter_cssthemeurl', add_query_arg( 'ver', $this->agshver, $wp_styles->registered[$theme]->src ) ) ); ?>";
-			* /
+			}
+		}
 	}
-*/
 
 
 	// Register the settings page
