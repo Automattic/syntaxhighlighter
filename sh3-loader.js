@@ -84,10 +84,16 @@ for ( var i = 0; i < SyntaxHighlighterEvolved.brushes.third_party.length; i++ ) 
 	SyntaxHighlighterEvolved.brushes.third_party[i].push( SyntaxHighlighterEvolved.plugin_url + '/third-party-brushes/' + SyntaxHighlighterEvolved.brushes.third_party[i].pop() );
 }
 
+SyntaxHighlighterEvolved.allbrushes = SyntaxHighlighterEvolved.brushes.core.concat( SyntaxHighlighterEvolved.brushes.third_party );
+
+if ( SyntaxHighlighterEvolved.additional_brushes.length ) {
+	SyntaxHighlighterEvolved.allbrushes = SyntaxHighlighterEvolved.allbrushes.concat( SyntaxHighlighterEvolved.additional_brushes );
+}
+
 /**
  * Initiate SyntaxHighlighter
  */
-SyntaxHighlighter.autoloader.apply( null, SyntaxHighlighterEvolved.brushes.core.concat( SyntaxHighlighterEvolved.brushes.third_party ) );
+SyntaxHighlighter.autoloader.apply( null, SyntaxHighlighterEvolved.allbrushes );
 
 // Inject stylesheets into the <head>
 (function(){

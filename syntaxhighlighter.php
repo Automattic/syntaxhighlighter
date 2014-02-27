@@ -365,23 +365,52 @@ class SyntaxHighlighter {
 			}
 
 
-			$this->set_theme_urls();
-
 			// This is an all-in-one loader for SyntaxHighlighter
 			wp_register_script( 'syntaxhighlighter-autoloader', plugins_url( 'sh3-loader.js', __FILE__ ), array(), $this->pluginver, true );
 
+
+			// Are there any brushes added by other plugins that we need to tell the autoloader about?
+			$autoloader_extra_brushes = array();
+			if ( $this->brushes !== $this->plugin_brushes ) {
+				$extra_aliases = array_diff_assoc( $this->brushes, $this->plugin_brushes );
+
+				// First we need to get it into "brush" => array( "alias1", "alias2" )
+				$extra_brushes = array();
+				foreach ( $extra_aliases as $alias => $brush ) {
+					$extra_brushes[ $brush ][] = $alias;
+				}
+
+				// Then we need to transform it to the format that the autoloader wants, and grab the brush script  URL
+				foreach ( $extra_brushes as $brush => $aliases ) {
+					$brush_script_url = $this->get_script_url( 'syntaxhighlighter-brush-' . $brush );
+
+					if ( $brush_script_url ) {
+						$autoloader_extra_brushes[] = array_merge( $aliases, array( $brush_script_url ) );
+					}
+				}
+			}
+
+			$this->set_theme_urls();
+
 			// Pass some dynamic values to the above JavaScript file
-			wp_localize_script( 'syntaxhighlighter-autoloader', 'SyntaxHighlighterEvolved', array(
-				'sh_version'     => $this->agshver,
-				'plugin_url'     => plugins_url( '', __FILE__ ),
-				'core_theme_url' => $this->core_theme_url,
-				'user_theme_url' => $this->user_theme_url,
-				'strings'        => $strings,
-				'defaults'       => $defaults,
-			) );
+			wp_localize_script(
+				'syntaxhighlighter-autoloader',
+				'SyntaxHighlighterEvolved',
+				array(
+					'sh_version'         => $this->agshver,
+					'plugin_url'         => plugins_url( '', __FILE__ ),
+					'core_theme_url'     => $this->core_theme_url,
+					'user_theme_url'     => $this->user_theme_url,
+					'strings'            => $strings,
+					'defaults'           => $defaults,
+					'additional_brushes' => $autoloader_extra_brushes,
+				)
+			);
 		}
 	}
 
+
+	// Figure out the URLs are to the themes and store them in class variables
 	public function set_theme_urls() {
 		global $wp_styles;
 
@@ -404,6 +433,18 @@ class SyntaxHighlighter {
 				}
 			}
 		}
+	}
+
+
+	// Given a script slug, return the script's URL
+	public function get_script_url( $script ) {
+		global $wp_scripts;
+
+		if ( ! empty( $wp_scripts ) && ! empty( $wp_scripts->registered ) && ! empty( $wp_scripts->registered[ $script ] ) && ! empty( $wp_scripts->registered[ $script ]->src ) ) {
+			return $wp_scripts->registered[ $script ]->src;
+		}
+
+		return false;
 	}
 
 
@@ -1402,7 +1443,7 @@ class SyntaxHighlighter {
 
 
 // Start this plugin once all other plugins are fully loaded
-add_action( 'init', 'SyntaxHighlighter', 5 );
+add_action( 'init', 'SyntaxHighlighter', 15 );
 function SyntaxHighlighter() {
 	global $SyntaxHighlighter;
 	$SyntaxHighlighter = new SyntaxHighlighter();
