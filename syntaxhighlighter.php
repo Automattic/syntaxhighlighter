@@ -440,19 +440,19 @@ public function set_theme_urls() {
 
 
 	// Register the settings page
-	function register_settings_page() {
+	public function register_settings_page() {
 		add_options_page( __( 'SyntaxHighlighter Settings', 'syntaxhighlighter' ), __( 'SyntaxHighlighter', 'syntaxhighlighter' ), 'manage_options', 'syntaxhighlighter', array( $this, 'settings_page' ) );
 	}
 
 
 	// Register the plugin's setting
-	function register_setting() {
+	public function register_setting() {
 		register_setting( 'syntaxhighlighter_settings', 'syntaxhighlighter_settings', array( $this, 'validate_settings' ) );
 	}
 
 
 	// Add the custom TinyMCE plugin which wraps plugin shortcodes in <pre> in TinyMCE
-	function add_tinymce_plugin( $plugins ) {
+	public function add_tinymce_plugin( $plugins ) {
 		global $tinymce_version;
 
 		// Pass an array of this plugin's shortcodes to the TinyMCE plugin
@@ -470,7 +470,7 @@ public function set_theme_urls() {
 
 
 	// Add a "Settings" link to the plugins page
-	function settings_link( $links, $file ) {
+	public function settings_link( $links, $file ) {
 		static $this_plugin;
 
 		if( empty($this_plugin) )
@@ -484,7 +484,7 @@ public function set_theme_urls() {
 
 
 	// Output list of shortcode tags for the TinyMCE plugin
-	function output_shortcodes_for_tinymce() {
+	public function output_shortcodes_for_tinymce() {
 		$shortcodes = array();
 
 		foreach ( $this->shortcodes as $shortcode )
@@ -497,7 +497,7 @@ public function set_theme_urls() {
 
 
 	// Adds this plugin's shortcodes to the list of shortcodes that wptexturize() shouldn't modify
-	function no_texturize_shortcodes( $exempted_shortcodes = array() ) {
+	public function no_texturize_shortcodes( $exempted_shortcodes = array() ) {
 		foreach ( $this->shortcodes as $shortcode ) {
 			$exempted_shortcodes[] = $shortcode;
 		}
@@ -507,7 +507,7 @@ public function set_theme_urls() {
 
 
 	// A filter function that runs do_shortcode() but only with this plugin's shortcodes
-	function shortcode_hack( $content, $callback ) {
+	public function shortcode_hack( $content, $callback ) {
 		global $shortcode_tags;
 
 		// Backup current registered shortcodes and clear them all out
@@ -531,7 +531,7 @@ public function set_theme_urls() {
 	// This is a clone of do_shortcode() that uses a different callback function
 	// The new callback function will keep escaped tags escaped, i.e. [[foo]]
 	// Up to date as of r18324 (3.2)
-	function do_shortcode_keep_escaped_tags( $content ) {
+	public function do_shortcode_keep_escaped_tags( $content ) {
 		global $shortcode_tags;
 
 		if (empty($shortcode_tags) || !is_array($shortcode_tags))
@@ -545,7 +545,7 @@ public function set_theme_urls() {
 	// Callback for above do_shortcode_keep_escaped_tags() function
 	// It's a clone of core's do_shortcode_tag() function with a modification to the escaped shortcode return
 	// Up to date as of r18324 (3.2)
-	function do_shortcode_tag_keep_escaped_tags( $m ) {
+	public function do_shortcode_tag_keep_escaped_tags( $m ) {
 		global $shortcode_tags;
 
 		// allow [[foo]] syntax for escaping a tag
@@ -566,25 +566,25 @@ public function set_theme_urls() {
 	}
 
 	// The main filter for the post contents. The regular shortcode filter can't be used as it's post-wpautop().
-	function parse_shortcodes( $content ) {
+	public function parse_shortcodes( $content ) {
 		return $this->shortcode_hack( $content, array( $this, 'shortcode_callback' ) );
 	}
 
 
 	// HTML entity encode the contents of shortcodes
-	function encode_shortcode_contents( $content ) {
+	public function encode_shortcode_contents( $content ) {
 		return $this->shortcode_hack( $content, array( $this, 'encode_shortcode_contents_callback' ) );
 	}
 
 
 	// HTML entity encode the contents of shortcodes. Expects slashed content.
-	function encode_shortcode_contents_slashed( $content ) {
+	public function encode_shortcode_contents_slashed( $content ) {
 		return addslashes( $this->encode_shortcode_contents( stripslashes( $content ) ) );
 	}
 
 
 	// HTML entity encode the contents of shortcodes. Expects slashed content. Aborts if AJAX.
-	function encode_shortcode_contents_slashed_noquickedit( $content ) {
+	public function encode_shortcode_contents_slashed_noquickedit( $content ) {
 
 		// In certain weird circumstances, the content gets run through "content_save_pre" twice
 		// Keep track and don't allow this filter to be run twice
@@ -602,13 +602,13 @@ public function set_theme_urls() {
 
 
 	// HTML entity decode the contents of shortcodes
-	function decode_shortcode_contents( $content ) {
+	public function decode_shortcode_contents( $content ) {
 		return $this->shortcode_hack( $content, array( $this, 'decode_shortcode_contents_callback' ) );
 	}
 
 
 	// The callback function for SyntaxHighlighter::encode_shortcode_contents()
-	function encode_shortcode_contents_callback( $atts, $code = '', $tag = false ) {
+	public function encode_shortcode_contents_callback( $atts, $code = '', $tag = false ) {
 		$this->encoded = true;
 		$code = str_replace( array_keys($this->specialchars), array_values($this->specialchars), htmlspecialchars( $code ) );
 		return '[' . $tag . $this->atts2string( $atts ) . "]{$code}[/$tag]";
@@ -617,7 +617,7 @@ public function set_theme_urls() {
 
 	// The callback function for SyntaxHighlighter::decode_shortcode_contents()
 	// Shortcode attribute values need to not be quoted with TinyMCE disabled for some reason (weird bug)
-	function decode_shortcode_contents_callback( $atts, $code = '', $tag = false ) {
+	public function decode_shortcode_contents_callback( $atts, $code = '', $tag = false ) {
 		$quotes = ( user_can_richedit() ) ? true : false;
 		$code = str_replace(  array_values($this->specialchars), array_keys($this->specialchars), htmlspecialchars_decode( $code ) );
 		return '[' . $tag . $this->atts2string( $atts, $quotes ) . "]{$code}[/$tag]";
@@ -625,7 +625,7 @@ public function set_theme_urls() {
 
 
 	// Dynamically format the post content for the edit form
-	function the_editor_content( $content ) {
+	public function the_editor_content( $content ) {
 		global $post;
 
 		// New code format (stored encoded in database)
@@ -647,7 +647,7 @@ public function set_theme_urls() {
 
 
 	// Run SyntaxHighlighter::encode_shortcode_contents() on the contents of the text widget
-	function widget_text_save( $instance, $new_instance, $old_instance, $widgetclass ) {
+	public function widget_text_save( $instance, $new_instance, $old_instance, $widgetclass ) {
 		if ( 'text' == $widgetclass->id_base ) {
 			// Re-save the widget settings but this time with the shortcode contents encoded
 			$new_instance['text'] = $this->encode_shortcode_contents( $new_instance['text'] );
@@ -662,7 +662,7 @@ public function set_theme_urls() {
 
 
 	// Run SyntaxHighlighter::decode_shortcode_contents_callback() on the contents of the text widget form
-	function widget_text_form( $instance, $widgetclass ) {
+	public function widget_text_form( $instance, $widgetclass ) {
 		if ( 'text' == $widgetclass->id_base && !empty($instance['syntaxhighlighter_encoded']) ) {
 			$instance['text'] = $this->shortcode_hack( $instance['text'], array( $this, 'decode_shortcode_contents_callback' ) );
 		}
@@ -672,7 +672,7 @@ public function set_theme_urls() {
 
 
 	// Run SyntaxHighlighter::parse_shortcodes() on the contents of a text widget
-	function widget_text_output( $content, $instance = false ) {
+	public function widget_text_output( $content, $instance = false ) {
 		$this->codeformat = ( false === $instance || empty($instance['syntaxhighlighter_encoded']) ) ? 1 : 2;
 		$content = $this->parse_shortcodes( $content );
 		$this->codeformat = false;
@@ -682,7 +682,7 @@ public function set_theme_urls() {
 
 
 	// Run SyntaxHighlighter::parse_shortcodes() on the contents of a comment
-	function parse_shortcodes_comment( $content ) {
+	public function parse_shortcodes_comment( $content ) {
 		$this->codeformat = 2;
 		$content = $this->parse_shortcodes( $content );
 		$this->codeformat = false;
@@ -693,7 +693,7 @@ public function set_theme_urls() {
 
 	// This function determines what version of SyntaxHighlighter was used when the post was written
 	// This is because the code was stored differently for different versions of SyntaxHighlighter
-	function get_code_format( $post ) {
+	public function get_code_format( $post ) {
 		if ( false !== $this->codeformat )
 			return $this->codeformat;
 
@@ -710,7 +710,7 @@ public function set_theme_urls() {
 
 
 	// Adds a post meta saying that HTML entities are encoded (for backwards compatibility)
-	function mark_as_encoded( $post_ID, $post ) {
+	public function mark_as_encoded( $post_ID, $post ) {
 		if ( false == $this->encoded || 'revision' == $post->post_type )
 			return;
 
@@ -720,7 +720,7 @@ public function set_theme_urls() {
 
 
 	// Transforms an attributes array into a 'key="value"' format (i.e. reverses the process)
-	function atts2string( $atts, $quotes = true ) {
+	public function atts2string( $atts, $quotes = true ) {
 		if ( empty($atts) )
 			return '';
 
@@ -743,20 +743,20 @@ public function set_theme_urls() {
 
 
 	// Simple function for escaping just single quotes (the original js_escape() escapes more than we need)
-	function js_escape_singlequotes( $string ) {
+	public function js_escape_singlequotes( $string ) {
 		return str_replace( "'", "\'", $string );
 	}
 
 
 	// Output an anchor in the header for the Javascript to use.
 	// In the <head>, we don't know if we'll need this plugin's CSS and JavaScript yet but we will in the footer.
-	function output_header_placeholder() {
+	public function output_header_placeholder() {
 		echo '<style id="syntaxhighlighteranchor"></style>' . "\n";
 	}
 
 
 	// Output any needed scripts. This is meant for the footer.
-	function maybe_output_scripts() {
+	public function maybe_output_scripts() {
 
 		wp_print_scripts( array( 'syntaxhighlighter-autoloader' ) );
 
@@ -922,7 +922,7 @@ public function set_theme_urls() {
 	}
 
 	// No-name attribute fixing
-	function attributefix( $atts = array() ) {
+	public function attributefix( $atts = array() ) {
 		if ( empty($atts[0]) )
 			return $atts;
 
@@ -939,7 +939,7 @@ public function set_theme_urls() {
 
 
 	// Shortcode handler for transforming the shortcodes to their final <pre>'s
-	function shortcode_callback( $atts, $code = '', $tag = false ) {
+	public function shortcode_callback( $atts, $code = '', $tag = false ) {
 		global $post;
 
 		if ( false === $tag || empty($code) )
@@ -1166,7 +1166,7 @@ public function set_theme_urls() {
 
 
 	// Settings page
-	function settings_page() { ?>
+	public function settings_page() { ?>
 
 <script type="text/javascript">
 // <![CDATA[
@@ -1397,7 +1397,7 @@ public function set_theme_urls() {
 
 
 	// Validate the settings sent from the settings page
-	function validate_settings( $settings ) {
+	public function validate_settings( $settings ) {
 		if ( !empty($_POST['syntaxhighlighter-defaults']) ) {
 			$settings = $this->defaultsettings;
 			$_REQUEST['_wp_http_referer'] = add_query_arg( 'defaults', 'true', $_REQUEST['_wp_http_referer'] );
@@ -1429,12 +1429,6 @@ public function set_theme_urls() {
 		}
 
 		return $settings;
-	}
-
-
-	// PHP4 compatibility
-	function SyntaxHighlighter() {
-		$this->__construct();
 	}
 }
 
