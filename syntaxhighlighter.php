@@ -24,6 +24,7 @@ class SyntaxHighlighter {
 	// Please don't directly modify these, use the provided filters instead.
 	public $pluginver            = '4.0.0';  // Plugin version
 	public $agshver              = false;    // Alex Gorbatchev's SyntaxHighlighter version (dynamically set below due to v2 vs v3)
+	public $agsh_folder          = 'syntaxhighlighter3'; // Toggled based on $agshver
 
 	public $settings             = array();  // Contains the user's settings
 	public $defaultsettings      = array();  // Contains the default settings
@@ -117,10 +118,37 @@ class SyntaxHighlighter {
 		$usersettings = (array) get_option( 'syntaxhighlighter_settings' );
 		$this->settings = wp_parse_args( $usersettings, $this->defaultsettings );
 
+		$this->agsh_folder = ( 2 == $this->settings['shversion'] ) ? 'syntaxhighlighter2' : 'syntaxhighlighter3';
 
-		// We need to do different things based on what version of the highlighting script the user wants
+		// Register theme stylesheets
+		wp_register_style(  'syntaxhighlighter-core',             plugins_url( $this->agsh_folder . '/styles/shCore.css',            __FILE__ ), array(),                           $this->agshver );
+		wp_register_style(  'syntaxhighlighter-theme-default',    plugins_url( $this->agsh_folder . '/styles/shThemeDefault.css',    __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
+		wp_register_style(  'syntaxhighlighter-theme-django',     plugins_url( $this->agsh_folder . '/styles/shThemeDjango.css',     __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
+		wp_register_style(  'syntaxhighlighter-theme-eclipse',    plugins_url( $this->agsh_folder . '/styles/shThemeEclipse.css',    __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
+		wp_register_style(  'syntaxhighlighter-theme-emacs',      plugins_url( $this->agsh_folder . '/styles/shThemeEmacs.css',      __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
+		wp_register_style(  'syntaxhighlighter-theme-fadetogrey', plugins_url( $this->agsh_folder . '/styles/shThemeFadeToGrey.css', __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
+		wp_register_style(  'syntaxhighlighter-theme-midnight',   plugins_url( $this->agsh_folder . '/styles/shThemeMidnight.css',   __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
+		wp_register_style(  'syntaxhighlighter-theme-rdark',      plugins_url( $this->agsh_folder . '/styles/shThemeRDark.css',      __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
+
+		// Create list of themes and their human readable names
+		// Plugins can add to this list: http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/adding-a-new-theme/
+		$this->themes = (array) apply_filters( 'syntaxhighlighter_themes', array(
+			 'default'    => __( 'Default',      'syntaxhighlighter' ),
+			 'django'     => __( 'Django',       'syntaxhighlighter' ),
+			 'eclipse'    => __( 'Eclipse',      'syntaxhighlighter' ),
+			 'emacs'      => __( 'Emacs',        'syntaxhighlighter' ),
+			 'fadetogrey' => __( 'Fade to Grey', 'syntaxhighlighter' ),
+			 'midnight'   => __( 'Midnight',     'syntaxhighlighter' ),
+			 'rdark'      => __( 'RDark',        'syntaxhighlighter' ),
+			 'none'       => __( '[None]',       'syntaxhighlighter' ),
+		 ) );
+
+
+		# We need to do different things based on what version of the highlighting script the user wants
+
+		// Legacy v2 of the highlighting script
 		if ( 2 == $this->settings['shversion'] ) {
-			$this->agshver  = '2.1.364';
+			$this->agshver = '2.1.364';
 
 			// Register brush scripts
 			wp_register_script( 'syntaxhighlighter-core',             plugins_url( 'syntaxhighlighter2/scripts/shCore.js',            __FILE__ ), array(),                           $this->agshver );
@@ -151,17 +179,20 @@ class SyntaxHighlighter {
 
 		// The newer v3 of the highlighting script
 		else {
-			$this->agshver  = '3.0.83c';
+			$this->agshver = '3.0.83c';
 
-			// Register theme stylesheets
-			wp_register_style(  'syntaxhighlighter-core',             plugins_url( 'syntaxhighlighter3/styles/shCore.css',            __FILE__ ), array(),                           $this->agshver );
-			wp_register_style(  'syntaxhighlighter-theme-default',    plugins_url( 'syntaxhighlighter3/styles/shThemeDefault.css',    __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
-			wp_register_style(  'syntaxhighlighter-theme-django',     plugins_url( 'syntaxhighlighter3/styles/shThemeDjango.css',     __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
-			wp_register_style(  'syntaxhighlighter-theme-eclipse',    plugins_url( 'syntaxhighlighter3/styles/shThemeEclipse.css',    __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
-			wp_register_style(  'syntaxhighlighter-theme-emacs',      plugins_url( 'syntaxhighlighter3/styles/shThemeEmacs.css',      __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
-			wp_register_style(  'syntaxhighlighter-theme-fadetogrey', plugins_url( 'syntaxhighlighter3/styles/shThemeFadeToGrey.css', __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
-			wp_register_style(  'syntaxhighlighter-theme-midnight',   plugins_url( 'syntaxhighlighter3/styles/shThemeMidnight.css',   __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
-			wp_register_style(  'syntaxhighlighter-theme-rdark',      plugins_url( 'syntaxhighlighter3/styles/shThemeRDark.css',      __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
+			// This theme is SH3 only
+			wp_register_style(  'syntaxhighlighter-theme-mdultra',    plugins_url( $this->agsh_folder . '/styles/shThemeMDUltra.css', __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
+
+			// Add MDUltra after RDark
+			$theme_keys = array_keys( $this->themes );
+			$rdark_pos = (int) array_search( 'rdark', $theme_keys ) + 1;
+			$this->themes = array_merge(
+				array_slice( $this->themes, 0, $rdark_pos, true ),
+				array( 'mdultra' => __( 'MDUltra', 'syntaxhighlighter' ) ),
+				array_slice( $this->themes, $rdark_pos, null, true )
+			);
+
 
 			# Translation strings
 			$strings = (object) array(); // Faster than "new stdClass();" actually
@@ -237,7 +268,6 @@ class SyntaxHighlighter {
 				'defaults'       => $defaults,
 			) );
 		}
-
 
 		// Register some popular and bundled third-party brushes
 		wp_register_script( 'syntaxhighlighter-brush-clojure',    plugins_url( 'third-party-brushes/shBrushClojure.js',           __FILE__ ), array( 'syntaxhighlighter-core' ), '20090602'     );
@@ -329,19 +359,6 @@ class SyntaxHighlighter {
 		foreach ( $this->shortcodes as $shortcode )
 			add_shortcode( $shortcode, '__return_true' );
 
-
-		// Create list of themes and their human readable names
-		// Plugins can add to this list: http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/adding-a-new-theme/
-		$this->themes = (array) apply_filters( 'syntaxhighlighter_themes', array(
-			'default'    => __( 'Default',      'syntaxhighlighter' ),
-			'django'     => __( 'Django',       'syntaxhighlighter' ),
-			'eclipse'    => __( 'Eclipse',      'syntaxhighlighter' ),
-			'emacs'      => __( 'Emacs',        'syntaxhighlighter' ),
-			'fadetogrey' => __( 'Fade to Grey', 'syntaxhighlighter' ),
-			'midnight'   => __( 'Midnight',     'syntaxhighlighter' ),
-			'rdark'      => __( 'RDark',        'syntaxhighlighter' ),
-			'none'       => __( '[None]',       'syntaxhighlighter' ),
-		) );
 
 		// Other special characters that need to be encoded before going into the database (namely to work around kses)
 		$this->specialchars = (array) apply_filters( 'syntaxhighlighter_specialchars', array(
