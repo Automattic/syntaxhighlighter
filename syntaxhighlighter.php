@@ -4,17 +4,16 @@
 
 Plugin Name:  SyntaxHighlighter Evolved
 Plugin URI:   http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/
-Version:      4.0.0
+Version:      4.0.0-alpha
 Description:  Easily post syntax-highlighted code to your site without having to modify the code at all. Uses Alex Gorbatchev's <a href="http://alexgorbatchev.com/wiki/SyntaxHighlighter">SyntaxHighlighter</a>. <strong>TIP:</strong> Don't use the Visual editor if you don't want your code mangled. TinyMCE will "clean up" your HTML.
-Author:       Viper007Bond
+Author:       Alex Mills (Viper007Bond)
 Author URI:   http://www.viper007bond.com/
 
 **************************************************************************
 
 Thanks to:
 
-* Alex Gorbatchev for writing the Javascript-powered synatax highlighter script
-
+* Alex Gorbatchev for writing the Javascript-powered synatax-highlighter script
 * Andrew Ozz for writing the TinyMCE plugin
 
 **************************************************************************/
@@ -121,29 +120,6 @@ class SyntaxHighlighter {
 
 		$this->agsh_folder = ( 2 == $this->settings['shversion'] ) ? 'syntaxhighlighter2' : 'syntaxhighlighter3';
 
-		// Register theme stylesheets
-		wp_register_style(  'syntaxhighlighter-core',             plugins_url( $this->agsh_folder . '/styles/shCore.css',            __FILE__ ), array(),                           $this->agshver );
-		wp_register_style(  'syntaxhighlighter-theme-default',    plugins_url( $this->agsh_folder . '/styles/shThemeDefault.css',    __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
-		wp_register_style(  'syntaxhighlighter-theme-django',     plugins_url( $this->agsh_folder . '/styles/shThemeDjango.css',     __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
-		wp_register_style(  'syntaxhighlighter-theme-eclipse',    plugins_url( $this->agsh_folder . '/styles/shThemeEclipse.css',    __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
-		wp_register_style(  'syntaxhighlighter-theme-emacs',      plugins_url( $this->agsh_folder . '/styles/shThemeEmacs.css',      __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
-		wp_register_style(  'syntaxhighlighter-theme-fadetogrey', plugins_url( $this->agsh_folder . '/styles/shThemeFadeToGrey.css', __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
-		wp_register_style(  'syntaxhighlighter-theme-midnight',   plugins_url( $this->agsh_folder . '/styles/shThemeMidnight.css',   __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
-		wp_register_style(  'syntaxhighlighter-theme-rdark',      plugins_url( $this->agsh_folder . '/styles/shThemeRDark.css',      __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
-
-		// Create list of themes and their human readable names
-		// Plugins can add to this list: http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/adding-a-new-theme/
-		$this->themes = (array) apply_filters( 'syntaxhighlighter_themes', array(
-			 'default'    => __( 'Default',      'syntaxhighlighter' ),
-			 'django'     => __( 'Django',       'syntaxhighlighter' ),
-			 'eclipse'    => __( 'Eclipse',      'syntaxhighlighter' ),
-			 'emacs'      => __( 'Emacs',        'syntaxhighlighter' ),
-			 'fadetogrey' => __( 'Fade to Grey', 'syntaxhighlighter' ),
-			 'midnight'   => __( 'Midnight',     'syntaxhighlighter' ),
-			 'rdark'      => __( 'RDark',        'syntaxhighlighter' ),
-			 'none'       => __( '[None]',       'syntaxhighlighter' ),
-		 ) );
-
 		// Create list of brush aliases and map them to their real brushes
 		$this->plugin_brushes = array(
 			'as3'           => 'as3',
@@ -227,11 +203,39 @@ class SyntaxHighlighter {
 			add_shortcode( $shortcode, '__return_true' );
 		}
 
+		// Todo -- make this on-demand
+		$this->additional_setup();
+	}
+
+
+	public function additional_setup() {
+		// Register theme stylesheets
+		wp_register_style(  'syntaxhighlighter-core',             plugins_url( $this->agsh_folder . '/styles/shCore.css',            __FILE__ ), array(),                           $this->agshver );
+		wp_register_style(  'syntaxhighlighter-theme-default',    plugins_url( $this->agsh_folder . '/styles/shThemeDefault.css',    __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
+		wp_register_style(  'syntaxhighlighter-theme-django',     plugins_url( $this->agsh_folder . '/styles/shThemeDjango.css',     __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
+		wp_register_style(  'syntaxhighlighter-theme-eclipse',    plugins_url( $this->agsh_folder . '/styles/shThemeEclipse.css',    __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
+		wp_register_style(  'syntaxhighlighter-theme-emacs',      plugins_url( $this->agsh_folder . '/styles/shThemeEmacs.css',      __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
+		wp_register_style(  'syntaxhighlighter-theme-fadetogrey', plugins_url( $this->agsh_folder . '/styles/shThemeFadeToGrey.css', __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
+		wp_register_style(  'syntaxhighlighter-theme-midnight',   plugins_url( $this->agsh_folder . '/styles/shThemeMidnight.css',   __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
+		wp_register_style(  'syntaxhighlighter-theme-rdark',      plugins_url( $this->agsh_folder . '/styles/shThemeRDark.css',      __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
+
+		// Create list of themes and their human readable names
+		// Plugins can add to this list: http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/adding-a-new-theme/
+		$this->themes = (array) apply_filters( 'syntaxhighlighter_themes', array(
+				'default'    => __( 'Default',      'syntaxhighlighter' ),
+				'django'     => __( 'Django',       'syntaxhighlighter' ),
+				'eclipse'    => __( 'Eclipse',      'syntaxhighlighter' ),
+				'emacs'      => __( 'Emacs',        'syntaxhighlighter' ),
+				'fadetogrey' => __( 'Fade to Grey', 'syntaxhighlighter' ),
+				'midnight'   => __( 'Midnight',     'syntaxhighlighter' ),
+				'rdark'      => __( 'RDark',        'syntaxhighlighter' ),
+				'none'       => __( '[None]',       'syntaxhighlighter' ),
+			) );
 
 		// Other special characters that need to be encoded before going into the database (namely to work around kses)
 		$this->specialchars = (array) apply_filters( 'syntaxhighlighter_specialchars', array(
-			 '\0' => '&#92;&#48;',
-		 ) );
+				'\0' => '&#92;&#48;',
+			) );
 
 
 		## We need to do different things based on what version of the highlighting script the user wants
