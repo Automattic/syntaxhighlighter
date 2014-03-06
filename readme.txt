@@ -55,6 +55,10 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 
 == ChangeLog ==
 
+= Version 4.0.0 =
+
+* Added German translation thanks to [Michael Berger](http://bitespresso.de/).
+
 = Version 3.1.7 =
 
 * XHTML validation fix by adding `type` attribute to `<style>` tag. Props [NoMad1337](http://www.tacticalcode.de/).
