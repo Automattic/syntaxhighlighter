@@ -20,7 +20,7 @@ Thanks to:
 
 class SyntaxHighlighter {
 
-	public $pluginver = '4.0.0';
+	public $pluginver = '4.0.0-alpha';
 
 	public $settings;
 	public $renderer;
