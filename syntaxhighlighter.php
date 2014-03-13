@@ -20,6 +20,57 @@ Thanks to:
 
 class SyntaxHighlighter {
 
+	public $pluginver = '4.0.0';
+
+	public $settings;
+	public $renderer;
+
+	function __construct() {
+		global $wp_version;
+
+		// Requires WordPress 3.3+
+		if ( ! version_compare( $wp_version, '3.3', '>=' ) ) {
+			return;
+		}
+
+		// Load localization file
+		load_plugin_textdomain( 'syntaxhighlighter', false, dirname( plugin_basename( __FILE__ ) ) . '/localization/' );
+
+		require_once( __DIR__ . '/classes/class-settings.php' );
+
+		$this->settings = new SyntaxHighlighter_Settings();
+
+		switch ( $this->settings->shversion ) {
+			case 2:
+				wp_die( 'not implemented yet' );
+				break;
+
+			case 3:
+			default:
+				require_once( __DIR__ . '/classes/class-renderer-syntaxhighlighter3.php' );
+
+				$this->renderer = new SyntaxHighlighter_Renderer_SH3();
+
+				break;
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class SyntaxHighlighter_Old {
+
 	// Please don't directly modify these, use the provided filters instead.
 	public $pluginver            = '4.0.0';  // Plugin version
 	public $agshver              = false;    // Alex Gorbatchev's SyntaxHighlighter version (dynamically set below due to v2 vs v3)
