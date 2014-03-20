@@ -1,10 +1,17 @@
 <?php
 
 class SyntaxHighlighter_Settings {
+	public $version      = '4.0.0-alpha';
 	public $setting_name = 'syntaxhighlighter_settings';
 
 	public function __get( $name ) {
 		$settings = $this->get_settings_with_defaults();
+
+		// Deprecated settings
+		switch ( $name ) {
+			case 'shversion':
+				return ( isset( $settings['renderer'] ) && 'sh2' == $settings['renderer'] ) ? 2 : 3;
+		}
 
 		if ( array_key_exists( $name, $settings ) ) {
 			return $settings[ $name ];
@@ -39,7 +46,7 @@ class SyntaxHighlighter_Settings {
 		$defaults = wp_parse_args( $defaults, array(
 				'theme'          => 'default',
 				'loadallbrushes' => 0,
-				'shversion'      => 3,
+				'renderer'       => 'sh3',
 				'title'          => '',
 				'autolinks'      => 1,
 				'classname'      => '',
