@@ -36,23 +36,34 @@ class SyntaxHighlighter {
 		// Load localization file
 		load_plugin_textdomain( 'syntaxhighlighter', false, dirname( plugin_basename( __FILE__ ) ) . '/localization/' );
 
+		// Load the user settings
 		require_once( __DIR__ . '/classes/class-settings.php' );
-
 		$this->settings = new SyntaxHighlighter_Settings();
 
+		// Load the renderer class. This handles the actual work.
 		switch ( $this->settings->shversion ) {
 			case 2:
 				wp_die( 'not implemented yet' );
 				break;
 
 			case 3:
-			default:
 				require_once( __DIR__ . '/classes/class-renderer-syntaxhighlighter3.php' );
 
 				$this->renderer = new SyntaxHighlighter_Renderer_SH3();
 
 				break;
+
+			// You could implement your own render if you wanted
+			default;
+				do_action( 'syntaxhighlighter_load_renderer', $this );
 		}
+
+		// Do further setup later on
+		add_action( 'init', array( $this, 'register_hooks' ) );
+	}
+
+	function register_hooks() {
+		$this->renderer->register_hooks();
 	}
 }
 
