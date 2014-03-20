@@ -57,7 +57,6 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 
 = Version 3.1.9 =
 
-* Remove SyntaxHighlighter (the script, not this plugin) v2's `clipboard.swf` for security reasons. Replaced with a blank file.
 * Reset box-shadow property for better theme support. Props Michael Fields.
 * Crush images for smaller filesizes.
 
