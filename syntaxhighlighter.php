@@ -28,7 +28,7 @@ class SyntaxHighlighter {
 	function __construct() {
 		global $wp_version;
 
-		// Requires WordPress 3.3+
+		// Requires WordPress 3.3+ but you really should be using the latest version!
 		if ( ! version_compare( $wp_version, '3.3', '>=' ) ) {
 			return;
 		}
@@ -66,6 +66,42 @@ class SyntaxHighlighter {
 		$this->renderer->register_hooks();
 	}
 }
+
+
+/**
+ * Returns the single instance of SyntaxHighlighter, creating a new instance if needed.
+ *
+ * Use this function rather than the global variable if you need to interact with or
+ * call one of SyntaxHighlighter Evolved's methods.
+ *
+ * For example if you wanted to unhook something that SyntaxHighlighter hooked, then
+ * you would simple need to do this:
+ *
+ * remove_filter( 'the_filter_name', array( SyntaxHighlighter(), 'the_callback_name' ) );
+ *
+ * While this function existed before 4.0.0, it did not return the instance.
+ *
+ * @since 4.0.0
+ *
+ * @return SyntaxHighlighter The single instance of SyntaxHighlighter.
+ */
+function SyntaxHighlighter() {
+	global $SyntaxHighlighter;
+
+	if ( ! isset( $SyntaxHighlighter ) ) {
+		$SyntaxHighlighter = new SyntaxHighlighter();
+	}
+
+	return $SyntaxHighlighter;
+}
+
+/**
+ * Start up SyntaxHighlighter Evolved once all other plugins have loaded.
+ */
+add_action( 'plugins_loaded', 'SyntaxHighlighter' );
+
+
+
 
 
 
@@ -1505,14 +1541,6 @@ class SyntaxHighlighter_Old {
 
 		return $settings;
 	}
-}
-
-
-// Start this plugin once all other plugins are fully loaded
-add_action( 'init', 'SyntaxHighlighter', 15 );
-function SyntaxHighlighter() {
-	global $SyntaxHighlighter;
-	$SyntaxHighlighter = new SyntaxHighlighter();
 }
 
 ?>
