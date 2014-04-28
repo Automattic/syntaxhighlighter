@@ -240,5 +240,5 @@ Localizations:
 
 == Upgrade Notice ==
 
-= 3.1.6 =
+= 3.1.10 =
 Important security update.
