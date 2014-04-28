@@ -55,6 +55,11 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 
 == ChangeLog ==
 
+= Version 3.1.10 =
+
+* New version of SyntaxHighlighter 3.x library to address XSS security issue. Props Ben Bidner for finding the bug and Alex Gorbatchev working with us (Automattic) to patch the issue.
+* Compatibility with moving the plugins folder to a location other than the default one.
+
 = Version 3.1.9 =
 
 * Reset box-shadow property for better theme support. Props Michael Fields.
