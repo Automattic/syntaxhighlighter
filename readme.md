@@ -4,4 +4,4 @@ Easily post syntax-highlighted code to your WordPress site without having to mod
 
 ## Development On The Next Version
 
-A major rewrite is currently occurring in the [4.0 branch](https://github.com/Viper007Bond/syntaxhighlighter/commits/4.0). Go there if you want to see the current work in progress code.
+A major rewrite is currently occurring in the [4.0 branch](https://github.com/Viper007Bond/syntaxhighlighter/tree/4.0). Go there if you want to see the current work in progress code.
