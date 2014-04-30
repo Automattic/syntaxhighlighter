@@ -101,5 +101,7 @@ class SyntaxHighlighter_Settings {
 		if ( $modified ) {
 			update_option( $this->setting_name, $settings );
 		}
+
+		return $modified;
 	}
 }

@@ -70,7 +70,7 @@ class SyntaxHighlighter {
 
 		// Reset settings to default if the user's renderer setting was invalid
 		if ( ! $this->renderer ) {
-			//$this->settings->reset_all();
+			$this->settings->reset_all();
 		}
 	}
 
