@@ -19,7 +19,6 @@ Thanks to:
 **************************************************************************/
 
 class SyntaxHighlighter {
-
 	public $pluginver = '4.0.0-alpha';
 
 	public $settings;
@@ -43,11 +42,14 @@ class SyntaxHighlighter {
 	public function init() {
 		$this->load_user_settings();
 		$this->load_renderer();
+
+		$this->register_hooks();
 	}
 
 	public function load_user_settings() {
 		require_once( __DIR__ . '/classes/class-settings.php' );
-		$this->settings = new SyntaxHighlighter_Settings();
+		$this->settings = new SyntaxHighlighter_Settings( $this );
+
 	}
 
 	public function load_renderer() {
@@ -59,22 +61,25 @@ class SyntaxHighlighter {
 			case 'sh3':
 				require_once( __DIR__ . '/classes/class-renderer-syntaxhighlighter3.php' );
 
-				$this->renderer = new SyntaxHighlighter_Renderer_SH3();
+				$this->renderer = new SyntaxHighlighter_Renderer_SH3( $this );
 
 				break;
 
-			// You could implement your own render if you wanted
+			// You could theoretically implement your own render if you wanted,
+			// but this isn't 100% set up for that. Let me know how it goes!
 			default;
 				do_action( 'syntaxhighlighter_load_renderer', $this );
 		}
 
 		// Reset settings to default if the user's renderer setting was invalid
 		if ( ! $this->renderer ) {
-			$this->settings->reset_all();
+			$this->settings->reset_to_default( 'renderer' );
+			require_once( __DIR__ . '/classes/class-renderer-syntaxhighlighter3.php' );
+			$this->renderer = new SyntaxHighlighter_Renderer_SH3( $this );
 		}
 	}
 
-	function register_hooks() {
+	public function register_hooks() {
 		$this->renderer->register_hooks();
 	}
 }

@@ -1,12 +1,16 @@
 <?php
 
 class SyntaxHighlighter_Settings {
+	public $core;
+
 	public $setting_name = 'syntaxhighlighter_settings';
 	public $version = '4';
 
 	public $settings = array();
 
-	public function __construct() {
+	public function __construct( $core ) {
+		$this->core = $core;
+
 		$this->maybe_upgrade();
 
 		$this->settings = $this->get_settings_with_defaults();
@@ -21,10 +25,16 @@ class SyntaxHighlighter_Settings {
 	}
 
 	public function __set( $name, $value ) {
-		$this->settings[ $name ] = $value;
-
 		$settings = $this->get_settings_without_defaults();
-		$settings[ $name ] = $value;
+
+		if ( is_null ( $value ) ) {
+			unset( $this->settings[ $name ] );
+			unset( $settings[ $name ] );
+		} else {
+			$this->settings[ $name ] = $value;
+			$settings[ $name ] = $value;
+		}
+
 		update_option( $this->setting_name, $settings );
 	}
 
@@ -62,7 +72,11 @@ class SyntaxHighlighter_Settings {
 			'wraplines'      => 1, // SH 2.x only
 		) );
 
-		return (array) apply_filters( 'syntaxhighlighter_defaultsettings', $defaults );
+		return (array) apply_filters( 'syntaxhighlighter_defaultsettings', $defaults, $this->core );
+	}
+
+	public function reset_to_default( $name ) {
+		$this->__set( $name, null );
 	}
 
 	public function reset_all() {
