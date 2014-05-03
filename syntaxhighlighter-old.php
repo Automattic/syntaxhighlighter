@@ -49,8 +49,6 @@ class SyntaxHighlighter_Old {
 		add_action( 'admin_footer',                       array( $this, 'maybe_output_scripts' ),                          15 ); // For comments
 
 		// Admin hooks
-		add_action( 'admin_init',                         array( $this, 'register_setting' ) );
-		add_action( 'admin_menu',                         array( $this, 'register_settings_page' ) );
 		add_filter( 'mce_external_plugins',               array( $this, 'add_tinymce_plugin' ) );
 		add_filter( 'tiny_mce_version',                   array( $this, 'break_tinymce_cache' ) );
 		add_filter( 'save_post',                          array( $this, 'mark_as_encoded' ),                               10, 2 );
@@ -411,7 +409,6 @@ class SyntaxHighlighter_Old {
 		}
 	}
 
-
 	// Given a script slug, return the script's URL
 	public function get_script_url( $script ) {
 		global $wp_scripts;
@@ -422,19 +419,6 @@ class SyntaxHighlighter_Old {
 
 		return false;
 	}
-
-
-	// Register the settings page
-	public function register_settings_page() {
-		add_options_page( __( 'SyntaxHighlighter Settings', 'syntaxhighlighter' ), __( 'SyntaxHighlighter', 'syntaxhighlighter' ), 'manage_options', 'syntaxhighlighter', array( $this, 'settings_page' ) );
-	}
-
-
-	// Register the plugin's setting
-	public function register_setting() {
-		register_setting( 'syntaxhighlighter_settings', 'syntaxhighlighter_settings', array( $this, 'validate_settings' ) );
-	}
-
 
 	// Add the custom TinyMCE plugin which wraps plugin shortcodes in <pre> in TinyMCE
 	public function add_tinymce_plugin( $plugins ) {
@@ -1133,42 +1117,6 @@ class SyntaxHighlighter_Old {
 </div>
 
 <?php
-	}
-
-
-	// Validate the settings sent from the settings page
-	public function validate_settings( $settings ) {
-		if ( !empty($_POST['syntaxhighlighter-defaults']) ) {
-			$settings = $this->defaultsettings;
-			$_REQUEST['_wp_http_referer'] = add_query_arg( 'defaults', 'true', $_REQUEST['_wp_http_referer'] );
-		} else {
-			$settings['shversion']      = ( ! empty($settings['shversion']) && 2 == $settings['shversion'] ) ? 2 : 3;
-
-			$settings['theme']          = ( ! empty($settings['theme']) && isset($this->themes[$settings['theme']]) ) ? strtolower($settings['theme']) : $this->defaultsettings['theme'];
-
-			$settings['loadallbrushes'] = ( ! empty($settings['loadallbrushes']) ) ? 1 : 0;
-			$settings['autolinks']      = ( ! empty($settings['autolinks']) )      ? 1 : 0;
-			$settings['collapse']       = ( ! empty($settings['collapse']) )       ? 1 : 0;
-			$settings['gutter']         = ( ! empty($settings['gutter']) )         ? 1 : 0;
-			$settings['light']          = ( ! empty($settings['light']) )          ? 1 : 0;
-			$settings['smarttabs']      = ( ! empty($settings['smarttabs']) )      ? 1 : 0;
-			$settings['toolbar']        = ( ! empty($settings['toolbar']) )        ? 1 : 0; // May be overridden below
-			$settings['wraplines']      = ( ! empty($settings['wraplines']) )      ? 1 : 0; // 2.x only for now
-
-			// If the version changed, then force change the toolbar version setting
-			if ( $settings['shversion'] != $this->settings['shversion'] ) {
-				$settings['toolbar'] = ( 2 == $settings['shversion'] ) ? 1 : 0;
-			}
-
-			if ( 'true' != $settings['padlinenumbers'] && 'false' != $settings['padlinenumbers'] )
-				$settings['padlinenumbers'] = (int) $settings['padlinenumbers'];
-
-			$settings['classname']      = ( !empty($settings['classname']) )       ? preg_replace( '/[^ A-Za-z0-9_-]*/', '', $settings['classname'] ) : '';
-			$settings['firstline']      = (int) ( !empty($settings['firstline']) ) ? $settings['firstline'] : $this->defaultsettings['firstline'];
-			$settings['tabsize']        = (int) ( !empty($settings['tabsize']) )   ? $settings['tabsize']   : $this->defaultsettings['tabsize'];
-		}
-
-		return $settings;
 	}
 }
 

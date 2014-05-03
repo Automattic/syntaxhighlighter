@@ -22,6 +22,7 @@ class SyntaxHighlighter {
 	public $pluginver = '4.0.0-alpha';
 
 	public $settings;
+	public $admin;
 	public $renderer;
 
 	function __construct() {
@@ -41,6 +42,7 @@ class SyntaxHighlighter {
 
 	public function init() {
 		$this->load_user_settings();
+		$this->load_admin();
 		$this->load_renderer();
 
 		$this->register_hooks();
@@ -50,6 +52,11 @@ class SyntaxHighlighter {
 		require_once( __DIR__ . '/classes/class-settings.php' );
 		$this->settings = new SyntaxHighlighter_Settings( $this );
 
+	}
+
+	public function load_admin() {
+		require_once( __DIR__ . '/classes/class-admin.php' );
+		$this->admin = new SyntaxHighlighter_Admin( $this );
 	}
 
 	public function load_renderer() {
@@ -80,6 +87,7 @@ class SyntaxHighlighter {
 	}
 
 	public function register_hooks() {
+		$this->admin->register_hooks();
 		$this->renderer->register_hooks();
 	}
 }
