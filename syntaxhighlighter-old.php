@@ -39,9 +39,6 @@ class SyntaxHighlighter_Old {
 			return;
 		}
 
-		// Load localization domain
-		load_plugin_textdomain( 'syntaxhighlighter', false, dirname( plugin_basename( __FILE__ ) ) . '/localization/' );
-
 		// Outputting SyntaxHighlighter's JS and CSS
 		add_action( 'wp_head',                            array( $this, 'output_header_placeholder' ),                     15 );
 		add_action( 'admin_head',                         array( $this, 'output_header_placeholder' ),                     15 ); // For comments
@@ -53,15 +50,6 @@ class SyntaxHighlighter_Old {
 		add_filter( 'tiny_mce_version',                   array( $this, 'break_tinymce_cache' ) );
 		add_filter( 'save_post',                          array( $this, 'mark_as_encoded' ),                               10, 2 );
 		add_filter( 'plugin_action_links',                array( $this, 'settings_link' ),                                 10, 2 );
-
-		// Register widget hooks
-		add_filter( 'widget_text',                        array( $this, 'widget_text_output' ),                            7, 2 );
-		add_filter( 'widget_update_callback',             array( $this, 'widget_text_save' ),                              1, 4 );
-		add_filter( 'widget_form_callback',               array( $this, 'widget_text_form' ),                              1, 2 );
-
-		// Exempt shortcodes from wptexturize()
-		add_filter( 'no_texturize_shortcodes',            array( $this, 'no_texturize_shortcodes' ) );
-
 
 		// Create array of default settings (you can use the filter to modify these)
 		$this->defaultsettings = (array) apply_filters( 'syntaxhighlighter_defaultsettings', array(
@@ -472,66 +460,6 @@ class SyntaxHighlighter_Old {
 		}
 
 		return $exempted_shortcodes;
-	}
-
-
-	// A filter function that runs do_shortcode() but only with this plugin's shortcodes
-	public function shortcode_hack( $content, $callback ) {
-		global $shortcode_tags;
-
-		// Backup current registered shortcodes and clear them all out
-		$orig_shortcode_tags = $shortcode_tags;
-		remove_all_shortcodes();
-
-		// Register all of this plugin's shortcodes
-		foreach ( $this->shortcodes as $shortcode )
-			add_shortcode( $shortcode, $callback );
-
-		// Do the shortcodes (only this plugins's are registered)
-		$content = $this->do_shortcode_keep_escaped_tags( $content );
-
-		// Put the original shortcodes back
-		$shortcode_tags = $orig_shortcode_tags;
-
-		return $content;
-	}
-
-
-	// This is a clone of do_shortcode() that uses a different callback function
-	// The new callback function will keep escaped tags escaped, i.e. [[foo]]
-	// Up to date as of r18324 (3.2)
-	public function do_shortcode_keep_escaped_tags( $content ) {
-		global $shortcode_tags;
-
-		if (empty($shortcode_tags) || !is_array($shortcode_tags))
-			return $content;
-
-		$pattern = get_shortcode_regex();
-		return preg_replace_callback('/'.$pattern.'/s', array( $this, 'do_shortcode_tag_keep_escaped_tags' ), $content);
-	}
-
-
-	// Callback for above do_shortcode_keep_escaped_tags() function
-	// It's a clone of core's do_shortcode_tag() function with a modification to the escaped shortcode return
-	// Up to date as of r18324 (3.2)
-	public function do_shortcode_tag_keep_escaped_tags( $m ) {
-		global $shortcode_tags;
-
-		// allow [[foo]] syntax for escaping a tag
-		if ( $m[1] == '[' && $m[6] == ']' ) {
-			return $m[0]; // This line was modified for this plugin (no substr call)
-		}
-
-		$tag = $m[2];
-		$attr = shortcode_parse_atts( $m[3] );
-
-		if ( isset( $m[5] ) ) {
-			// enclosing tag - extra parameter
-			return $m[1] . call_user_func( $shortcode_tags[$tag], $attr, $m[5], $tag ) . $m[6];
-		} else {
-			// self-closing tag
-			return $m[1] . call_user_func( $shortcode_tags[$tag], $attr, NULL,  $tag ) . $m[6];
-		}
 	}
 
 	// The main filter for the post contents. The regular shortcode filter can't be used as it's post-wpautop().

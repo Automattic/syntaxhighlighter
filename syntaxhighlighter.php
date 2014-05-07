@@ -13,7 +13,7 @@ Author URI:   http://www.viper007bond.com/
 
 Thanks to:
 
-* Alex Gorbatchev for writing the Javascript-powered synatax-highlighter script
+* Alex Gorbatchev for writing the Javascript-powered syntax-highlighter script
 * Andrew Ozz for writing the TinyMCE plugin
 
 **************************************************************************/
@@ -44,8 +44,6 @@ class SyntaxHighlighter {
 		$this->load_user_settings();
 		$this->load_admin();
 		$this->load_renderer();
-
-		$this->register_hooks();
 	}
 
 	public function load_user_settings() {
@@ -84,11 +82,6 @@ class SyntaxHighlighter {
 			require_once( __DIR__ . '/classes/class-renderer-syntaxhighlighter3.php' );
 			$this->renderer = new SyntaxHighlighter_Renderer_SH3( $this );
 		}
-	}
-
-	public function register_hooks() {
-		$this->admin->register_hooks();
-		$this->renderer->register_hooks();
 	}
 }
 

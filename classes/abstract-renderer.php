@@ -3,11 +3,18 @@
 abstract class SyntaxHighlighter_Renderer {
 	public $core;
 
-	public $themes = array();
+	public $themes     = array();
+	public $languages  = array();
+	public $shortcodes = array();
 
 	function __construct( $core ) {
 		$this->core = $core;
+
+		//$this->register_hooks();
 	}
+
+	public function define_languages() {}
+	public function define_shortcodes() {}
 
 	public function register_hooks() {
 		// Display hooks
@@ -26,5 +33,96 @@ abstract class SyntaxHighlighter_Renderer {
 		add_filter( 'comment_edit_pre',                   array( $this, 'decode_shortcode_contents' ),                     1 ); // Comments
 		add_filter( 'bp_get_the_topic_text',              array( $this, 'decode_shortcode_contents' ),                     1 ); // BuddyPress
 		add_filter( 'bp_get_the_topic_post_edit_text',    array( $this, 'decode_shortcode_contents' ),                     1 ); // BuddyPress
+
+		// Register widget hooks
+		add_filter( 'widget_text',                        array( $this, 'widget_text_output' ),                            7, 2 );
+		add_filter( 'widget_update_callback',             array( $this, 'widget_text_save' ),                              1, 4 );
+		add_filter( 'widget_form_callback',               array( $this, 'widget_text_form' ),                              1, 2 );
+
+		// Exempt shortcodes from wptexturize()
+		add_filter( 'no_texturize_shortcodes',            array( $this, 'no_texturize_shortcodes' ) );
+	}
+
+	public function parse_specific_shortcodes( $content, $shortcodes, $callback ) {
+		global $shortcode_tags;
+
+		// Backup currently registered shortcodes and clear them all out
+		$orig_shortcode_tags = $shortcode_tags;
+		remove_all_shortcodes();
+
+		// Register just the shortcodes we want to parse
+		foreach ( $shortcodes as $shortcode ) {
+			add_shortcode( $shortcode, $callback );
+		}
+
+		// Parse the shortcodes -- only the ones registered above will be processed
+		$content = $this->do_shortcode_keep_escaped_tags( $content );
+
+		// Put the original shortcodes back
+		$shortcode_tags = $orig_shortcode_tags;
+
+		return $content;
+	}
+
+	/**
+	 * This function is identical to core's do_shortcode() but uses a different
+	 * callback function that won't touch escaped shortcodes, like [[shortcode]].
+	 *
+	 * This copy was taken from revision 27394.
+	 *
+	 * @see do_shortcode()
+	 *
+	 * @uses $shortcode_tags
+	 * @uses get_shortcode_regex() Gets the search pattern for searching shortcodes.
+	 *
+	 * @param string $content Content to search for shortcodes.
+	 * @return string Content with shortcodes filtered out.
+	 */
+	public function do_shortcode_keep_escaped_tags( $content ) {
+		global $shortcode_tags;
+
+		if ( false === strpos( $content, '[' ) ) {
+			return $content;
+		}
+
+		if (empty($shortcode_tags) || !is_array($shortcode_tags))
+			return $content;
+
+		$pattern = get_shortcode_regex();
+		return preg_replace_callback( "/$pattern/s", array( $this, 'do_shortcode_tag_keep_escaped_tags' ), $content );
+	}
+
+	/**
+	 * Regular Expression callable for SyntaxHighlighter_Renderer::do_shortcode_keep_escaped_tags()
+	 * for calling shortcode hook. This is a copy of core's do_shortcode_tag() but differs in that
+	 * it won't touch escaped shortcodes, like [[shortcode]].
+	 *
+	 * This copy was taken from revision 27394.
+	 *
+	 * @see do_shortcode_tag()
+	 *
+	 * @uses $shortcode_tags
+	 *
+	 * @param array $m Regular expression match array.
+	 * @return mixed False on failure.
+	 */
+	public function do_shortcode_tag_keep_escaped_tags( $m ) {
+		global $shortcode_tags;
+
+		// allow [[foo]] syntax for escaping a tag
+		if ( $m[1] == '[' && $m[6] == ']' ) {
+			return $m[0]; // This is the line that was modified and differs from core's do_shortcode_tag()
+		}
+
+		$tag = $m[2];
+		$attr = shortcode_parse_atts( $m[3] );
+
+		if ( isset( $m[5] ) ) {
+			// enclosing tag - extra parameter
+			return $m[1] . call_user_func( $shortcode_tags[$tag], $attr, $m[5], $tag ) . $m[6];
+		} else {
+			// self-closing tag
+			return $m[1] . call_user_func( $shortcode_tags[$tag], $attr, NULL,  $tag ) . $m[6];
+		}
 	}
 }
