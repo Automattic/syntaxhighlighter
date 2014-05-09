@@ -29,15 +29,16 @@ abstract class SyntaxHighlighter_Renderer {
 
 		$this->shortcodes = (array) apply_filters( 'syntaxhighlighter_shortcodes', $this->shortcodes );
 
-		//$this->register_hooks();
+		$this->register_hooks();
 	}
 
 	public function register_hooks() {
 		// Display hooks
 		add_filter( 'the_content',                        array( $this, 'parse_shortcodes' ),                              7 ); // Posts
-		add_filter( 'comment_text',                       array( $this, 'parse_shortcodes_comment' ),                      7 ); // Comments
+//		add_filter( 'comment_text',                       array( $this, 'parse_shortcodes_comment' ),                      7 ); // Comments
 		add_filter( 'bp_get_the_topic_post_content',      array( $this, 'parse_shortcodes' ),                              7 ); // BuddyPress
 
+/*
 		// Into the database
 		add_filter( 'content_save_pre',                   array( $this, 'encode_shortcode_contents_slashed_noquickedit' ), 1 ); // Posts
 		add_filter( 'pre_comment_content',                array( $this, 'encode_shortcode_contents_slashed' ),             1 ); // Comments
@@ -57,6 +58,7 @@ abstract class SyntaxHighlighter_Renderer {
 
 		// Exempt shortcodes from wptexturize()
 		add_filter( 'no_texturize_shortcodes',            array( $this, 'no_texturize_shortcodes' ) );
+*/
 
 		$this->register_placeholder_shortcodes();
 	}

@@ -16,8 +16,8 @@ class SyntaxHighlighter_Renderer_SH3 extends SyntaxHighlighter_Renderer {
 		parent::set_shortcodes();
 
 		// Remove some shortcodes we don't want while still supporting them as language values
-		unset( $this->shortcodes[ array_search( 'latex', $this->shortcodes ) ] ); // Remove "latex" shortcode (it'll collide with rendering shortcodes)
-		unset( $this->shortcodes[ array_search( 'r', $this->shortcodes ) ] );     // Remove "r" shortcode (too short)
+		//unset( $this->shortcodes[ array_search( 'latex', $this->shortcodes ) ] ); // Remove "latex" shortcode (it'll collide with rendering shortcodes)
+		//unset( $this->shortcodes[ array_search( 'r', $this->shortcodes ) ] );     // Remove "r" shortcode (too short)
 	}
 
 	public function shortcode_callback( $atts, $code = '', $tag = false ) {
