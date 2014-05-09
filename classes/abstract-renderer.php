@@ -3,18 +3,34 @@
 abstract class SyntaxHighlighter_Renderer {
 	public $core;
 
-	public $themes     = array();
-	public $languages  = array();
+	public $themes = array();
+	public $languages = array();
 	public $shortcodes = array();
 
 	function __construct( $core ) {
 		$this->core = $core;
 
-		//$this->register_hooks();
+		$this->init();
 	}
 
-	public function define_languages() {}
-	public function define_shortcodes() {}
+	public function set_languages() {
+		$this->languages = array();
+	}
+
+	public function set_shortcodes() {
+		$this->shortcodes = array_merge( array( 'code', 'sourcecode', 'source' ), array_keys( $this->languages ) );
+	}
+
+	abstract public function shortcode_callback( $atts, $code = '', $tag = false );
+
+	public function init() {
+		$this->set_languages();
+		$this->set_shortcodes();
+
+		$this->shortcodes = (array) apply_filters( 'syntaxhighlighter_shortcodes', $this->shortcodes );
+
+		//$this->register_hooks();
+	}
 
 	public function register_hooks() {
 		// Display hooks
@@ -41,6 +57,18 @@ abstract class SyntaxHighlighter_Renderer {
 
 		// Exempt shortcodes from wptexturize()
 		add_filter( 'no_texturize_shortcodes',            array( $this, 'no_texturize_shortcodes' ) );
+
+		$this->register_placeholder_shortcodes();
+	}
+
+	public function register_placeholder_shortcodes() {
+		foreach ( $this->shortcodes as $shortcode ) {
+			add_shortcode( $shortcode, '__return_true' );
+		}
+	}
+
+	public function parse_shortcodes( $content ) {
+		return $this->parse_specific_shortcodes( $content, $this->shortcodes, array( $this, 'shortcode_callback' ) );
 	}
 
 	public function parse_specific_shortcodes( $content, $shortcodes, $callback ) {

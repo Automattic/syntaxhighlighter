@@ -1,7 +1,9 @@
 <?php
 
 /**
- * This contains the code from the old version of the plugin.
+ * This contains a development version of the plugin where I was working to
+ * update and refresh the plugin before I decided to completely rewrite it
+ * from scratch. This version is super hacky and not fully functioning.
  *
  * I want to keep it in this tree so that if/when I move code from it
  * to the new file, the revision history tracks it.
