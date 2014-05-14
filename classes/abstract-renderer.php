@@ -25,11 +25,17 @@ abstract class SyntaxHighlighter_Renderer {
 
 	public function init() {
 		$this->set_languages();
-		$this->set_shortcodes();
 
-		$this->shortcodes = (array) apply_filters( 'syntaxhighlighter_shortcodes', $this->shortcodes );
+		$this->set_shortcodes();
+		/**
+		 * Use this filter to remove any shortcodes you don't want to use.
+		 * Do not use this filter to add any additional shortcodes as it won't work.
+		 * Instead you'll need to register the new language or alias with this plugin.
+		 */
+		$this->shortcodes = (array) apply_filters( 'syntaxhighlighter_shortcodes', $this->shortcodes, $this->core );
 
 		$this->register_hooks();
+		$this->register_placeholder_shortcodes();
 	}
 
 	public function register_hooks() {
@@ -59,8 +65,6 @@ abstract class SyntaxHighlighter_Renderer {
 		// Exempt shortcodes from wptexturize()
 		add_filter( 'no_texturize_shortcodes',            array( $this, 'no_texturize_shortcodes' ) );
 */
-
-		$this->register_placeholder_shortcodes();
 	}
 
 	public function register_placeholder_shortcodes() {
