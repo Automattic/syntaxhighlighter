@@ -53,32 +53,6 @@ class SyntaxHighlighter_Old {
 		add_filter( 'save_post',                          array( $this, 'mark_as_encoded' ),                               10, 2 );
 		add_filter( 'plugin_action_links',                array( $this, 'settings_link' ),                                 10, 2 );
 
-		// Create array of default settings (you can use the filter to modify these)
-		$this->defaultsettings = (array) apply_filters( 'syntaxhighlighter_defaultsettings', array(
-			'theme'          => 'default',
-			'loadallbrushes' => 0,
-			'shversion'      => 3,
-			'title'          => '',
-			'autolinks'      => 1,
-			'classname'      => '',
-			'collapse'       => 0,
-			'firstline'      => 1,
-			'gutter'         => 1,
-			'htmlscript'     => 0,
-			'light'          => 0,
-			'padlinenumbers' => 'false',
-			'smarttabs'      => 1,
-			'tabsize'        => 4,
-			'toolbar'        => 0,
-			'wraplines'      => 1, // 2.x only
-		) );
-
-
-		// Create the settings array by merging the user's settings and the defaults
-		$usersettings = (array) get_option( 'syntaxhighlighter_settings' );
-		$this->settings = wp_parse_args( $usersettings, $this->defaultsettings );
-
-		$this->agsh_folder = ( 2 == $this->settings['shversion'] ) ? 'syntaxhighlighter2' : 'syntaxhighlighter3';
 
 		// Create list of brush aliases and map them to their real brushes
 		$this->plugin_brushes = array(
@@ -143,25 +117,6 @@ class SyntaxHighlighter_Old {
 		// Let people register additional brushes
 		// See http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/adding-a-new-brush-language/
 		$this->brushes = (array) apply_filters( 'syntaxhighlighter_brushes', $this->plugin_brushes );
-
-
-		// Create a list of shortcodes to use. You can use the filter to add/remove ones.
-		// If the language/lang parameter is left out, it's assumed the shortcode name is the language.
-		// If that's invalid, then "plain" is used.
-		$this->shortcodes = array( 'sourcecode', 'source', 'code' );
-		$this->shortcodes = array_merge( $this->shortcodes, array_keys( $this->brushes ) );
-
-		// Remove some shortcodes we don't want while still supporting them as language values
-		unset( $this->shortcodes[ array_search( 'latex', $this->shortcodes ) ] ); // Remove "latex" shortcode (it'll collide)
-		unset( $this->shortcodes[ array_search( 'r', $this->shortcodes ) ] );     // Remove "r" shortcode (too short)
-
-		$this->shortcodes = (array) apply_filters( 'syntaxhighlighter_shortcodes', $this->shortcodes );
-
-		// Register each shortcode with a placeholder callback so that strip_shortcodes() will work
-		// The proper callback and such is done in SyntaxHighlighter::shortcode_hack()
-		foreach ( $this->shortcodes as $shortcode ) {
-			add_shortcode( $shortcode, '__return_true' );
-		}
 
 		// Todo -- make this on-demand
 		$this->additional_setup();
