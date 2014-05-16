@@ -26,13 +26,6 @@ class SyntaxHighlighter {
 	public $renderer;
 
 	function __construct() {
-		global $wp_version;
-
-		// Requires WordPress 3.3+ but you really should be using the latest version!
-		if ( ! version_compare( $wp_version, '3.3', '>=' ) ) {
-			return;
-		}
-
 		// Load localization file
 		load_plugin_textdomain( 'syntaxhighlighter', false, dirname( plugin_basename( __FILE__ ) ) . '/localization/' );
 
