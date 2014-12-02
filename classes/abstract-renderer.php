@@ -13,16 +13,6 @@ abstract class SyntaxHighlighter_Renderer {
 		$this->init();
 	}
 
-	public function set_languages() {
-		$this->languages = array();
-	}
-
-	public function set_shortcodes() {
-		$this->shortcodes = array_merge( array( 'code', 'sourcecode', 'source' ), array_keys( $this->languages ) );
-	}
-
-	abstract public function shortcode_callback( $atts, $code = '', $tag = false );
-
 	public function init() {
 		$this->set_languages();
 
@@ -36,6 +26,14 @@ abstract class SyntaxHighlighter_Renderer {
 
 		$this->register_hooks();
 		$this->register_placeholder_shortcodes();
+	}
+
+	public function set_languages() {
+		$this->languages = array();
+	}
+
+	public function set_shortcodes() {
+		$this->shortcodes = array_merge( array( 'code', 'sourcecode', 'source' ), array_keys( $this->languages ) );
 	}
 
 	public function register_hooks() {
@@ -158,5 +156,60 @@ abstract class SyntaxHighlighter_Renderer {
 			// self-closing tag
 			return $m[1] . call_user_func( $shortcode_tags[$tag], $attr, NULL,  $tag ) . $m[6];
 		}
+	}
+
+	public function shortcode_callback( $atts, $code = '', $tag = false ) {
+		$code = apply_filters( 'syntaxhighlighter_precode', $code, $atts, $tag );
+
+		if ( ! $code ) {
+			return $code;
+		}
+
+		if ( ! $tag ) {
+			return '<pre>' . esc_html( $code ) . '</pre>';
+		}
+
+		// Error fixing for [shortcode="language"]
+		if ( isset( $atts[0] ) ) {
+			$atts = $this->fix_no_name_attribute( $atts );
+			$atts['language'] = $atts[0];
+			unset( $atts[0] );
+		}
+
+		$atts = $this->set_any_missing_attributes( $atts );
+
+		return '<pre>' . $code . '</pre>';
+	}
+
+	/**
+	 * No-name attribute fixing, i.e. [shortcode="foobar"].
+	 * When a user does that, you get $atts[0] set to '="foo"'.
+	 *
+	 * @see https://core.trac.wordpress.org/ticket/7045
+	 *
+	 * @param array $atts Array of shortcode attributes.
+	 *
+	 * @return array
+	 */
+	public function fix_no_name_attribute( $atts = array() ) {
+		if ( empty( $atts[0] ) ) {
+			return $atts;
+		}
+
+		// Quoted value
+		if ( 0 !== preg_match( '#=("|\')(.*?)\1#', $atts[0], $match ) ) {
+			$atts[0] = $match[2];
+		}
+
+		// Unquoted value
+		elseif ( '=' == substr( $atts[0], 0, 1 ) ) {
+			$atts[0] = substr( $atts[0], 1 );
+		}
+
+		return $atts;
+	}
+
+	public function set_any_missing_attributes( $atts ) {
+		return apply_filters( 'syntaxhighlighter_shortcodeatts', $atts );
 	}
 }
