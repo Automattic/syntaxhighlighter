@@ -5,6 +5,8 @@ class SyntaxHighlighter_Admin {
 
 	public function __construct( $core ) {
 		$this->core = $core;
+
+		$this->register_hooks();
 	}
 
 	public function register_hooks() {
