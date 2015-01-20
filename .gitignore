@@ -1,3 +1,4 @@
 .svn
 .idea
 tests/config.php
+phpunit.xml
