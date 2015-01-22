@@ -43,6 +43,16 @@ class SyntaxHighlighter_Tests_Render extends WP_UnitTestCase {
 		}
 	}
 
+	public function test_shortcode_language_invalid() {
+		$content = apply_filters( 'the_content', '[code lang="helloworld"]Hello World[/code]' );
+
+		if ( SyntaxHighlighter_Tests_Helper::is_3x() ) {
+			$this->assertEquals( '<p>Hello World</p>' . "\n", $content );
+		} else {
+			$this->assertEquals( '<pre class="brush: plain; notranslate">Hello World</pre>' . "\n", $content );
+		}
+	}
+
 	public function test_shortcode_attribute_sanitization_type_boolean_true() {
 		$content = apply_filters( 'the_content', '[code light="true"]Hello World[/code]' );
 
@@ -104,12 +114,32 @@ class SyntaxHighlighter_Tests_Render extends WP_UnitTestCase {
 	}
 
 	public function test_shortcode_attribute_sanitization_type_boolean_invalid() {
-		$content = apply_filters( 'the_content', '[code light="hello"]Hello World[/code]' );
+		$content = apply_filters( 'the_content', '[code light="helloworld"]Hello World[/code]' );
 
 		if ( SyntaxHighlighter_Tests_Helper::is_3x() ) {
 			$this->assertEquals( '<pre class="brush: plain; title: ; notranslate" title="">Hello World</pre>' . "\n", $content );
 		} else {
 			$this->assertEquals( '<pre class="brush: plain; notranslate">Hello World</pre>' . "\n", $content );
+		}
+	}
+
+	public function test_shortcode_attribute_sanitization_type_integer_number() {
+		$content = apply_filters( 'the_content', '[code firstline="10"]Hello World[/code]' );
+
+		if ( SyntaxHighlighter_Tests_Helper::is_3x() ) {
+			$this->assertEquals( '<pre class="brush: plain; first-line: 10; title: ; notranslate" title="">Hello World</pre>' . "\n", $content );
+		} else {
+			$this->assertEquals( '<pre class="brush: plain; first-line: 10; notranslate">Hello World</pre>' . "\n", $content );
+		}
+	}
+
+	public function test_shortcode_attribute_sanitization_type_integer_invalid() {
+		$content = apply_filters( 'the_content', '[code firstline="helloworld"]Hello World[/code]' );
+
+		if ( SyntaxHighlighter_Tests_Helper::is_3x() ) {
+			$this->assertEquals( '<pre class="brush: plain; first-line: 0; title: ; notranslate" title="">Hello World</pre>' . "\n", $content );
+		} else {
+			$this->assertEquals( '<pre class="brush: plain; first-line: 0; notranslate">Hello World</pre>' . "\n", $content );
 		}
 	}
 }
