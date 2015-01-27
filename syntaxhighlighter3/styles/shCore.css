@@ -82,7 +82,7 @@
   white-space: pre !important;
 }
 .syntaxhighlighter table {
-  table-layout: auto;
+  table-layout: auto !important;
   width: 100% !important;
 }
 .syntaxhighlighter table caption {
