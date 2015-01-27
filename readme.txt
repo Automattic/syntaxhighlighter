@@ -55,6 +55,12 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 
 == ChangeLog ==
 
+= Version 3.1.11 =
+
+* SyntaxHighlighter 3.x: Fix table layout issue. Props jeherve.
+* Fix sanitization bug for "classname" parameter.
+* Fix a bug that prevented highlighting a range of lines, such as "5-10".
+
 = Version 3.1.10 =
 
 * New version of SyntaxHighlighter 3.x library to address XSS security issue. Props Ben Bidner for finding the bug and Alex Gorbatchev working with us (Automattic) to patch the issue.
