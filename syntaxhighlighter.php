@@ -900,7 +900,7 @@ class SyntaxHighlighter {
 			}
 
 			// Sanitize the "classname" parameter
-			if ( 'classname' == $key )
+			if ( 'class-name' == $key )
 				$value = trim( preg_replace( '/[^a-zA-Z0-9 _-]/i', '', $value ) );
 
 			// Special sanitization for "pad-line-numbers"
@@ -924,7 +924,7 @@ class SyntaxHighlighter {
 
 			// Sanitize row highlights
 			if ( 'highlight' == $key ) {
-				if ( false === strpos( $value, ',' ) ) {
+				if ( false === strpos( $value, ',' ) && false === strpos( $value, '-' ) ) {
 					$value = (int) $value;
 				} else {
 					$lines = explode( ',', $value );
