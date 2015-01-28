@@ -21,9 +21,15 @@ Thanks to:
 class SyntaxHighlighter {
 	public $pluginver = '4.0.0-alpha';
 
+	public $supported_renderers = array();
+
 	public $settings;
 	public $admin;
 	public $renderer;
+
+	public $themes = array();
+	public $languages = array();
+	public $shortcodes = array();
 
 	function __construct() {
 		// Load localization file
@@ -51,30 +57,29 @@ class SyntaxHighlighter {
 	}
 
 	public function load_renderer() {
-		switch ( $this->settings->renderer ) {
-			case 'sh2':
-				wp_die( 'not implemented yet' );
-				break;
+		$this->supported_renderers = apply_filters( 'syntaxhighlighter_supported_renderers', array(
+			'sh2' => array(
+				'file' => __DIR__ . '/classes/class-renderer-syntaxhighlighter2.php',
+				'class' => 'SyntaxHighlighter_Renderer_SH2',
+			),
+			'sh3' => array(
+				'file' => __DIR__ . '/classes/class-renderer-syntaxhighlighter3.php',
+				'class' => 'SyntaxHighlighter_Renderer_SH3',
+			),
+		) );
 
-			case 'sh3':
-				require_once( __DIR__ . '/classes/class-renderer-syntaxhighlighter3.php' );
-
-				$this->renderer = new SyntaxHighlighter_Renderer_SH3( $this );
-
-				break;
-
-			// You could theoretically implement your own render if you wanted,
-			// but this isn't 100% set up for that. Let me know how it goes!
-			default;
-				do_action( 'syntaxhighlighter_load_renderer', $this );
+		if ( empty( $this->settings->renderer ) || empty( $this->supported_renderers[ $this->settings->renderer ] ) ) {
+			$this->settings->renderer = 'sh3';
 		}
 
-		// Reset settings to default if the user's renderer setting was invalid
-		if ( ! $this->renderer ) {
-			$this->settings->reset_to_default( 'renderer' );
-			require_once( __DIR__ . '/classes/class-renderer-syntaxhighlighter3.php' );
-			$this->renderer = new SyntaxHighlighter_Renderer_SH3( $this );
+		// Just for simplicity
+		$renderer = $this->supported_renderers[ $this->settings->renderer ];
+
+		if ( ! empty( $renderer['file'] ) ) {
+			require_once( $renderer['file'] );
 		}
+
+		$this->renderer = new $renderer['class']( $this );
 	}
 }
 
