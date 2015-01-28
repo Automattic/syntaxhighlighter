@@ -11,31 +11,31 @@ class SyntaxHighlighter_Settings {
 	public function __construct( $core ) {
 		$this->core = $core;
 
-		$this->maybe_upgrade();
+		$this->settings = $this->get_settings();
 
-		$this->settings = $this->get_settings_with_defaults();
+		$this->maybe_upgrade();
 	}
 
 	public function __get( $name ) {
 		if ( array_key_exists( $name, $this->settings ) ) {
 			return $this->settings[ $name ];
 		} else {
-			return null;
+			$defaults = $this->get_defaults();
+
+			if ( array_key_exists( $name, $defaults ) ) {
+				return $defaults[ $name ];
+			}
 		}
+
+		return null;
 	}
 
 	public function __set( $name, $value ) {
-		$settings = $this->get_settings_without_defaults();
-
-		if ( is_null ( $value ) ) {
+		if ( is_null( $value ) ) {
 			unset( $this->settings[ $name ] );
-			unset( $settings[ $name ] );
 		} else {
 			$this->settings[ $name ] = $value;
-			$settings[ $name ] = $value;
 		}
-
-		update_option( $this->setting_name, $settings );
 	}
 
 	public function __isset( $name ) {
@@ -44,12 +44,12 @@ class SyntaxHighlighter_Settings {
 		return isset( $var );
 	}
 
-	public function get_settings_without_defaults() {
+	public function get_settings() {
 		return (array) get_option( $this->setting_name, array() );
 	}
 
-	public function get_settings_with_defaults( $defaults = array() ) {
-		return wp_parse_args( $this->get_settings_without_defaults(), $this->get_defaults( $defaults ) );
+	public function save() {
+		update_option( $this->setting_name, $this->settings );
 	}
 
 	public function get_defaults( $defaults = array() ) {
@@ -78,44 +78,42 @@ class SyntaxHighlighter_Settings {
 	}
 
 	public function reset_to_default( $name ) {
-		$this->__set( $name, null );
+		unset( $this->settings[ $name ] );
 	}
 
 	public function reset_all() {
-		update_option( $this->setting_name, array() );
-		$this->settings = $this->get_settings_with_defaults();
+		$this->settings = array();
+		$this->save();
 	}
 
 	public function maybe_upgrade() {
-		$settings = $this->get_settings_without_defaults();
-
-		if ( empty( $settings['version'] ) ) {
-			$settings['version'] = 0;
+		if ( empty( $this->settings['version'] ) ) {
+			$this->settings['version'] = 0;
 		}
 
 		$modified = false;
 
-		if ( $settings['version'] < 4 ) {
-			if ( ! empty( $settings['shversion'] ) ) {
-				switch ( $settings['shversion'] ) {
+		if ( $this->settings['version'] < 4 ) {
+			if ( ! empty( $this->settings['shversion'] ) ) {
+				switch ( $this->settings['shversion'] ) {
 					case 2:
-						$settings['renderer'] = 'sh2';
+						$this->settings['renderer'] = 'sh2';
 						break;
 
 					case 3:
-						$settings['renderer'] = 'sh3';
+						$this->settings['renderer'] = 'sh3';
 						break;
 
 				}
 
-				unset( $settings['shversion'] );
+				unset( $this->settings['shversion'] );
 
 				$modified = true;
 			}
 		}
 
 		if ( $modified ) {
-			update_option( $this->setting_name, $settings );
+			update_option( $this->setting_name, $this->settings );
 		}
 
 		return $modified;
@@ -149,14 +147,10 @@ class SyntaxHighlighter_Settings {
 			// None/off
 			if ( 'false' == $raw_settings['padlinenumbers'] ) {
 				$settings['padlinenumbers'] = 'false';
-			}
-
-			// Automatic
+			} // Automatic
 			elseif ( 'true' == $raw_settings['padlinenumbers'] ) {
 				$settings['padlinenumbers'] = 'true';
-			}
-
-			// How much to pad
+			} // How much to pad
 			elseif ( $raw_settings['padlinenumbers'] > 0 ) {
 				$settings['padlinenumbers'] = (int) $raw_settings['padlinenumbers'];
 			}
@@ -167,18 +161,18 @@ class SyntaxHighlighter_Settings {
 		}
 
 		// Checkboxes
-		$settings['autolinks']      = ( ! empty( $raw_settings['autolinks'] ) )      ? 1 : 0;
-		$settings['collapse']       = ( ! empty( $raw_settings['collapse'] ) )       ? 1 : 0;
-		$settings['gutter']         = ( ! empty( $raw_settings['gutter'] ) )         ? 1 : 0;
-		$settings['gutter']         = ( ! empty( $raw_settings['gutter'] ) )         ? 1 : 0;
-		$settings['light']          = ( ! empty( $raw_settings['light'] ) )          ? 1 : 0;
-		$settings['smarttabs']      = ( ! empty( $raw_settings['smarttabs'] ) )      ? 1 : 0;
-		$settings['toolbar']        = ( ! empty( $raw_settings['toolbar'] ) )        ? 1 : 0; // May be overridden below
+		$settings['autolinks'] = ( ! empty( $raw_settings['autolinks'] ) ) ? 1 : 0;
+		$settings['collapse']  = ( ! empty( $raw_settings['collapse'] ) ) ? 1 : 0;
+		$settings['gutter']    = ( ! empty( $raw_settings['gutter'] ) ) ? 1 : 0;
+		$settings['gutter']    = ( ! empty( $raw_settings['gutter'] ) ) ? 1 : 0;
+		$settings['light']     = ( ! empty( $raw_settings['light'] ) ) ? 1 : 0;
+		$settings['smarttabs'] = ( ! empty( $raw_settings['smarttabs'] ) ) ? 1 : 0;
+		$settings['toolbar']   = ( ! empty( $raw_settings['toolbar'] ) ) ? 1 : 0; // May be overridden below
 
 		// SH 2.x only
 		// @TODO: Move these to the renderer class?
 		$settings['loadallbrushes'] = ( ! empty( $raw_settings['loadallbrushes'] ) ) ? 1 : 0;
-		$settings['wraplines']      = ( ! empty( $raw_settings['wraplines'] ) )      ? 1 : 0; // 2.x only for now
+		$settings['wraplines']      = ( ! empty( $raw_settings['wraplines'] ) ) ? 1 : 0; // 2.x only for now
 
 		// If the renderer changed, reset the toolbar preference
 		if ( ! empty( $settings['renderer'] ) && $settings['renderer'] != $this->__get( 'renderer' ) ) {
