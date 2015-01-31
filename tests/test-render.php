@@ -3,6 +3,17 @@
 require_once( __DIR__ . '/helper.php' );
 
 class SyntaxHighlighter_Tests_Render extends WP_UnitTestCase {
+	public $instances = array();
+
+	function __construct() {
+		//remove_action( 'plugins_loaded', 'SyntaxHighlighter' );
+
+		$this->instances = array(
+			'sh2' => new SyntaxHighlighter( array( 'renderer' => 'sh2' ) ),
+			'sh3' => new SyntaxHighlighter( array( 'renderer' => 'sh3' ) ),
+		);
+	}
+
 	public function test_shortcode_basic() {
 		$content = apply_filters( 'the_content', '[code]Hello World[/code]' );
 
