@@ -9,6 +9,7 @@ class SyntaxHighlighter_Renderer_SH3 extends SyntaxHighlighter_Renderer {
 			'foo'   => 'foo',
 			'bar'   => 'foo',
 			'latex' => 'test',
+			'php'   => 'php',
 		);
 	}
 
