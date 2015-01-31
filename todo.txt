@@ -1,1 +1,3 @@
 Pay attention to https://core.trac.wordpress.org/ticket/22249 for async scripts
+Introduce helper functions that automatically hook into do_action() for adding new shortcodes/languages/thenes maybe?
+Add support for highlight.js: https://highlightjs.org/  Good way to test support for non-SyntaxHighlighter scripts
