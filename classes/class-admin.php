@@ -32,4 +32,8 @@ class SyntaxHighlighter_Admin {
 	public function register_settings_page() {
 		add_options_page( __( 'SyntaxHighlighter Settings', 'syntaxhighlighter' ), __( 'SyntaxHighlighter', 'syntaxhighlighter' ), 'manage_options', 'syntaxhighlighter', array( $this, 'settings_page' ) );
 	}
+
+	public function settings_page() {
+		echo 'Hello world!';
+	}
 }

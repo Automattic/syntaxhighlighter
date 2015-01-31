@@ -22,7 +22,9 @@ class SyntaxHighlighter {
 	public $pluginver = '4.0.0-alpha';
 
 	public $supported_renderers = array();
+	public $settings_overrides = array();
 
+	public $helpers;
 	public $settings;
 	public $admin;
 	public $renderer;
@@ -31,7 +33,9 @@ class SyntaxHighlighter {
 	public $languages = array();
 	public $shortcodes = array();
 
-	function __construct() {
+	function __construct( $settings_overrides = array() ) {
+		$this->settings_overrides = $settings_overrides;
+
 		// Load localization file
 		load_plugin_textdomain( 'syntaxhighlighter', false, dirname( plugin_basename( __FILE__ ) ) . '/localization/' );
 
@@ -40,15 +44,22 @@ class SyntaxHighlighter {
 	}
 
 	public function init() {
+		$this->load_helpers();
 		$this->load_user_settings();
 		$this->load_admin();
 		$this->load_renderer();
 	}
 
+	public function load_helpers() {
+		$this->helpers = new stdClass();
+
+		require_once( __DIR__ . '/classes/class-formatting.php' );
+		$this->helpers->formatting = new SyntaxHighlighter_Formatting( $this );
+	}
+
 	public function load_user_settings() {
 		require_once( __DIR__ . '/classes/class-settings.php' );
-		$this->settings = new SyntaxHighlighter_Settings( $this );
-
+		$this->settings = new SyntaxHighlighter_Settings( $this, $this->settings_overrides );
 	}
 
 	public function load_admin() {

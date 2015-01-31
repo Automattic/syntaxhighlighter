@@ -8,12 +8,16 @@ class SyntaxHighlighter_Settings {
 
 	public $settings = array();
 
-	public function __construct( $core ) {
+	public function __construct( $core, $overrides = array() ) {
 		$this->core = $core;
 
 		$this->settings = $this->get_settings();
 
 		$this->maybe_upgrade();
+
+		if ( ! empty( $overrides ) ) {
+			$this->settings = array_merge( $this->settings, $overrides );
+		}
 	}
 
 	public function __get( $name ) {
@@ -94,6 +98,7 @@ class SyntaxHighlighter_Settings {
 		$modified = false;
 
 		if ( $this->settings['version'] < 4 ) {
+			// Retire "shversion" in favor of "renderer"
 			if ( ! empty( $this->settings['shversion'] ) ) {
 				switch ( $this->settings['shversion'] ) {
 					case 2:
@@ -103,7 +108,6 @@ class SyntaxHighlighter_Settings {
 					case 3:
 						$this->settings['renderer'] = 'sh3';
 						break;
-
 				}
 
 				unset( $this->settings['shversion'] );

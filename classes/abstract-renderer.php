@@ -3,10 +3,6 @@
 abstract class SyntaxHighlighter_Renderer {
 	public $core;
 
-	public $themes = array();
-	public $languages = array();
-	public $shortcodes = array();
-
 	function __construct( $core ) {
 		$this->core = $core;
 
