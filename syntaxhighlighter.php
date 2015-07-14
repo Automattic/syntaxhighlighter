@@ -200,7 +200,7 @@ class SyntaxHighlighter {
 			'pl'            => 'perl',
 			'php'           => 'php',
 			'plain'         => 'plain',
-			'text'          => 'plain',
+			'text'          => 'plain', // Not used as a shortcode
 			'ps'            => 'powershell',
 			'powershell'    => 'powershell',
 			'py'            => 'python',
@@ -230,6 +230,7 @@ class SyntaxHighlighter {
 
 		// Remove some shortcodes we don't want while still supporting them as language values
 		unset( $this->shortcodes[array_search( 'latex', $this->shortcodes )] ); // Remove "latex" shortcode (it'll collide)
+		unset( $this->shortcodes[array_search( 'text', $this->shortcodes )] ); // Remove "text" shortcode (it'll collide)
 		unset( $this->shortcodes[array_search( 'r', $this->shortcodes )] ); // Remove "r" shortcode (too short)
 
 		$this->shortcodes = (array) apply_filters( 'syntaxhighlighter_shortcodes', $this->shortcodes );
@@ -809,7 +810,7 @@ class SyntaxHighlighter {
 
 			// Default to plain text
 			else
-				$lang = 'text';
+				$lang = 'plain';
 
 			// All language aliases are lowercase
 			$lang = strtolower( $lang );
