@@ -3,7 +3,7 @@ Contributors: Viper007Bond, automattic
 Donate link: http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/donate/
 Tags: code, sourcecode, php, xhtml, html, css, WordPress.com
 Requires at least: 2.7
-Tested up to: 4.2
+Tested up to: 4.3
 Stable tag: trunk
 
 Easily post syntax-highlighted code to your site without having to modify the code at all. As seen on WordPress.com.
@@ -54,6 +54,10 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 2. A part of the Settings page which controls the defaults.
 
 == ChangeLog ==
+
+= Version 3.1.12 =
+
+* Updated editor JavaScript for WordPress 4.3. Props Andrew Ozz (@azaozz).
 
 = Version 3.1.11 =
 
@@ -243,8 +247,3 @@ Localizations:
 = Version 1.0.0 =
 
 * Initial release!
-
-== Upgrade Notice ==
-
-= 3.1.10 =
-Important security update.
