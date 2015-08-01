@@ -406,13 +406,16 @@ class SyntaxHighlighter {
 		// In certain weird circumstances, the content gets run through "content_save_pre" twice
 		// Keep track and don't allow this filter to be run twice
 		// I couldn't easily figure out why this happens and didn't bother looking into it further as this works fine
-		if ( true == $this->content_save_pre_ran )
+		if ( true == $this->content_save_pre_ran ) {
 			return $content;
+		}
 		$this->content_save_pre_ran = true;
 
 		// Post quick edits aren't decoded for display, so we don't need to encode them (again)
-		if ( ! empty( $_POST ) && !empty( $_POST['action'] ) && 'inline-save' == $_POST['action'] )
+		// This also aborts for (un)trashing to avoid extra encoding.
+		if ( empty( $_POST ) || ( ! empty( $_POST['action'] ) && 'inline-save' == $_POST['action'] ) ) {
 			return $content;
+		}
 
 		return $this->encode_shortcode_contents_slashed( $content );
 	}
