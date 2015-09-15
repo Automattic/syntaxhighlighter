@@ -42,26 +42,24 @@ SyntaxHighlighter.brushes.Swift = function() {
 	attributes += ' @UIApplicationMain';
 	
 	var otherKeywords = 'IBAction IBOutlet IBInspectable IBDesignable';
-	keywords += 'super self copy ';
-	keywords += 'break case catch class const copy __finally __exception __try ';
-	keywords += 'const_cast continue private public protected __declspec ';
-	keywords += 'default delete deprecated dllexport dllimport do dynamic_cast ';
-	keywords += 'else enum explicit extern if for friend goto inline ';
-	keywords += 'mutable naked namespace new noinline noreturn nothrow ';
-	keywords += 'register reinterpret_cast return selectany ';
-	keywords += 'sizeof static static_cast struct switch template this ';
-	keywords += 'thread throw true false try typedef typeid typename union ';
-	keywords += 'using uuid virtual volatile whcar_t while';
 	
 	this.regexList = [
-		{ regex: SyntaxHighlighter.regexLib.singleLineCComments,	css: 'comment' },		// one line comments
-		{ regex: SyntaxHighlighter.regexLib.multiLineCComments,		css: 'comment' },		// multiline comments
-		{ regex: SyntaxHighlighter.regexLib.doubleQuotedString,		css: 'string' },		// double quoted strings
-		{ regex: new RegExp('^ *#.*', 'gm'),						css: 'preprocessor' },	// preprocessor
-		{ regex: new RegExp(this.getKeywords(datatypes), 'gm'),		css: 'datatypes' },		// datatypes
-		{ regex: new RegExp(this.getKeywords(keywords), 'gm'),		css: 'keyword' },		// keyword
-		{ regex: new RegExp('\\bNS\\w+\\b', 'g'),					css: 'keyword' },		// keyword
-		{ regex: new RegExp('@\\w+\\b', 'g'),						css: 'keyword' }		// keyword
+		{ regex: SyntaxHighlighter.regexLib.singleLineCComments,	css: 'comment' },		// One line comments
+		{ regex: SyntaxHighlighter.regexLib.multiLineCComments,		css: 'comment' },		// Multiline comments
+		{ regex: SyntaxHighlighter.regexLib.doubleQuotedString,		css: 'string' },		// Double quoted strings
+		{ regex: new RegExp('^ *#.*', 'gm'),				css: 'preprocessor' },		// Preprocessor
+		{ regex: new RegExp(this.getKeywords(datatypes), 'gm'),		css: 'datatypes' },		// Datatypes
+		{ regex: new RegExp(this.getKeywords(declarations), 'gm'),	css: 'keyword' },		// Declarations
+		{ regex: new RegExp(this.getKeywords(statements), 'gm'),	css: 'keyword' },		// Statements
+		{ regex: new RegExp(this.getKeywords(expressions), 'gm'),	css: 'keyword' },		// Expressions
+		{ regex: new RegExp(this.getKeywords(specificContexts), 'gm'),	css: 'keyword' },		// Specific Contexts
+		//{ regex: new RegExp(this.getKeywords(punctuation), 'gm'),	css: 'constants' },		// Declarations
+		//{ regex: new RegExp(this.getKeywords(operators), 'gm'),		css: 'constants' },		// Declarations
+		{ regex: new RegExp(this.getKeywords(attributes), 'gm'),	css: 'keyword' },		// Attributes
+		{ regex: new RegExp(this.getKeywords(otherKeywords), 'gm'),	css: 'keyword' },		// Other keywords
+		{ regex: new RegExp('\\bNS\\w+\\b', 'g'),			css: 'datatypes' },		// Foundation classes
+		{ regex: new RegExp('\\bUI\\w+\\b', 'g'),			css: 'datatypes' }, 		// UIKit classes
+		{ regex: new RegExp('@\\w+\\b', 'g'),				css: 'keyword' }		// keyword
 		];
 }
 
