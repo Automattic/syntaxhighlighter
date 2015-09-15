@@ -20,7 +20,10 @@
 
 SyntaxHighlighter.brushes.Swift = function() {
 	
-	var datatypes =	'char bool BOOL double float int long short id void';
+	var datatypes =	'Array Bool Character Dictionary Double Float Int Int16 Int32 Int64 Int8 Range Set String';
+	datatypes += ' UInt UInt16 UInt32 UInt64 UInt8 Unmanaged UnsafeBufferPointer UnsafePointer Optional'
+	datatypes += ' AnyObject BooleanType CollectionType Comparable ErrorType Equatable Hashable Indexable'
+	datatypes += ' IntegerType OptionSetType SequenceType UnsignedIntegerType'
 	
 	var declarations = 'class deinit enum extension func import init inout internal let operator private protocol public static struct subscript typealias var';
 	
@@ -30,9 +33,9 @@ SyntaxHighlighter.brushes.Swift = function() {
 	
 	var specificContexts = 'associativity convenience dynamic didSet final get infix indirect lazy left mutating none nonmutating optional override postfix precedence prefix Protocol required right set Type unowned weak willSet';
 	
-	var punctuation = '( ) { } [ ] . , : ; = @ # & ( -> ` ? !';
+	var punctuation = '( ) { } [ ] . , : ; = @ # & ( -> ` ? ! _';
 	
-	var keywords = 'IBAction IBOutlet SEL YES NO readwrite readonly nonatomic nil NULL ';
+	var otherKeywords = 'IBAction IBOutlet Selector @availability @objc';
 	keywords += 'super self copy ';
 	keywords += 'break case catch class const copy __finally __exception __try ';
 	keywords += 'const_cast continue private public protected __declspec ';
