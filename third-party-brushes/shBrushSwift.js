@@ -24,7 +24,7 @@ SyntaxHighlighter.brushes.Swift = function() {
 	datatypes += ' UInt UInt16 UInt32 UInt64 UInt8 Unmanaged UnsafeBufferPointer UnsafePointer Optional'
 	datatypes += ' AnyObject BooleanType CollectionType Comparable ErrorType Equatable Hashable Indexable'
 	datatypes += ' IntegerType OptionSetType SequenceType UnsignedIntegerType'
-	datatypes += ' AnyObject? T T? Element Key Value ArraySlice';
+	datatypes += ' AnyObject? T T? Element Key Value ArraySlice ImplicitlyUnwrappedOptional Selector';
 	
 	var declarations = 'class deinit enum extension func import init inout internal let operator private protocol public static struct subscript typealias var';
 	
@@ -38,7 +38,10 @@ SyntaxHighlighter.brushes.Swift = function() {
 	
 	var operators = '++ -- ~ + - << >> * / % &* & &+ &- | ^ ..< ... as? as! ?? < <= > >= == != === !== ~= && || ?: = *= /= %= += -= <<= >>= &= |= ^= &&= ||='
 	
-	var otherKeywords = 'IBAction IBOutlet Selector @availability @objc';
+	var attributes = '@availability @autoclosure @noescape @noreturn @NSApplicationMain @NSCopying @NSManaged @objc';
+	attributes += ' @UIApplicationMain';
+	
+	var otherKeywords = 'IBAction IBOutlet IBInspectable IBDesignable';
 	keywords += 'super self copy ';
 	keywords += 'break case catch class const copy __finally __exception __try ';
 	keywords += 'const_cast continue private public protected __declspec ';
