@@ -41,7 +41,7 @@ SyntaxHighlighter.brushes.Swift = function() {
 	var attributes = '@availability @autoclosure @noescape @noreturn @NSApplicationMain @NSCopying @NSManaged @objc';
 	attributes += ' @UIApplicationMain';
 	
-	var otherKeywords = 'IBAction IBOutlet IBInspectable IBDesignable';
+	var otherKeywords = 'IBAction IBOutlet IBOutletCollection IBInspectable IBDesignable';
 	
 	this.regexList = [
 		{ regex: SyntaxHighlighter.regexLib.singleLineCComments,	css: 'comment' },		// One line comments
@@ -58,8 +58,8 @@ SyntaxHighlighter.brushes.Swift = function() {
 		{ regex: new RegExp(this.getKeywords(attributes), 'gm'),	css: 'keyword' },		// Attributes
 		{ regex: new RegExp(this.getKeywords(otherKeywords), 'gm'),	css: 'keyword' },		// Other keywords
 		{ regex: new RegExp('\\bNS\\w+\\b', 'g'),			css: 'datatypes' },		// Foundation classes
-		{ regex: new RegExp('\\bUI\\w+\\b', 'g'),			css: 'datatypes' }, 		// UIKit classes
-		{ regex: new RegExp('@\\w+\\b', 'g'),				css: 'keyword' }		// keyword
+		{ regex: new RegExp('\\bUI\\w+\\b', 'g')			css: 'datatypes' }, 		// UIKit classes
+		//{ regex: new RegExp('@\\w+\\b', 'g'),				css: 'keyword' }		// keyword
 		];
 }
 
