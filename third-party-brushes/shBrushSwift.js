@@ -24,6 +24,7 @@ SyntaxHighlighter.brushes.Swift = function() {
 	datatypes += ' UInt UInt16 UInt32 UInt64 UInt8 Unmanaged UnsafeBufferPointer UnsafePointer Optional'
 	datatypes += ' AnyObject BooleanType CollectionType Comparable ErrorType Equatable Hashable Indexable'
 	datatypes += ' IntegerType OptionSetType SequenceType UnsignedIntegerType'
+	datatypes += ' AnyObject? T T? Element Key Value ArraySlice';
 	
 	var declarations = 'class deinit enum extension func import init inout internal let operator private protocol public static struct subscript typealias var';
 	
