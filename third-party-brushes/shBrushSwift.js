@@ -35,6 +35,8 @@ SyntaxHighlighter.brushes.Swift = function() {
 	
 	var punctuation = '( ) { } [ ] . , : ; = @ # & ( -> ` ? ! _';
 	
+	var operators = '++ -- ~ + - << >> * / % &* & &+ &- | ^ ..< ... as? as! ?? < <= > >= == != === !== ~= && || ?: = *= /= %= += -= <<= >>= &= |= ^= &&= ||='
+	
 	var otherKeywords = 'IBAction IBOutlet Selector @availability @objc';
 	keywords += 'super self copy ';
 	keywords += 'break case catch class const copy __finally __exception __try ';
