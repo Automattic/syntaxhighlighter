@@ -1,8 +1,11 @@
 /**
- * Wordpress SyntaxHighlighter brush for Swift
+ * Wordpress SyntaxHighlighter brush for Swift 2.0
  * By Dal Rupnik, unifiedsense.com
  *
  * Copyright (C) 2015 Dal Rupnik
+ * 
+ * Source for Lexical Structure:
+ * https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/LexicalStructure.html
  * 
  * Adapted from:
  * Wordpress SyntaxHighlighter brush for Objective-C
@@ -18,6 +21,16 @@
 SyntaxHighlighter.brushes.Swift = function() {
 	
 	var datatypes =	'char bool BOOL double float int long short id void';
+	
+	var declarations = 'class deinit enum extension func import init inout internal let operator private protocol public static struct subscript typealias var';
+	
+	var statements = 'break case continue default defer do else fallthrough for guard if in repeat return switch where while.';
+	
+	var expressions = 'as catch dynamicType false is nil rethrows super self Self throw throws true try __COLUMN__ __FILE__ __FUNCTION__  __LINE__'
+	
+	var specificContexts = 'associativity convenience dynamic didSet final get infix indirect lazy left mutating none nonmutating optional override postfix precedence prefix Protocol required right set Type unowned weak willSet';
+	
+	var punctuation = '( ) { } [ ] . , : ; = @ # & ( -> ` ? !';
 	
 	var keywords = 'IBAction IBOutlet SEL YES NO readwrite readonly nonatomic nil NULL ';
 	keywords += 'super self copy ';
