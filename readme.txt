@@ -2,7 +2,7 @@
 Contributors: Viper007Bond, automattic
 Donate link: http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/donate/
 Tags: code, sourcecode, php, xhtml, html, css, WordPress.com
-Requires at least: 3.2
+Requires at least: 4.2.3
 Tested up to: 4.5
 Stable tag: trunk
 
