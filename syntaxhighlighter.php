@@ -329,11 +329,12 @@ class SyntaxHighlighter {
 		remove_all_shortcodes();
 
 		// Register all of this plugin's shortcodes
-		foreach ( $this->shortcodes as $shortcode )
+		foreach ( $this->shortcodes as $shortcode ) {
 			add_shortcode( $shortcode, $callback );
+		}
 
 		// Do the shortcodes (only this plugins's are registered)
-		$content = $this->do_shortcode_keep_escaped_tags( $content, true );
+		$content = do_shortcode( $content, true );
 
 		// Put the original shortcodes back
 		$shortcode_tags = $orig_shortcode_tags;
@@ -341,69 +342,6 @@ class SyntaxHighlighter {
 		return $content;
 	}
 
-
-	// This is a clone of do_shortcode() that uses a different callback function
-	// The new callback function will keep escaped tags escaped, i.e. [[foo]]
-	// Up to date as of r36097
-	function do_shortcode_keep_escaped_tags( $content, $ignore_html = false ) {
-		global $shortcode_tags;
-
-		if ( false === strpos( $content, '[' ) ) {
-			return $content;
-		}
-
-		if (empty($shortcode_tags) || !is_array($shortcode_tags))
-			return $content;
-
-		// Find all registered tag names in $content.
-		preg_match_all( '@\[([^<>&/\[\]\x00-\x20=]++)@', $content, $matches );
-		$tagnames = array_intersect( array_keys( $shortcode_tags ), $matches[1] );
-
-		if ( empty( $tagnames ) ) {
-			return $content;
-		}
-
-		$content = do_shortcodes_in_html_tags( $content, $ignore_html, $tagnames );
-
-		$pattern = get_shortcode_regex( $tagnames );
-		$content = preg_replace_callback( "/$pattern/", array( $this, 'do_shortcode_tag_keep_escaped_tags' ), $content );
-
-		// Always restore square braces so we don't break things like <!--[if IE ]>
-		$content = unescape_invalid_shortcodes( $content );
-
-		return $content;
-	}
-
-
-	// Callback for above do_shortcode_keep_escaped_tags() function
-	// It's a clone of core's do_shortcode_tag() function with a modification to the escaped shortcode return
-	// Up to date as of r35543
-	function do_shortcode_tag_keep_escaped_tags( $m ) {
-		global $shortcode_tags;
-
-		// allow [[foo]] syntax for escaping a tag
-		if ( $m[1] == '[' && $m[6] == ']' ) {
-			return $m[0]; // This line was modified for this plugin (no substr call)
-		}
-
-		$tag = $m[2];
-		$attr = shortcode_parse_atts( $m[3] );
-
-		if ( ! is_callable( $shortcode_tags[ $tag ] ) ) {
-			/* translators: %s: shortcode tag */
-			$message = sprintf( __( 'Attempting to parse a shortcode without a valid callback: %s' ), $tag );
-			_doing_it_wrong( __FUNCTION__, $message, '4.3.0' );
-			return $m[0];
-		}
-
-		if ( isset( $m[5] ) ) {
-			// enclosing tag - extra parameter
-			return $m[1] . call_user_func( $shortcode_tags[$tag], $attr, $m[5], $tag ) . $m[6];
-		} else {
-			// self-closing tag
-			return $m[1] . call_user_func( $shortcode_tags[$tag], $attr, null,  $tag ) . $m[6];
-		}
-	}
 
 	// The main filter for the post contents. The regular shortcode filter can't be used as it's post-wpautop().
 	function parse_shortcodes( $content ) {
