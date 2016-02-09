@@ -235,7 +235,7 @@ class SyntaxHighlighter {
 		// Register each shortcode with a placeholder callback so that strip_shortcodes() will work
 		// The proper callback and such is done in SyntaxHighlighter::shortcode_hack()
 		foreach ( $this->shortcodes as $shortcode )
-			add_shortcode( $shortcode, '__return_true' );
+			add_shortcode( $shortcode, '__return_empty_string' );
 
 
 		// Create list of themes and their human readable names
