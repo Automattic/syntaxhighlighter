@@ -358,7 +358,7 @@ class SyntaxHighlighter {
 
 	// Callback for above do_shortcode_keep_escaped_tags() function
 	// It's a clone of core's do_shortcode_tag() function with a modification to the escaped shortcode return
-	// Up to date as of r18324 (3.2)
+	// Up to date as of r35543
 	function do_shortcode_tag_keep_escaped_tags( $m ) {
 		global $shortcode_tags;
 
@@ -370,12 +370,19 @@ class SyntaxHighlighter {
 		$tag = $m[2];
 		$attr = shortcode_parse_atts( $m[3] );
 
+		if ( ! is_callable( $shortcode_tags[ $tag ] ) ) {
+			/* translators: %s: shortcode tag */
+			$message = sprintf( __( 'Attempting to parse a shortcode without a valid callback: %s' ), $tag );
+			_doing_it_wrong( __FUNCTION__, $message, '4.3.0' );
+			return $m[0];
+		}
+
 		if ( isset( $m[5] ) ) {
 			// enclosing tag - extra parameter
 			return $m[1] . call_user_func( $shortcode_tags[$tag], $attr, $m[5], $tag ) . $m[6];
 		} else {
 			// self-closing tag
-			return $m[1] . call_user_func( $shortcode_tags[$tag], $attr, NULL,  $tag ) . $m[6];
+			return $m[1] . call_user_func( $shortcode_tags[$tag], $attr, null,  $tag ) . $m[6];
 		}
 	}
 
