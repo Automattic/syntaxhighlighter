@@ -333,7 +333,7 @@ class SyntaxHighlighter {
 			add_shortcode( $shortcode, $callback );
 
 		// Do the shortcodes (only this plugins's are registered)
-		$content = $this->do_shortcode_keep_escaped_tags( $content );
+		$content = $this->do_shortcode_keep_escaped_tags( $content, true );
 
 		// Put the original shortcodes back
 		$shortcode_tags = $orig_shortcode_tags;
@@ -345,7 +345,7 @@ class SyntaxHighlighter {
 	// This is a clone of do_shortcode() that uses a different callback function
 	// The new callback function will keep escaped tags escaped, i.e. [[foo]]
 	// Up to date as of r36097
-	function do_shortcode_keep_escaped_tags( $content,  $ignore_html = false  ) {
+	function do_shortcode_keep_escaped_tags( $content, $ignore_html = false ) {
 		global $shortcode_tags;
 
 		if ( false === strpos( $content, '[' ) ) {
