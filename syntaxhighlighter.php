@@ -73,12 +73,9 @@ class SyntaxHighlighter {
 		add_filter( 'plugin_action_links',                array( $this, 'settings_link' ),                                 10, 2 );
 
 		// Register widget hooks
-		// Requires change added in WordPress 2.9
-		if ( class_exists('WP_Embed') ) {
-			add_filter( 'widget_text',                    array( $this, 'widget_text_output' ),                            7, 2 );
-			add_filter( 'widget_update_callback',         array( $this, 'widget_text_save' ),                              1, 4 );
-			add_filter( 'widget_form_callback',           array( $this, 'widget_text_form' ),                              1, 2 );
-		}
+        add_filter( 'widget_text',                        array( $this, 'widget_text_output' ),                            7, 2 );
+        add_filter( 'widget_update_callback',             array( $this, 'widget_text_save' ),                              1, 4 );
+        add_filter( 'widget_form_callback',               array( $this, 'widget_text_form' ),                              1, 2 );
 
 
 		// Create array of default settings (you can use the filter to modify these)
