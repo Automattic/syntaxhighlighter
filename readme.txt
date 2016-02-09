@@ -58,7 +58,6 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 = Version 3.2.0 =
 
 * Don't parse shortcodes inside of HTML entities, which could result in broken HTML.
-* Update synced copies of `do_shortcode()` and `do_shortcode_tag()` which have been copied from WordPress core but modified slightly.
 * Drop PHP4 support. This should result in PHP7 support.
 
 = Version 3.1.13 =
