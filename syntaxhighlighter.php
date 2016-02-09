@@ -1247,12 +1247,6 @@ class SyntaxHighlighter {
 
 		return $settings;
 	}
-
-
-	// PHP4 compatibility
-	function SyntaxHighlighter() {
-		$this->__construct();
-	}
 }
 
 
@@ -1262,5 +1256,3 @@ function SyntaxHighlighter() {
 	global $SyntaxHighlighter;
 	$SyntaxHighlighter = new SyntaxHighlighter();
 }
-
-?>

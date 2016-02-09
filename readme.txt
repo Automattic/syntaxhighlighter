@@ -2,8 +2,8 @@
 Contributors: Viper007Bond, automattic
 Donate link: http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/donate/
 Tags: code, sourcecode, php, xhtml, html, css, WordPress.com
-Requires at least: 2.7
-Tested up to: 4.3
+Requires at least: 3.2
+Tested up to: 4.5
 Stable tag: trunk
 
 Easily post syntax-highlighted code to your site without having to modify the code at all. As seen on WordPress.com.
