@@ -55,6 +55,10 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 
 == ChangeLog ==
 
+= Version 3.1.14 =
+
+* Drop PHP4 support. This should result in PHP7 support.
+
 = Version 3.1.13 =
 
 * Fix setting sanitization bug. Props Alexander Concha (@xknown).
