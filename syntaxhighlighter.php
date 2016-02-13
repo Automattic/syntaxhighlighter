@@ -348,13 +348,18 @@ class SyntaxHighlighter {
 	 *
 	 * Phew!
 	 *
-	 * @param string $content The post content.
+	 * @param string $content  The post content.
 	 * @param string $callback The callback function that should be used for add_shortcode()
 	 *
 	 * @return string The filtered content, with this plugin's shortcodes parsed.
 	 */
 	function shortcode_hack( $content, $callback ) {
 		global $shortcode_tags;
+
+		// Regex is slow. Let's do some strpos() checks first.
+		if ( ! $this->string_has_shortcodes( $content, $this->shortcodes ) ) {
+			return $content;
+		}
 
 		// Backup current registered shortcodes and clear them all out
 		$orig_shortcode_tags = $shortcode_tags;
@@ -379,6 +384,26 @@ class SyntaxHighlighter {
 		$shortcode_tags = $orig_shortcode_tags;
 
 		return $content;
+	}
+
+
+	/**
+	 * A quick checker to see if any of this plugin's shortcodes are in use in a string.
+	 * Since all of the tags can't be self-closing, we look for the closing tag.
+	 *
+	 * @param string $string     The string to look through. This is a post's contents usually.
+	 * @param array  $shortcodes The array of shortcodes to look for.
+	 *
+	 * @return bool Whether any shortcode usage was found.
+	 */
+	function string_has_shortcodes( $string, $shortcodes ) {
+		foreach ( $shortcodes as $shortcode ) {
+			if ( false !== strpos( $string, "[/{$shortcode}]" ) ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 
