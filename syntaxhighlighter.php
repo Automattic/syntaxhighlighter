@@ -13,7 +13,7 @@ Author URI:   http://www.viper007bond.com/
 
 Thanks to:
 
-* Alex Gorbatchev for writing the Javascript-powered synatax highlighter script
+* Alex Gorbatchev for writing the Javascript-powered syntax highlighter script
 
 * Andrew Ozz for writing the TinyMCE plugin
 
