@@ -348,12 +348,13 @@ class SyntaxHighlighter {
 	 *
 	 * Phew!
 	 *
-	 * @param string $content  The post content.
-	 * @param string $callback The callback function that should be used for add_shortcode()
+	 * @param string $content     The post content.
+	 * @param string $callback    The callback function that should be used for add_shortcode()
+	 * @param bool   $ignore_html When true, shortcodes inside HTML elements will be skipped.
 	 *
 	 * @return string The filtered content, with this plugin's shortcodes parsed.
 	 */
-	function shortcode_hack( $content, $callback ) {
+	function shortcode_hack( $content, $callback, $ignore_html = true ) {
 		global $shortcode_tags;
 
 		// Regex is slow. Let's do some strpos() checks first.
@@ -370,15 +371,29 @@ class SyntaxHighlighter {
 			add_shortcode( $shortcode, $callback );
 		}
 
-		// Extra escape escaped shortcodes because do_shortcode() is going to strip a pair of square brackets when it runs
-		$content = preg_replace_callback(
-			'/' . get_shortcode_regex( $this->shortcodes ) . '/',
-			array( $this, 'shortcode_hack_extra_escape_escaped_shortcodes' ),
-			$content
-		);
+		$regex = '/' . get_shortcode_regex( $this->shortcodes ) . '/';
 
-		// Do the shortcodes (only this plugins's are registered)
-		$content = do_shortcode( $content, true );
+		// Parse the shortcodes (only this plugins's are registered)
+		if ( $ignore_html ) {
+			// Extra escape escaped shortcodes because do_shortcode_tag() called by do_shortcode() is going to strip a pair of square brackets when it runs
+			$content = preg_replace_callback(
+				$regex,
+				array( $this, 'shortcode_hack_extra_escape_escaped_shortcodes' ),
+				$content
+			);
+
+			// Normal, safe parsing
+			$content = do_shortcode( $content, true );
+		} else {
+			// Extra escape escaped shortcodes because do_shortcode_tag() called by do_shortcode() is going to strip a pair of square brackets when it runs.
+			// Then call do_shortcode_tag(). This is basically do_shortcode() without calling do_shortcodes_in_html_tags() which breaks things.
+			// For context, see https://wordpress.org/support/topic/php-opening-closing-tags-break-code-blocks
+			$content = preg_replace_callback(
+				$regex,
+				array( $this, 'shortcode_hack_extra_escape_escaped_shortcodes_and_parse' ),
+				$content
+			);
+		}
 
 		// Put the original shortcodes back
 		$shortcode_tags = $orig_shortcode_tags;
@@ -423,6 +438,20 @@ class SyntaxHighlighter {
 		return $match[0];
 	}
 
+	/**
+	 * This is a combination of this class's shortcode_hack_extra_escape_escaped_shortcodes()
+  	 * and do_shortcode_tag() for performance reasons so that we don't have to run some regex twice.
+ 	 *
+	 * @param array $match Regular expression match array.
+	 *
+	 * @return string|false False on failure, otherwise a parse shortcode tag.
+	 */
+	function shortcode_hack_extra_escape_escaped_shortcodes_and_parse( $match ) {
+		$match[0] = $this->shortcode_hack_extra_escape_escaped_shortcodes( $match );
+
+		return do_shortcode_tag( $match );
+	}
+
 
 	// The main filter for the post contents. The regular shortcode filter can't be used as it's post-wpautop().
 	function parse_shortcodes( $content ) {
@@ -432,7 +461,7 @@ class SyntaxHighlighter {
 
 	// HTML entity encode the contents of shortcodes
 	function encode_shortcode_contents( $content ) {
-		return $this->shortcode_hack( $content, array( $this, 'encode_shortcode_contents_callback' ) );
+		return $this->shortcode_hack( $content, array( $this, 'encode_shortcode_contents_callback' ), false );
 	}
 
 
@@ -465,7 +494,7 @@ class SyntaxHighlighter {
 
 	// HTML entity decode the contents of shortcodes
 	function decode_shortcode_contents( $content ) {
-		return $this->shortcode_hack( $content, array( $this, 'decode_shortcode_contents_callback' ) );
+		return $this->shortcode_hack( $content, array( $this, 'decode_shortcode_contents_callback' ), false );
 	}
 
 
