@@ -55,6 +55,10 @@ Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere i
 
 == ChangeLog ==
 
+= Version 3.2.1 =
+
+* Fix shortcode issues that would occur during post editing if the code contained what looked like opening HTML tags such as `<?php`. See [this forum thread](https://wordpress.org/support/topic/php-opening-closing-tags-break-code-blocks) for details.
+
 = Version 3.2.0 =
 
 * Don't parse shortcodes inside of HTML entities, which could result in broken HTML.
