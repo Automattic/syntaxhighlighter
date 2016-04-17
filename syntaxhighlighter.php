@@ -186,6 +186,7 @@ class SyntaxHighlighter {
 			'erlang'        => 'erlang',
 			'fsharp'        => 'fsharp',
 			'go'            => 'go',
+			'golang'        => 'go',
 			'groovy'        => 'groovy',
 			'java'          => 'java',
 			'jfx'           => 'javafx',
