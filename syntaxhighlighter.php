@@ -202,7 +202,7 @@ class SyntaxHighlighter {
 			'powershell'    => 'powershell',
 			'py'            => 'python',
 			'python'        => 'python',
-			'r'             => 'r', // Not used as a shortcode
+			'r'             => 'r',
 			'splus'         => 'r',
 			'rails'         => 'ruby',
 			'rb'            => 'ruby',
@@ -227,7 +227,6 @@ class SyntaxHighlighter {
 
 		// Remove some shortcodes we don't want while still supporting them as language values
 		unset( $this->shortcodes[array_search( 'latex', $this->shortcodes )] ); // Remove "latex" shortcode (it'll collide)
-		unset( $this->shortcodes[array_search( 'r', $this->shortcodes )] ); // Remove "r" shortcode (too short)
 
 		$this->shortcodes = (array) apply_filters( 'syntaxhighlighter_shortcodes', $this->shortcodes );
 
