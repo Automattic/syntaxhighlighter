@@ -13,7 +13,7 @@ tinymce.PluginManager.add( 'syntaxhighlighter', function( editor ) {
 				shortcode = shortcode.replace( /<br ?\/?>\n?/g, '\n' ).replace( /<\/?p( [^>]*)?>\n?/g, '\n' );
 
 				if ( ! event.initial || ( window.syntaxHLescape && window.syntaxHLescape[ editor.id ] ) ) {
-					shortcode = shortcode.replace( /&/g, '&amp;' ).replace( /</g, '&lt;' ).replace( />/g, '&gt;' );
+					shortcode = shortcode.replace( /&/g, '&amp;' ).replace( /</g, '&lt;' ).replace( />/g, '&gt;' ).replace( /&amp;amp;/g, '&amp;');
 				}
 
 				return '<pre>' + shortcode + '</pre>';
