@@ -54,11 +54,14 @@ class SyntaxHighlighter {
 		add_filter( 'group_forum_topic_text_before_save', array( $this, 'encode_shortcode_contents_slashed' ),             1 ); // BuddyPress
 
 		// Out of the database for editing
-		add_filter( 'the_editor_content',                 array( $this, 'the_editor_content' ),                            1 ); // Posts
-		add_filter( 'comment_edit_pre',                   array( $this, 'decode_shortcode_contents' ),                     1 ); // Comments
-		add_filter( 'bp_get_the_topic_text',              array( $this, 'decode_shortcode_contents' ),                     1 ); // BuddyPress
-		add_filter( 'bp_get_the_topic_post_edit_text',    array( $this, 'decode_shortcode_contents' ),                     1 ); // BuddyPress
+		add_filter( 'the_editor_content',                   array( $this, 'the_editor_content' ),                            1 ); // Posts
+		add_filter( 'comment_edit_pre',                     array( $this, 'decode_shortcode_contents' ),                     1 ); // Comments
+		add_filter( 'bp_get_the_topic_text',                array( $this, 'decode_shortcode_contents' ),                     1 ); // BuddyPress
+		add_filter( 'bp_get_the_topic_post_edit_text',      array( $this, 'decode_shortcode_contents' ),                     1 ); // BuddyPress
 
+		// Out of the database for displaying revisions
+		add_filter( '_wp_post_revision_field_post_content', array( $this, 'decode_shortcode_contents' )                        ); // Revisions
+		
 		// Outputting SyntaxHighlighter's JS and CSS
 		add_action( 'wp_head',                            array( $this, 'output_header_placeholder' ),                     15 );
 		add_action( 'admin_head',                         array( $this, 'output_header_placeholder' ),                     15 ); // For comments
@@ -488,6 +491,11 @@ class SyntaxHighlighter {
 			return $content;
 		}
 
+		// Revision content is already encoded when restored, so we don't need to encode it (again)
+		if ( isset( $_GET['revision'] ) ) {
+			return $content;
+		}
+			
 		return $this->encode_shortcode_contents_slashed( $content );
 	}
 
