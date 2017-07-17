@@ -46,24 +46,36 @@ class SyntaxHighlighter {
 		add_filter( 'the_content',                        array( $this, 'parse_shortcodes' ),                              7 ); // Posts
 		add_filter( 'comment_text',                       array( $this, 'parse_shortcodes_comment' ),                      7 ); // Comments
 		add_filter( 'bp_get_the_topic_post_content',      array( $this, 'parse_shortcodes' ),                              7 ); // BuddyPress
+		add_filter( 'bbp_get_topic_content',			  array( $this, 'parse_shortcodes' ),                              7 ); // bbPress
+		add_filter( 'bbp_get_reply_content',			  array( $this, 'parse_shortcodes' ),                              7 ); // bbPress
 
 		// Into the database
 		add_filter( 'content_save_pre',                   array( $this, 'encode_shortcode_contents_slashed_noquickedit' ), 1 ); // Posts
 		add_filter( 'pre_comment_content',                array( $this, 'encode_shortcode_contents_slashed' ),             1 ); // Comments
 		add_filter( 'group_forum_post_text_before_save',  array( $this, 'encode_shortcode_contents_slashed' ),             1 ); // BuddyPress
 		add_filter( 'group_forum_topic_text_before_save', array( $this, 'encode_shortcode_contents_slashed' ),             1 ); // BuddyPress
+		add_filter( 'bbp_new_topic_pre_content',          array( $this, 'encode_shortcode_contents_slashed' ),             1 ); // bbPress
+		add_filter( 'bbp_new_reply_pre_content',          array( $this, 'encode_shortcode_contents_slashed' ),             1 ); // bbPress
+		add_filter( 'bbp_edit_topic_pre_content',         array( $this, 'encode_shortcode_contents_slashed' ),             1 ); // bbPress
+		add_filter( 'bbp_edit_reply_pre_content',         array( $this, 'encode_shortcode_contents_slashed' ),             1 ); // bbPress
 
 		// Out of the database for editing
 		add_filter( 'the_editor_content',                 array( $this, 'the_editor_content' ),                            1 ); // Posts
 		add_filter( 'comment_edit_pre',                   array( $this, 'decode_shortcode_contents' ),                     1 ); // Comments
 		add_filter( 'bp_get_the_topic_text',              array( $this, 'decode_shortcode_contents' ),                     1 ); // BuddyPress
 		add_filter( 'bp_get_the_topic_post_edit_text',    array( $this, 'decode_shortcode_contents' ),                     1 ); // BuddyPress
+		add_filter( 'bbp_get_topic_content',			  array( $this, 'decode_shortcode_contents' ),                     1 ); // bbPress 
+		add_filter( 'bbp_get_reply_content',			  array( $this, 'decode_shortcode_contents' ),                     1 ); // bbPress
 
 		// Outputting SyntaxHighlighter's JS and CSS
 		add_action( 'wp_head',                            array( $this, 'output_header_placeholder' ),                     15 );
 		add_action( 'admin_head',                         array( $this, 'output_header_placeholder' ),                     15 ); // For comments
 		add_action( 'wp_footer',                          array( $this, 'maybe_output_scripts' ),                          15 );
 		add_action( 'admin_footer',                       array( $this, 'maybe_output_scripts' ),                          15 ); // For comments
+
+		// Front end output of scortcodes script if "fancy editor" is enabled by bbPress
+		if ( function_exists( 'bbp_use_wp_editor' ) && bbp_use_wp_editor() )
+			add_action( 'bbp_head',                      array( $this, 'output_shortcodes_for_tinymce' ) );
 
 		// Admin hooks
 		add_action( 'admin_init',                         array( $this, 'register_setting' ) );
@@ -488,6 +500,18 @@ class SyntaxHighlighter {
 			return $content;
 		}
 
+		// bbPress (front-end) admin links for topic split or merge and reply move
+		if (  !empty( $_POST ) && !empty( $_POST['action'] ) &&  ( 'bbp-move-reply' == $_POST['action'] || 'bbp-split-topic' == $_POST['action'] || 'bbp-merge-topic' == $_POST['action'] ) ) 
+			return  $content;
+	
+		// bbPress (front-end) admin links for trash
+		if (  !empty( $_GET ) && !empty( $_GET['action'] ) && ( 'bbp_toggle_topic_trash' == $_GET['action'] || 'bbp_toggle_reply_trash' == $_GET['action'] ) )
+			return  $content;
+		
+		// bbPress admin links (front-end) and quick links (wp-admin) for spam
+		if ( !empty( $_GET ) && !empty( $_GET['action'] ) && ( 'bbp_toggle_topic_spam' == $_GET['action'] ||  'bbp_toggle_reply_spam' == $_GET['action'] ) )
+			return  $content;
+		
 		return $this->encode_shortcode_contents_slashed( $content );
 	}
 
