@@ -1,0 +1,22 @@
+/**
+ * SyntaxHighlighter Evolved
+ *
+ * A <pre> specific reset for the WordPress tinymce visual editor
+ * Syntax Hightlighter Evolved passes unescaped output 
+ * to the tiny mce editor within <pre> wrapped shortcodes.
+ *
+ * This protects the shortcode content in this instance 
+ * from being styled by user-agent styles
+ * and/or the theme's editor styles.
+ * 
+ */
+
+pre *
+{
+background:inherit;
+color: inherit;
+font: inherit;
+line-height: inherit;
+margin:0;
+padding:0;
+}
