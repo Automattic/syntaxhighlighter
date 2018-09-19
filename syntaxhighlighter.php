@@ -72,6 +72,10 @@ class SyntaxHighlighter {
 		add_filter( 'save_post',                          array( $this, 'mark_as_encoded' ),                               10, 2 );
 		add_filter( 'plugin_action_links',                array( $this, 'settings_link' ),                                 10, 2 );
 
+		// Blocks
+		add_action( 'enqueue_block_editor_assets',        array( $this, 'enqueue_block_editor_assets' ) );
+		add_action( 'wp',                                 array( $this, 'enable_brushes_used_in_blocks' ) );
+
 		// Register widget hooks
 		add_filter( 'widget_text',                        array( $this, 'widget_text_output' ),                            7, 2 );
 		add_filter( 'widget_update_callback',             array( $this, 'widget_text_save' ),                              1, 4 );
@@ -218,6 +222,37 @@ class SyntaxHighlighter {
 			'html'          => 'xml',
 		) );
 
+		$this->brush_names = (array) apply_filters( 'syntaxhighlighter_brush_names', array(
+			'as3'        => __( 'ActionScript',              'syntaxhighlighter' ),
+			'bash'       => __( 'BASH / Shell',              'syntaxhighlighter' ),
+			'coldfusion' => __( 'ColdFusion',                'syntaxhighlighter' ),
+			'clojure'    => __( 'Clojure',                   'syntaxhighlighter' ),
+			'cpp'        => __( 'C / C++',                   'syntaxhighlighter' ),
+			'csharp'     => __( 'C#',                        'syntaxhighlighter' ),
+			'css'        => __( 'CSS',                       'syntaxhighlighter' ),
+			'delphi'     => __( 'Delphi / Pascal',           'syntaxhighlighter' ),
+			'diff'       => __( 'diff / patch',              'syntaxhighlighter' ),
+			'erlang'     => __( 'Erlang',                    'syntaxhighlighter' ),
+			'fsharp'     => __( 'F#',                        'syntaxhighlighter' ),
+			'groovy'     => __( 'Groovy',                    'syntaxhighlighter' ),
+			'java'       => __( 'Java',                      'syntaxhighlighter' ),
+			'javafx'     => __( 'JavaFX',                    'syntaxhighlighter' ),
+			'jscript'    => __( 'JavaScript',                'syntaxhighlighter' ),
+			'latex'      => __( 'LaTeX',                     'syntaxhighlighter' ),
+			'matlabkey'  => __( 'MATLAB',                    'syntaxhighlighter' ),
+			'objc'       => __( 'Objective-C',               'syntaxhighlighter' ),
+			'perl'       => __( 'Perl',                      'syntaxhighlighter' ),
+			'php'        => __( 'PHP',                       'syntaxhighlighter' ),
+			'plain'      => __( 'Plain Text',                'syntaxhighlighter' ),
+			'powershell' => __( 'PowerShell',                'syntaxhighlighter' ),
+			'python'     => __( 'Python',                    'syntaxhighlighter' ),
+			'r'          => __( 'R',                         'syntaxhighlighter' ),
+			'ruby'       => __( 'Ruby / Ruby on Rails',      'syntaxhighlighter' ),
+			'scala'      => __( 'Scala',                     'syntaxhighlighter' ),
+			'sql'        => __( 'SQL',                       'syntaxhighlighter' ),
+			'vb'         => __( 'Visual Basic',              'syntaxhighlighter' ),
+			'xml'        => __( 'HTML / XHTML / XML / XSLT', 'syntaxhighlighter' ),
+		) );
 
 		// Create a list of shortcodes to use. You can use the filter to add/remove ones.
 		// If the language/lang parameter is left out, it's assumed the shortcode name is the language.
@@ -269,6 +304,60 @@ class SyntaxHighlighter {
 		register_setting( 'syntaxhighlighter_settings', 'syntaxhighlighter_settings', array( $this, 'validate_settings' ) );
 	}
 
+	// Enqueue block assets for the Editor
+	function enqueue_block_editor_assets() {
+		wp_enqueue_script(
+			'syntaxhighlighter-blocks',
+			plugins_url( 'blocks/index.min.js', __FILE__ ),
+			array( 'wp-blocks', 'wp-i18n', 'wp-element' ),
+			filemtime( plugin_dir_path( __FILE__ ) . 'blocks/index.min.js' )
+		);
+
+		wp_add_inline_script(
+			'syntaxhighlighter-blocks',
+			sprintf( '
+				var syntaxHighlighterData = {
+					localeData: %s,
+					brushes: %s,
+				};',
+				json_encode( gutenberg_get_jed_locale_data( 'syntaxhighlighter' ) ),
+				json_encode( $this->brush_names )
+			),
+			'before'
+		);
+	}
+
+	/**
+	 * Enable the brushes that are used in blocks.
+	 *
+	 * For the shortcode, brushes are activated by `shortcode_callback()`, but that won't detect brushes that were
+	 * used in blocks. For that, we need to extract the data from the block's attributes.
+	 */
+	function enable_brushes_used_in_blocks() {
+		global $post;
+
+		/*
+		 * Return early on the back end because Syntax highlighting is only active on the front end, see
+		 * `syntaxHighlighterCode::edit()` block for details.
+		 */
+		if ( is_admin() || ! $post instanceof WP_Post ) {
+			return;
+		}
+
+		$blocks = gutenberg_parse_blocks( $post->post_content );
+
+		foreach ( $blocks as $block ) {
+			if ( empty( $block['blockName'] ) || 'syntaxhighlighter/code' !== $block['blockName'] ) {
+				continue;
+			}
+
+			$language = $block['attrs']['language'];
+
+			if ( in_array( $language, $this->brushes, true ) ) {
+				$this->usedbrushes[ $language ] = true;
+			}
+		}
+	}
 
 	// Add the custom TinyMCE plugin which wraps plugin shortcodes in <pre> in TinyMCE
 	function add_tinymce_plugin( $plugins ) {
