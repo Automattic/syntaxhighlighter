@@ -347,11 +347,11 @@ class SyntaxHighlighter {
 		$blocks = gutenberg_parse_blocks( $post->post_content );
 
 		foreach ( $blocks as $block ) {
-			if ( empty( $block['blockName'] ) || 'syntaxhighlighter/code' !== $block['blockName'] ) {
+			if ( empty( $block->blockName ) || 'syntaxhighlighter/code' !== $block->blockName ) {
 				continue;
 			}
 
-			$language = $block['attrs']['language'];
+			$language = $block->attrs->language;
 
 			if ( in_array( $language, $this->brushes, true ) ) {
 				$this->usedbrushes[ $language ] = true;
