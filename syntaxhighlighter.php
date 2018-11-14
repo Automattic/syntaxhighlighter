@@ -313,6 +313,8 @@ class SyntaxHighlighter {
 			filemtime( plugin_dir_path( __FILE__ ) . 'blocks/index.min.js' )
 		);
 
+		natsort( $this->brush_names );
+
 		wp_add_inline_script(
 			'syntaxhighlighter-blocks',
 			sprintf( '
@@ -438,7 +440,7 @@ class SyntaxHighlighter {
 	 * Phew!
 	 *
 	 * @param string $content     The post content.
-	 * @param string $callback    The callback function that should be used for add_shortcode()
+	 * @param array  $callback    The callback function that should be used for add_shortcode()
 	 * @param bool   $ignore_html When true, shortcodes inside HTML elements will be skipped.
 	 *
 	 * @return string The filtered content, with this plugin's shortcodes parsed.
@@ -544,7 +546,29 @@ class SyntaxHighlighter {
 
 	// The main filter for the post contents. The regular shortcode filter can't be used as it's post-wpautop().
 	function parse_shortcodes( $content ) {
-		return $this->shortcode_hack( $content, array( $this, 'shortcode_callback' ) );
+		$content = $this->enable_brushes_for_gutenberg_blocks( $content );
+
+		$content = $this->shortcode_hack( $content, array( $this, 'shortcode_callback' ) );
+
+		return $content;
+	}
+
+
+	// Searches for Gutenberg code blocks and enables any used brushes.
+	public function enable_brushes_for_gutenberg_blocks( $content ) {
+		$count = preg_match_all(
+			'/<pre class="wp-block-syntaxhighlighter-code brush: ([a-z]+);/m',
+			$content,
+			$matches
+		);
+
+		if ( $matches ) {
+			foreach ( $matches[1] as $match ) {
+				$this->usedbrushes[ $match ] = true;
+			}
+		}
+
+		return $content;
 	}
 
 
