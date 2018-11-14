@@ -1,7 +1,17 @@
 {
-	"name": "syntaxhighlighter-evolved",
-	"version": "3.2.1",
+	"name": "syntaxhighlighter",
+	"version": "3.3.0",
+	"description": "Easily post syntax-highlighted code to your WordPress site without having to modify the code at all.",
+	"homepage": "https://alex.blog/wordpress-plugins/syntaxhighlighter/",
+	"author": "Alex Mills (Viper007Bond)",
 	"license": "GPL-2.0-or-later",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Viper007Bond/syntaxhighlighter.git"
+	},
+	"bugs": {
+		"url": "https://github.com/Viper007Bond/syntaxhighlighter/issues"
+	},
 	"devDependencies": {
 		"@wordpress/babel-plugin-makepot": "^1.0.0",
 		"@wordpress/babel-preset-default": "^1.1.2",
