@@ -10,5 +10,6 @@ A major rewrite is currently occurring in the [4.0 branch](https://github.com/Vi
 
 When making changes in the `blocks/` folder,
 
+* Make sure you have [WP-CLI](http://wp-cli.org/) installed.
 * Run `npm run dev` in a terminal to automatically re-transpile `blocks/index.min.js` when source files change.
 * Run `npm run build` to transpile _and_ minify `blocks/index.min.js` for distribution, as well as automatically update the `locatlizations/_syntaxhighlighter-template.po`.
