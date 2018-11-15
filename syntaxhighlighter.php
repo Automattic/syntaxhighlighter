@@ -924,7 +924,7 @@ class SyntaxHighlighter {
 </script>
 <?php
 
-	do_action( 'syntaxhighlighter_after_script_output' );
+		do_action( 'syntaxhighlighter_after_script_output' );
 
 	}
 
