@@ -561,7 +561,7 @@ class SyntaxHighlighter {
 			return $content;
 		}
 
-		$count = preg_match_all(
+		preg_match_all(
 			'/<pre class="wp-block-syntaxhighlighter-code brush: ([a-z]+);/m',
 			$content,
 			$matches
@@ -569,7 +569,11 @@ class SyntaxHighlighter {
 
 		if ( $matches ) {
 			foreach ( $matches[1] as $match ) {
-				$this->usedbrushes[ $match ] = true;
+				if ( ! isset( $this->brushes[ $match ] ) ) {
+					continue;
+				}
+
+				$this->usedbrushes[ $this->brushes[ $match ] ] = true;
 			}
 		}
 
