@@ -912,8 +912,20 @@ class SyntaxHighlighter {
 			echo "	SyntaxHighlighter.defaults['wrap-lines'] = false;\n";
 
 ?>	SyntaxHighlighter.all();
+
+	// Infinite scroll support
+	if ( typeof( jQuery ) !== 'undefined' ) {
+		jQuery( function( $ ) {
+			$( document.body ).on( 'post-load', function() {
+				SyntaxHighlighter.highlight();
+			} );
+		} );
+	}
 </script>
 <?php
+
+	do_action( 'syntaxhighlighter_after_script_output' );
+
 	}
 
 
