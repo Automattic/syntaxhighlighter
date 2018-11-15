@@ -556,6 +556,11 @@ class SyntaxHighlighter {
 
 	// Searches for Gutenberg code blocks and enables any used brushes.
 	public function enable_brushes_for_gutenberg_blocks( $content ) {
+		// Avoid running regex when possible
+		if ( false === strpos( $content, '<pre class="wp-block-syntaxhighlighter-code brush:' ) ) {
+			return $content;
+		}
+
 		$count = preg_match_all(
 			'/<pre class="wp-block-syntaxhighlighter-code brush: ([a-z]+);/m',
 			$content,
