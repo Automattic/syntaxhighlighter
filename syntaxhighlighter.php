@@ -43,45 +43,45 @@ class SyntaxHighlighter {
 		load_plugin_textdomain( 'syntaxhighlighter', false, '/syntaxhighlighter/localization' );
 
 		// Display hooks
-		add_filter( 'the_content',                        array( $this, 'parse_shortcodes' ),                              7 ); // Posts
-		add_filter( 'comment_text',                       array( $this, 'parse_shortcodes_comment' ),                      7 ); // Comments
-		add_filter( 'bp_get_the_topic_post_content',      array( $this, 'parse_shortcodes' ),                              7 ); // BuddyPress
+		add_filter( 'the_content', array( $this, 'parse_shortcodes' ), 7 ); // Posts
+		add_filter( 'comment_text', array( $this, 'parse_shortcodes_comment' ), 7 ); // Comments
+		add_filter( 'bp_get_the_topic_post_content', array( $this, 'parse_shortcodes' ), 7 ); // BuddyPress
 
 		// Into the database
-		add_filter( 'content_save_pre',                   array( $this, 'encode_shortcode_contents_slashed_noquickedit' ), 1 ); // Posts
-		add_filter( 'pre_comment_content',                array( $this, 'encode_shortcode_contents_slashed' ),             1 ); // Comments
-		add_filter( 'group_forum_post_text_before_save',  array( $this, 'encode_shortcode_contents_slashed' ),             1 ); // BuddyPress
-		add_filter( 'group_forum_topic_text_before_save', array( $this, 'encode_shortcode_contents_slashed' ),             1 ); // BuddyPress
+		add_filter( 'content_save_pre', array( $this, 'encode_shortcode_contents_slashed_noquickedit' ), 1 ); // Posts
+		add_filter( 'pre_comment_content', array( $this, 'encode_shortcode_contents_slashed' ), 1 ); // Comments
+		add_filter( 'group_forum_post_text_before_save', array( $this, 'encode_shortcode_contents_slashed' ), 1 ); // BuddyPress
+		add_filter( 'group_forum_topic_text_before_save', array( $this, 'encode_shortcode_contents_slashed' ), 1 ); // BuddyPress
 
 		// Out of the database for editing
-		add_filter( 'the_editor_content',                 array( $this, 'the_editor_content' ),                            1 ); // Posts
-		add_filter( 'comment_edit_pre',                   array( $this, 'decode_shortcode_contents' ),                     1 ); // Comments
-		add_filter( 'bp_get_the_topic_text',              array( $this, 'decode_shortcode_contents' ),                     1 ); // BuddyPress
-		add_filter( 'bp_get_the_topic_post_edit_text',    array( $this, 'decode_shortcode_contents' ),                     1 ); // BuddyPress
+		add_filter( 'the_editor_content', array( $this, 'the_editor_content' ), 1 ); // Posts
+		add_filter( 'comment_edit_pre', array( $this, 'decode_shortcode_contents' ), 1 ); // Comments
+		add_filter( 'bp_get_the_topic_text', array( $this, 'decode_shortcode_contents' ), 1 ); // BuddyPress
+		add_filter( 'bp_get_the_topic_post_edit_text', array( $this, 'decode_shortcode_contents' ), 1 ); // BuddyPress
 
 		// Outputting SyntaxHighlighter's JS and CSS
-		add_action( 'wp_head',                            array( $this, 'output_header_placeholder' ),                     15 );
-		add_action( 'admin_head',                         array( $this, 'output_header_placeholder' ),                     15 ); // For comments
-		add_action( 'wp_footer',                          array( $this, 'maybe_output_scripts' ),                          15 );
-		add_action( 'admin_footer',                       array( $this, 'maybe_output_scripts' ),                          15 ); // For comments
+		add_action( 'wp_head', array( $this, 'output_header_placeholder' ), 15 );
+		add_action( 'admin_head', array( $this, 'output_header_placeholder' ), 15 ); // For comments
+		add_action( 'wp_footer', array( $this, 'maybe_output_scripts' ), 15 );
+		add_action( 'admin_footer', array( $this, 'maybe_output_scripts' ), 15 ); // For comments
 
 		// Admin hooks
-		add_action( 'admin_init',                         array( $this, 'register_setting' ) );
-		add_action( 'admin_menu',                         array( $this, 'register_settings_page' ) );
-		add_filter( 'mce_external_plugins',               array( $this, 'add_tinymce_plugin' ) );
-		add_filter( 'save_post',                          array( $this, 'mark_as_encoded' ),                               10, 2 );
-		add_filter( 'plugin_action_links',                array( $this, 'settings_link' ),                                 10, 2 );
+		add_action( 'admin_init', array( $this, 'register_setting' ) );
+		add_action( 'admin_menu', array( $this, 'register_settings_page' ) );
+		add_filter( 'mce_external_plugins', array( $this, 'add_tinymce_plugin' ) );
+		add_filter( 'save_post', array( $this, 'mark_as_encoded' ), 10, 2 );
+		add_filter( 'plugin_action_links', array( $this, 'settings_link' ), 10, 2 );
 
 		// Gutenberg Blocks
 		if ( function_exists( 'gutenberg_pre_init' ) ) {
-			add_action( 'enqueue_block_editor_assets',        array( $this, 'enqueue_block_editor_assets' ) );
-			add_action( 'the_content',                        array( $this, 'enable_brushes_used_in_blocks' ), 0 );
+			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
+			add_action( 'the_content', array( $this, 'enable_brushes_used_in_blocks' ), 0 );
 		}
 
 		// Register widget hooks
-		add_filter( 'widget_text',                        array( $this, 'widget_text_output' ),                            7, 2 );
-		add_filter( 'widget_update_callback',             array( $this, 'widget_text_save' ),                              1, 4 );
-		add_filter( 'widget_form_callback',               array( $this, 'widget_text_form' ),                              1, 2 );
+		add_filter( 'widget_text', array( $this, 'widget_text_output' ), 7, 2 );
+		add_filter( 'widget_update_callback', array( $this, 'widget_text_save' ), 1, 4 );
+		add_filter( 'widget_form_callback', array( $this, 'widget_text_form' ), 1, 2 );
 
 
 		// Create array of default settings (you can use the filter to modify these)
