@@ -72,9 +72,11 @@ class SyntaxHighlighter {
 		add_filter( 'save_post',                          array( $this, 'mark_as_encoded' ),                               10, 2 );
 		add_filter( 'plugin_action_links',                array( $this, 'settings_link' ),                                 10, 2 );
 
-		// Blocks
-		add_action( 'enqueue_block_editor_assets',        array( $this, 'enqueue_block_editor_assets' ) );
-		add_action( 'wp',                                 array( $this, 'enable_brushes_used_in_blocks' ) );
+		// Gutenberg Blocks
+		if ( function_exists( 'gutenberg_pre_init' ) ) {
+			add_action( 'enqueue_block_editor_assets',        array( $this, 'enqueue_block_editor_assets' ) );
+			add_action( 'the_content',                        array( $this, 'enable_brushes_used_in_blocks' ), 0 );
+		}
 
 		// Register widget hooks
 		add_filter( 'widget_text',                        array( $this, 'widget_text_output' ),                            7, 2 );
@@ -335,30 +337,30 @@ class SyntaxHighlighter {
 	 * For the shortcode, brushes are activated by `shortcode_callback()`, but that won't detect brushes that were
 	 * used in blocks. For that, we need to extract the data from the block's attributes.
 	 */
-	function enable_brushes_used_in_blocks() {
-		global $post;
-
+	function enable_brushes_used_in_blocks( $content ) {
 		/*
-		 * Return early on the back end because Syntax highlighting is only active on the front end, see
+		 * Return early on the backend because SyntaxHighlighting is only active on the front end, see
 		 * `syntaxHighlighterCode::edit()` block for details.
 		 */
-		if ( is_admin() || ! $post instanceof WP_Post ) {
-			return;
+		if ( is_admin() ) {
+			return $content;
 		}
 
-		$blocks = gutenberg_parse_blocks( $post->post_content );
+		$blocks = gutenberg_parse_blocks( $content );
 
 		foreach ( $blocks as $block ) {
-			if ( empty( $block->blockName ) || 'syntaxhighlighter/code' !== $block->blockName ) {
+			if ( empty( $block['blockName'] ) || 'syntaxhighlighter/code' !== $block['blockName'] ) {
 				continue;
 			}
 
-			$language = $block->attrs->language;
+			$language = $block['attrs']['language'];
 
 			if ( in_array( $language, $this->brushes, true ) ) {
-				$this->usedbrushes[ $language ] = true;
+				$this->usedbrushes[ $this->brushes[ $language ] ] = true;
 			}
 		}
+
+		return $content;
 	}
 
 	// Add the custom TinyMCE plugin which wraps plugin shortcodes in <pre> in TinyMCE
@@ -546,38 +548,7 @@ class SyntaxHighlighter {
 
 	// The main filter for the post contents. The regular shortcode filter can't be used as it's post-wpautop().
 	function parse_shortcodes( $content ) {
-		$content = $this->enable_brushes_for_gutenberg_blocks( $content );
-
-		$content = $this->shortcode_hack( $content, array( $this, 'shortcode_callback' ) );
-
-		return $content;
-	}
-
-
-	// Searches for Gutenberg code blocks and enables any used brushes.
-	public function enable_brushes_for_gutenberg_blocks( $content ) {
-		// Avoid running regex when possible
-		if ( false === strpos( $content, '<pre class="wp-block-syntaxhighlighter-code brush:' ) ) {
-			return $content;
-		}
-
-		preg_match_all(
-			'/<pre class="wp-block-syntaxhighlighter-code brush: ([a-z]+);/m',
-			$content,
-			$matches
-		);
-
-		if ( $matches ) {
-			foreach ( $matches[1] as $match ) {
-				if ( ! isset( $this->brushes[ $match ] ) ) {
-					continue;
-				}
-
-				$this->usedbrushes[ $this->brushes[ $match ] ] = true;
-			}
-		}
-
-		return $content;
+		return $this->shortcode_hack( $content, array( $this, 'shortcode_callback' ) );
 	}
 
 
