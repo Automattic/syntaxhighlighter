@@ -346,6 +346,11 @@ class SyntaxHighlighter {
 			return $content;
 		}
 
+		// Lower overhead than a full parse.
+		if ( ! has_block( 'syntaxhighlighter/code', $content ) ) {
+			return $content;
+		}
+
 		$blocks = gutenberg_parse_blocks( $content );
 
 		foreach ( $blocks as $block ) {
