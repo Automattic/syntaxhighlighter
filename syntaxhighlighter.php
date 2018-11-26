@@ -311,7 +311,7 @@ class SyntaxHighlighter {
 		wp_enqueue_script(
 			'syntaxhighlighter-blocks',
 			plugins_url( 'blocks/index.min.js', __FILE__ ),
-			array( 'wp-blocks', 'wp-i18n', 'wp-element' ),
+			array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ),
 			filemtime( plugin_dir_path( __FILE__ ) . 'blocks/index.min.js' )
 		);
 
