@@ -24,6 +24,10 @@ For a list of supported languages (most widely used languages are supported), se
 
 Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere inside of it, otherwise the plugin won't be able to do it's thing.
 
+= Highlighting doesn't work and my browser hangs, why?
+
+Try excluding this plugin's Javascript from any performance optimizations your site may be doing that involve minifying or concatenating JS.
+
 == Screenshots ==
 
 1. Example code display of some PHP inside some HTML.
