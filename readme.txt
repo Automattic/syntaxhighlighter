@@ -35,6 +35,10 @@ Try excluding this plugin's Javascript from any performance optimizations your s
 
 == ChangeLog ==
 
+= Version 3.3.1 =
+
+* Make sure `wp-editor` script is loaded for Gutenberg.
+
 = Version 3.3.0 =
 
 * Gutenberg block thanks to @iandunn.
