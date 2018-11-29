@@ -312,7 +312,9 @@ class SyntaxHighlighter {
 			'syntaxhighlighter-blocks',
 			plugins_url( 'blocks/index.min.js', __FILE__ ),
 			array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ),
-			filemtime( plugin_dir_path( __FILE__ ) . 'blocks/index.min.js' )
+			( defined( 'WP_DEBUG' ) && WP_DEBUG )
+				? filemtime( plugin_dir_path( __FILE__ ) . 'blocks/index.min.js' )
+				: $this->pluginver
 		);
 
 		natsort( $this->brush_names );
