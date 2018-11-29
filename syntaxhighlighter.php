@@ -358,7 +358,7 @@ class SyntaxHighlighter {
 				continue;
 			}
 
-			$language = $block['attrs']['language'];
+			$language = ( ! empty( $block['attrs']['language'] ) ) ? $block['attrs']['language'] : 'plain';
 
 			if ( in_array( $language, $this->brushes, true ) ) {
 				$this->usedbrushes[ $this->brushes[ $language ] ] = true;
