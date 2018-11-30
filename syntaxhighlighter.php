@@ -4,7 +4,7 @@
 
 Plugin Name:  SyntaxHighlighter Evolved
 Plugin URI:   http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/
-Version:      3.3.2
+Version:      3.4.0
 Description:  Easily post syntax-highlighted code to your site without having to modify the code at all. Uses Alex Gorbatchev's <a href="http://alexgorbatchev.com/wiki/SyntaxHighlighter">SyntaxHighlighter</a>. <strong>TIP:</strong> Don't use the Visual editor if you don't want your code mangled. TinyMCE will "clean up" your HTML.
 Author:       Alex Mills (Viper007Bond)
 Author URI:   http://www.viper007bond.com/
@@ -21,7 +21,7 @@ Thanks to:
 
 class SyntaxHighlighter {
 	// All of these variables are private. Filters are provided for things that can be modified.
-	var $pluginver            = '3.3.2';  // Plugin version
+	var $pluginver            = '3.4.0';  // Plugin version
 	var $agshver              = false;    // Alex Gorbatchev's SyntaxHighlighter version (dynamically set below due to v2 vs v3)
 	var $shfolder             = false;    // Controls what subfolder to load SyntaxHighlighter from (v2 or v3)
 	var $settings             = array();  // Contains the user's settings
@@ -72,8 +72,8 @@ class SyntaxHighlighter {
 		add_filter( 'save_post', array( $this, 'mark_as_encoded' ), 10, 2 );
 		add_filter( 'plugin_action_links', array( $this, 'settings_link' ), 10, 2 );
 
-		// Gutenberg Blocks
-		if ( function_exists( 'gutenberg_pre_init' ) ) {
+		// Editor Blocks
+		if ( function_exists( 'parse_blocks' ) ) {
 			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
 			add_action( 'the_content', array( $this, 'enable_brushes_used_in_blocks' ), 0 );
 		}
@@ -323,10 +323,8 @@ class SyntaxHighlighter {
 			'syntaxhighlighter-blocks',
 			sprintf( '
 				var syntaxHighlighterData = {
-					localeData: %s,
 					brushes: %s,
 				};',
-				json_encode( gutenberg_get_jed_locale_data( 'syntaxhighlighter' ) ),
 				json_encode( $this->brush_names )
 			),
 			'before'
@@ -353,7 +351,7 @@ class SyntaxHighlighter {
 			return $content;
 		}
 
-		$blocks = gutenberg_parse_blocks( $content );
+		$blocks = parse_blocks( $content );
 
 		foreach ( $blocks as $block ) {
 			if ( empty( $block['blockName'] ) || 'syntaxhighlighter/code' !== $block['blockName'] ) {

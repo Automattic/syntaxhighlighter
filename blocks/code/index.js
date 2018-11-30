@@ -3,8 +3,6 @@ const { registerBlockType }            = wp.blocks;
 const { InspectorControls, PlainText } = wp.editor;
 const { PanelBody, PanelRow }          = wp.components;
 
-setLocaleData( syntaxHighlighterData.localeData, 'syntaxhighlighter' );
-
 /*
  * syntaxhighlighter/code block
  *
@@ -141,8 +139,7 @@ setLocaleData( syntaxHighlighterData.localeData, 'syntaxhighlighter' );
 			// Add CSS class to inherit styles from the bundled `code` block.
 			<div className={ className + ' wp-block-code' } key="syntaxHighlighterEditView">
 				<PlainText
-					// translators: Sample code used as a placeholder.
-					placeholder = { __( "$foo = new Foo( 'bar' );", 'syntaxhighlighter' ) }
+					placeholder = { __( 'Tip: Choose a code language from the block settings to the right.', 'syntaxhighlighter' ) }
 					className   = "editor-plain-text"
 					value       = { content }
 					aria-label  = { __( 'SyntaxHighlighter Code', 'syntaxhighlighter' ) }
