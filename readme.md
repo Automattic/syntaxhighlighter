@@ -1,15 +1,20 @@
-## SyntaxHighlighter Evolved
+# SyntaxHighlighter Evolved
+
+[![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/syntaxhighlighter.svg?style=flat-square)](https://wordpress.org/plugins/syntaxhighlighter/)
+[![WordPress Tested](https://img.shields.io/wordpress/v/syntaxhighlighter.svg?style=flat-square)](https://wordpress.org/plugins/syntaxhighlighter/)
+[![WordPress Plugin Downloads](https://img.shields.io/wordpress/plugin/dt/syntaxhighlighter.svg?style=flat-square)](https://wordpress.org/plugins/syntaxhighlighter/advanced/)
+[![WordPress Plugin Rating](https://img.shields.io/wordpress/plugin/r/syntaxhighlighter.svg?style=flat-square)](https://wordpress.org/support/plugin/syntaxhighlighter/reviews/)
+
 
 Easily post syntax-highlighted code to your WordPress site without having to modify the code at all. As seen on WordPress.com.
 
-## Development On The Next Version
-
-A major rewrite is currently occurring in the [4.0 branch](https://github.com/Viper007Bond/syntaxhighlighter/tree/4.0). Go there if you want to see the current work in progress code.
+Supports the new Gutenberg editor!
 
 ## Block Development Workflow
 
-When making changes in the `blocks/` folder,
+When making changes in the `src/` folder,
 
-* Make sure you have [WP-CLI](http://wp-cli.org/) installed.
-* Run `npm run dev` in a terminal to automatically re-transpile `blocks/index.min.js` when source files change.
-* Run `npm run build` to transpile _and_ minify `blocks/index.min.js` for distribution, as well as automatically update the `locatlizations/_syntaxhighlighter-template.po`.
+* Run `npm start` to build a development version with file watching.
+* Run `npm run build` to build a minified production file.
+
+For more details, see [hmadawais/create-guten-block](https://github.com/ahmadawais/create-guten-block) which is the project that this plugin uses to manage block building.
