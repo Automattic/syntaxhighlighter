@@ -310,10 +310,10 @@ class SyntaxHighlighter {
 	function enqueue_block_editor_assets() {
 		wp_enqueue_script(
 			'syntaxhighlighter-blocks',
-			plugins_url( 'blocks/index.min.js', __FILE__ ),
+			plugins_url( 'dist/blocks.build.js', __FILE__ ),
 			array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ),
 			( defined( 'WP_DEBUG' ) && WP_DEBUG )
-				? filemtime( plugin_dir_path( __FILE__ ) . 'blocks/index.min.js' )
+				? filemtime( plugin_dir_path( __FILE__ ) . 'dist/blocks.build.js' )
 				: $this->pluginver
 		);
 
