@@ -17,4 +17,4 @@ When making changes in the `src/` folder,
 * Run `npm start` to build a development version with file watching.
 * Run `npm run build` to build a minified production file.
 
-For more details, see [hmadawais/create-guten-block](https://github.com/ahmadawais/create-guten-block) which is the project that this plugin uses to manage block building.
+For more details, see [ahmadawais/create-guten-block](https://github.com/ahmadawais/create-guten-block) which is the project that this plugin uses to manage block building.
