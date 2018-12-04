@@ -40,7 +40,7 @@ class SyntaxHighlighter {
 			return;
 
 		// Load localization domain
-		load_plugin_textdomain( 'syntaxhighlighter', false, '/syntaxhighlighter/localization' );
+		load_plugin_textdomain( 'syntaxhighlighter' );
 
 		// Display hooks
 		add_filter( 'the_content', array( $this, 'parse_shortcodes' ), 7 ); // Posts
@@ -316,6 +316,8 @@ class SyntaxHighlighter {
 				? filemtime( plugin_dir_path( __FILE__ ) . 'dist/blocks.build.js' )
 				: $this->pluginver
 		);
+
+		wp_set_script_translations( 'syntaxhighlighter-blocks', 'syntaxhighlighter' );
 
 		natsort( $this->brush_names );
 
