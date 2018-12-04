@@ -1,8 +1,4 @@
 .svn
 .idea
+dist/
 node_modules
-*.min.js
-
-# The contents of this file get merged into `localization/_syntaxhighlighter-template.po` by `npm run makepot`,
-# so it can be treated as if it were a temporary file.
-localization/blocks.pot

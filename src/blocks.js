@@ -1,10 +1,14 @@
-const { __, setLocaleData }            = wp.i18n;
-const { registerBlockType }            = wp.blocks;
-const { InspectorControls, PlainText } = wp.editor;
-const { PanelBody, PanelRow }          = wp.components;
+/**
+ * BLOCK: SyntaxHighlighter Evolved (syntaxhighlighter/code)
+ */
 
-/*
- * syntaxhighlighter/code block
+const { __ } = wp.i18n; // Import __() from wp.i18n
+const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
+const { InspectorControls, PlainText } = wp.editor;
+const { PanelBody, PanelRow } = wp.components;
+
+/**
+ * Register syntaxhighlighter/code block.
  *
  * This only applies highlighting to the front end. See `edit()` for details.
  *
@@ -14,20 +18,20 @@ const { PanelBody, PanelRow }          = wp.components;
  * any others) would be lost. If the user re-enabled the plugin, they would have to re-apply the settings to each
  * block.
  *
- * @todo
- *      * Add tests
- *      * Add support for other shortcode parameters
- *      * Add a shortcode transform
+ * @link https://wordpress.org/gutenberg/handbook/block-api/
+ * @param  {string}   name     Block name.
+ * @param  {Object}   settings Block settings.
+ * @return {?WPBlock}          The block, if it has been successfully
+ *                             registered; otherwise `undefined`.
  */
- export const syntaxHighlighterCode = {
+registerBlockType( 'syntaxhighlighter/code', {
 	title: __( 'SyntaxHighlighter Code', 'syntaxhighlighter' ),
-	description: __( 'Adds syntax highlighting to source code (front end only)', 'syntaxhighlighter' ),
+	description: __( 'Adds syntax highlighting to source code (front end only).', 'syntaxhighlighter' ),
 	icon: 'editor-code',
 	category: 'formatting',
-
 	keywords: [
 		// translators: Keyword that user might search for when trying to locate block.
-		__( 'Source',  'syntaxhighlighter' ),
+		__( 'Source', 'syntaxhighlighter' ),
 		// translators: Keyword that user might search for when trying to locate block.
 		__( 'Program', 'syntaxhighlighter' ),
 		// translators: Keyword that user might search for when trying to locate block.
@@ -88,16 +92,12 @@ const { PanelBody, PanelRow }          = wp.components;
 	},
 
 	/**
-	 * Render the dynamic version of the block for the editor.
+	 * The edit function describes the structure of your block in the context of the editor.
+	 * This represents what the editor will render when the block is used.
 	 *
-	 * Ideally, this version should have syntax highlighting too, because that would be consistent with Gutenberg's
-	 * design principal of making the front and back ends as close as possible. Unfortunately, that's not practical
-	 * with SyntaxHighlighter, because it is only intended to _display_ code, not provide an editable interface.
+	 * The "edit" property must be a valid function.
 	 *
-	 * @link https://github.com/syntaxhighlighter/syntaxhighlighter/issues/337
-	 *
-	 * @param {object} props
-	 * @returns {array}
+	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
 	edit: props => {
 		const {
@@ -120,7 +120,7 @@ const { PanelBody, PanelRow }          = wp.components;
 				<PanelBody title="Settings">
 					<PanelRow>
 						<label htmlFor="syntaxhighlighter-language">
-							{ __( 'Language', 'syntaxhighlighter' ) }
+							{ __( 'Code Language', 'syntaxhighlighter' ) }
 						</label>
 
 						<select
@@ -164,6 +164,4 @@ const { PanelBody, PanelRow }          = wp.components;
 			<pre className={ 'brush: ' + language + '; notranslate' }>{ content }</pre>
 		);
 	}
-};
-
-registerBlockType( 'syntaxhighlighter/code', syntaxHighlighterCode );
+} );

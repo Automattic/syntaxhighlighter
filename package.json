@@ -12,56 +12,12 @@
 	"bugs": {
 		"url": "https://github.com/Viper007Bond/syntaxhighlighter/issues"
 	},
-	"devDependencies": {
-		"@wordpress/babel-plugin-makepot": "^1.0.0",
-		"@wordpress/babel-preset-default": "^1.1.2",
-		"@wordpress/i18n": "^1.1.0",
-		"babel-core": "^6.25.0",
-		"babel-loader": "^7.1.4",
-		"babel-plugin-transform-react-jsx": "^6.24.1",
-		"babel-preset-env": "^1.6.0",
-		"cross-env": "^5.0.1",
-		"webpack": "^3.1.0"
-	},
-	"babel": {
-		"presets": [
-			"@wordpress/default",
-			[
-				"env",
-				{
-					"modules": false,
-					"targets": {
-						"browsers": [
-							"last 2 Chrome versions",
-							"last 2 Firefox versions",
-							"last 2 Safari versions",
-							"last 2 iOS versions",
-							"last 1 Android version",
-							"last 1 ChromeAndroid version",
-							"ie 11"
-						]
-					}
-				}
-			]
-		],
-		"plugins": [
-			[
-				"transform-react-jsx",
-				{
-					"pragma": "wp.element.createElement"
-				}
-			],
-			[
-				"@wordpress/babel-plugin-makepot",
-				{
-					"output": "localization/blocks.pot"
-				}
-			]
-		]
-	},
 	"scripts": {
-		"dev": "cross-env BABEL_ENV=development NODE_ENV=development webpack --watch",
-		"build": "cross-env BABEL_ENV=production NODE_ENV=production webpack && npm run makepot",
-		"makepot": "wp i18n make-pot . localization/_syntaxhighlighter-template.po --merge=localization/blocks.pot --skip-js"
+		"start": "cgb-scripts start",
+		"build": "cgb-scripts build",
+		"eject": "cgb-scripts eject"
+	},
+	"dependencies": {
+		"cgb-scripts": "^1.13.0"
 	}
 }

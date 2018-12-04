@@ -1,0 +1,35 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"X-Generator: babel-plugin-makepot\n"
+
+#: blocks/code/index.js:123
+msgid "Language"
+msgstr ""
+
+#: blocks/code/index.js:142
+msgid "Tip: Choose a code language from the block settings to the right."
+msgstr ""
+
+#: blocks/code/index.js:145
+msgid "SyntaxHighlighter Code"
+msgstr ""
+
+#: blocks/code/index.js:24
+msgid "Adds syntax highlighting to source code (front end only)"
+msgstr ""
+
+# Keyword that user might search for when trying to locate block.
+#: blocks/code/index.js:30
+msgid "Source"
+msgstr ""
+
+# Keyword that user might search for when trying to locate block.
+#: blocks/code/index.js:32
+msgid "Program"
+msgstr ""
+
+# Keyword that user might search for when trying to locate block.
+#: blocks/code/index.js:34
+msgid "Develop"
+msgstr ""
