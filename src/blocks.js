@@ -26,7 +26,7 @@ const { PanelBody, PanelRow } = wp.components;
  */
 registerBlockType( 'syntaxhighlighter/code', {
 	title: __( 'SyntaxHighlighter Code', 'syntaxhighlighter' ),
-	description: __( 'Adds syntax highlighting to source code (front end only)', 'syntaxhighlighter' ),
+	description: __( 'Adds syntax highlighting to source code (front end only).', 'syntaxhighlighter' ),
 	icon: 'editor-code',
 	category: 'formatting',
 	keywords: [
@@ -120,7 +120,7 @@ registerBlockType( 'syntaxhighlighter/code', {
 				<PanelBody title="Settings">
 					<PanelRow>
 						<label htmlFor="syntaxhighlighter-language">
-							{ __( 'Language', 'syntaxhighlighter' ) }
+							{ __( 'Code Language', 'syntaxhighlighter' ) }
 						</label>
 
 						<select
