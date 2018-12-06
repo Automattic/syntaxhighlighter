@@ -2,10 +2,39 @@
  * BLOCK: SyntaxHighlighter Evolved (syntaxhighlighter/code)
  */
 
-const { __ } = wp.i18n; // Import __() from wp.i18n
-const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
+/**
+ * External dependencies
+ */
+import { omit, pick } from 'lodash';
+
+/**
+ * WordPress dependencies
+ */
+const { __ } = wp.i18n;
+const { registerBlockType } = wp.blocks;
 const { InspectorControls, PlainText } = wp.editor;
 const { PanelBody, PanelRow } = wp.components;
+
+/**
+ * Current block attributes.
+ */
+const blockAttributes = {
+	content: {
+		type: 'string',
+		source: 'text',
+		selector: 'pre',
+	},
+
+	language: {
+		type: 'string',
+		default: 'plain',
+	},
+
+	linenumbers: {
+		type: 'boolean',
+		default: true,
+	},
+};
 
 /**
  * Register syntaxhighlighter/code block.
@@ -14,9 +43,8 @@ const { PanelBody, PanelRow } = wp.components;
  *
  * The reason why we're creating a new block here, instead of extending or replacing the existing `code` block
  * built in to Core, is because it's more future-proof for the user's content. If we were to extend the existing
- * `core` block, and then the user disabled this plugin, and then saved the post, the `language` attribute (and
- * any others) would be lost. If the user re-enabled the plugin, they would have to re-apply the settings to each
- * block.
+ * `core` block, and then the user disabled this plugin, and then saved the post, the custom attributes would be
+ * lost. If the user re-enabled the plugin, they would have to re-apply the settings to each block.
  *
  * @link https://wordpress.org/gutenberg/handbook/block-api/
  * @param  {string}   name     Block name.
@@ -26,9 +54,13 @@ const { PanelBody, PanelRow } = wp.components;
  */
 registerBlockType( 'syntaxhighlighter/code', {
 	title: __( 'SyntaxHighlighter Code', 'syntaxhighlighter' ),
+
 	description: __( 'Adds syntax highlighting to source code (front end only).', 'syntaxhighlighter' ),
+
 	icon: 'editor-code',
+
 	category: 'formatting',
+
 	keywords: [
 		// translators: Keyword that user might search for when trying to locate block.
 		__( 'Source', 'syntaxhighlighter' ),
@@ -38,22 +70,7 @@ registerBlockType( 'syntaxhighlighter/code', {
 		__( 'Develop', 'syntaxhighlighter' ),
 	],
 
-	/*
-	 * The `[sourcecode]` shortcode has many additional parameters, but the initial version of this block only
-	 * supports the most basic ones. The remaining ones can be added in a future iteration.
-	 */
-	attributes: {
-		content: {
-			type: 'string',
-			source: 'text',
-			selector: 'pre',
-		},
-
-		language: {
-			type: 'string',
-			default: 'plain',
-		}
-	},
+	attributes: blockAttributes,
 
 	supports: {
 		html: false
@@ -92,17 +109,14 @@ registerBlockType( 'syntaxhighlighter/code', {
 	},
 
 	/**
-	 * The edit function describes the structure of your block in the context of the editor.
-	 * This represents what the editor will render when the block is used.
-	 *
-	 * The "edit" property must be a valid function.
+	 * Tell the editor what to render when editing the block.
 	 *
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
-	edit: props => {
+	edit( props ) {
 		const {
 			className, setAttributes,
-			attributes: { content, language }
+			attributes: { content, language, linenumbers }
 		} = props;
 
 		const options = [];
@@ -157,11 +171,34 @@ registerBlockType( 'syntaxhighlighter/code', {
 	 * @param {object} props
 	 * @returns {Element}
 	 */
-	save: props => {
-		const { content, language } = props.attributes;
+	save( props ) {
+		const gutter = ( props.attributes.linenumbers ) ? '1' : '0';
 
 		return (
-			<pre className={ 'brush: ' + language + '; notranslate' }>{ content }</pre>
+			<pre className={ 'brush: ' + props.attributes.language + '; gutter: ' + gutter + '; notranslate' }>{ props.attributes.content }</pre>
 		);
-	}
+	},
+
+	/**
+	 * Previous version(s) of the block.
+	 */
+	deprecated: [
+		/**
+		 * Block v1 which only supported the `language` parameter.
+		 *
+		 * @since 3.3.0
+		 * @deprecated 3.4.0
+		 */
+		{
+			attributes: {
+				...pick(blockAttributes, ['content', 'language']),
+			},
+
+			save( props ) {
+				return (
+					<pre className={ 'brush: ' + props.attributes.language + '; notranslate' }>{ props.attributes.content }</pre>
+				);
+			},
+		}
+	]
 } );
