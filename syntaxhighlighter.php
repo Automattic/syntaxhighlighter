@@ -4,7 +4,7 @@
 
 Plugin Name:  SyntaxHighlighter Evolved
 Plugin URI:   http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/
-Version:      3.4.0
+Version:      3.4.1
 Description:  Easily post syntax-highlighted code to your site without having to modify the code at all. Uses Alex Gorbatchev's <a href="http://alexgorbatchev.com/wiki/SyntaxHighlighter">SyntaxHighlighter</a>. <strong>TIP:</strong> Don't use the Visual editor if you don't want your code mangled. TinyMCE will "clean up" your HTML.
 Author:       Alex Mills (Viper007Bond)
 Author URI:   http://www.viper007bond.com/
@@ -21,7 +21,7 @@ Thanks to:
 
 class SyntaxHighlighter {
 	// All of these variables are private. Filters are provided for things that can be modified.
-	var $pluginver            = '3.4.0';  // Plugin version
+	var $pluginver            = '3.4.1';  // Plugin version
 	var $agshver              = false;    // Alex Gorbatchev's SyntaxHighlighter version (dynamically set below due to v2 vs v3)
 	var $shfolder             = false;    // Controls what subfolder to load SyntaxHighlighter from (v2 or v3)
 	var $settings             = array();  // Contains the user's settings
@@ -73,7 +73,10 @@ class SyntaxHighlighter {
 		add_filter( 'plugin_action_links', array( $this, 'settings_link' ), 10, 2 );
 
 		// Editor Blocks
-		if ( function_exists( 'parse_blocks' ) ) {
+		if (
+			function_exists( 'parse_blocks' ) // WordPress 5.0+
+			|| function_exists( 'the_gutenberg_project' ) // Gutenberg plugin for older WordPress
+		) {
 			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
 			add_action( 'the_content', array( $this, 'enable_brushes_used_in_blocks' ), 0 );
 		}
@@ -317,7 +320,10 @@ class SyntaxHighlighter {
 				: $this->pluginver
 		);
 
-		wp_set_script_translations( 'syntaxhighlighter-blocks', 'syntaxhighlighter' );
+		// WordPress 5.0+ only, no Gutenberg plugin support
+		if ( function_exists( 'wp_set_script_translations' ) ) {
+			wp_set_script_translations( 'syntaxhighlighter-blocks', 'syntaxhighlighter' );
+		}
 
 		natsort( $this->brush_names );
 
@@ -353,7 +359,13 @@ class SyntaxHighlighter {
 			return $content;
 		}
 
-		$blocks = parse_blocks( $content );
+		if ( function_exists( 'parse_blocks' ) ) { // WP 5.0+
+			$blocks = parse_blocks( $content );
+		} elseif ( Function_exists( 'gutenberg_parse_blocks' ) ) { // Gutenberg plugin
+			$blocks = gutenberg_parse_blocks( $content );
+		} else {
+			return $content;
+		}
 
 		foreach ( $blocks as $block ) {
 			if ( empty( $block['blockName'] ) || 'syntaxhighlighter/code' !== $block['blockName'] ) {
