@@ -4,7 +4,7 @@
 
 Plugin Name:  SyntaxHighlighter Evolved
 Plugin URI:   http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/
-Version:      3.4.1
+Version:      3.4.2
 Description:  Easily post syntax-highlighted code to your site without having to modify the code at all. Uses Alex Gorbatchev's <a href="http://alexgorbatchev.com/wiki/SyntaxHighlighter">SyntaxHighlighter</a>. <strong>TIP:</strong> Don't use the Visual editor if you don't want your code mangled. TinyMCE will "clean up" your HTML.
 Author:       Alex Mills (Viper007Bond)
 Author URI:   http://www.viper007bond.com/
@@ -21,7 +21,7 @@ Thanks to:
 
 class SyntaxHighlighter {
 	// All of these variables are private. Filters are provided for things that can be modified.
-	var $pluginver            = '3.4.1';  // Plugin version
+	var $pluginver            = '3.4.2';  // Plugin version
 	var $agshver              = false;    // Alex Gorbatchev's SyntaxHighlighter version (dynamically set below due to v2 vs v3)
 	var $shfolder             = false;    // Controls what subfolder to load SyntaxHighlighter from (v2 or v3)
 	var $settings             = array();  // Contains the user's settings
@@ -344,6 +344,12 @@ class SyntaxHighlighter {
 	 *
 	 * For the shortcode, brushes are activated by `shortcode_callback()`, but that won't detect brushes that were
 	 * used in blocks. For that, we need to extract the data from the block's attributes.
+	 *
+	 * @since 3.3.0
+	 *
+	* @param string $content The post content.
+	  *
+	 * @return string Unmodified $content.
 	 */
 	function enable_brushes_used_in_blocks( $content ) {
 		/*
@@ -409,6 +415,8 @@ class SyntaxHighlighter {
 	 * It was easier to implement than loading the block, which then could
 	 * have child blocks and so forth. Technically this means that we're
 	 * parsing any regular SyntaxHighlighter blocks again, but oh well. :)
+	 *
+	 * @since 3.4.2
 	 *
 	* @param string $content The post content.
 	 *

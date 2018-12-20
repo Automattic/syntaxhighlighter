@@ -37,6 +37,10 @@ Try excluding this plugin's Javascript from any performance optimizations your s
 
 == ChangeLog ==
 
+= Version 3.4.2 =
+
+* Blocks: Support SyntaxHighlighter block being used as a reusable block.
+
 = Version 3.4.1 =
 
 * Bring back support for the Gutenberg plugin for the people that are still on older versions of WordPress (pre-5.0) and are using the new block editor via the Gutenberg plugin.
