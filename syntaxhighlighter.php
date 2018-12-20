@@ -355,8 +355,11 @@ class SyntaxHighlighter {
 		}
 
 		// Lower overhead than a full parse.
-		if ( ! has_block( 'syntaxhighlighter/code', $content ) ) {
-			return $content;
+		if (
+			! has_block( 'syntaxhighlighter/code', $content )
+			&& ! has_block( 'core/block', $content ) // Reusable
+		) {
+			//return $content;
 		}
 
 		if ( function_exists( 'parse_blocks' ) ) { // WP 5.0+
@@ -368,14 +371,66 @@ class SyntaxHighlighter {
 		}
 
 		foreach ( $blocks as $block ) {
-			if ( empty( $block['blockName'] ) || 'syntaxhighlighter/code' !== $block['blockName'] ) {
+			if ( empty( $block['blockName'] ) ) {
 				continue;
 			}
 
-			$language = ( ! empty( $block['attrs']['language'] ) ) ? $block['attrs']['language'] : 'plain';
+			switch ( $block['blockName'] ) {
+				// Normal block usage
+				case 'syntaxhighlighter/code':
+					$language = ( ! empty( $block['attrs']['language'] ) ) ? $block['attrs']['language'] : 'plain';
 
-			if ( in_array( $language, $this->brushes, true ) ) {
-				$this->usedbrushes[ $this->brushes[ $language ] ] = true;
+					if ( in_array( $language, $this->brushes, true ) ) {
+						$this->usedbrushes[ $this->brushes[ $language ] ] = true;
+					}
+
+					break;
+
+				// But the block could also be used inside of a reusable block
+				case 'core/block':
+					/**
+					 * Rather than going down the block parsing rabbit hole of dynamic blocks,
+					 * let's just hook in post-render and look for our HTML.
+ 					 */
+					add_filter( 'the_content', array( $this, 'enable_brushes_via_raw_html_parsing' ), 10 );
+
+					break;
+			}
+		}
+
+		return $content;
+	}
+
+	/**
+	 * Parses raw HTML looking for SyntaxHighlighter's <pre> tags and queues brushes
+	 * for the languages used.
+	 *
+	 * This filter only runs when a reusable block is used in a post.
+	 * It was easier to implement than loading the block, which then could
+	 * have child blocks and so forth. Technically this means that we're
+	 * parsing any regular SyntaxHighlighter blocks again, but oh well. :)
+	 *
+	* @param string $content The post content.
+	 *
+	 * @return string Unmodified $content.
+	 */
+	public function enable_brushes_via_raw_html_parsing( $content ) {
+		if ( false === strpos( $content,'<pre class="wp-block-syntaxhighlighter-code' ) ) {
+			return $content;
+		}
+
+		preg_match_all(
+			'/<pre class="wp-block-syntaxhighlighter-code brush: ([^;]+);/',
+			$content,
+			$languages,
+			PREG_PATTERN_ORDER
+		);
+
+		if ( is_array( $languages ) ) {
+			foreach ( $languages[1] as $language ) {
+				if ( in_array( $language, $this->brushes, true ) ) {
+					$this->usedbrushes[ $this->brushes[ $language ] ] = true;
+				}
 			}
 		}
 
