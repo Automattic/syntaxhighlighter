@@ -126,7 +126,7 @@ registerBlockType( 'syntaxhighlighter/code', {
 				<option key={ brush } value={ brush }>
 					{ syntaxHighlighterData.brushes[ brush ] }
 				</option>
-			);
+			)
 		}
 
 		const inspectorControls = (
@@ -175,30 +175,7 @@ registerBlockType( 'syntaxhighlighter/code', {
 		const gutter = ( props.attributes.linenumbers ) ? '1' : '0';
 
 		return (
-			<pre className={ 'brush: ' + props.attributes.language + '; gutter: ' + gutter + '; notranslate' }>{ props.attributes.content }</pre>
-		);
+			<pre>{ props.attributes.content }</pre>
+		)
 	},
-
-	/**
-	 * Previous version(s) of the block.
-	 */
-	deprecated: [
-		/**
-		 * Block v1 which only supported the `language` parameter.
-		 *
-		 * @since 3.3.0
-		 * @deprecated 3.4.0
-		 */
-		{
-			attributes: {
-				...pick(blockAttributes, ['content', 'language']),
-			},
-
-			save( props ) {
-				return (
-					<pre className={ 'brush: ' + props.attributes.language + '; notranslate' }>{ props.attributes.content }</pre>
-				);
-			},
-		}
-	]
 } );
