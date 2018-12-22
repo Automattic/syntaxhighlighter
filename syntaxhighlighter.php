@@ -79,6 +79,12 @@ class SyntaxHighlighter {
 		) {
 			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
 			add_action( 'the_content', array( $this, 'enable_brushes_used_in_blocks' ), 0 );
+			register_block_type(
+				'syntaxhighlighter/code',
+				array(
+					'render_callback' => array( $this, 'render_block' ),
+				)
+			);
 		}
 
 		// Register widget hooks
@@ -443,6 +449,21 @@ class SyntaxHighlighter {
 		}
 
 		return $content;
+	}
+
+	/**
+	 * Renders the content of the Gutenberg block on the front end
+	 * using the shortcode callback. This ensures one source of truth
+	 * and allows for forward compatibility.
+	 *
+	* @param string $content The block's content.
+	 *
+	 * @return string The rendered content.
+	 */
+	public function render_block( $attributes, $content ) {
+		$code = preg_replace( '#<pre [^>]+>([^<]+)?</pre>#', '$1', $content );
+
+		return $this->shortcode_callback( $attributes, $code, 'code' );
 	}
 
 	// Add the custom TinyMCE plugin which wraps plugin shortcodes in <pre> in TinyMCE

@@ -12,7 +12,7 @@ import { omit, pick } from 'lodash';
  */
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
-const { InspectorControls, PlainText } = wp.editor;
+const { InspectorControls, PlainText, RichText } = wp.editor;
 const { PanelBody, PanelRow } = wp.components;
 
 /**
@@ -172,8 +172,6 @@ registerBlockType( 'syntaxhighlighter/code', {
 	 * @returns {Element}
 	 */
 	save( props ) {
-		const gutter = ( props.attributes.linenumbers ) ? '1' : '0';
-
 		return (
 			<pre>{ props.attributes.content }</pre>
 		)
