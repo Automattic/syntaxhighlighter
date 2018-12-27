@@ -3,19 +3,14 @@
 **************************************************************************
 
 Plugin Name:  SyntaxHighlighter Evolved
-Plugin URI:   http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/
+Plugin URI:   https://alex.blog/wordpress-plugins/syntaxhighlighter/
 Version:      3.4.2
-Description:  Easily post syntax-highlighted code to your site without having to modify the code at all. Uses Alex Gorbatchev's <a href="http://alexgorbatchev.com/wiki/SyntaxHighlighter">SyntaxHighlighter</a>. <strong>TIP:</strong> Don't use the Visual editor if you don't want your code mangled. TinyMCE will "clean up" your HTML.
+Description:  Easily post syntax-highlighted code to your site without having to modify the code at all. Uses Alex Gorbatchev's <a href="http://alexgorbatchev.com/SyntaxHighlighter/">SyntaxHighlighter</a>. Includes a new editor block.
 Author:       Alex Mills (Viper007Bond)
-Author URI:   http://www.viper007bond.com/
-
-**************************************************************************
-
-Thanks to:
-
-* Alex Gorbatchev for writing the Javascript-powered syntax highlighter script
-
-* Andrew Ozz for writing the TinyMCE plugin
+Author URI:   https://alex.blog/
+Text Domain:  syntaxhighlighter
+License:      GPL2
+License URI:  https://www.gnu.org/licenses/gpl-2.0.html
 
 **************************************************************************/
 
@@ -461,6 +456,8 @@ class SyntaxHighlighter {
 	 * @return string The rendered content.
 	 */
 	public function render_block( $attributes, $content ) {
+		return $content;
+
 		$code = preg_replace( '#<pre [^>]+>([^<]+)?</pre>#', '$1', $content );
 
 		return $this->shortcode_callback( $attributes, $code, 'code' );
