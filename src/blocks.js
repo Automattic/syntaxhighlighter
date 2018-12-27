@@ -3,59 +3,17 @@
  */
 
 /**
- * External dependencies
- */
-import { omit, pick } from 'lodash';
-
-/**
  * WordPress dependencies
  */
-const { __ } = wp.i18n;
-const { registerBlockType } = wp.blocks;
-const { InspectorControls, PlainText, RichText } = wp.editor;
-const { PanelBody, PanelRow } = wp.components;
+import { __ } from '@wordpress/i18n';
+import { registerBlockType, createBlock } from '@wordpress/blocks';
+import { Path, PanelBody, PanelRow } from '@wordpress/components';
+import { PlainText, InspectorControls } from '@wordpress/editor';
 
-/**
- * Current block attributes.
- */
-const blockAttributes = {
-	content: {
-		type: 'string',
-		source: 'text',
-		selector: 'pre',
-	},
-
-	language: {
-		type: 'string',
-		default: 'plain',
-	},
-
-	linenumbers: {
-		type: 'boolean',
-		default: true,
-	},
-};
-
-/**
- * Register syntaxhighlighter/code block.
- *
- * This only applies highlighting to the front end. See `edit()` for details.
- *
- * The reason why we're creating a new block here, instead of extending or replacing the existing `code` block
- * built in to Core, is because it's more future-proof for the user's content. If we were to extend the existing
- * `core` block, and then the user disabled this plugin, and then saved the post, the custom attributes would be
- * lost. If the user re-enabled the plugin, they would have to re-apply the settings to each block.
- *
- * @link https://wordpress.org/gutenberg/handbook/block-api/
- * @param  {string}   name     Block name.
- * @param  {Object}   settings Block settings.
- * @return {?WPBlock}          The block, if it has been successfully
- *                             registered; otherwise `undefined`.
- */
 registerBlockType( 'syntaxhighlighter/code', {
-	title: __( 'SyntaxHighlighter Code', 'syntaxhighlighter' ),
+	title: __('SyntaxHighlighter Code', 'syntaxhighlighter'),
 
-	description: __( 'Adds syntax highlighting to source code (front end only).', 'syntaxhighlighter' ),
+	description: __('Adds syntax highlighting to source code (front end only).', 'syntaxhighlighter'),
 
 	icon: 'editor-code',
 
@@ -63,28 +21,37 @@ registerBlockType( 'syntaxhighlighter/code', {
 
 	keywords: [
 		// translators: Keyword that user might search for when trying to locate block.
-		__( 'Source', 'syntaxhighlighter' ),
+		__('Source', 'syntaxhighlighter'),
 		// translators: Keyword that user might search for when trying to locate block.
-		__( 'Program', 'syntaxhighlighter' ),
+		__('Program', 'syntaxhighlighter'),
 		// translators: Keyword that user might search for when trying to locate block.
-		__( 'Develop', 'syntaxhighlighter' ),
+		__('Develop', 'syntaxhighlighter'),
 	],
 
-	attributes: blockAttributes,
+	attributes: {
+		content: {
+			type: 'string',
+				source: 'text',
+				selector: 'code',
+		},
+
+		language: {
+			type: 'string',
+			default: 'plain',
+		}
+	},
 
 	supports: {
-		html: false
+		html: false,
 	},
 
 	transforms: {
 		from: [
 			{
-				type: 'pattern',
-				trigger: 'enter',
+				type: 'enter',
 				regExp: /^```$/,
 				transform: () => createBlock( 'syntaxhighlighter/code' ),
 			},
-
 			{
 				type: 'raw',
 				isMatch: ( node ) => (
@@ -92,7 +59,6 @@ registerBlockType( 'syntaxhighlighter/code', {
 					node.children.length === 1 &&
 					node.firstChild.nodeName === 'CODE'
 				),
-
 				schema: {
 					pre: {
 						children: {
@@ -108,38 +74,27 @@ registerBlockType( 'syntaxhighlighter/code', {
 		],
 	},
 
-	/**
-	 * Tell the editor what to render when editing the block.
-	 *
-	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
-	 */
-	edit( props ) {
-		const {
-			className, setAttributes,
-			attributes: { content, language, linenumbers }
-		} = props;
-
+	edit( { attributes, setAttributes, className } ) {
 		const options = [];
-
 		for ( let brush in syntaxHighlighterData.brushes ) {
 			options.push (
 				<option key={ brush } value={ brush }>
 					{ syntaxHighlighterData.brushes[ brush ] }
 				</option>
-			)
+			);
 		}
 
-		const inspectorControls = (
+		const blockSettings = (
 			<InspectorControls key="syntaxHighlighterInspectorControls">
-				<PanelBody title="Settings">
+				<PanelBody title="Settingsaaaa">
 					<PanelRow>
 						<label htmlFor="syntaxhighlighter-language">
 							{ __( 'Code Language', 'syntaxhighlighter' ) }
 						</label>
 
 						<select
-							id       = "syntaxhighlighter-language"
-							value    = { language }
+							id       = 'syntaxhighlighter-language'
+							value    = { attributes.language }
 							onChange = { ( language ) => { setAttributes( { language: language.target.value } ) } }
 						>
 							{ options }
@@ -147,33 +102,23 @@ registerBlockType( 'syntaxhighlighter/code', {
 					</PanelRow>
 				</PanelBody>
 			</InspectorControls>
-		);
+	);
 
-		const editView = (
-			// Add CSS class to inherit styles from the bundled `code` block.
-			<div className={ className + ' wp-block-code' } key="syntaxHighlighterEditView">
+	const editView = (
+			<div className={ className + ' wp-block-code' }>
 				<PlainText
-					placeholder = { __( 'Tip: Choose a code language from the block settings to the right.', 'syntaxhighlighter' ) }
-					className   = "editor-plain-text"
-					value       = { content }
-					aria-label  = { __( 'SyntaxHighlighter Code', 'syntaxhighlighter' ) }
-					onChange    = { ( content ) => setAttributes( { content } ) }
+					value={ attributes.content }
+					onChange={ ( content ) => setAttributes( { content } ) }
+					placeholder={ __( 'Tip: To the right, choose a code language from the block settings.', 'syntaxhighlighter' ) }
+					aria-label={ __( 'SyntaxHighlighter Code', 'syntaxhighlighter' ) }
 				/>
 			</div>
 		);
 
-		return [ inspectorControls, editView ];
+		return [ blockSettings, editView ];
 	},
 
-	/**
-	 * Render the saved version of the block for the front end.
-	 *
-	 * @param {object} props
-	 * @returns {Element}
-	 */
-	save( props ) {
-		return (
-			<pre>{ props.attributes.content }</pre>
-		)
+	save( { attributes } ) {
+		return <pre>{ attributes.content }</pre>;
 	},
 } );
