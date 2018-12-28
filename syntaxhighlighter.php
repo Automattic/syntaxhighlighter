@@ -456,9 +456,10 @@ class SyntaxHighlighter {
 	 * @return string The rendered content.
 	 */
 	public function render_block( $attributes, $content ) {
-		return $content;
-
 		$code = preg_replace( '#<pre [^>]+>([^<]+)?</pre>#', '$1', $content );
+
+		// Undo <?php being converted to &lt;?php
+		$code = str_replace( '&lt;?php ', '<?php ', $code );
 
 		return $this->shortcode_callback( $attributes, $code, 'code' );
 	}
