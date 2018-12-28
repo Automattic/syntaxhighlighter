@@ -3,19 +3,14 @@
 **************************************************************************
 
 Plugin Name:  SyntaxHighlighter Evolved
-Plugin URI:   http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/
+Plugin URI:   https://alex.blog/wordpress-plugins/syntaxhighlighter/
 Version:      3.4.2
-Description:  Easily post syntax-highlighted code to your site without having to modify the code at all. Uses Alex Gorbatchev's <a href="http://alexgorbatchev.com/wiki/SyntaxHighlighter">SyntaxHighlighter</a>. <strong>TIP:</strong> Don't use the Visual editor if you don't want your code mangled. TinyMCE will "clean up" your HTML.
+Description:  Easily post syntax-highlighted code to your site without having to modify the code at all. Uses Alex Gorbatchev's <a href="http://alexgorbatchev.com/SyntaxHighlighter/">SyntaxHighlighter</a>. Includes a new editor block.
 Author:       Alex Mills (Viper007Bond)
-Author URI:   http://www.viper007bond.com/
-
-**************************************************************************
-
-Thanks to:
-
-* Alex Gorbatchev for writing the Javascript-powered syntax highlighter script
-
-* Andrew Ozz for writing the TinyMCE plugin
+Author URI:   https://alex.blog/
+Text Domain:  syntaxhighlighter
+License:      GPL2
+License URI:  https://www.gnu.org/licenses/gpl-2.0.html
 
 **************************************************************************/
 
@@ -79,6 +74,12 @@ class SyntaxHighlighter {
 		) {
 			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
 			add_action( 'the_content', array( $this, 'enable_brushes_used_in_blocks' ), 0 );
+			register_block_type(
+				'syntaxhighlighter/code',
+				array(
+					'render_callback' => array( $this, 'render_block' ),
+				)
+			);
 		}
 
 		// Register widget hooks
@@ -443,6 +444,24 @@ class SyntaxHighlighter {
 		}
 
 		return $content;
+	}
+
+	/**
+	 * Renders the content of the Gutenberg block on the front end
+	 * using the shortcode callback. This ensures one source of truth
+	 * and allows for forward compatibility.
+	 *
+	* @param string $content The block's content.
+	 *
+	 * @return string The rendered content.
+	 */
+	public function render_block( $attributes, $content ) {
+		$code = preg_replace( '#<pre [^>]+>([^<]+)?</pre>#', '$1', $content );
+
+		// Undo <?php being converted to &lt;?php
+		$code = str_replace( '&lt;?php ', '<?php ', $code );
+
+		return $this->shortcode_callback( $attributes, $code, 'code' );
 	}
 
 	// Add the custom TinyMCE plugin which wraps plugin shortcodes in <pre> in TinyMCE
