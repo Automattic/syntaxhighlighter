@@ -32,7 +32,7 @@ registerBlockType( 'syntaxhighlighter/code', {
 		content: {
 			type: 'string',
 				source: 'text',
-				selector: 'code',
+				selector: 'pre',
 		},
 
 		language: {
