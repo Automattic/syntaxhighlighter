@@ -106,6 +106,7 @@ registerBlockType( 'syntaxhighlighter/code', {
 
 	edit( { attributes, setAttributes, className } ) {
 		const {
+			content,
 			language,
 			lineNumbers,
 			firstLineNumber,
@@ -244,7 +245,7 @@ registerBlockType( 'syntaxhighlighter/code', {
 		const editView = (
 			<div className={ className + ' wp-block-code' }>
 				<PlainText
-					value={ attributes.content }
+					value={ content }
 					onChange={ ( content ) => setAttributes( { content } ) }
 					placeholder={ __( 'Tip: To the right, choose a code language from the block settings.', 'syntaxhighlighter' ) }
 					aria-label={ __( 'SyntaxHighlighter Code', 'syntaxhighlighter' ) }
@@ -256,6 +257,8 @@ registerBlockType( 'syntaxhighlighter/code', {
 	},
 
 	save( { attributes } ) {
-		return <pre>{ attributes.content }</pre>;
+		const { content } = attributes;
+
+		return( <pre>{ content }</pre> );
 	},
 } );
