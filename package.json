@@ -15,7 +15,7 @@
 	"scripts": {
 		"start": "cgb-scripts start",
 		"build": "cgb-scripts build",
-		"eject": "cgb-scripts eject"
+		"distclean": "rm -rf node_modules && rm -rf dist"
 	},
 	"dependencies": {
 		"cgb-scripts": "^1.13.0"
