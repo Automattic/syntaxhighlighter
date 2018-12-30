@@ -7,7 +7,13 @@
  */
 import { __ } from '@wordpress/i18n';
 import { registerBlockType, createBlock } from '@wordpress/blocks';
-import { Path, PanelBody, PanelRow } from '@wordpress/components';
+import {
+	PanelBody,
+	PanelRow,
+	SelectControl,
+	ToggleControl,
+	TextControl
+} from '@wordpress/components';
 import { PlainText, InspectorControls } from '@wordpress/editor';
 
 registerBlockType( 'syntaxhighlighter/code', {
@@ -37,8 +43,32 @@ registerBlockType( 'syntaxhighlighter/code', {
 
 		language: {
 			type: 'string',
-			default: 'plain',
-		}
+			default: syntaxHighlighterData.settings.language.default,
+		},
+
+		lineNumbers: {
+			type: 'boolean',
+			default: syntaxHighlighterData.settings.lineNumbers.default,
+		},
+
+		firstLineNumber: {
+			type: 'string',
+			default: syntaxHighlighterData.settings.firstLineNumber.default,
+		},
+
+		highlightLines: {
+			type: 'string',
+		},
+
+		wrapLines: {
+			type: 'boolean',
+			default: syntaxHighlighterData.settings.wrapLines.default,
+		},
+
+		makeURLsClickable: {
+			type: 'boolean',
+			default: syntaxHighlighterData.settings.makeURLsClickable.default,
+		},
 	},
 
 	supports: {
@@ -75,36 +105,143 @@ registerBlockType( 'syntaxhighlighter/code', {
 	},
 
 	edit( { attributes, setAttributes, className } ) {
-		const options = [];
-		for ( let brush in syntaxHighlighterData.brushes ) {
-			options.push (
-				<option key={ brush } value={ brush }>
-					{ syntaxHighlighterData.brushes[ brush ] }
-				</option>
+		const {
+			language,
+			lineNumbers,
+			firstLineNumber,
+			highlightLines,
+			wrapLines,
+			makeURLsClickable
+		} = attributes;
+
+		let blockSettingRows = [];
+
+		// Language
+		if ( syntaxHighlighterData.settings.language.supported ) {
+			let options = [];
+			for ( let brush in syntaxHighlighterData.brushes ) {
+				options.push( {
+					label: syntaxHighlighterData.brushes[ brush ],
+					value: brush,
+				} );
+			}
+
+			blockSettingRows.push(
+				wp.element.createElement(
+					PanelRow,
+					null,
+					wp.element.createElement(
+						SelectControl,
+						{
+							label: __( 'Code Language', 'syntaxhighlighter' ),
+							value: language,
+							options: options,
+							onChange: ( language ) => setAttributes( { language } ),
+						}
+					)
+				)
+			);
+		}
+
+		// Line numbers
+		if ( syntaxHighlighterData.settings.lineNumbers.supported ) {
+			blockSettingRows.push(
+				wp.element.createElement(
+					PanelRow,
+					null,
+					wp.element.createElement(
+						ToggleControl,
+						{
+							label: __( 'Show Line Numbers', 'syntaxhighlighter' ),
+							checked: lineNumbers,
+							onChange: ( lineNumbers ) => setAttributes( { lineNumbers } ),
+						}
+					)
+				)
+			);
+		}
+
+		// First line number
+		if ( lineNumbers && syntaxHighlighterData.settings.firstLineNumber.supported ) {
+			blockSettingRows.push(
+				wp.element.createElement(
+					PanelRow,
+					null,
+					wp.element.createElement(
+						TextControl,
+						{
+							label: __( 'First Line Number', 'syntaxhighlighter' ),
+							type: 'number',
+							value: firstLineNumber,
+							onChange: ( firstLineNumber ) => setAttributes( { firstLineNumber } ),
+							min: 1,
+							max: 100000,
+						}
+					)
+				)
+			);
+		}
+
+		// Highlight line(s)
+		if ( syntaxHighlighterData.settings.highlightLines.supported ) {
+			blockSettingRows.push(
+				wp.element.createElement(
+					TextControl,
+					{
+						label: __( 'Highlight Lines', 'syntaxhighlighter' ),
+						value: highlightLines,
+						help: __( 'A comma-separated list of line numbers to highlight. Can also be a range. Example: 1,5,10-20', 'syntaxhighlighter' ),
+						onChange: ( highlightLines ) => setAttributes( { highlightLines } ),
+					}
+				)
+			);
+		}
+
+		// Wrap long lines
+		if ( syntaxHighlighterData.settings.wrapLines.supported ) {
+			blockSettingRows.push(
+				wp.element.createElement(
+					PanelRow,
+					null,
+					wp.element.createElement(
+						ToggleControl,
+						{
+							label: __( 'Wrap Long Lines', 'syntaxhighlighter' ),
+							checked: wrapLines,
+							onChange: ( wrapLines ) => setAttributes( { wrapLines } ),
+						}
+					)
+				)
+			);
+		}
+
+		// Make URLs clickable
+		if ( syntaxHighlighterData.settings.makeURLsClickable.supported ) {
+			blockSettingRows.push(
+				wp.element.createElement(
+					PanelRow,
+					null,
+					wp.element.createElement(
+						ToggleControl,
+						{
+							label: __( 'Make URLs Clickable', 'syntaxhighlighter' ),
+							checked: makeURLsClickable,
+							onChange: ( makeURLsClickable ) => setAttributes( { makeURLsClickable } ),
+						}
+					)
+				)
 			);
 		}
 
 		const blockSettings = (
 			<InspectorControls key="syntaxHighlighterInspectorControls">
-				<PanelBody title="Settingsaaaa">
-					<PanelRow>
-						<label htmlFor="syntaxhighlighter-language">
-							{ __( 'Code Language', 'syntaxhighlighter' ) }
-						</label>
-
-						<select
-							id       = 'syntaxhighlighter-language'
-							value    = { attributes.language }
-							onChange = { ( language ) => { setAttributes( { language: language.target.value } ) } }
-						>
-							{ options }
-						</select>
-					</PanelRow>
+				<PanelBody title={ __( 'Settings', 'syntaxhighlighter' ) }>
+					{ blockSettingRows }
 				</PanelBody>
 			</InspectorControls>
-	);
+		)
 
-	const editView = (
+		const editView = (
 			<div className={ className + ' wp-block-code' }>
 				<PlainText
 					value={ attributes.content }
@@ -113,7 +250,7 @@ registerBlockType( 'syntaxhighlighter/code', {
 					aria-label={ __( 'SyntaxHighlighter Code', 'syntaxhighlighter' ) }
 				/>
 			</div>
-		);
+		)
 
 		return [ blockSettings, editView ];
 	},
