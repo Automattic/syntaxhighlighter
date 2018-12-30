@@ -326,15 +326,44 @@ class SyntaxHighlighter {
 			wp_set_script_translations( 'syntaxhighlighter-blocks', 'syntaxhighlighter' );
 		}
 
-		natsort( $this->brush_names );
+		natcasesort( $this->brush_names );
+
+		$settings = (object) array(
+			'language' => (object) array(
+				'supported' => true,
+				'default' => 'plain'
+			),
+			'lineNumbers' => (object) array(
+				'supported' => true,
+				'default' => (bool) $this->settings['gutter'],
+			),
+			'firstLineNumber' => (object) array(
+				'supported' => true,
+				'default' => $this->settings['firstline'],
+			),
+			'highlightLines' => (object) array(
+				'supported' => true,
+				'default' => '',
+			),
+			'wrapLines' => (object) array(
+				'supported' => ( '2' == $this->settings['shversion'] ),
+				'default' => (bool) $this->settings['wraplines'],
+			),
+			'makeURLsClickable' => (object) array(
+				'supported' => true,
+				'default' => (bool) $this->settings['autolinks'],
+			),
+		);
 
 		wp_add_inline_script(
 			'syntaxhighlighter-blocks',
 			sprintf( '
 				var syntaxHighlighterData = {
 					brushes: %s,
+					settings: %s,
 				};',
-				json_encode( $this->brush_names )
+				json_encode( $this->brush_names ),
+				json_encode( $settings )
 			),
 			'before'
 		);
@@ -456,6 +485,26 @@ class SyntaxHighlighter {
 	 * @return string The rendered content.
 	 */
 	public function render_block( $attributes, $content ) {
+		$remaps = array(
+			'lineNumbers'       => 'gutter',
+			'firstLineNumber'   => 'firstline',
+			'highlightLines'    => 'highlight',
+			'wrapLines'         => 'wraplines',
+			'makeURLsClickable' => 'autolinks',
+		);
+
+		foreach ( $remaps as $from => $to ) {
+			if ( isset( $attributes[ $from ] ) ) {
+				if ( is_bool( $attributes[ $from ] ) ) {
+					$attributes[ $to ] = ( $attributes[ $from ] ) ? '1' : '0';
+				} else {
+					$attributes[ $to ] = $attributes[ $from ];
+				}
+
+				unset( $attributes[ $from ] );
+			}
+		}
+
 		$code = preg_replace( '#<pre [^>]+>([^<]+)?</pre>#', '$1', $content );
 
 		// Undo <?php being converted to &lt;?php
