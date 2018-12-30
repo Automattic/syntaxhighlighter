@@ -260,6 +260,13 @@ class SyntaxHighlighter {
 			'xml'        => __( 'HTML / XHTML / XML / XSLT', 'syntaxhighlighter' ),
 		) );
 
+		// Add any custom brushes that aren't making use of the newer "syntaxhighlighter_brush_names" filter.
+		foreach ( $this->brushes as $slug => $language ) {
+			if ( ! isset( $this->brush_names[ $language ] ) ) {
+				$this->brush_names[ $language ] = $slug;
+			}
+		}
+
 		// Create a list of shortcodes to use. You can use the filter to add/remove ones.
 		// If the language/lang parameter is left out, it's assumed the shortcode name is the language.
 		// If that's invalid, then "plain" is used.
