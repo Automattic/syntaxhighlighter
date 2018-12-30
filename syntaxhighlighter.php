@@ -395,7 +395,7 @@ class SyntaxHighlighter {
 			! has_block( 'syntaxhighlighter/code', $content )
 			&& ! has_block( 'core/block', $content ) // Reusable
 		) {
-			//return $content;
+			return $content;
 		}
 
 		if ( function_exists( 'parse_blocks' ) ) { // WP 5.0+
@@ -507,8 +507,8 @@ class SyntaxHighlighter {
 
 		$code = preg_replace( '#<pre [^>]+>([^<]+)?</pre>#', '$1', $content );
 
-		// Undo <?php being converted to &lt;?php
-		$code = str_replace( '&lt;?php ', '<?php ', $code );
+		// Undo escaping done by WordPress
+		$code = str_replace( '&lt;', '<', $code );
 
 		return $this->shortcode_callback( $attributes, $code, 'code' );
 	}
