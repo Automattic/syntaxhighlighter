@@ -12,7 +12,9 @@ Supports the new Gutenberg editor!
 
 ## Block Development Workflow
 
-When making changes in the `src/` folder,
+Source code is located in the `src` folder. Run `npm install` to install all of the required modules.
+
+When making changes to the block:
 
 * Run `npm start` to build a development version with file watching.
 * Run `npm run build` to build a minified production file.
