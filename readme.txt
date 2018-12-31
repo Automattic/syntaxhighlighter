@@ -37,6 +37,11 @@ Try excluding this plugin's Javascript from any performance optimizations your s
 
 == ChangeLog ==
 
+= Version 3.5.0 =
+
+* Block: Add a bunch of display settings.
+* Block: Switch to server-side rendering so that the same code that renders the shortcode will render the block.
+
 = Version 3.4.2 =
 
 * Blocks: Support SyntaxHighlighter block being used as a reusable block.
