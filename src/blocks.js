@@ -17,9 +17,9 @@ import {
 import { PlainText, InspectorControls } from '@wordpress/editor';
 
 registerBlockType( 'syntaxhighlighter/code', {
-	title: __('SyntaxHighlighter Code', 'syntaxhighlighter'),
+	title: __( 'SyntaxHighlighter Code', 'syntaxhighlighter' ),
 
-	description: __('Adds syntax highlighting to source code (front end only).', 'syntaxhighlighter'),
+	description: __( 'Adds syntax highlighting to source code (front end only).', 'syntaxhighlighter' ),
 
 	icon: 'editor-code',
 
@@ -27,11 +27,11 @@ registerBlockType( 'syntaxhighlighter/code', {
 
 	keywords: [
 		// translators: Keyword that user might search for when trying to locate block.
-		__('Source', 'syntaxhighlighter'),
+		__( 'Source', 'syntaxhighlighter' ),
 		// translators: Keyword that user might search for when trying to locate block.
-		__('Program', 'syntaxhighlighter'),
+		__( 'Program', 'syntaxhighlighter' ),
 		// translators: Keyword that user might search for when trying to locate block.
-		__('Develop', 'syntaxhighlighter'),
+		__( 'Develop', 'syntaxhighlighter' ),
 	],
 
 	attributes: {
