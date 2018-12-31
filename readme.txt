@@ -32,8 +32,8 @@ Try excluding this plugin's Javascript from any performance optimizations your s
 
 == Screenshots ==
 
-1. Example code display of some PHP inside some HTML.
-2. A part of the Settings page which controls the defaults.
+1. Example display of some PHP code.
+2. An example use of the editor block.
 
 == ChangeLog ==
 
