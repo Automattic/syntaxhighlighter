@@ -101,6 +101,22 @@ registerBlockType( 'syntaxhighlighter/code', {
 					},
 				},
 			},
+			{
+				type: 'block',
+				blocks: [ 'core/code' ],
+				transform: ( { content } ) => {
+					return createBlock( 'syntaxhighlighter/code', { content } );
+				},
+			},
+		],
+		to: [
+			{
+				type: 'block',
+				blocks: [ 'core/code' ],
+				transform: ( { content } ) => {
+					return createBlock( 'core/code', { content } );
+				},
+			},
 		],
 	},
 
