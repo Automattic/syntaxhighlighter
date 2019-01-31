@@ -79,7 +79,7 @@ class SyntaxHighlighter {
 				)
 			);
 		}
-
+		
 		// Register widget hooks
 		add_filter( 'widget_text', array( $this, 'widget_text_output' ), 7, 2 );
 		add_filter( 'widget_update_callback', array( $this, 'widget_text_save' ), 1, 4 );
@@ -152,7 +152,7 @@ class SyntaxHighlighter {
 		wp_register_script( 'syntaxhighlighter-brush-matlabkey',  plugins_url( 'third-party-brushes/shBrushMatlabKey.js',         __FILE__ ), array('syntaxhighlighter-core'), '20091209'     );
 		wp_register_script( 'syntaxhighlighter-brush-objc',       plugins_url( 'third-party-brushes/shBrushObjC.js',              __FILE__ ), array('syntaxhighlighter-core'), '20091207'     );
 		wp_register_script( 'syntaxhighlighter-brush-r',          plugins_url( 'third-party-brushes/shBrushR.js',                 __FILE__ ), array('syntaxhighlighter-core'), '20100919'     );
-
+		wp_register_script( 'syntaxhighlighter-brush-lotusscript',plugins_url( 'third-party-brushes/shLotusScript.js',            __FILE__ ), array('syntaxhighlighter-core'), '20190129'     );
 		// Register theme stylesheets
 		wp_register_style(  'syntaxhighlighter-core',             plugins_url( $this->shfolder . '/styles/shCore.css',            __FILE__ ), array(),                         $this->agshver );
 		wp_register_style(  'syntaxhighlighter-theme-default',    plugins_url( $this->shfolder . '/styles/shThemeDefault.css',    __FILE__ ), array('syntaxhighlighter-core'), $this->agshver );
@@ -224,6 +224,9 @@ class SyntaxHighlighter {
 			'xhtml'         => 'xml',
 			'xslt'          => 'xml',
 			'html'          => 'xml',
+			'lotusscript'   => 'lotusscript',
+			'lotusscript'   => 'ls',
+			'ls'            => 'lotusscript',
 		) );
 
 		$this->brush_names = (array) apply_filters( 'syntaxhighlighter_brush_names', array(
@@ -256,6 +259,7 @@ class SyntaxHighlighter {
 			'sql'        => __( 'SQL',                       'syntaxhighlighter' ),
 			'vb'         => __( 'Visual Basic',              'syntaxhighlighter' ),
 			'xml'        => __( 'HTML / XHTML / XML / XSLT', 'syntaxhighlighter' ),
+			'lotusscript' => __( 'LotusScript', 'syntaxhighlighter' ),
 		) );
 
 		// Add any custom brushes that aren't making use of the newer "syntaxhighlighter_brush_names" filter.

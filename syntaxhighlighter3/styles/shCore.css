@@ -235,3 +235,25 @@
 .syntaxhighlighter.printing .break, .syntaxhighlighter.printing .break a {
   color: black !important;
 }
+.syntaxhighlighter.ls .lsKeyword {
+  color: blue !important;
+  font-weight: bold !important;
+}
+.syntaxhighlighter.ls .lsClass {
+  color: #aa7700 !important;
+  font-weight: bold !important;
+}
+.syntaxhighlighter.ls .lsMethod {
+  color: red !important;
+  font-weight: bold !important;
+  font-style: italic !important;
+}
+.syntaxhighlighter.ls .lsComment {
+  color: green !important;
+  font-weight: bold !important;
+}
+.syntaxhighlighter.ls .lsDirective {
+  color: #00c800 !important;
+  font-weight: bold !important;
+  font-style: italic !important;
+}
