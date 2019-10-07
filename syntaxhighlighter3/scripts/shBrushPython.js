@@ -23,7 +23,7 @@
 	{
 		// Contributed by Gheorghe Milas and Ahmad Sherif
 	
-		var keywords =  'and assert break class continue def del elif else ' +
+		var keywords =  'and assert async await break class continue def del elif else ' +
 						'except exec finally for from global if import in is ' +
 						'lambda not or pass raise return try yield while';
 
