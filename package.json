@@ -1,0 +1,23 @@
+{
+	"name": "syntaxhighlighter",
+	"version": "3.5.0",
+	"description": "Easily post syntax-highlighted code to your WordPress site without having to modify the code at all.",
+	"homepage": "https://alex.blog/wordpress-plugins/syntaxhighlighter/",
+	"author": "Alex Mills (Viper007Bond)",
+	"license": "GPL-2.0-or-later",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Viper007Bond/syntaxhighlighter.git"
+	},
+	"bugs": {
+		"url": "https://github.com/Viper007Bond/syntaxhighlighter/issues"
+	},
+	"scripts": {
+		"start": "cgb-scripts start",
+		"build": "cgb-scripts build",
+		"distclean": "rm -rf node_modules && rm -rf dist"
+	},
+	"dependencies": {
+		"cgb-scripts": "^1.13.0"
+	}
+}

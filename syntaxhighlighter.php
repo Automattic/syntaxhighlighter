@@ -3,25 +3,20 @@
 **************************************************************************
 
 Plugin Name:  SyntaxHighlighter Evolved
-Plugin URI:   http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/
-Version:      3.1.13
-Description:  Easily post syntax-highlighted code to your site without having to modify the code at all. Uses Alex Gorbatchev's <a href="http://alexgorbatchev.com/wiki/SyntaxHighlighter">SyntaxHighlighter</a>. <strong>TIP:</strong> Don't use the Visual editor if you don't want your code mangled. TinyMCE will "clean up" your HTML.
+Plugin URI:   https://alex.blog/wordpress-plugins/syntaxhighlighter/
+Version:      3.5.1
+Description:  Easily post syntax-highlighted code to your site without having to modify the code at all. Uses Alex Gorbatchev's <a href="http://alexgorbatchev.com/SyntaxHighlighter/">SyntaxHighlighter</a>. Includes a new editor block.
 Author:       Alex Mills (Viper007Bond)
-Author URI:   http://www.viper007bond.com/
-
-**************************************************************************
-
-Thanks to:
-
-* Alex Gorbatchev for writing the Javascript-powered synatax highlighter script
-
-* Andrew Ozz for writing the TinyMCE plugin
+Author URI:   https://alex.blog/
+Text Domain:  syntaxhighlighter
+License:      GPL2
+License URI:  https://www.gnu.org/licenses/gpl-2.0.html
 
 **************************************************************************/
 
 class SyntaxHighlighter {
 	// All of these variables are private. Filters are provided for things that can be modified.
-	var $pluginver            = '3.1.13';  // Plugin version
+	var $pluginver            = '3.5.0';  // Plugin version
 	var $agshver              = false;    // Alex Gorbatchev's SyntaxHighlighter version (dynamically set below due to v2 vs v3)
 	var $shfolder             = false;    // Controls what subfolder to load SyntaxHighlighter from (v2 or v3)
 	var $settings             = array();  // Contains the user's settings
@@ -36,49 +31,59 @@ class SyntaxHighlighter {
 
 	// Initalize the plugin by registering the hooks
 	function __construct() {
-		if ( ! function_exists( 'esc_html' ) )
+		if ( ! function_exists( 'do_shortcodes_in_html_tags' ) )
 			return;
 
 		// Load localization domain
-		load_plugin_textdomain( 'syntaxhighlighter', false, '/syntaxhighlighter/localization' );
+		load_plugin_textdomain( 'syntaxhighlighter' );
 
 		// Display hooks
-		add_filter( 'the_content',                        array( $this, 'parse_shortcodes' ),                              7 ); // Posts
-		add_filter( 'comment_text',                       array( $this, 'parse_shortcodes_comment' ),                      7 ); // Comments
-		add_filter( 'bp_get_the_topic_post_content',      array( $this, 'parse_shortcodes' ),                              7 ); // BuddyPress
+		add_filter( 'the_content', array( $this, 'parse_shortcodes' ), 7 ); // Posts
+		add_filter( 'comment_text', array( $this, 'parse_shortcodes_comment' ), 7 ); // Comments
+		add_filter( 'bp_get_the_topic_post_content', array( $this, 'parse_shortcodes' ), 7 ); // BuddyPress
 
 		// Into the database
-		add_filter( 'content_save_pre',                   array( $this, 'encode_shortcode_contents_slashed_noquickedit' ), 1 ); // Posts
-		add_filter( 'pre_comment_content',                array( $this, 'encode_shortcode_contents_slashed' ),             1 ); // Comments
-		add_filter( 'group_forum_post_text_before_save',  array( $this, 'encode_shortcode_contents_slashed' ),             1 ); // BuddyPress
-		add_filter( 'group_forum_topic_text_before_save', array( $this, 'encode_shortcode_contents_slashed' ),             1 ); // BuddyPress
+		add_filter( 'content_save_pre', array( $this, 'encode_shortcode_contents_slashed_noquickedit' ), 1 ); // Posts
+		add_filter( 'pre_comment_content', array( $this, 'encode_shortcode_contents_slashed' ), 1 ); // Comments
+		add_filter( 'group_forum_post_text_before_save', array( $this, 'encode_shortcode_contents_slashed' ), 1 ); // BuddyPress
+		add_filter( 'group_forum_topic_text_before_save', array( $this, 'encode_shortcode_contents_slashed' ), 1 ); // BuddyPress
 
 		// Out of the database for editing
-		add_filter( 'the_editor_content',                 array( $this, 'the_editor_content' ),                            1 ); // Posts
-		add_filter( 'comment_edit_pre',                   array( $this, 'decode_shortcode_contents' ),                     1 ); // Comments
-		add_filter( 'bp_get_the_topic_text',              array( $this, 'decode_shortcode_contents' ),                     1 ); // BuddyPress
-		add_filter( 'bp_get_the_topic_post_edit_text',    array( $this, 'decode_shortcode_contents' ),                     1 ); // BuddyPress
+		add_filter( 'the_editor_content', array( $this, 'the_editor_content' ), 1 ); // Posts
+		add_filter( 'comment_edit_pre', array( $this, 'decode_shortcode_contents' ), 1 ); // Comments
+		add_filter( 'bp_get_the_topic_text', array( $this, 'decode_shortcode_contents' ), 1 ); // BuddyPress
+		add_filter( 'bp_get_the_topic_post_edit_text', array( $this, 'decode_shortcode_contents' ), 1 ); // BuddyPress
 
 		// Outputting SyntaxHighlighter's JS and CSS
-		add_action( 'wp_head',                            array( $this, 'output_header_placeholder' ),                     15 );
-		add_action( 'admin_head',                         array( $this, 'output_header_placeholder' ),                     15 ); // For comments
-		add_action( 'wp_footer',                          array( $this, 'maybe_output_scripts' ),                          15 );
-		add_action( 'admin_footer',                       array( $this, 'maybe_output_scripts' ),                          15 ); // For comments
+		add_action( 'wp_footer', array( $this, 'maybe_output_scripts' ), 15 );
+		add_action( 'admin_footer', array( $this, 'maybe_output_scripts' ), 15 ); // For comments
 
 		// Admin hooks
-		add_action( 'admin_init',                         array( $this, 'register_setting' ) );
-		add_action( 'admin_menu',                         array( $this, 'register_settings_page' ) );
-		add_filter( 'mce_external_plugins',               array( $this, 'add_tinymce_plugin' ) );
-		add_filter( 'save_post',                          array( $this, 'mark_as_encoded' ),                               10, 2 );
-		add_filter( 'plugin_action_links',                array( $this, 'settings_link' ),                                 10, 2 );
+		add_action( 'admin_init', array( $this, 'register_setting' ) );
+		add_action( 'admin_menu', array( $this, 'register_settings_page' ) );
+		add_filter( 'mce_external_plugins', array( $this, 'add_tinymce_plugin' ) );
+		add_filter( 'save_post', array( $this, 'mark_as_encoded' ), 10, 2 );
+		add_filter( 'plugin_action_links', array( $this, 'settings_link' ), 10, 2 );
+
+		// Editor Blocks
+		if (
+			function_exists( 'parse_blocks' ) // WordPress 5.0+
+			|| function_exists( 'the_gutenberg_project' ) // Gutenberg plugin for older WordPress
+		) {
+			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
+			add_action( 'the_content', array( $this, 'enable_brushes_used_in_blocks' ), 0 );
+			register_block_type(
+				'syntaxhighlighter/code',
+				array(
+					'render_callback' => array( $this, 'render_block' ),
+				)
+			);
+		}
 
 		// Register widget hooks
-		// Requires change added in WordPress 2.9
-		if ( class_exists('WP_Embed') ) {
-			add_filter( 'widget_text',                    array( $this, 'widget_text_output' ),                            7, 2 );
-			add_filter( 'widget_update_callback',         array( $this, 'widget_text_save' ),                              1, 4 );
-			add_filter( 'widget_form_callback',           array( $this, 'widget_text_form' ),                              1, 2 );
-		}
+		add_filter( 'widget_text', array( $this, 'widget_text_output' ), 7, 2 );
+		add_filter( 'widget_update_callback', array( $this, 'widget_text_save' ), 1, 4 );
+		add_filter( 'widget_form_callback', array( $this, 'widget_text_form' ), 1, 2 );
 
 
 		// Create array of default settings (you can use the filter to modify these)
@@ -224,6 +229,44 @@ class SyntaxHighlighter {
 			'html'          => 'xml',
 		) );
 
+		$this->brush_names = (array) apply_filters( 'syntaxhighlighter_brush_names', array(
+			'as3'        => __( 'ActionScript',              'syntaxhighlighter' ),
+			'bash'       => __( 'BASH / Shell',              'syntaxhighlighter' ),
+			'coldfusion' => __( 'ColdFusion',                'syntaxhighlighter' ),
+			'clojure'    => __( 'Clojure',                   'syntaxhighlighter' ),
+			'cpp'        => __( 'C / C++',                   'syntaxhighlighter' ),
+			'csharp'     => __( 'C#',                        'syntaxhighlighter' ),
+			'css'        => __( 'CSS',                       'syntaxhighlighter' ),
+			'delphi'     => __( 'Delphi / Pascal',           'syntaxhighlighter' ),
+			'diff'       => __( 'diff / patch',              'syntaxhighlighter' ),
+			'erlang'     => __( 'Erlang',                    'syntaxhighlighter' ),
+			'fsharp'     => __( 'F#',                        'syntaxhighlighter' ),
+			'groovy'     => __( 'Groovy',                    'syntaxhighlighter' ),
+			'java'       => __( 'Java',                      'syntaxhighlighter' ),
+			'javafx'     => __( 'JavaFX',                    'syntaxhighlighter' ),
+			'jscript'    => __( 'JavaScript',                'syntaxhighlighter' ),
+			'latex'      => __( 'LaTeX',                     'syntaxhighlighter' ),
+			'matlabkey'  => __( 'MATLAB',                    'syntaxhighlighter' ),
+			'objc'       => __( 'Objective-C',               'syntaxhighlighter' ),
+			'perl'       => __( 'Perl',                      'syntaxhighlighter' ),
+			'php'        => __( 'PHP',                       'syntaxhighlighter' ),
+			'plain'      => __( 'Plain Text',                'syntaxhighlighter' ),
+			'powershell' => __( 'PowerShell',                'syntaxhighlighter' ),
+			'python'     => __( 'Python',                    'syntaxhighlighter' ),
+			'r'          => __( 'R',                         'syntaxhighlighter' ),
+			'ruby'       => __( 'Ruby / Ruby on Rails',      'syntaxhighlighter' ),
+			'scala'      => __( 'Scala',                     'syntaxhighlighter' ),
+			'sql'        => __( 'SQL',                       'syntaxhighlighter' ),
+			'vb'         => __( 'Visual Basic',              'syntaxhighlighter' ),
+			'xml'        => __( 'HTML / XHTML / XML / XSLT', 'syntaxhighlighter' ),
+		) );
+
+		// Add any custom brushes that aren't making use of the newer "syntaxhighlighter_brush_names" filter.
+		foreach ( $this->brushes as $slug => $language ) {
+			if ( ! isset( $this->brush_names[ $language ] ) ) {
+				$this->brush_names[ $language ] = $slug;
+			}
+		}
 
 		// Create a list of shortcodes to use. You can use the filter to add/remove ones.
 		// If the language/lang parameter is left out, it's assumed the shortcode name is the language.
@@ -241,7 +284,7 @@ class SyntaxHighlighter {
 		// Register each shortcode with a placeholder callback so that strip_shortcodes() will work
 		// The proper callback and such is done in SyntaxHighlighter::shortcode_hack()
 		foreach ( $this->shortcodes as $shortcode )
-			add_shortcode( $shortcode, '__return_true' );
+			add_shortcode( $shortcode, '__return_empty_string' );
 
 
 		// Create list of themes and their human readable names
@@ -275,6 +318,208 @@ class SyntaxHighlighter {
 		register_setting( 'syntaxhighlighter_settings', 'syntaxhighlighter_settings', array( $this, 'validate_settings' ) );
 	}
 
+	// Enqueue block assets for the Editor
+	function enqueue_block_editor_assets() {
+		wp_enqueue_script(
+			'syntaxhighlighter-blocks',
+			plugins_url( 'dist/blocks.build.js', __FILE__ ),
+			array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ),
+			( ( defined( 'WP_DEBUG' ) && WP_DEBUG ) || ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) )
+				? filemtime( plugin_dir_path( __FILE__ ) . 'dist/blocks.build.js' )
+				: $this->pluginver
+		);
+
+		// WordPress 5.0+ only, no Gutenberg plugin support
+		if ( function_exists( 'wp_set_script_translations' ) ) {
+			wp_set_script_translations( 'syntaxhighlighter-blocks', 'syntaxhighlighter' );
+		}
+
+		natcasesort( $this->brush_names );
+
+		$settings = (object) array(
+			'language' => (object) array(
+				'supported' => true,
+				'default' => 'plain'
+			),
+			'lineNumbers' => (object) array(
+				'supported' => true,
+				'default' => (bool) $this->settings['gutter'],
+			),
+			'firstLineNumber' => (object) array(
+				'supported' => true,
+				'default' => $this->settings['firstline'],
+			),
+			'highlightLines' => (object) array(
+				'supported' => true,
+				'default' => '',
+			),
+			'wrapLines' => (object) array(
+				'supported' => ( '2' == $this->settings['shversion'] ),
+				'default' => (bool) $this->settings['wraplines'],
+			),
+			'makeURLsClickable' => (object) array(
+				'supported' => true,
+				'default' => (bool) $this->settings['autolinks'],
+			),
+		);
+
+		wp_add_inline_script(
+			'syntaxhighlighter-blocks',
+			sprintf( '
+				var syntaxHighlighterData = {
+					brushes: %s,
+					settings: %s,
+				};',
+				json_encode( $this->brush_names ),
+				json_encode( $settings )
+			),
+			'before'
+		);
+	}
+
+	/**
+	 * Enable the brushes that are used in blocks.
+	 *
+	 * For the shortcode, brushes are activated by `shortcode_callback()`, but that won't detect brushes that were
+	 * used in blocks. For that, we need to extract the data from the block's attributes.
+	 *
+	 * @since 3.3.0
+	 *
+	* @param string $content The post content.
+	  *
+	 * @return string Unmodified $content.
+	 */
+	function enable_brushes_used_in_blocks( $content ) {
+		/*
+		 * Return early on the backend because SyntaxHighlighting is only active on the front end, see
+		 * `syntaxHighlighterCode::edit()` block for details.
+		 */
+		if ( is_admin() ) {
+			return $content;
+		}
+
+		// Lower overhead than a full parse.
+		if (
+			! has_block( 'syntaxhighlighter/code', $content )
+			&& ! has_block( 'core/block', $content ) // Reusable
+		) {
+			return $content;
+		}
+
+		if ( function_exists( 'parse_blocks' ) ) { // WP 5.0+
+			$blocks = parse_blocks( $content );
+		} elseif ( Function_exists( 'gutenberg_parse_blocks' ) ) { // Gutenberg plugin
+			$blocks = gutenberg_parse_blocks( $content );
+		} else {
+			return $content;
+		}
+
+		foreach ( $blocks as $block ) {
+			if ( empty( $block['blockName'] ) ) {
+				continue;
+			}
+
+			switch ( $block['blockName'] ) {
+				// Normal block usage
+				case 'syntaxhighlighter/code':
+					$language = ( ! empty( $block['attrs']['language'] ) ) ? $block['attrs']['language'] : 'plain';
+
+					if ( in_array( $language, $this->brushes, true ) ) {
+						$this->usedbrushes[ $this->brushes[ $language ] ] = true;
+					}
+
+					break;
+
+				// But the block could also be used inside of a reusable block
+				case 'core/block':
+					/**
+					 * Rather than going down the block parsing rabbit hole of dynamic blocks,
+					 * let's just hook in post-render and look for our HTML.
+ 					 */
+					add_filter( 'the_content', array( $this, 'enable_brushes_via_raw_html_parsing' ), 10 );
+
+					break;
+			}
+		}
+
+		return $content;
+	}
+
+	/**
+	 * Parses raw HTML looking for SyntaxHighlighter's <pre> tags and queues brushes
+	 * for the languages used.
+	 *
+	 * This filter only runs when a reusable block is used in a post.
+	 * It was easier to implement than loading the block, which then could
+	 * have child blocks and so forth. Technically this means that we're
+	 * parsing any regular SyntaxHighlighter blocks again, but oh well. :)
+	 *
+	 * @since 3.4.2
+	 *
+	* @param string $content The post content.
+	 *
+	 * @return string Unmodified $content.
+	 */
+	public function enable_brushes_via_raw_html_parsing( $content ) {
+		if ( false === strpos( $content,'<pre class="wp-block-syntaxhighlighter-code' ) ) {
+			return $content;
+		}
+
+		preg_match_all(
+			'/<pre class="wp-block-syntaxhighlighter-code brush: ([^;]+);/',
+			$content,
+			$languages,
+			PREG_PATTERN_ORDER
+		);
+
+		if ( is_array( $languages ) ) {
+			foreach ( $languages[1] as $language ) {
+				if ( in_array( $language, $this->brushes, true ) ) {
+					$this->usedbrushes[ $this->brushes[ $language ] ] = true;
+				}
+			}
+		}
+
+		return $content;
+	}
+
+	/**
+	 * Renders the content of the Gutenberg block on the front end
+	 * using the shortcode callback. This ensures one source of truth
+	 * and allows for forward compatibility.
+	 *
+	* @param string $content The block's content.
+	 *
+	 * @return string The rendered content.
+	 */
+	public function render_block( $attributes, $content ) {
+		$remaps = array(
+			'lineNumbers'       => 'gutter',
+			'firstLineNumber'   => 'firstline',
+			'highlightLines'    => 'highlight',
+			'wrapLines'         => 'wraplines',
+			'makeURLsClickable' => 'autolinks',
+		);
+
+		foreach ( $remaps as $from => $to ) {
+			if ( isset( $attributes[ $from ] ) ) {
+				if ( is_bool( $attributes[ $from ] ) ) {
+					$attributes[ $to ] = ( $attributes[ $from ] ) ? '1' : '0';
+				} else {
+					$attributes[ $to ] = $attributes[ $from ];
+				}
+
+				unset( $attributes[ $from ] );
+			}
+		}
+
+		$code = preg_replace( '#<pre [^>]+>([^<]+)?</pre>#', '$1', $content );
+
+		// Undo escaping done by WordPress
+		$code = str_replace( '&lt;', '<', $code );
+
+		return $this->shortcode_callback( $attributes, $code, 'code' );
+	}
 
 	// Add the custom TinyMCE plugin which wraps plugin shortcodes in <pre> in TinyMCE
 	function add_tinymce_plugin( $plugins ) {
@@ -326,20 +571,80 @@ class SyntaxHighlighter {
 	}
 
 
-	// A filter function that runs do_shortcode() but only with this plugin's shortcodes
-	function shortcode_hack( $content, $callback ) {
+	/**
+	 * Process only this plugin's shortcodes.
+	 *
+	 * If we waited for the normal do_shortcode() call at priority 11,
+	 * then wpautop() and maybe others would mangle all of the code.
+	 *
+	 * So instead we hook in earlier with this function and process
+	 * just this plugins's shortcodes. To do this requires some trickery.
+	 *
+	 * First we need to clear out all existing shortcodes, then register
+	 * just this plugin's ones, process them, and then restore the original
+	 * list of shortcodes.
+	 *
+	 * To make matters more complicated, if someone has done [[code]foo[/code]]
+	 * in order to display the shortcode (not render it), then do_shortcode()
+	 * will strip the outside brackets and when do_shortcode() runs a second
+	 * time later on, it will render it.
+	 *
+	 * So instead before do_shortcode() runs for the first time, we add
+	 * even more brackets escaped shortcodes in order to result in
+	 * the shortcodes actually being displayed instead rendered.
+	 *
+	 * We only need to do this for this plugin's shortcodes however
+	 * as all other shortcodes such as [[gallery]] will be untouched
+	 * by this pass of do_shortcode.
+	 *
+	 * Phew!
+	 *
+	 * @param string $content     The post content.
+	 * @param array  $callback    The callback function that should be used for add_shortcode()
+	 * @param bool   $ignore_html When true, shortcodes inside HTML elements will be skipped.
+	 *
+	 * @return string The filtered content, with this plugin's shortcodes parsed.
+	 */
+	function shortcode_hack( $content, $callback, $ignore_html = true ) {
 		global $shortcode_tags;
+
+		// Regex is slow. Let's do some strpos() checks first.
+		if ( ! $this->string_has_shortcodes( $content, $this->shortcodes ) ) {
+			return $content;
+		}
 
 		// Backup current registered shortcodes and clear them all out
 		$orig_shortcode_tags = $shortcode_tags;
 		remove_all_shortcodes();
 
 		// Register all of this plugin's shortcodes
-		foreach ( $this->shortcodes as $shortcode )
+		foreach ( $this->shortcodes as $shortcode ) {
 			add_shortcode( $shortcode, $callback );
+		}
 
-		// Do the shortcodes (only this plugins's are registered)
-		$content = $this->do_shortcode_keep_escaped_tags( $content );
+		$regex = '/' . get_shortcode_regex( $this->shortcodes ) . '/';
+
+		// Parse the shortcodes (only this plugins's are registered)
+		if ( $ignore_html ) {
+			// Extra escape escaped shortcodes because do_shortcode_tag() called by do_shortcode() is going to strip a pair of square brackets when it runs
+			$content = preg_replace_callback(
+				$regex,
+				array( $this, 'shortcode_hack_extra_escape_escaped_shortcodes' ),
+				$content
+			);
+
+			// Normal, safe parsing
+			$content = do_shortcode( $content, true );
+		} else {
+			// Extra escape escaped shortcodes because do_shortcode_tag() called by do_shortcode() is going to strip a pair of square brackets when it runs.
+			// Then call do_shortcode_tag(). This is basically do_shortcode() without calling do_shortcodes_in_html_tags() which breaks things.
+			// For context, see https://wordpress.org/support/topic/php-opening-closing-tags-break-code-blocks
+			$content = preg_replace_callback(
+				$regex,
+				array( $this, 'shortcode_hack_extra_escape_escaped_shortcodes_and_parse' ),
+				$content
+			);
+		}
 
 		// Put the original shortcodes back
 		$shortcode_tags = $orig_shortcode_tags;
@@ -348,42 +653,56 @@ class SyntaxHighlighter {
 	}
 
 
-	// This is a clone of do_shortcode() that uses a different callback function
-	// The new callback function will keep escaped tags escaped, i.e. [[foo]]
-	// Up to date as of r18324 (3.2)
-	function do_shortcode_keep_escaped_tags( $content ) {
-		global $shortcode_tags;
+	/**
+	 * A quick checker to see if any of this plugin's shortcodes are in use in a string.
+	 * Since all of the tags can't be self-closing, we look for the closing tag.
+	 *
+	 * @param string $string     The string to look through. This is a post's contents usually.
+	 * @param array  $shortcodes The array of shortcodes to look for.
+	 *
+	 * @return bool Whether any shortcode usage was found.
+	 */
+	function string_has_shortcodes( $string, $shortcodes ) {
+		foreach ( $shortcodes as $shortcode ) {
+			if ( false !== strpos( $string, "[/{$shortcode}]" ) ) {
+				return true;
+			}
+		}
 
-		if (empty($shortcode_tags) || !is_array($shortcode_tags))
-			return $content;
-
-		$pattern = get_shortcode_regex();
-		return preg_replace_callback('/'.$pattern.'/s', array( $this, 'do_shortcode_tag_keep_escaped_tags' ), $content);
+		return false;
 	}
 
 
-	// Callback for above do_shortcode_keep_escaped_tags() function
-	// It's a clone of core's do_shortcode_tag() function with a modification to the escaped shortcode return
-	// Up to date as of r18324 (3.2)
-	function do_shortcode_tag_keep_escaped_tags( $m ) {
-		global $shortcode_tags;
-
-		// allow [[foo]] syntax for escaping a tag
-		if ( $m[1] == '[' && $m[6] == ']' ) {
-			return $m[0]; // This line was modified for this plugin (no substr call)
+	/**
+	 * Add extra square brackets around escaped shortcodes.
+	 * This is to counteract the beginning of the do_shortcode_tag() function.
+	 *
+	 * @param array $match The array of matches generated by get_shortcode_regex()
+	 *
+	 * @return string What should be placed into the post content. In this case it's the raw match, or an extra-wrapped raw match.
+	 */
+	function shortcode_hack_extra_escape_escaped_shortcodes( $match ) {
+		if ( $match[1] == '[' && $match[6] == ']' ) {
+			return '[' . $match[0] . ']';
 		}
 
-		$tag = $m[2];
-		$attr = shortcode_parse_atts( $m[3] );
-
-		if ( isset( $m[5] ) ) {
-			// enclosing tag - extra parameter
-			return $m[1] . call_user_func( $shortcode_tags[$tag], $attr, $m[5], $tag ) . $m[6];
-		} else {
-			// self-closing tag
-			return $m[1] . call_user_func( $shortcode_tags[$tag], $attr, NULL,  $tag ) . $m[6];
-		}
+		return $match[0];
 	}
+
+	/**
+	 * This is a combination of this class's shortcode_hack_extra_escape_escaped_shortcodes()
+  	 * and do_shortcode_tag() for performance reasons so that we don't have to run some regex twice.
+ 	 *
+	 * @param array $match Regular expression match array.
+	 *
+	 * @return string|false False on failure, otherwise a parse shortcode tag.
+	 */
+	function shortcode_hack_extra_escape_escaped_shortcodes_and_parse( $match ) {
+		$match[0] = $this->shortcode_hack_extra_escape_escaped_shortcodes( $match );
+
+		return do_shortcode_tag( $match );
+	}
+
 
 	// The main filter for the post contents. The regular shortcode filter can't be used as it's post-wpautop().
 	function parse_shortcodes( $content ) {
@@ -393,7 +712,7 @@ class SyntaxHighlighter {
 
 	// HTML entity encode the contents of shortcodes
 	function encode_shortcode_contents( $content ) {
-		return $this->shortcode_hack( $content, array( $this, 'encode_shortcode_contents_callback' ) );
+		return $this->shortcode_hack( $content, array( $this, 'encode_shortcode_contents_callback' ), false );
 	}
 
 
@@ -426,7 +745,7 @@ class SyntaxHighlighter {
 
 	// HTML entity decode the contents of shortcodes
 	function decode_shortcode_contents( $content ) {
-		return $this->shortcode_hack( $content, array( $this, 'decode_shortcode_contents_callback' ) );
+		return $this->shortcode_hack( $content, array( $this, 'decode_shortcode_contents_callback' ), false );
 	}
 
 
@@ -571,13 +890,6 @@ class SyntaxHighlighter {
 	}
 
 
-	// Output an anchor in the header for the Javascript to use.
-	// In the <head>, we don't know if we'll need this plugin's CSS and JavaScript yet but we will in the footer.
-	function output_header_placeholder() {
-		echo '<style type="text/css" id="syntaxhighlighteranchor"></style>' . "\n";
-	}
-
-
 	// Output any needed scripts. This is meant for the footer.
 	function maybe_output_scripts() {
 		global $wp_styles;
@@ -638,7 +950,7 @@ class SyntaxHighlighter {
 				corecss.rel = "stylesheet";
 				corecss.href = corecssurl;
 		}
-		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		document.head.appendChild( corecss );
 <?php
 		endif; // Endif $needcore
 
@@ -652,8 +964,7 @@ class SyntaxHighlighter {
 				themecss.rel = "stylesheet";
 				themecss.href = themecssurl;
 		}
-		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
-		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+		document.head.appendChild( themecss );
 <?php
 		endif; // Endif none != theme
 
@@ -731,8 +1042,20 @@ class SyntaxHighlighter {
 			echo "	SyntaxHighlighter.defaults['wrap-lines'] = false;\n";
 
 ?>	SyntaxHighlighter.all();
+
+	// Infinite scroll support
+	if ( typeof( jQuery ) !== 'undefined' ) {
+		jQuery( function( $ ) {
+			$( document.body ).on( 'post-load', function() {
+				SyntaxHighlighter.highlight();
+			} );
+		} );
+	}
 </script>
 <?php
+
+		do_action( 'syntaxhighlighter_after_script_output' );
+
 	}
 
 
@@ -1184,7 +1507,7 @@ class SyntaxHighlighter {
 	<p><?php printf( __( 'These are the parameters you can pass to the shortcode and what they do. For the booleans (i.e. on/off), pass %1$s/%2$s or %3$s/%4$s.', 'syntaxhighlighter' ), '<code>true</code>', '<code>1</code>', '<code>false</code>', '<code>0</code>' ); ?></p>
 
 	<ul class="ul-disc">
-		<li><?php printf( _x( '%1$s or %2$s &#8212; The language syntax to highlight with. You can alternately just use that as the tag, such as <code>[php]code[/php]</code>. <a href="%3$s">Click here</a> for a list of valid tags (under &quot;aliases&quot;).', 'language parameter', 'syntaxhighlighter' ), '<code>lang</code>', '<code>language</code>', 'http://alexgorbatchev.com/wiki/SyntaxHighlighter:Brushes' ); ?></li>
+		<li><?php printf( _x( '%1$s or %2$s &#8212; The language syntax to highlight with. You can alternately just use that as the tag, such as <code>[php]code[/php]</code>. <a href="%3$s">Click here</a> for a list of valid tags (under &quot;aliases&quot;).', 'language parameter', 'syntaxhighlighter' ), '<code>lang</code>', '<code>language</code>', 'http://alexgorbatchev.com/SyntaxHighlighter/manual/brushes/' ); ?></li>
 		<li><?php printf( _x( '%s &#8212; Toggle automatic URL linking.', 'autolinks parameter', 'syntaxhighlighter' ), '<code>autolinks</code>' ); ?></li>
 		<li><?php printf( _x( '%s &#8212; Add an additional CSS class to the code box.', 'classname parameter', 'syntaxhighlighter' ), '<code>classname</code>' ); ?></li>
 		<li><?php printf( _x( '%s &#8212; Toggle collapsing the code box by default, requiring a click to expand it. Good for large code posts.', 'collapse parameter', 'syntaxhighlighter' ), '<code>collapse</code>' ); ?></li>
@@ -1250,12 +1573,6 @@ class SyntaxHighlighter {
 
 		return $settings;
 	}
-
-
-	// PHP4 compatibility
-	function SyntaxHighlighter() {
-		$this->__construct();
-	}
 }
 
 
@@ -1265,5 +1582,3 @@ function SyntaxHighlighter() {
 	global $SyntaxHighlighter;
 	$SyntaxHighlighter = new SyntaxHighlighter();
 }
-
-?>

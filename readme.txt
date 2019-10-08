@@ -1,46 +1,27 @@
 === SyntaxHighlighter Evolved ===
-Contributors: Viper007Bond, automattic
-Donate link: http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/donate/
-Tags: code, sourcecode, php, xhtml, html, css, WordPress.com
-Requires at least: 2.7
-Tested up to: 4.3
-Stable tag: trunk
+Contributors: Viper007Bond, automattic, donncha
+Donate link: https://alex.blog/2019/03/13/in-memory-of-alex-donation-link-update/
+Tags: code, sourcecode, block, php, xhtml, html, css, WordPress.com
+Requires at least: 4.2.3
+Tested up to: 5.2.3
+Stable tag: 3.5.1
 
 Easily post syntax-highlighted code to your site without having to modify the code at all. As seen on WordPress.com.
 
 == Description ==
 
+*Now with support for the new block editor in WordPress 5.0!*
+
 SyntaxHighlighter Evolved allows you to easily post syntax-highlighted code to your site without losing its formatting or making any manual changes. It uses the [SyntaxHighlighter JavaScript package by Alex Gorbatchev](http://alexgorbatchev.com/wiki/SyntaxHighlighter).
 
-For a live demo, see [this plugin's homepage](http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/).
+For a live demo, see [this plugin's homepage](https://alex.blog/wordpress-plugins/syntaxhighlighter/).
 
 For a list of supported languages (most widely used languages are supported), see the [WordPress.com support document](http://en.support.wordpress.com/code/posting-source-code/).
 
+Development of this plugin is [on GitHub](https://github.com/Automattic/syntaxhighlighter).
+Translation of the plugin into different languages is on the [translation page](https://translate.wordpress.org/projects/wp-plugins/syntaxhighlighter).
+
 *[As seen on WordPress.com.](http://en.blog.wordpress.com/2009/12/02/better-source-code-posting/)*
-
-== Installation ==
-
-###Upgrading From A Previous Version###
-
-To upgrade from a previous version of this plugin, delete the entire folder and files from the previous version of the plugin and then follow the installation instructions below.
-
-###Uploading The Plugin###
-
-Extract all files from the ZIP file, **making sure to keep the file/folder structure intact**, and then upload it to `/wp-content/plugins/`.
-
-**See Also:** ["Installing Plugins" article on the WP Codex](http://codex.wordpress.org/Managing_Plugins#Installing_Plugins)
-
-###Plugin Activation###
-
-Go to the admin area of your WordPress install and click on the "Plugins" menu. Click on "Activate" for the "SyntaxHighlighter" plugin.
-
-###Plugin Usage###
-
-Just wrap your code in `[language]`, such as `[php]code here[/php]` or `[css]code here[/css]`. For a list of supported languages (all widely used languages are supported), please [click here](http://alexgorbatchev.com/wiki/SyntaxHighlighter:Brushes).
-
-You do not need to escape HTML entities or anything, just post your code as-is. The plugin will handle the rest.
-
-The shortcodes accept a wide variety of parameters. For details, see the bottom of the plugin's settings page.
 
 == Frequently Asked Questions ==
 
@@ -48,12 +29,61 @@ The shortcodes accept a wide variety of parameters. For details, see the bottom 
 
 Make sure your theme's `footer.php` file has `<?php wp_footer(); ?>` somewhere inside of it, otherwise the plugin won't be able to do it's thing.
 
+= Highlighting doesn't work and my browser hangs, why?
+
+Try excluding this plugin's Javascript from any performance optimizations your site may be doing that involve minifying or concatenating JS.
+
 == Screenshots ==
 
-1. Example code display of some PHP inside some HTML.
-2. A part of the Settings page which controls the defaults.
+1. Example display of some PHP code.
+2. An example use of the editor block.
 
 == ChangeLog ==
+
+= Version 3.5.1 =
+
+* Fix stored XSS by tightening up the autolinking code so it only does http/https text. #1
+* Add more CSS keywords and values. #6
+* Fork GH repository: https://github.com/Automattic/syntaxhighlighter/
+
+= Version 3.5.0 =
+
+* Block: Add a bunch of display settings.
+* Block: Switch to server-side rendering so that the same code that renders the shortcode will render the block.
+
+= Version 3.4.2 =
+
+* Blocks: Support SyntaxHighlighter block being used as a reusable block.
+
+= Version 3.4.1 =
+
+* Bring back support for the Gutenberg plugin for the people that are still on older versions of WordPress (pre-5.0) and are using the new block editor via the Gutenberg plugin.
+
+= Version 3.4.0 =
+
+* Drop support for the Gutenberg plugin in favor of WordPress 5.0's native functionality (different function names).
+
+= Version 3.3.2 =
+
+* Gutenberg: If a language isn't selected in the block configuration, default to plain text.
+
+= Version 3.3.1 =
+
+* Make sure `wp-editor` script is loaded for Gutenberg.
+
+= Version 3.3.0 =
+
+* Gutenberg block thanks to @iandunn.
+* Add a few extra keywords to the JavaScript highlighter. Props @caitp.
+
+= Version 3.2.1 =
+
+* Fix shortcode issues that would occur during post editing if the code contained what looked like opening HTML tags such as `<?php`. See [this forum thread](https://wordpress.org/support/topic/php-opening-closing-tags-break-code-blocks) for details.
+
+= Version 3.2.0 =
+
+* Don't parse shortcodes inside of HTML entities, which could result in broken HTML.
+* Drop PHP4 support. This should result in PHP7 support.
 
 = Version 3.1.13 =
 
@@ -252,3 +282,6 @@ Localizations:
 = Version 1.0.0 =
 
 * Initial release!
+
+= Upgrade Notice =
+Security fix for stored XSS in comments.

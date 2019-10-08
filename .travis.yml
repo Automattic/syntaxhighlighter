@@ -1,0 +1,136 @@
+## Travis CI Configuration File
+
+sudo: false
+language: php
+dist: trusty
+
+cache:
+  apt: true
+  directories:
+    - node_modules
+    - vendor
+    - $HOME/.composer/cache
+    - $HOME/opt/$TRAVIS_PHP_VERSION
+
+addons:
+  apt:
+    packages:
+    - bc
+
+# Test against these versions of PHP.
+# Some additional PHP versions are also included in the matrix below.
+php:
+  - 5.4
+  - 5.5
+  - 5.6
+  - '7.0'
+  - 7.1
+  - 7.2
+  - 7.3
+  - nightly
+
+# Test against these versions of WordPress.
+env:
+  - WP_VERSION=4.7 # Plugin minimum version
+  - WP_VERSION=4.8
+  - WP_VERSION=4.9
+  - WP_VERSION=latest
+  - WP_VERSION=nightly
+
+# Some additional environments to test:
+#   * PHP 5.2 and 5.3 require precise not trusty
+#   * PHP_CodeSniffer
+matrix:
+  include:
+  - php: 5.2
+    dist: precise
+    env: WP_VERSION=4.7
+  - php: 5.2
+    dist: precise
+    env: WP_VERSION=4.8
+  - php: 5.2
+    dist: precise
+    env: WP_VERSION=latest
+  - php: 5.2
+    dist: precise
+    env: WP_VERSION=nightly
+  - php: 5.3
+    dist: precise
+    env: WP_VERSION=4.7
+  - php: 5.3
+    dist: precise
+    env: WP_VERSION=4.8
+  - php: 5.3
+    dist: precise
+    env: WP_VERSION=latest
+  - php: 5.3
+    dist: precise
+    env: WP_VERSION=nightly
+  exclude: # WordPress 4.7 doesn't like running unit tests under PHP 7.x, see https://travis-ci.org/Viper007Bond/regenerate-thumbnails/builds/281022291
+  - php: '7.0'
+    env: WP_VERSION=4.7
+  - php: 7.1
+    env: WP_VERSION=4.7
+  - php: 7.2
+    env: WP_VERSION=4.7
+  - php: 7.3
+    env: WP_VERSION=4.7
+  - php: nightly
+    env: WP_VERSION=4.7
+
+before_script:
+  - |
+    # Export Composer's global bin dir to PATH, but not on PHP 5.2
+    if [[ ${TRAVIS_PHP_VERSION:0:3} != "5.2" ]]; then
+      composer config --list --global
+      export PATH=`composer config --list --global | grep '\[home\]' | { read a; echo "${a#* }/vendor/bin:$PATH"; }`
+    fi
+  - |
+    # Remove Xdebug for a huge performance increase
+    if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
+      phpenv config-rm xdebug.ini
+    else
+      echo "xdebug.ini does not exist"
+    fi
+  - |
+    # Install WordPress and PHPUnit
+    if [[ ! -z "$WP_VERSION" ]] ; then
+      bash tests/bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
+      case "$TRAVIS_PHP_VERSION" in
+        7.3|7.2|7.1|7.0|nightly)
+          echo "Using PHPUnit 6.x"
+          composer global require "phpunit/phpunit:^6"
+          ;;
+        5.6|5.5|5.4|5.3)
+          echo "Using PHPUnit 4.x"
+          composer global require "phpunit/phpunit:^4"
+          ;;
+        5.2)
+          # Do nothing, use default PHPUnit 3.6.x
+          echo "Using default PHPUnit, hopefully 3.6"
+          ;;
+        *)
+          echo "No PHPUnit version handling for PHP version $TRAVIS_PHP_VERSION"
+          exit 1
+          ;;
+      esac
+    fi
+  - |
+    # Install PHP_CodeSniffer if it's requested for this test
+    if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
+      composer global require wp-coding-standards/wpcs
+      phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
+    fi
+
+script:
+  - |
+    # Run PHPUnit in both single site and multisite mode
+    if [[ ! -z "$WP_VERSION" && "$WP_TRAVISCI" != "phpcs" ]] ; then
+      phpunit --verbose
+      WP_MULTISITE=1 phpunit --verbose
+    fi
+  - |
+    # Run PHP_CodeSniffer coding standards if it's requested for this test
+    if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
+      phpcs
+    fi

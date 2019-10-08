@@ -26,7 +26,8 @@
 				'for function if implements import in instanceof ' +
 				'interface let new null package private protected ' +
 				'static return super switch ' +
-				'this throw true try typeof var while with yield';
+				'this throw true try typeof var while with yield ' +
+	                        'async await';
 
 		var r = SyntaxHighlighter.regexLib;
 		
