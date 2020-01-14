@@ -39,7 +39,7 @@
 						'PUSHORT PVOID PWCHAR PWORD PWSTR SC_HANDLE SC_LOCK SERVICE_STATUS_HANDLE SHORT ' +
 						'SIZE_T SSIZE_T TBYTE TCHAR UCHAR UHALF_PTR UINT UINT_PTR UINT32 UINT64 ULONG ' +
 						'ULONGLONG ULONG_PTR ULONG32 ULONG64 USHORT USN VOID WCHAR WORD WPARAM WPARAM WPARAM ' +
-						'char char16_t char32_t bool short int __int32 __int64 __int8 __int16 long float double __wchar_t ' +
+						'char char8_t char16_t char32_t bool short int __int32 __int64 __int8 __int16 long float double __wchar_t ' +
 						'clock_t _complex _dev_t _diskfree_t div_t ldiv_t _exception _EXCEPTION_POINTERS ' +
 						'FILE _finddata_t _finddatai64_t _wfinddata_t _wfinddatai64_t __finddata64_t ' +
 						'__wfinddata64_t _FPIEEE_RECORD fpos_t _HEAPINFO _HFILE lconv intptr_t ' +
@@ -49,14 +49,14 @@
 						'va_list wchar_t wctrans_t wctype_t wint_t signed';
 
 		var keywords =	'alignas alignof auto break case catch class const constexpr decltype __finally __exception __try ' +
-						'const_cast continue private public protected __declspec ' +
+						'const_cast consteval concept continue private public protected __declspec ' +
 						'default delete deprecated dllexport dllimport do dynamic_cast ' +
-						'else enum explicit extern if for friend goto inline ' +
+						'else enum explicit extern if for friend final goto inline ' +
 						'mutable naked namespace new noinline noreturn nothrow noexcept nullptr ' +
-						'ref register reinterpret_cast return selectany ' +
+						'override ref register reinterpret_cast requires return selectany ' +
 						'sizeof static static_cast static_assert struct switch template this ' +
 						'thread thread_local throw true false try typedef typeid typename union ' +
-						'using uuid virtual void volatile whcar_t while';
+						'using uuid virtual void volatile whcar_t while xor xor_eq ';
 					
 		var functions =	'assert isalnum isalpha iscntrl isdigit isgraph islower isprint' +
 						'ispunct isspace isupper isxdigit tolower toupper errno localeconv ' +
@@ -78,6 +78,8 @@
 		this.regexList = [
 			{ regex: SyntaxHighlighter.regexLib.singleLineCComments,	css: 'comments' },			// one line comments
 			{ regex: SyntaxHighlighter.regexLib.multiLineCComments,		css: 'comments' },			// multiline comments
+            { regex: /(R|L|U|u|u8)?"([^\\"\n]|\\.)*"/g,                 css: 'string' },			// special character
+            { regex: /(R|L|U|u|u8)?'([^\\'\n]|\\.)*'/g,                 css: 'string' },			// special string
 			{ regex: SyntaxHighlighter.regexLib.doubleQuotedString,		css: 'string' },			// strings
 			{ regex: SyntaxHighlighter.regexLib.singleQuotedString,		css: 'string' },			// strings
 			{ regex: /^ *#.*/gm,										css: 'preprocessor' },
