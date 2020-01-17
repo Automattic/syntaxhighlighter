@@ -1324,7 +1324,6 @@ class SyntaxHighlighter {
 </script>
 
 <div class="wrap">
-<?php if ( function_exists('screen_icon') ) screen_icon(); ?>
 	<h2><?php _e( 'SyntaxHighlighter Settings', 'syntaxhighlighter' ); ?></h2>
 
 	<form method="post" action="options.php">

@@ -18,6 +18,6 @@
 		"distclean": "rm -rf node_modules && rm -rf dist"
 	},
 	"dependencies": {
-		"cgb-scripts": "^1.13.0"
+		"cgb-scripts": "^1.22.0"
 	}
 }
