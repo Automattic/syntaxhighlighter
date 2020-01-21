@@ -15,9 +15,14 @@
 	"scripts": {
 		"start": "cgb-scripts start",
 		"build": "cgb-scripts build",
-		"distclean": "rm -rf node_modules && rm -rf dist"
+		"distclean": "rm -rf node_modules && rm -rf dist",
+		"preinstall": "npx npm-force-resolutions"
 	},
 	"dependencies": {
-		"cgb-scripts": "^1.22.0"
+		"cgb-scripts": "^1.22.0",
+		"npm-force-resolutions": "0.0.3"
+	},
+	"resolutions": {
+		"mem": "4.0.0"
 	}
 }
