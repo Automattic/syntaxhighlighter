@@ -104,6 +104,7 @@ class SyntaxHighlighter {
 			'tabsize'        => 4,
 			'toolbar'        => 0,
 			'wraplines'      => 1, // 2.x only
+			'quickcode'      => 1,
 		) );
 
 		// Create the settings array by merging the user's settings and the defaults
@@ -1038,6 +1039,9 @@ class SyntaxHighlighter {
 		if ( 1 != $this->settings['wraplines'] )
 			echo "	SyntaxHighlighter.defaults['wrap-lines'] = false;\n";
 
+		if ( 1 != $this->settings['quickcode'] )
+			echo "	SyntaxHighlighter.defaults['quick-code'] = false;\n";
+
 ?>	SyntaxHighlighter.all();
 
 	// Infinite scroll support
@@ -1114,6 +1118,7 @@ class SyntaxHighlighter {
 			'title'          => $this->settings['title'],
 			'toolbar'        => false,
 			'wraplines'      => false,
+			'quickcode'      => false,
 		), $atts ) );
 
 		// Check for language shortcode tag such as [php]code[/php]
@@ -1171,6 +1176,7 @@ class SyntaxHighlighter {
 			'smarttabs'      => 'smart-tabs',
 			'tabsize'        => 'tab-size',
 			'wraplines'      => 'wrap-lines',
+			'quickcode'      => 'quick-code',
 		);
 
 		// Allowed configuration parameters and their type
@@ -1191,6 +1197,7 @@ class SyntaxHighlighter {
 			'title'            => 'other',
 			'toolbar'          => 'boolean',
 			'wrap-lines'       => 'boolean',
+			'quick-code'       => 'boolean',
 		) );
 
 		$title = '';
@@ -1392,6 +1399,7 @@ class SyntaxHighlighter {
 					<label for="syntaxhighlighter-light"><input name="syntaxhighlighter_settings[light]" type="checkbox" id="syntaxhighlighter-light" value="1" <?php checked( $this->settings['light'], 1 ); ?> /> <?php _e( 'Use the light display mode, best for single lines of code', 'syntaxhighlighter' ); ?></label><br />
 					<label for="syntaxhighlighter-smarttabs"><input name="syntaxhighlighter_settings[smarttabs]" type="checkbox" id="syntaxhighlighter-smarttabs" value="1" <?php checked( $this->settings['smarttabs'], 1 ); ?> /> <?php _e( 'Use smart tabs allowing tabs being used for alignment', 'syntaxhighlighter' ); ?></label><br />
 					<label for="syntaxhighlighter-wraplines"><input name="syntaxhighlighter_settings[wraplines]" type="checkbox" id="syntaxhighlighter-wraplines" value="1" <?php checked( $this->settings['wraplines'], 1 ); ?> /> <?php _e( 'Wrap long lines (v2.x only, disabling this will make a scrollbar show instead)', 'syntaxhighlighter' ); ?></label><br />
+					<label for="syntaxhighlighter-quickcode"><input name="syntaxhighlighter_settings[quickcode]" type="checkbox" id="syntaxhighlighter-quickcode" value="1" <?php checked( $this->settings['quickcode'], 1 ); ?> /> <?php _e( 'Enable edit mode on double click', 'syntaxhighlighter' ); ?></label><br />
 					<!--<label for="syntaxhighlighter-htmlscript"><input name="syntaxhighlighter_settings[htmlscript]" type="checkbox" id="syntaxhighlighter-htmlscript" value="1" <?php checked( $this->settings['htmlscript'], 1 ); ?> /> <?php _e( 'Enable &quot;HTML script&quot; mode by default (see the bottom of this page for details). Checking this box is not recommended as this mode only works with certain languages.', 'syntaxhighlighter' ); ?></label>-->
 				</fieldset>
 			</td>
@@ -1516,6 +1524,7 @@ class SyntaxHighlighter {
 		<li><?php printf( _x( '%1$s (v3 only) &#8212; Sets some text to show up before the code. Very useful when combined with the %2$s parameter.', 'title parameter', 'syntaxhighlighter' ), '<code>title</code>', '<code>collapse</code>' ); ?></li>
 		<li><?php printf( _x( '%s &#8212; Toggle the toolbar (buttons in v2, the about question mark in v3)', 'toolbar parameter', 'syntaxhighlighter' ), '<code>toolbar</code>' ); ?></li>
 		<li><?php printf( _x( '%s (v2 only) &#8212; Toggle line wrapping.', 'wraplines parameter', 'syntaxhighlighter'), '<code>wraplines</code>' ); ?></li>
+		<li><?php printf( _x( '%s &#8212; Enable edit mode on double click.', 'quickcode parameter', 'syntaxhighlighter' ), '<code>quickcode</code>' ); ?></li>
 	</ul>
 
 	<p><?php _e( 'Some example shortcodes:', 'syntaxhighlighter' ); ?></p>
@@ -1553,6 +1562,7 @@ class SyntaxHighlighter {
 			$settings['smarttabs']      = ( ! empty($settings['smarttabs']) )      ? 1 : 0;
 			$settings['toolbar']        = ( ! empty($settings['toolbar']) )        ? 1 : 0; // May be overridden below
 			$settings['wraplines']      = ( ! empty($settings['wraplines']) )      ? 1 : 0; // 2.x only for now
+			$settings['quickcode']      = ( ! empty($settings['quickcode']) )      ? 1 : 0;
 
 			// If the version changed, then force change the toolbar version setting
 			if ( $settings['shversion'] != $this->settings['shversion'] ) {
