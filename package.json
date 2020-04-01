@@ -19,7 +19,7 @@
 		"preinstall": "npx npm-force-resolutions"
 	},
 	"dependencies": {
-		"cgb-scripts": "^1.22.0",
+		"cgb-scripts": "1.23.0",
 		"npm-force-resolutions": "0.0.3"
 	},
 	"resolutions": {
