@@ -104,7 +104,7 @@ class SyntaxHighlighter {
 			'tabsize'        => 4,
 			'toolbar'        => 0,
 			'wraplines'      => 1, // 2.x only
-			'quickcode'      => 1,
+			'quickcode'      => 1, // 3.x only
 		) );
 
 		// Create the settings array by merging the user's settings and the defaults
@@ -359,6 +359,10 @@ class SyntaxHighlighter {
 				'supported' => true,
 				'default' => (bool) $this->settings['autolinks'],
 			),
+			'quickCode' => (object) array(
+				'supported' => ( '3' == $this->settings['shversion'] ),
+				'default' => (bool) $this->settings['quickcode'],
+			),
 		);
 
 		wp_add_inline_script(
@@ -497,6 +501,7 @@ class SyntaxHighlighter {
 			'highlightLines'    => 'highlight',
 			'wrapLines'         => 'wraplines',
 			'makeURLsClickable' => 'autolinks',
+			'quickCode'         => 'quickcode',
 		);
 
 		foreach ( $remaps as $from => $to ) {
@@ -1399,7 +1404,7 @@ class SyntaxHighlighter {
 					<label for="syntaxhighlighter-light"><input name="syntaxhighlighter_settings[light]" type="checkbox" id="syntaxhighlighter-light" value="1" <?php checked( $this->settings['light'], 1 ); ?> /> <?php _e( 'Use the light display mode, best for single lines of code', 'syntaxhighlighter' ); ?></label><br />
 					<label for="syntaxhighlighter-smarttabs"><input name="syntaxhighlighter_settings[smarttabs]" type="checkbox" id="syntaxhighlighter-smarttabs" value="1" <?php checked( $this->settings['smarttabs'], 1 ); ?> /> <?php _e( 'Use smart tabs allowing tabs being used for alignment', 'syntaxhighlighter' ); ?></label><br />
 					<label for="syntaxhighlighter-wraplines"><input name="syntaxhighlighter_settings[wraplines]" type="checkbox" id="syntaxhighlighter-wraplines" value="1" <?php checked( $this->settings['wraplines'], 1 ); ?> /> <?php _e( 'Wrap long lines (v2.x only, disabling this will make a scrollbar show instead)', 'syntaxhighlighter' ); ?></label><br />
-					<label for="syntaxhighlighter-quickcode"><input name="syntaxhighlighter_settings[quickcode]" type="checkbox" id="syntaxhighlighter-quickcode" value="1" <?php checked( $this->settings['quickcode'], 1 ); ?> /> <?php _e( 'Enable edit mode on double click', 'syntaxhighlighter' ); ?></label><br />
+					<label for="syntaxhighlighter-quickcode"><input name="syntaxhighlighter_settings[quickcode]" type="checkbox" id="syntaxhighlighter-quickcode" value="1" <?php checked( $this->settings['quickcode'], 1 ); ?> /> <?php _e( 'Enable edit mode on double click (v3.x only)', 'syntaxhighlighter' ); ?></label><br />
 					<!--<label for="syntaxhighlighter-htmlscript"><input name="syntaxhighlighter_settings[htmlscript]" type="checkbox" id="syntaxhighlighter-htmlscript" value="1" <?php checked( $this->settings['htmlscript'], 1 ); ?> /> <?php _e( 'Enable &quot;HTML script&quot; mode by default (see the bottom of this page for details). Checking this box is not recommended as this mode only works with certain languages.', 'syntaxhighlighter' ); ?></label>-->
 				</fieldset>
 			</td>
@@ -1562,7 +1567,7 @@ class SyntaxHighlighter {
 			$settings['smarttabs']      = ( ! empty($settings['smarttabs']) )      ? 1 : 0;
 			$settings['toolbar']        = ( ! empty($settings['toolbar']) )        ? 1 : 0; // May be overridden below
 			$settings['wraplines']      = ( ! empty($settings['wraplines']) )      ? 1 : 0; // 2.x only for now
-			$settings['quickcode']      = ( ! empty($settings['quickcode']) )      ? 1 : 0;
+			$settings['quickcode']      = ( ! empty($settings['quickcode']) )      ? 1 : 0; // 3.x only for now
 
 			// If the version changed, then force change the toolbar version setting
 			if ( $settings['shversion'] != $this->settings['shversion'] ) {

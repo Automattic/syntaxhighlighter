@@ -69,6 +69,11 @@ registerBlockType( 'syntaxhighlighter/code', {
 			type: 'boolean',
 			default: syntaxHighlighterData.settings.makeURLsClickable.default,
 		},
+
+		quickCode: {
+			type: 'boolean',
+			default: syntaxHighlighterData.settings.quickCode.default,
+		},
 	},
 
 	supports: {
@@ -128,7 +133,8 @@ registerBlockType( 'syntaxhighlighter/code', {
 			firstLineNumber,
 			highlightLines,
 			wrapLines,
-			makeURLsClickable
+			makeURLsClickable,
+			quickCode
 		} = attributes;
 
 		let blockSettingRows = [];
@@ -244,6 +250,24 @@ registerBlockType( 'syntaxhighlighter/code', {
 							label: __( 'Make URLs Clickable', 'syntaxhighlighter' ),
 							checked: makeURLsClickable,
 							onChange: ( makeURLsClickable ) => setAttributes( { makeURLsClickable } ),
+						}
+					)
+				)
+			);
+		}
+
+		// Quick code
+		if ( syntaxHighlighterData.settings.quickCode.supported ) {
+			blockSettingRows.push(
+				wp.element.createElement(
+					PanelRow,
+					null,
+					wp.element.createElement(
+						ToggleControl,
+						{
+							label: __( 'Quick code', 'syntaxhighlighter' ),
+							checked: quickCode,
+							onChange: ( quickCode ) => setAttributes( { quickCode } ),
 						}
 					)
 				)
