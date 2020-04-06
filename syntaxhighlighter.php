@@ -144,6 +144,7 @@ class SyntaxHighlighter {
 		wp_register_script( 'syntaxhighlighter-brush-sql',        plugins_url( $this->shfolder . '/scripts/shBrushSql.js',        __FILE__ ), array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-vb',         plugins_url( $this->shfolder . '/scripts/shBrushVb.js',         __FILE__ ), array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-xml',        plugins_url( $this->shfolder . '/scripts/shBrushXml.js',        __FILE__ ), array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_script( 'syntaxhighlighter-brush-yaml',       plugins_url( $this->shfolder . '/scripts/shBrushYaml.js',       __FILE__ ), array('syntaxhighlighter-core'), $this->agshver );
 
 		// Register some popular third-party brushes
 		wp_register_script( 'syntaxhighlighter-brush-clojure',    plugins_url( 'third-party-brushes/shBrushClojure.js',           __FILE__ ), array('syntaxhighlighter-core'), '20090602'     );
@@ -224,6 +225,8 @@ class SyntaxHighlighter {
 			'xhtml'         => 'xml',
 			'xslt'          => 'xml',
 			'html'          => 'xml',
+			'yaml'           => 'yaml',
+			'yml'           => 'yaml',
 		) );
 
 		$this->brush_names = (array) apply_filters( 'syntaxhighlighter_brush_names', array(
@@ -256,6 +259,7 @@ class SyntaxHighlighter {
 			'sql'        => __( 'SQL',                       'syntaxhighlighter' ),
 			'vb'         => __( 'Visual Basic',              'syntaxhighlighter' ),
 			'xml'        => __( 'HTML / XHTML / XML / XSLT', 'syntaxhighlighter' ),
+			'yaml'        => __( 'YAML',                     'syntaxhighlighter' ),
 		) );
 
 		// Add any custom brushes that aren't making use of the newer "syntaxhighlighter_brush_names" filter.
