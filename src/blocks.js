@@ -265,7 +265,7 @@ registerBlockType( 'syntaxhighlighter/code', {
 					wp.element.createElement(
 						ToggleControl,
 						{
-							label: __( 'Quick code', 'syntaxhighlighter' ),
+							label: __( 'Enable edit mode on double click', 'syntaxhighlighter' ),
 							checked: quickCode,
 							onChange: ( quickCode ) => setAttributes( { quickCode } ),
 						}
