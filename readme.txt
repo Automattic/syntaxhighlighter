@@ -3,8 +3,8 @@ Contributors: Viper007Bond, automattic, donncha
 Donate link: https://alex.blog/2019/03/13/in-memory-of-alex-donation-link-update/
 Tags: code, sourcecode, block, php, xhtml, html, css, WordPress.com
 Requires at least: 4.2.3
-Tested up to: 5.3.2
-Stable tag: 3.5.2
+Tested up to: 5.4
+Stable tag: 3.5.3
 
 Easily post syntax-highlighted code to your site without having to modify the code at all. As seen on WordPress.com.
 
@@ -39,6 +39,12 @@ Try excluding this plugin's Javascript from any performance optimizations your s
 2. An example use of the editor block.
 
 == ChangeLog ==
+
+= Version 3.5.3 =
+
+* Add "edit mode on double click" option to settings, shortcode parameters and block editor. #126
+* Add YAML highlighter. #129
+* Update plugin dependencies to the latest version. #132
 
 = Version 3.5.2 =
 
