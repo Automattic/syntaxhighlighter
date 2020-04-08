@@ -104,6 +104,7 @@ class SyntaxHighlighter {
 			'tabsize'        => 4,
 			'toolbar'        => 0,
 			'wraplines'      => 1, // 2.x only
+			'quickcode'      => 1, // 3.x only
 		) );
 
 		// Create the settings array by merging the user's settings and the defaults
@@ -362,6 +363,10 @@ class SyntaxHighlighter {
 				'supported' => true,
 				'default' => (bool) $this->settings['autolinks'],
 			),
+			'quickCode' => (object) array(
+				'supported' => ( '3' == $this->settings['shversion'] ),
+				'default' => (bool) $this->settings['quickcode'],
+			),
 		);
 
 		wp_add_inline_script(
@@ -500,6 +505,7 @@ class SyntaxHighlighter {
 			'highlightLines'    => 'highlight',
 			'wrapLines'         => 'wraplines',
 			'makeURLsClickable' => 'autolinks',
+			'quickCode'         => 'quickcode',
 		);
 
 		foreach ( $remaps as $from => $to ) {
@@ -1042,6 +1048,9 @@ class SyntaxHighlighter {
 		if ( 1 != $this->settings['wraplines'] )
 			echo "	SyntaxHighlighter.defaults['wrap-lines'] = false;\n";
 
+		if ( 1 != $this->settings['quickcode'] )
+			echo "	SyntaxHighlighter.defaults['quick-code'] = false;\n";
+
 ?>	SyntaxHighlighter.all();
 
 	// Infinite scroll support
@@ -1118,6 +1127,7 @@ class SyntaxHighlighter {
 			'title'          => $this->settings['title'],
 			'toolbar'        => false,
 			'wraplines'      => false,
+			'quickcode'      => false,
 		), $atts ) );
 
 		// Check for language shortcode tag such as [php]code[/php]
@@ -1175,6 +1185,7 @@ class SyntaxHighlighter {
 			'smarttabs'      => 'smart-tabs',
 			'tabsize'        => 'tab-size',
 			'wraplines'      => 'wrap-lines',
+			'quickcode'      => 'quick-code',
 		);
 
 		// Allowed configuration parameters and their type
@@ -1195,6 +1206,7 @@ class SyntaxHighlighter {
 			'title'            => 'other',
 			'toolbar'          => 'boolean',
 			'wrap-lines'       => 'boolean',
+			'quick-code'       => 'boolean',
 		) );
 
 		$title = '';
@@ -1328,7 +1340,7 @@ class SyntaxHighlighter {
 </script>
 
 <div class="wrap">
-	<h2><?php _e( 'SyntaxHighlighter Settings', 'syntaxhighlighter' ); ?></h2>
+	<h2><?php esc_html_e( 'SyntaxHighlighter Settings', 'syntaxhighlighter' ); ?></h2>
 
 	<form method="post" action="options.php">
 
@@ -1337,7 +1349,7 @@ class SyntaxHighlighter {
 
 	<table class="form-table">
 		<tr valign="top">
-			<th scope="row"><label for="syntaxhighlighter-shversion"><?php _e( 'Highlighter Version', 'syntaxhighlighter' ); ?></label></th>
+			<th scope="row"><label for="syntaxhighlighter-shversion"><?php esc_html_e( 'Highlighter Version', 'syntaxhighlighter' ); ?></label></th>
 			<td>
 				<select name="syntaxhighlighter_settings[shversion]" id="syntaxhighlighter-shversion" class="postform">
 <?php
@@ -1351,12 +1363,12 @@ class SyntaxHighlighter {
 					}
 ?>
 				</select><br />
-				<?php _e( 'Version 3 allows visitors to easily highlight portions of your code with their mouse (either by dragging or double-clicking) and copy it to their clipboard. No toolbar containing a Flash-based button is required.', 'syntaxhighlighter' ); ?><br />
-				<?php _e( 'Version 2 allows for line wrapping, something that version 3 does not do at this time.', 'syntaxhighlighter' ); ?>
+				<?php esc_html_e( 'Version 3 allows visitors to easily highlight portions of your code with their mouse (either by dragging or double-clicking) and copy it to their clipboard. No toolbar containing a Flash-based button is required.', 'syntaxhighlighter' ); ?><br />
+				<?php esc_html_e( 'Version 2 allows for line wrapping, something that version 3 does not do at this time.', 'syntaxhighlighter' ); ?>
 			</td>
 		</tr>
 		<tr valign="top">
-			<th scope="row"><label for="syntaxhighlighter-theme"><?php _e( 'Color Theme', 'syntaxhighlighter' ); ?></label></th>
+			<th scope="row"><label for="syntaxhighlighter-theme"><?php esc_html_e( 'Color Theme', 'syntaxhighlighter' ); ?></label></th>
 			<td>
 				<select name="syntaxhighlighter_settings[theme]" id="syntaxhighlighter-theme" class="postform">
 <?php
@@ -1368,48 +1380,49 @@ class SyntaxHighlighter {
 			</td>
 		</tr>
 		<tr valign="top">
-			<th scope="row"><?php _e( 'Load All Brushes', 'syntaxhighlighter' ); ?></th>
+			<th scope="row"><?php esc_html_e( 'Load All Brushes', 'syntaxhighlighter' ); ?></th>
 			<td>
 				<fieldset>
-					<legend class="hidden"><?php _e( 'Load All Brushes', 'syntaxhighlighter' ); ?></legend>
-					<label for="syntaxhighlighter-loadallbrushes"><input name="syntaxhighlighter_settings[loadallbrushes]" type="checkbox" id="syntaxhighlighter-loadallbrushes" value="1" <?php checked( $this->settings['loadallbrushes'], 1 ); ?> /> <?php _e( 'Always load all language files (for directly using <code>&lt;pre&gt;</code> tags rather than shortcodes)<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If left unchecked (default), then language files will only be loaded when needed<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If unsure, leave this box unchecked', 'syntaxhighlighter' ); ?></label>
+					<legend class="hidden"><?php esc_html_e( 'Load All Brushes', 'syntaxhighlighter' ); ?></legend>
+					<label for="syntaxhighlighter-loadallbrushes"><input name="syntaxhighlighter_settings[loadallbrushes]" type="checkbox" id="syntaxhighlighter-loadallbrushes" value="1" <?php checked( $this->settings['loadallbrushes'], 1 ); ?> /> <?php esc_html_e( 'Always load all language files (for directly using <code>&lt;pre&gt;</code> tags rather than shortcodes)<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If left unchecked (default), then language files will only be loaded when needed<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If unsure, leave this box unchecked', 'syntaxhighlighter' ); ?></label>
 				</fieldset>
 			</td>
 		</tr>
 	</table>
 
-	<h3><?php _e( 'Defaults', 'syntaxhighlighter' ); ?></h3>
+	<h3><?php esc_html_e( 'Defaults', 'syntaxhighlighter' ); ?></h3>
 
-	<p><?php _e( 'All of the settings below can be configured on a per-code block basis, but you can control the defaults of all code blocks here.', 'syntaxhighlighter' ); ?></p>
+	<p><?php esc_html_e( 'All of the settings below can be configured on a per-code block basis, but you can control the defaults of all code blocks here.', 'syntaxhighlighter' ); ?></p>
 
 	<table class="form-table">
 		<tr valign="top">
-			<th scope="row"><?php _e( 'Miscellaneous', 'syntaxhighlighter' ); ?></th>
+			<th scope="row"><?php esc_html_e( 'Miscellaneous', 'syntaxhighlighter' ); ?></th>
 			<td>
 				<fieldset>
-					<legend class="hidden"><?php _e( 'Miscellaneous', 'syntaxhighlighter' ); ?></legend>
+					<legend class="hidden"><?php esc_html_e( 'Miscellaneous', 'syntaxhighlighter' ); ?></legend>
 
-					<label for="syntaxhighlighter-gutter"><input name="syntaxhighlighter_settings[gutter]" type="checkbox" id="syntaxhighlighter-gutter" value="1" <?php checked( $this->settings['gutter'], 1 ); ?> /> <?php _e( 'Display line numbers', 'syntaxhighlighter' ); ?></label><br />
-					<label for="syntaxhighlighter-toolbar"><input name="syntaxhighlighter_settings[toolbar]" type="checkbox" id="syntaxhighlighter-toolbar" value="1" <?php checked( $this->settings['toolbar'], 1 ); ?> /> <?php _e( 'Display the toolbar', 'syntaxhighlighter' ); ?></label><br />
-					<label for="syntaxhighlighter-autolinks"><input name="syntaxhighlighter_settings[autolinks]" type="checkbox" id="syntaxhighlighter-autolinks" value="1" <?php checked( $this->settings['autolinks'], 1 ); ?> /> <?php _e( 'Automatically make URLs clickable', 'syntaxhighlighter' ); ?></label><br />
-					<label for="syntaxhighlighter-collapse"><input name="syntaxhighlighter_settings[collapse]" type="checkbox" id="syntaxhighlighter-collapse" value="1" <?php checked( $this->settings['collapse'], 1 ); ?> /> <?php _e( 'Collapse code boxes', 'syntaxhighlighter' ); ?></label><br />
-					<label for="syntaxhighlighter-light"><input name="syntaxhighlighter_settings[light]" type="checkbox" id="syntaxhighlighter-light" value="1" <?php checked( $this->settings['light'], 1 ); ?> /> <?php _e( 'Use the light display mode, best for single lines of code', 'syntaxhighlighter' ); ?></label><br />
-					<label for="syntaxhighlighter-smarttabs"><input name="syntaxhighlighter_settings[smarttabs]" type="checkbox" id="syntaxhighlighter-smarttabs" value="1" <?php checked( $this->settings['smarttabs'], 1 ); ?> /> <?php _e( 'Use smart tabs allowing tabs being used for alignment', 'syntaxhighlighter' ); ?></label><br />
-					<label for="syntaxhighlighter-wraplines"><input name="syntaxhighlighter_settings[wraplines]" type="checkbox" id="syntaxhighlighter-wraplines" value="1" <?php checked( $this->settings['wraplines'], 1 ); ?> /> <?php _e( 'Wrap long lines (v2.x only, disabling this will make a scrollbar show instead)', 'syntaxhighlighter' ); ?></label><br />
-					<!--<label for="syntaxhighlighter-htmlscript"><input name="syntaxhighlighter_settings[htmlscript]" type="checkbox" id="syntaxhighlighter-htmlscript" value="1" <?php checked( $this->settings['htmlscript'], 1 ); ?> /> <?php _e( 'Enable &quot;HTML script&quot; mode by default (see the bottom of this page for details). Checking this box is not recommended as this mode only works with certain languages.', 'syntaxhighlighter' ); ?></label>-->
+					<label for="syntaxhighlighter-gutter"><input name="syntaxhighlighter_settings[gutter]" type="checkbox" id="syntaxhighlighter-gutter" value="1" <?php checked( $this->settings['gutter'], 1 ); ?> /> <?php esc_html_e( 'Display line numbers', 'syntaxhighlighter' ); ?></label><br />
+					<label for="syntaxhighlighter-toolbar"><input name="syntaxhighlighter_settings[toolbar]" type="checkbox" id="syntaxhighlighter-toolbar" value="1" <?php checked( $this->settings['toolbar'], 1 ); ?> /> <?php esc_html_e( 'Display the toolbar', 'syntaxhighlighter' ); ?></label><br />
+					<label for="syntaxhighlighter-autolinks"><input name="syntaxhighlighter_settings[autolinks]" type="checkbox" id="syntaxhighlighter-autolinks" value="1" <?php checked( $this->settings['autolinks'], 1 ); ?> /> <?php esc_html_e( 'Automatically make URLs clickable', 'syntaxhighlighter' ); ?></label><br />
+					<label for="syntaxhighlighter-collapse"><input name="syntaxhighlighter_settings[collapse]" type="checkbox" id="syntaxhighlighter-collapse" value="1" <?php checked( $this->settings['collapse'], 1 ); ?> /> <?php esc_html_e( 'Collapse code boxes', 'syntaxhighlighter' ); ?></label><br />
+					<label for="syntaxhighlighter-light"><input name="syntaxhighlighter_settings[light]" type="checkbox" id="syntaxhighlighter-light" value="1" <?php checked( $this->settings['light'], 1 ); ?> /> <?php esc_html_e( 'Use the light display mode, best for single lines of code', 'syntaxhighlighter' ); ?></label><br />
+					<label for="syntaxhighlighter-smarttabs"><input name="syntaxhighlighter_settings[smarttabs]" type="checkbox" id="syntaxhighlighter-smarttabs" value="1" <?php checked( $this->settings['smarttabs'], 1 ); ?> /> <?php esc_html_e( 'Use smart tabs allowing tabs being used for alignment', 'syntaxhighlighter' ); ?></label><br />
+					<label for="syntaxhighlighter-wraplines"><input name="syntaxhighlighter_settings[wraplines]" type="checkbox" id="syntaxhighlighter-wraplines" value="1" <?php checked( $this->settings['wraplines'], 1 ); ?> /> <?php esc_html_e( 'Wrap long lines (v2.x only, disabling this will make a scrollbar show instead)', 'syntaxhighlighter' ); ?></label><br />
+					<label for="syntaxhighlighter-quickcode"><input name="syntaxhighlighter_settings[quickcode]" type="checkbox" id="syntaxhighlighter-quickcode" value="1" <?php checked( $this->settings['quickcode'], 1 ); ?> /> <?php esc_html_e( 'Enable edit mode on double click (v3.x only)', 'syntaxhighlighter' ); ?></label><br />
+					<!--<label for="syntaxhighlighter-htmlscript"><input name="syntaxhighlighter_settings[htmlscript]" type="checkbox" id="syntaxhighlighter-htmlscript" value="1" <?php checked( $this->settings['htmlscript'], 1 ); ?> /> <?php esc_html_e( 'Enable &quot;HTML script&quot; mode by default (see the bottom of this page for details). Checking this box is not recommended as this mode only works with certain languages.', 'syntaxhighlighter' ); ?></label>-->
 				</fieldset>
 			</td>
 		</tr>
 		<tr valign="top">
-			<th scope="row"><label for="syntaxhighlighter-classname"><?php _e( 'Additional CSS Class(es)', 'syntaxhighlighter' ); ?></label></th>
+			<th scope="row"><label for="syntaxhighlighter-classname"><?php esc_html_e( 'Additional CSS Class(es)', 'syntaxhighlighter' ); ?></label></th>
 			<td><input name="syntaxhighlighter_settings[classname]" type="text" id="syntaxhighlighter-classname" value="<?php echo esc_attr( $this->settings['classname'] ); ?>" class="regular-text" /></td>
 		</tr>
 		<tr valign="top">
-			<th scope="row"><label for="syntaxhighlighter-firstline"><?php _e( 'Starting Line Number', 'syntaxhighlighter' ); ?></label></th>
+			<th scope="row"><label for="syntaxhighlighter-firstline"><?php esc_html_e( 'Starting Line Number', 'syntaxhighlighter' ); ?></label></th>
 			<td><input name="syntaxhighlighter_settings[firstline]" type="text" id="syntaxhighlighter-firstline" value="<?php echo esc_attr( $this->settings['firstline'] ); ?>" class="small-text" /></td>
 		</tr>
 		<tr valign="top">
-			<th scope="row"><label for="syntaxhighlighter-padlinenumbers"><?php _e( 'Line Number Padding', 'syntaxhighlighter' ); ?></label></th>
+			<th scope="row"><label for="syntaxhighlighter-padlinenumbers"><?php esc_html_e( 'Line Number Padding', 'syntaxhighlighter' ); ?></label></th>
 			<td>
 				<select name="syntaxhighlighter_settings[padlinenumbers]" id="syntaxhighlighter-padlinenumbers" class="postform">
 <?php
@@ -1431,14 +1444,14 @@ class SyntaxHighlighter {
 			</td>
 		</tr>
 		<tr valign="top">
-			<th scope="row"><label for="syntaxhighlighter-tabsize"><?php _e( 'Tab Size', 'syntaxhighlighter' ); ?></label></th>
+			<th scope="row"><label for="syntaxhighlighter-tabsize"><?php esc_html_e( 'Tab Size', 'syntaxhighlighter' ); ?></label></th>
 			<td><input name="syntaxhighlighter_settings[tabsize]" type="text" id="syntaxhighlighter-tabsize" value="<?php echo esc_attr( $this->settings['tabsize'] ); ?>" class="small-text" /></td>
 		</tr>
 		<tr valign="top">
-			<th scope="row"><label for="syntaxhighlighter-title"><?php _e( 'Title', 'syntaxhighlighter' ); ?></label></th>
+			<th scope="row"><label for="syntaxhighlighter-title"><?php esc_html_e( 'Title', 'syntaxhighlighter' ); ?></label></th>
 			<td>
 				<input name="syntaxhighlighter_settings[title]" type="text" id="syntaxhighlighter-title" value="<?php echo esc_attr( $this->settings['title'] ); ?>" class="regular-text" /><br />
-				<?php _e( 'Some optional default text to display above each code block or as the clickable text for collapsed code blocks.', 'syntaxhighlighter' ); ?>
+				<?php esc_html_e( 'Some optional default text to display above each code block or as the clickable text for collapsed code blocks.', 'syntaxhighlighter' ); ?>
 			</td>
 		</tr>
 	</table>
@@ -1458,9 +1471,9 @@ class SyntaxHighlighter {
 
 	</form>
 
-	<h3><?php _e( 'Preview', 'syntaxhighlighter' ); ?></h3>
+	<h3><?php esc_html_e( 'Preview', 'syntaxhighlighter' ); ?></h3>
 
-	<p><?php _e( 'Click &quot;Save Changes&quot; to update this preview.', 'syntaxhighlighter' ); ?>
+	<p><?php esc_html_e( 'Click &quot;Save Changes&quot; to update this preview.', 'syntaxhighlighter' ); ?>
 
 	<?php
 
@@ -1502,33 +1515,34 @@ class SyntaxHighlighter {
 		echo '</div>';
 ?>
 
-	<h3 style="margin-top:30px"><?php _e( 'Shortcode Parameters', 'syntaxhighlighter' ); ?></h3>
+	<h3 style="margin-top:30px"><?php esc_html_e( 'Shortcode Parameters', 'syntaxhighlighter' ); ?></h3>
 
 	<p><?php printf( __( 'These are the parameters you can pass to the shortcode and what they do. For the booleans (i.e. on/off), pass %1$s/%2$s or %3$s/%4$s.', 'syntaxhighlighter' ), '<code>true</code>', '<code>1</code>', '<code>false</code>', '<code>0</code>' ); ?></p>
 
 	<ul class="ul-disc">
-		<li><?php printf( _x( '%1$s or %2$s &#8212; The language syntax to highlight with. You can alternately just use that as the tag, such as <code>[php]code[/php]</code>. <a href="%3$s">Click here</a> for a list of valid tags (under &quot;aliases&quot;).', 'language parameter', 'syntaxhighlighter' ), '<code>lang</code>', '<code>language</code>', 'http://alexgorbatchev.com/SyntaxHighlighter/manual/brushes/' ); ?></li>
-		<li><?php printf( _x( '%s &#8212; Toggle automatic URL linking.', 'autolinks parameter', 'syntaxhighlighter' ), '<code>autolinks</code>' ); ?></li>
-		<li><?php printf( _x( '%s &#8212; Add an additional CSS class to the code box.', 'classname parameter', 'syntaxhighlighter' ), '<code>classname</code>' ); ?></li>
-		<li><?php printf( _x( '%s &#8212; Toggle collapsing the code box by default, requiring a click to expand it. Good for large code posts.', 'collapse parameter', 'syntaxhighlighter' ), '<code>collapse</code>' ); ?></li>
-		<li><?php printf( _x( '%s &#8212; An interger specifying what number the first line should be (for the line numbering).', 'firstline parameter', 'syntaxhighlighter' ), '<code>firstline</code>' ); ?></li>
-		<li><?php printf( _x( '%s &#8212; Toggle the left-side line numbering.', 'gutter parameter', 'syntaxhighlighter' ), '<code>gutter</code>' ); ?></li>
-		<li><?php printf( _x( '%1$s &#8212; A comma-separated list of line numbers to highlight. You can also specify a range. Example: %2$s', 'highlight parameter', 'syntaxhighlighter' ), '<code>highlight</code>', '<code>2,5-10,12</code>' ); ?></li>
-		<li><?php printf( _x( "%s &#8212; Toggle highlighting any extra HTML/XML. Good for when you're mixing HTML/XML with another language, such as having PHP inside an HTML web page. The above preview has it enabled for example. This only works with certain languages.", 'htmlscript parameter', 'syntaxhighlighter' ), '<code>htmlscript</code>' ); ?></li>
-		<li><?php printf( _x( '%s &#8212; Toggle light mode which disables the gutter and toolbar all at once.', 'light parameter', 'syntaxhighlighter' ), '<code>light</code>' ); ?></li>
-		<li><?php printf( _x( '%s &#8212; Controls line number padding. Valid values are <code>false</code> (no padding), <code>true</code> (automatic padding), or an integer (forced padding).', 'padlinenumbers parameter', 'syntaxhighlighter' ), '<code>padlinenumbers</code>' ); ?></li>
-		<li><?php printf( _x( '%1$s (v3 only) &#8212; Sets some text to show up before the code. Very useful when combined with the %2$s parameter.', 'title parameter', 'syntaxhighlighter' ), '<code>title</code>', '<code>collapse</code>' ); ?></li>
-		<li><?php printf( _x( '%s &#8212; Toggle the toolbar (buttons in v2, the about question mark in v3)', 'toolbar parameter', 'syntaxhighlighter' ), '<code>toolbar</code>' ); ?></li>
-		<li><?php printf( _x( '%s (v2 only) &#8212; Toggle line wrapping.', 'wraplines parameter', 'syntaxhighlighter'), '<code>wraplines</code>' ); ?></li>
+		<li><?php printf( esc_html_x( '%1$s or %2$s &#8212; The language syntax to highlight with. You can alternately just use that as the tag, such as <code>[php]code[/php]</code>. <a href="%3$s">Click here</a> for a list of valid tags (under &quot;aliases&quot;).', 'language parameter', 'syntaxhighlighter' ), '<code>lang</code>', '<code>language</code>', 'http://alexgorbatchev.com/SyntaxHighlighter/manual/brushes/' ); ?></li>
+		<li><?php printf( esc_html_x( '%s &#8212; Toggle automatic URL linking.', 'autolinks parameter', 'syntaxhighlighter' ), '<code>autolinks</code>' ); ?></li>
+		<li><?php printf( esc_html_x( '%s &#8212; Add an additional CSS class to the code box.', 'classname parameter', 'syntaxhighlighter' ), '<code>classname</code>' ); ?></li>
+		<li><?php printf( esc_html_x( '%s &#8212; Toggle collapsing the code box by default, requiring a click to expand it. Good for large code posts.', 'collapse parameter', 'syntaxhighlighter' ), '<code>collapse</code>' ); ?></li>
+		<li><?php printf( esc_html_x( '%s &#8212; An interger specifying what number the first line should be (for the line numbering).', 'firstline parameter', 'syntaxhighlighter' ), '<code>firstline</code>' ); ?></li>
+		<li><?php printf( esc_html_x( '%s &#8212; Toggle the left-side line numbering.', 'gutter parameter', 'syntaxhighlighter' ), '<code>gutter</code>' ); ?></li>
+		<li><?php printf( esc_html_x( '%1$s &#8212; A comma-separated list of line numbers to highlight. You can also specify a range. Example: %2$s', 'highlight parameter', 'syntaxhighlighter' ), '<code>highlight</code>', '<code>2,5-10,12</code>' ); ?></li>
+		<li><?php printf( esc_html_x( "%s &#8212; Toggle highlighting any extra HTML/XML. Good for when you're mixing HTML/XML with another language, such as having PHP inside an HTML web page. The above preview has it enabled for example. This only works with certain languages.", 'htmlscript parameter', 'syntaxhighlighter' ), '<code>htmlscript</code>' ); ?></li>
+		<li><?php printf( esc_html_x( '%s &#8212; Toggle light mode which disables the gutter and toolbar all at once.', 'light parameter', 'syntaxhighlighter' ), '<code>light</code>' ); ?></li>
+		<li><?php printf( esc_html_x( '%s &#8212; Controls line number padding. Valid values are <code>false</code> (no padding), <code>true</code> (automatic padding), or an integer (forced padding).', 'padlinenumbers parameter', 'syntaxhighlighter' ), '<code>padlinenumbers</code>' ); ?></li>
+		<li><?php printf( esc_html_x( '%1$s (v3 only) &#8212; Sets some text to show up before the code. Very useful when combined with the %2$s parameter.', 'title parameter', 'syntaxhighlighter' ), '<code>title</code>', '<code>collapse</code>' ); ?></li>
+		<li><?php printf( esc_html_x( '%s &#8212; Toggle the toolbar (buttons in v2, the about question mark in v3)', 'toolbar parameter', 'syntaxhighlighter' ), '<code>toolbar</code>' ); ?></li>
+		<li><?php printf( esc_html_x( '%s (v2 only) &#8212; Toggle line wrapping.', 'wraplines parameter', 'syntaxhighlighter'), '<code>wraplines</code>' ); ?></li>
+		<li><?php printf( esc_html_x( '%s &#8212; Enable edit mode on double click.', 'quickcode parameter', 'syntaxhighlighter' ), '<code>quickcode</code>' ); ?></li>
 	</ul>
 
-	<p><?php _e( 'Some example shortcodes:', 'syntaxhighlighter' ); ?></p>
+	<p><?php esc_html_e( 'Some example shortcodes:', 'syntaxhighlighter' ); ?></p>
 
 	<ul class="ul-disc">
-		<li><code>[php]<?php _e( 'your code here', 'syntaxhighlighter' ); ?>[/php]</code></li>
-		<li><code>[css autolinks=&quot;false&quot; classname=&quot;myclass&quot; collapse=&quot;false&quot; firstline=&quot;1&quot; gutter=&quot;true&quot; highlight=&quot;1-3,6,9&quot; htmlscript=&quot;false&quot; light=&quot;false&quot; padlinenumbers=&quot;false&quot; smarttabs=&quot;true&quot; tabsize=&quot;4&quot; toolbar=&quot;true&quot; title=&quot;<?php _e( 'example-filename.php', 'syntaxhighlighter' ); ?>&quot;]<?php _e( 'your code here', 'syntaxhighlighter' ); ?>[/css]</code></li>
-		<li><code>[code lang=&quot;js&quot;]<?php _e( 'your code here', 'syntaxhighlighter' ); ?>[/code]</code></li>
-		<li><code>[sourcecode language=&quot;plain&quot;]<?php _e( 'your code here', 'syntaxhighlighter' ); ?>[/sourcecode]</code></li>
+		<li><code>[php]<?php esc_html_e( 'your code here', 'syntaxhighlighter' ); ?>[/php]</code></li>
+		<li><code>[css autolinks=&quot;false&quot; classname=&quot;myclass&quot; collapse=&quot;false&quot; firstline=&quot;1&quot; gutter=&quot;true&quot; highlight=&quot;1-3,6,9&quot; htmlscript=&quot;false&quot; light=&quot;false&quot; padlinenumbers=&quot;false&quot; smarttabs=&quot;true&quot; tabsize=&quot;4&quot; toolbar=&quot;true&quot; title=&quot;<?php esc_html_e( 'example-filename.php', 'syntaxhighlighter' ); ?>&quot;]<?php esc_html_e( 'your code here', 'syntaxhighlighter' ); ?>[/css]</code></li>
+		<li><code>[code lang=&quot;js&quot;]<?php esc_html_e( 'your code here', 'syntaxhighlighter' ); ?>[/code]</code></li>
+		<li><code>[sourcecode language=&quot;plain&quot;]<?php esc_html_e( 'your code here', 'syntaxhighlighter' ); ?>[/sourcecode]</code></li>
 	</ul>
 
 <?php $this->maybe_output_scripts(); ?>
@@ -1557,6 +1571,7 @@ class SyntaxHighlighter {
 			$settings['smarttabs']      = ( ! empty($settings['smarttabs']) )      ? 1 : 0;
 			$settings['toolbar']        = ( ! empty($settings['toolbar']) )        ? 1 : 0; // May be overridden below
 			$settings['wraplines']      = ( ! empty($settings['wraplines']) )      ? 1 : 0; // 2.x only for now
+			$settings['quickcode']      = ( ! empty($settings['quickcode']) )      ? 1 : 0; // 3.x only for now
 
 			// If the version changed, then force change the toolbar version setting
 			if ( $settings['shversion'] != $this->settings['shversion'] ) {
