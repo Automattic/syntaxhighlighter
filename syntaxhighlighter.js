@@ -15,9 +15,9 @@
 				}
 			);
 		}
-	}).on( 'beforeWpautop.syntaxhighlighter', function( event, obj ) {
+	}).on( 'afterWpautop.syntaxhighlighter', function( event, obj ) {
 		if ( obj.data && obj.data.indexOf( '[' ) !== -1 ) {
-			obj.data = obj.data.replace( regex, '<pre>$1</pre>' );
+			obj.data = obj.unfiltered.replace( regex, '<pre>$1</pre>' );
 		}
 	}).ready( function() {
 		$( '.wp-editor-wrap.html-active' ).each( function( i, element ) {
