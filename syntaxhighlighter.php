@@ -500,6 +500,7 @@ class SyntaxHighlighter {
 	 */
 	public function render_block( $attributes, $content ) {
 		$remaps = array(
+			'className'         => 'classname',
 			'lineNumbers'       => 'gutter',
 			'firstLineNumber'   => 'firstline',
 			'highlightLines'    => 'highlight',
