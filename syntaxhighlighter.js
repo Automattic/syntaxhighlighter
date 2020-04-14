@@ -59,7 +59,14 @@
 		}
 	}).on( 'afterWpautop.syntaxhighlighter', function( event, obj ) {
 		if ( obj.data && obj.data.indexOf( '[' ) !== -1 ) {
-			obj.data = preserveTags( obj.unfiltered.replace( regex, '<pre>$1</pre>' ) );
+			var i = 0;
+			var unfilteredCodes = obj.unfiltered.match( regex );
+
+			obj.data = obj.data.replace( regex, function() {
+				// Replace by the unfiltered code piece.
+				var unfilteredCode = unfilteredCodes[ i++ ];
+				return `<pre>${ preserveTags( unfilteredCode ) }</pre>`;
+			} );
 		}
 	}).ready( function() {
 		$( '.wp-editor-wrap.html-active' ).each( function( i, element ) {
