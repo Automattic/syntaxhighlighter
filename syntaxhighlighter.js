@@ -1,6 +1,6 @@
 ( function($) {
 	var shortcodes = window.syntaxHLcodes || 'sourcecode',
-		regex = new RegExp( '(?:<pre>\\s*)?(\\[(' + shortcodes + ')[^\\]]*\\][\\s\\S]*?\\[\\/\\2\\])(?:\\s*<\\/pre>)?', 'gi' );
+		regex = new RegExp( '(?:<pre>\\s*)?(\\[(' + shortcodes + ')(?:\\s+[^\\]])*\\][\\s\\S]*?\\[\\/\\2\\])(?:\\s*<\\/pre>)?', 'gi' );
 
 	window.syntaxHLescape = {};
 

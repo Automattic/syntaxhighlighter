@@ -39,7 +39,7 @@ if ( typeof syntaxHLcodes == 'undefined' ) {
 		_visualToHtml : function(content) {
 			content = tinymce.trim(content);	
 			// 2 <br> get converted to \n\n and are needed to preserve the next <p>
-			content = content.replace(new RegExp('(<pre>\\s*)?(\\[(' + syntaxHLcodes + ')[^\\]]*\\][\\s\\S]*?\\[\\/\\3\\])(\\s*<\\/pre>)?', 'gi'),
+			content = content.replace(new RegExp('(<pre>\\s*)?(\\[(' + syntaxHLcodes + ')(?:\\s+[^\\]])*\\][\\s\\S]*?\\[\\/\\3\\])(\\s*<\\/pre>)?', 'gi'),
 			function(a) {
 				a = a.replace( /<br \/>([\t ])/g, '<br \/><%%KEEPWHITESPACE%%>$1' );
 				return a + '<br /><br />';
@@ -51,14 +51,14 @@ if ( typeof syntaxHLcodes == 'undefined' ) {
 		_htmlToVisual : function(content) {
 			content = tinymce.trim(content);
 
-			content = content.replace(new RegExp('(<p>\\s*)?(<pre>\\s*)?(\\[(' + syntaxHLcodes + ')[^\\]]*\\][\\s\\S]*?\\[\\/\\4\\])(\\s*<\\/pre>)?(\\s*<\\/p>)?', 'gi'), '<pre>$3</pre>');
+			content = content.replace(new RegExp('(<p>\\s*)?(<pre>\\s*)?(\\[(' + syntaxHLcodes + ')(?:\\s+[^\\]])*\\][\\s\\S]*?\\[\\/\\4\\])(\\s*<\\/pre>)?(\\s*<\\/p>)?', 'gi'), '<pre>$3</pre>');
 			content = content.replace(/<\/pre><pre>/gi,	'\n');
 
 			// Remove anonymous, empty paragraphs.
 			content = content.replace(/<p>(\s|&nbsp;)*<\/p>/mg, '');
 
 			// Look for <p> <br> in the [tag]s, replace with <br />
-			content = content.replace(new RegExp('\\[(' + syntaxHLcodes + ')[^\\]]*\\][\\s\\S]+?\\[\\/\\1\\]', 'gi'),
+			content = content.replace(new RegExp('\\[(' + syntaxHLcodes + ')(?:\\s+[^\\]])*\\][\\s\\S]+?\\[\\/\\1\\]', 'gi'),
 			function(a) {
 				return a.replace(/<br ?\/?>[\r\n]*/g, '<br />').replace(/<\/?p( [^>]*)?>[\r\n]*/g, '<br />');
 			});
@@ -85,7 +85,7 @@ function pre_wpautop2(content) {
 
 	content = this._pre_wpautop(content);
 
-	content = content.replace(new RegExp('\\[(' + syntaxHLcodes + ')[^\\]]*\\][\\s\\S]+?\\[\\/\\1\\]', 'gi'),
+	content = content.replace(new RegExp('\\[(' + syntaxHLcodes + ')(?:\\s+[^\\]])*\\][\\s\\S]+?\\[\\/\\1\\]', 'gi'),
 	function(a) {
 		return a.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/<%%KEEPWHITESPACE%%>/g, '');
 	});
@@ -95,7 +95,7 @@ function pre_wpautop2(content) {
 
 function wpautop2(content) {
 	// js htmlspecialchars
-	content = content.replace(new RegExp('\\[(' + syntaxHLcodes + ')[^\\]]*\\][\\s\\S]+?\\[\\/\\1\\]', 'gi'),
+	content = content.replace(new RegExp('\\[(' + syntaxHLcodes + ')(?:\\s+[^\\]])*\\][\\s\\S]+?\\[\\/\\1\\]', 'gi'),
 	function(a) {
 		return a.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 	});
