@@ -1244,7 +1244,7 @@ class SyntaxHighlighter {
 
 			// Sanitize the "classname" parameter
 			if ( 'class-name' == $key )
-				$value = trim( preg_replace( '/[^a-zA-Z0-9 _-]/i', '', $value ) );
+				$value = "'" . trim( preg_replace( '/[^a-zA-Z0-9 _-]/i', '', $value ) ) . "'";
 
 			// Special sanitization for "pad-line-numbers"
 			if ( 'pad-line-numbers' == $key ) {
