@@ -54,7 +54,6 @@
 		,{ regex: /\b0x[0-9A-Fa-f]+[uU]?[lL]?\b/gm,					css: 'constants'} 	// numeric constants (hexidecimal)
 		,{ regex: /\bB[01]{1,8}\b/gm,								css: 'constants'} 	// numeric constants (binary)
 		,{ regex: /\+|\-|\*|\/|\%|!|\||\&amp;|=|\?|\^|~/gm, 			css: 'plain bold' }		// operators
-       //,{ regex: /\b(?:\w+?(?=\(.*?\)\W))/gm,							css: 'plain italic'}		// Other functions/macros (i.e. user-defined)
 		];
 	};
 
