@@ -123,6 +123,7 @@ class SyntaxHighlighter {
 		// Register brush scripts
 		wp_register_script( 'syntaxhighlighter-core',             plugins_url( $this->shfolder . '/scripts/shCore.js',            __FILE__ ), array(),                         $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-as3',        plugins_url( $this->shfolder . '/scripts/shBrushAS3.js',        __FILE__ ), array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_script( 'syntaxhighlighter-brush-arduino',    plugins_url( $this->shfolder . '/scripts/shBrushArduino.js',    __FILE__ ), array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-bash',       plugins_url( $this->shfolder . '/scripts/shBrushBash.js',       __FILE__ ), array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-coldfusion', plugins_url( $this->shfolder . '/scripts/shBrushColdFusion.js', __FILE__ ), array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-cpp',        plugins_url( $this->shfolder . '/scripts/shBrushCpp.js',        __FILE__ ), array('syntaxhighlighter-core'), $this->agshver );
@@ -172,6 +173,7 @@ class SyntaxHighlighter {
 		$this->brushes = (array) apply_filters( 'syntaxhighlighter_brushes', array(
 			'as3'           => 'as3',
 			'actionscript3' => 'as3',
+			'arduino'       => 'arduino',
 			'bash'          => 'bash',
 			'shell'         => 'bash',
 			'coldfusion'    => 'coldfusion',
@@ -232,6 +234,7 @@ class SyntaxHighlighter {
 
 		$this->brush_names = (array) apply_filters( 'syntaxhighlighter_brush_names', array(
 			'as3'        => __( 'ActionScript',              'syntaxhighlighter' ),
+			'arduino'    => __( 'Arduino',                   'syntaxhighlighter' ),
 			'bash'       => __( 'BASH / Shell',              'syntaxhighlighter' ),
 			'coldfusion' => __( 'ColdFusion',                'syntaxhighlighter' ),
 			'clojure'    => __( 'Clojure',                   'syntaxhighlighter' ),
