@@ -4,7 +4,7 @@ Donate link: https://alex.blog/2019/03/13/in-memory-of-alex-donation-link-update
 Tags: code, sourcecode, block, php, xhtml, html, css, WordPress.com
 Requires at least: 4.2.3
 Tested up to: 5.4
-Stable tag: 3.5.4
+Stable tag: 3.5.5
 
 Easily post syntax-highlighted code to your site without having to modify the code at all. As seen on WordPress.com.
 
@@ -39,6 +39,13 @@ Try excluding this plugin's Javascript from any performance optimizations your s
 2. An example use of the editor block.
 
 == ChangeLog ==
+
+= Version 3.5.5 =
+
+* Allow setting text to include br and code tags. #144
+* Add Arduino Brush. #136
+* Fix tags issue while alternating visual and text mode in the classic editor. #139
+* Fix adding classname when using SyntaxHighlighter block. #138
 
 = Version 3.5.4 =
 
