@@ -46,7 +46,8 @@
 						'jmp_buf mbstate_t _off_t _onexit_t _PNH ptrdiff_t _purecall_handler ' +
 						'sig_atomic_t size_t _stat __stat64 _stati64 terminate_function ' +
 						'time_t __time64_t _timeb __timeb64 tm uintptr_t _utimbuf ' +
-						'va_list wchar_t wctrans_t wctype_t wint_t signed';
+						'va_list wchar_t wctrans_t wctype_t wint_t signed ' +
+						'int8_t int16_t int32_t int64_t uint8_t uint16_t uint32_t uint64_t';
 
 		var keywords =	'alignas alignof auto break case catch class const constexpr decltype __finally __exception __try ' +
 						'const_cast consteval concept continue private public protected __declspec ' +
