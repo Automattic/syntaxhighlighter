@@ -19,6 +19,7 @@ import { PlainText, InspectorControls } from '@wordpress/editor';
 /**
  * Internal dependencies
  */
+import deprecated from './deprecated';
 import save from './save';
 
 registerBlockType( 'syntaxhighlighter/code', {
@@ -302,4 +303,5 @@ registerBlockType( 'syntaxhighlighter/code', {
 	},
 
 	save,
+	deprecated,
 } );
