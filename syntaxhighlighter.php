@@ -11,6 +11,9 @@ Author URI:   https://alex.blog/
 Text Domain:  syntaxhighlighter
 License:      GPL2
 License URI:  https://www.gnu.org/licenses/gpl-2.0.html
+Requires at least: 5.2
+Tested up to: 5.4
+Requires PHP: 7.0
 
 **************************************************************************/
 
