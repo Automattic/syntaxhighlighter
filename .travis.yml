@@ -20,63 +20,17 @@ addons:
 # Test against these versions of PHP.
 # Some additional PHP versions are also included in the matrix below.
 php:
-  - 5.4
-  - 5.5
-  - 5.6
   - '7.0'
   - 7.1
   - 7.2
   - 7.3
-  - nightly
 
 # Test against these versions of WordPress.
 env:
-  - WP_VERSION=4.7 # Plugin minimum version
-  - WP_VERSION=4.8
-  - WP_VERSION=4.9
+  - WP_VERSION=5.2 # Plugin minimum version
+  - WP_VERSION=5.3
+  - WP_VERSION=5.4
   - WP_VERSION=latest
-  - WP_VERSION=nightly
-
-# Some additional environments to test:
-#   * PHP 5.2 and 5.3 require precise not trusty
-#   * PHP_CodeSniffer
-matrix:
-  include:
-  - php: 5.2
-    dist: precise
-    env: WP_VERSION=4.7
-  - php: 5.2
-    dist: precise
-    env: WP_VERSION=4.8
-  - php: 5.2
-    dist: precise
-    env: WP_VERSION=latest
-  - php: 5.2
-    dist: precise
-    env: WP_VERSION=nightly
-  - php: 5.3
-    dist: precise
-    env: WP_VERSION=4.7
-  - php: 5.3
-    dist: precise
-    env: WP_VERSION=4.8
-  - php: 5.3
-    dist: precise
-    env: WP_VERSION=latest
-  - php: 5.3
-    dist: precise
-    env: WP_VERSION=nightly
-  exclude: # WordPress 4.7 doesn't like running unit tests under PHP 7.x, see https://travis-ci.org/Viper007Bond/regenerate-thumbnails/builds/281022291
-  - php: '7.0'
-    env: WP_VERSION=4.7
-  - php: 7.1
-    env: WP_VERSION=4.7
-  - php: 7.2
-    env: WP_VERSION=4.7
-  - php: 7.3
-    env: WP_VERSION=4.7
-  - php: nightly
-    env: WP_VERSION=4.7
 
 before_script:
   - |

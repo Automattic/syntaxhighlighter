@@ -16,6 +16,12 @@ import {
 } from '@wordpress/components';
 import { PlainText, InspectorControls } from '@wordpress/editor';
 
+/**
+ * Internal dependencies
+ */
+import deprecated from './deprecated';
+import save from './save';
+
 registerBlockType( 'syntaxhighlighter/code', {
 	title: __( 'SyntaxHighlighter Code', 'syntaxhighlighter' ),
 
@@ -37,8 +43,8 @@ registerBlockType( 'syntaxhighlighter/code', {
 	attributes: {
 		content: {
 			type: 'string',
-				source: 'text',
-				selector: 'pre',
+			source: 'text',
+			selector: 'code',
 		},
 
 		language: {
@@ -296,9 +302,6 @@ registerBlockType( 'syntaxhighlighter/code', {
 		return [ blockSettings, editView ];
 	},
 
-	save( { attributes } ) {
-		const { content } = attributes;
-
-		return( <pre>{ content }</pre> );
-	},
+	save,
+	deprecated,
 } );

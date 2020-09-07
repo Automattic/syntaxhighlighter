@@ -11,6 +11,9 @@ Author URI:   https://alex.blog/
 Text Domain:  syntaxhighlighter
 License:      GPL2
 License URI:  https://www.gnu.org/licenses/gpl-2.0.html
+Requires at least: 5.2
+Tested up to: 5.4
+Requires PHP: 7.0
 
 **************************************************************************/
 
@@ -524,10 +527,11 @@ class SyntaxHighlighter {
 			}
 		}
 
-		$code = preg_replace( '#<pre [^>]+>([^<]+)?</pre>#', '$1', $content );
+		$code = preg_replace( '#<pre [^>]+><code>([^<]+)?</code></pre>#', '$1', $content );
 
 		// Undo escaping done by WordPress
 		$code = str_replace( '&lt;', '<', $code );
+		$code = str_replace( '&amp;', '&', $code );
 
 		return $this->shortcode_callback( $attributes, $code, 'code' );
 	}
