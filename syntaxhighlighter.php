@@ -527,7 +527,7 @@ class SyntaxHighlighter {
 			}
 		}
 
-		$code = preg_replace( '#<pre [^>]+><code>([^<]+)?</code></pre>#', '$1', $content );
+		$code = preg_replace( '#<pre [^>]+>([^<]+)?</pre>#', '$1', $content );
 
 		// Undo escaping done by WordPress
 		$code = str_replace( '&lt;', '<', $code );
