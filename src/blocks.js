@@ -293,7 +293,7 @@ registerBlockType( 'syntaxhighlighter/code', {
 				<PlainText
 					value={ content }
 					onChange={ ( content ) => setAttributes( { content } ) }
-					placeholder={ __( 'Tip: you choose a code language from the block settings.', 'syntaxhighlighter' ) }
+					placeholder={ __( 'Tip: you can choose a code language from the block settings.', 'syntaxhighlighter' ) }
 					aria-label={ __( 'SyntaxHighlighter Code', 'syntaxhighlighter' ) }
 				/>
 			</div>
