@@ -147,6 +147,7 @@ class SyntaxHighlighter {
 		wp_register_script( 'syntaxhighlighter-brush-ruby',       plugins_url( $this->shfolder . '/scripts/shBrushRuby.js',       __FILE__ ), array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-scala',      plugins_url( $this->shfolder . '/scripts/shBrushScala.js',      __FILE__ ), array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-sql',        plugins_url( $this->shfolder . '/scripts/shBrushSql.js',        __FILE__ ), array('syntaxhighlighter-core'), $this->agshver );
+		wp_register_script( 'syntaxhighlighter-brush-swift',      plugins_url( $this->shfolder . '/scripts/shBrushSwift.js',      __FILE__ ), array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-vb',         plugins_url( $this->shfolder . '/scripts/shBrushVb.js',         __FILE__ ), array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-xml',        plugins_url( $this->shfolder . '/scripts/shBrushXml.js',        __FILE__ ), array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-yaml',       plugins_url( $this->shfolder . '/scripts/shBrushYaml.js',       __FILE__ ), array('syntaxhighlighter-core'), $this->agshver );
@@ -263,6 +264,7 @@ class SyntaxHighlighter {
 			'r'          => __( 'R',                         'syntaxhighlighter' ),
 			'ruby'       => __( 'Ruby / Ruby on Rails',      'syntaxhighlighter' ),
 			'scala'      => __( 'Scala',                     'syntaxhighlighter' ),
+			'swift'      => __( 'Swift',                     'syntaxhighlighter' ),
 			'sql'        => __( 'SQL',                       'syntaxhighlighter' ),
 			'vb'         => __( 'Visual Basic',              'syntaxhighlighter' ),
 			'xml'        => __( 'HTML / XHTML / XML / XSLT', 'syntaxhighlighter' ),
