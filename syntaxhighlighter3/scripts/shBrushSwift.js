@@ -87,17 +87,53 @@
 		};
 
 		// "Swift-native types" are all the protocols, classes, structs, enums, funcs, vars, and typealiases built into the language
-		var swiftTypes = 'AbsoluteValuable Any AnyClass Array ArrayBound ArrayBuffer ArrayBufferType ArrayLiteralConvertible ArrayType AutoreleasingUnsafePointer BidirectionalIndex Bit BitwiseOperations Bool C CBool CChar CChar16 CChar32 CConstPointer CConstVoidPointer CDouble CFloat CInt CLong CLongLong CMutablePointer CMutableVoidPointer COpaquePointer CShort CSignedChar CString CUnsignedChar CUnsignedInt CUnsignedLong CUnsignedLongLong CUnsignedShort CVaListPointer CVarArg CWideChar Character CharacterLiteralConvertible Collection CollectionOfOne Comparable ContiguousArray ContiguousArrayBuffer DebugPrintable Dictionary DictionaryGenerator DictionaryIndex DictionaryLiteralConvertible Double EmptyCollection EmptyGenerator EnumerateGenerator Equatable ExtendedGraphemeClusterLiteralConvertible ExtendedGraphemeClusterType ExtensibleCollection FilterCollectionView FilterCollectionViewIndex FilterGenerator FilterSequenceView Float Float32 Float64 Float80 FloatLiteralConvertible FloatLiteralType FloatingPointClassification FloatingPointNumber ForwardIndex Generator GeneratorOf GeneratorOfOne GeneratorSequence Hashable HeapBuffer HeapBufferStorage HeapBufferStorageBase ImplicitlyUnwrappedOptional IndexingGenerator Int Int16 Int32 Int64 Int8 IntEncoder IntMax Integer IntegerArithmetic IntegerLiteralConvertible IntegerLiteralType Less LifetimeManager LogicValue MapCollectionView MapSequenceGenerator MapSequenceView MaxBuiltinFloatType MaxBuiltinIntegerType Mirror MirrorDisposition MutableCollection MutableSliceable ObjectIdentifier OnHeap Optional OutputStream PermutationGenerator Printable QuickLookObject RandomAccessIndex Range RangeGenerator RawByte RawOptionSet RawRepresentable Reflectable Repeat ReverseIndex ReverseRange ReverseRangeGenerator ReverseView Sequence SequenceOf SignedInteger SignedNumber Sink SinkOf Slice SliceBuffer Sliceable StaticString Streamable StridedRangeGenerator String StringElement StringInterpolationConvertible StringLiteralConvertible StringLiteralType UInt UInt16 UInt32 UInt64 UInt8 UIntMax UTF16 UTF32 UTF8 UWord UnicodeCodec UnicodeScalar Unmanaged UnsafeArray UnsafePointer UnsignedInteger Void Word Zip2 ZipGenerator2 abs advance alignof alignofValue assert bridgeFromObjectiveC bridgeFromObjectiveCUnconditional bridgeToObjectiveC bridgeToObjectiveCUnconditional c contains count countElements countLeadingZeros debugPrint debugPrintln distance dropFirst dropLast dump encodeBitsAsWords enumerate equal false filter find getBridgedObjectiveCType getVaList indices insertionSort isBridgedToObjectiveC isBridgedVerbatimToObjectiveC isUniquelyReferenced join lexicographicalCompare map max maxElement min minElement nil numericCast partition posix print println quickSort reduce reflect reinterpretCast reverse roundUpToAlignment sizeof sizeofValue sort split startsWith strideof strideofValue swap swift toString transcode true underestimateCount unsafeReflect withExtendedLifetime withObjectAtPlusZero withUnsafePointer withUnsafePointerToObject withUnsafePointers withVaList';
+		var swiftTypes = 'AbsoluteValuable Any AnyClass Array ArrayBound ArrayBuffer ArrayBufferType ' +
+			'ArrayLiteralConvertible ArrayType AutoreleasingUnsafePointer BidirectionalIndex Bit ' +
+			'BitwiseOperations Bool C CBool CChar CChar16 CChar32 CConstPointer CConstVoidPointer ' +
+			'CDouble CFloat CInt CLong CLongLong CMutablePointer CMutableVoidPointer COpaquePointer ' +
+			'CShort CSignedChar CString CUnsignedChar CUnsignedInt CUnsignedLong CUnsignedLongLong ' +
+			'CUnsignedShort CVaListPointer CVarArg CWideChar Character CharacterLiteralConvertible ' +
+			'Collection CollectionOfOne Comparable ContiguousArray ContiguousArrayBuffer DebugPrintable ' +
+			'Dictionary DictionaryGenerator DictionaryIndex DictionaryLiteralConvertible Double ' +
+			'EmptyCollection EmptyGenerator EnumerateGenerator Equatable ExtendedGraphemeClusterLiteralConvertible ' +
+			'ExtendedGraphemeClusterType ExtensibleCollection FilterCollectionView FilterCollectionViewIndex ' +
+			'FilterGenerator FilterSequenceView Float Float32 Float64 Float80 FloatLiteralConvertible ' +
+			'FloatLiteralType FloatingPointClassification FloatingPointNumber ForwardIndex Generator ' +
+			'GeneratorOf GeneratorOfOne GeneratorSequence Hashable HeapBuffer HeapBufferStorage ' +
+			'HeapBufferStorageBase ImplicitlyUnwrappedOptional IndexingGenerator Int Int16 Int32 Int64 ' +
+			'Int8 IntEncoder IntMax Integer IntegerArithmetic IntegerLiteralConvertible IntegerLiteralType ' +
+			'Less LifetimeManager LogicValue MapCollectionView MapSequenceGenerator MapSequenceView ' +
+			'MaxBuiltinFloatType MaxBuiltinIntegerType Mirror MirrorDisposition MutableCollection ' +
+			'MutableSliceable ObjectIdentifier OnHeap Optional OutputStream PermutationGenerator ' +
+			'Printable QuickLookObject RandomAccessIndex Range RangeGenerator RawByte RawOptionSet ' +
+			'RawRepresentable Reflectable Repeat ReverseIndex ReverseRange ReverseRangeGenerator ' +
+			'ReverseView Sequence SequenceOf SignedInteger SignedNumber Sink SinkOf Slice SliceBuffer ' +
+			'Sliceable StaticString Streamable StridedRangeGenerator String StringElement ' +
+			'StringInterpolationConvertible StringLiteralConvertible StringLiteralType UInt UInt16 ' +
+			'UInt32 UInt64 UInt8 UIntMax UTF16 UTF32 UTF8 UWord UnicodeCodec UnicodeScalar Unmanaged ' +
+			'UnsafeArray UnsafePointer UnsignedInteger Void Word Zip2 ZipGenerator2 abs advance alignof ' +
+			'alignofValue assert bridgeFromObjectiveC bridgeFromObjectiveCUnconditional bridgeToObjectiveC ' +
+			'bridgeToObjectiveCUnconditional c contains count countElements countLeadingZeros debugPrint ' +
+			'debugPrintln distance dropFirst dropLast dump encodeBitsAsWords enumerate equal false filter ' +
+			'find getBridgedObjectiveCType getVaList indices insertionSort isBridgedToObjectiveC ' +
+			'isBridgedVerbatimToObjectiveC isUniquelyReferenced join lexicographicalCompare map max ' +
+			'maxElement min minElement nil numericCast partition posix print println quickSort reduce ' +
+			'reflect reinterpretCast reverse roundUpToAlignment sizeof sizeofValue sort split startsWith ' +
+			'strideof strideofValue swap swift toString transcode true underestimateCount unsafeReflect ' +
+			'withExtendedLifetime withObjectAtPlusZero withUnsafePointer withUnsafePointerToObject ' +
+			'ßwithUnsafePointers withVaList';
 
-		var keywords = 'as break case class continue default deinit do dynamicType else enum ' +
+		var keywords = 'as break catch case class continue default deinit do dynamicType else enum ' +
 			'extension fallthrough for func if import in init is let new protocol ' +
 			'return self Self static struct subscript super switch Type typealias ' +
 			'var where while __COLUMN__ __FILE__ __FUNCTION__ __LINE__ associativity ' +
 			'didSet get infix inout left mutating none nonmutating operator override ' +
-			'postfix precedence prefix right set unowned unowned(safe) unowned(unsafe) weak willSet';
+			'postfix precedence prefix right set try unowned unowned(safe) unowned(unsafe) weak willSet';
 
 		var attributes = 'assignment class_protocol exported final lazy noreturn NSCopying NSManaged objc optional required auto_closure noreturn IBAction IBDesignable IBInspectable IBOutlet infix prefix postfix';
 
+		var datatypes =	'char bool BOOL double float int long short id instancetype void ' +
+			' Class IMP SEL _cmd';
 
 		this.regexList = [
 			// html entities
@@ -106,7 +142,7 @@
 			  css: 'plain'
 			},
 			{
-			  regex: regexLib.singleLineCComments,
+			  regex: SyntaxHighlighter.regexLib.singleLineCComments,
 			  css: 'comments'
 			},
 			{
@@ -115,7 +151,11 @@
 			  func: multiLineCCommentsAdd
 			},
 			{
-			  regex: regexLib.doubleQuotedString,
+			  regex: new RegExp(this.getKeywords(datatypes), 'gm'),
+			  css: 'datatypes'
+			},
+			{
+			  regex: SyntaxHighlighter.regexLib.doubleQuotedString,
 			  css: 'string',
 			  func: stringAdd
 			},

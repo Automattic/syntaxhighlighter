@@ -226,6 +226,7 @@ class SyntaxHighlighter {
 			'ruby'          => 'ruby',
 			'scala'         => 'scala',
 			'sql'           => 'sql',
+			'swift'         => 'swift',
 			'vb'            => 'vb',
 			'vbnet'         => 'vb',
 			'xml'           => 'xml',
