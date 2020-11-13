@@ -337,6 +337,14 @@ class SyntaxHighlighter {
 				: $this->pluginver
 		);
 
+		wp_enqueue_style(
+			'syntaxhighlighter-blocks-css', // Handle.
+			plugins_url( 'dist/blocks.editor.build.css', __FILE__ ),
+			( ( defined( 'WP_DEBUG' ) && WP_DEBUG ) || ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) )
+				? filemtime( plugin_dir_path( __FILE__ ) . 'dist/blocks.build.js' )
+				: $this->pluginver
+		);
+
 		// WordPress 5.0+ only, no Gutenberg plugin support
 		if ( function_exists( 'wp_set_script_translations' ) ) {
 			wp_set_script_translations( 'syntaxhighlighter-blocks', 'syntaxhighlighter' );

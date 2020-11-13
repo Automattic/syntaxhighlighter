@@ -1,0 +1,8 @@
+.wp-block-syntaxhighlighter {
+
+	&__language_toolbar {
+		.components-dropdown-menu__menu-item.is-active {
+			font-weight: bold;
+		}
+	}
+}

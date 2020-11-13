@@ -2,6 +2,7 @@
 import { PlainText } from '@wordpress/editor';
 import { __ } from '@wordpress/i18n';
 import settings from './settings';
+import { Fragment } from '@wordpress/element';
 
 export default function editSyntaxHighlighterBlock( { attributes, setAttributes, className } ) {
 	const {
@@ -17,10 +18,9 @@ export default function editSyntaxHighlighterBlock( { attributes, setAttributes,
 		/>
 	</div>;
 
-	return (
-		[
-			settings( { attributes, setAttributes } ),
-			editView,
-		]
-	);
+	return <Fragment>
+		{ settings( { attributes, setAttributes } ) }
+		{ editView }
+	</Fragment>
+	;
 }
