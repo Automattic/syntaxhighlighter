@@ -373,6 +373,7 @@ class SyntaxHighlighter {
 				'supported' => ( '3' == $this->settings['shversion'] ),
 				'default' => (bool) $this->settings['quickcode'],
 			),
+			'tabSize' => (int) $this->settings['tabsize'],
 		);
 
 		wp_add_inline_script(
