@@ -529,6 +529,9 @@ class SyntaxHighlighter {
 
 		$code = preg_replace( '#<pre [^>]+>([^<]+)?</pre>#', '$1', $content );
 
+		// Escape shortcodes
+		$code = preg_replace( '/\[(\w+)]/', '[[$1]]', $code );
+
 		// Undo escaping done by WordPress
 		$code = str_replace( '&lt;', '<', $code );
 		$code = str_replace( '&amp;', '&', $code );
