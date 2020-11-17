@@ -515,6 +515,9 @@ class SyntaxHighlighter {
 			'quickCode'         => 'quickcode',
 		);
 		$classNames = ! empty( $attributes['className'] ) ? [ esc_attr( $attributes['className'] ) ] : [];
+		if( ! empty( $attributes['align'] ) ) {
+			$classNames[] = 'align' . esc_attr( $attributes['align'] );
+		}
 
 		foreach ( $remaps as $from => $to ) {
 			if ( isset( $attributes[ $from ] ) ) {
