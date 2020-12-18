@@ -341,7 +341,7 @@ class SyntaxHighlighter {
 			'syntaxhighlighter-blocks-css', // Handle.
 			plugins_url( 'dist/blocks.editor.build.css', __FILE__ ),
 			( ( defined( 'WP_DEBUG' ) && WP_DEBUG ) || ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) )
-				? filemtime( plugin_dir_path( __FILE__ ) . 'dist/blocks.build.js' )
+				? filemtime( plugin_dir_path( __FILE__ ) . 'dist/blocks.editor.build.css' )
 				: $this->pluginver
 		);
 
