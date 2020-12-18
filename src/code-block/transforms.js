@@ -4,8 +4,13 @@ export default {
 	from: [
 		{
 			type: 'enter',
-			regExp: /^```$/,
-			transform: () => createBlock( 'syntaxhighlighter/code' ),
+			regExp: /^```\w*$/,
+			transform: ( { content = '' } ) => {
+				const [ , language ] = content.match( /^```(\w+)/ ) || [ null, null ];
+
+				const attributes = language ? { language } : undefined;
+				return createBlock( 'syntaxhighlighter/code', attributes );
+			},
 		},
 		{
 			type: 'raw',
