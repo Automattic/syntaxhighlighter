@@ -373,6 +373,7 @@ class SyntaxHighlighter {
 				'supported' => ( '3' == $this->settings['shversion'] ),
 				'default' => (bool) $this->settings['quickcode'],
 			),
+			'tabSize' => (int) $this->settings['tabsize'],
 		);
 
 		wp_add_inline_script(
@@ -529,9 +530,13 @@ class SyntaxHighlighter {
 
 		$code = preg_replace( '#<pre [^>]+>([^<]+)?</pre>#', '$1', $content );
 
+		// Escape shortcodes
+		$code = preg_replace('/' . get_shortcode_regex() . '/', '[$0]', $code );
+
 		// Undo escaping done by WordPress
 		$code = str_replace( '&lt;', '<', $code );
 		$code = str_replace( '&amp;', '&', $code );
+		$code = preg_replace(  '/^(\s*https?:)&#47;&#47;([^\s<>"]+\s*)$/m', '$1//$2', $code );
 
 		return $this->shortcode_callback( $attributes, $code, 'code' );
 	}

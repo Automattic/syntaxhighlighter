@@ -1,7 +1,7 @@
 /**
  * Internal dependencies
  */
-import { escape } from './utils';
+import { escape } from '../utils';
 
 export default function save( { attributes } ) {
 	return (
