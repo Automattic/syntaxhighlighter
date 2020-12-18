@@ -1,5 +1,4 @@
 import { __ } from '@wordpress/i18n';
-import deprecated from './deprecated';
 import edit from './edit';
 import save from './save';
 import transforms from './transforms';
@@ -23,7 +22,7 @@ export default {
 		content: {
 			type: 'string',
 			source: 'text',
-			selector: 'code',
+			selector: 'pre',
 		},
 		language: {
 			type: 'string',
@@ -59,5 +58,4 @@ export default {
 	transforms,
 	edit,
 	save,
-	deprecated,
 };
