@@ -14,8 +14,6 @@ export default ( { attributes, setAttributes, options } ) => {
 
 	const selectedLanguage = options.find( o => o.value === language );
 
-	// TODO Add search.
-
 	return <ToolbarGroup
 		isCollapsed={ true }
 		noIcons={ true }
