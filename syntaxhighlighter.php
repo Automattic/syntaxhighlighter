@@ -533,9 +533,6 @@ class SyntaxHighlighter {
 
 		$code = preg_replace( '#<pre [^>]+>([^<]+)?</pre>#', '$1', $content );
 
-		// Escape shortcodes
-		$code = preg_replace('/' . get_shortcode_regex() . '/', '[$0]', $code );
-
 		// Undo escaping done by WordPress
 		$code = htmlspecialchars_decode( $code );
 		$code = preg_replace(  '/^(\s*https?:)&#0?47;&#0?47;([^\s<>"]+\s*)$/m', '$1//$2', $code );
@@ -1329,6 +1326,9 @@ class SyntaxHighlighter {
 		}
 
 		$code = ( false === strpos( $code, '<' ) && false === strpos( $code, '>' ) && 2 == $this->get_code_format($post) ) ? strip_tags( $code ) : htmlspecialchars( $code );
+
+		// Escape shortcodes
+		$code = preg_replace( '/\[/', '&#91;', $code );
 
 		$params[] = 'notranslate'; // For Google, see http://otto42.com/9k
 
