@@ -537,9 +537,8 @@ class SyntaxHighlighter {
 		$code = preg_replace('/' . get_shortcode_regex() . '/', '[$0]', $code );
 
 		// Undo escaping done by WordPress
-		$code = str_replace( '&lt;', '<', $code );
-		$code = str_replace( '&amp;', '&', $code );
-		$code = preg_replace(  '/^(\s*https?:)&#47;&#47;([^\s<>"]+\s*)$/m', '$1//$2', $code );
+		$code = htmlspecialchars_decode( $code );
+		$code = preg_replace(  '/^(\s*https?:)&#0?47;&#0?47;([^\s<>"]+\s*)$/m', '$1//$2', $code );
 
 		$code = $this->shortcode_callback( $attributes, $code, 'code' );
 
