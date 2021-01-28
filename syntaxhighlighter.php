@@ -206,6 +206,7 @@ class SyntaxHighlighter {
 			'latex'         => 'latex', // Not used as a shortcode
 			'tex'           => 'latex',
 			'matlab'        => 'matlabkey',
+			'matlabkey'     => 'matlabkey',
 			'objc'          => 'objc',
 			'obj-c'         => 'objc',
 			'perl'          => 'perl',
