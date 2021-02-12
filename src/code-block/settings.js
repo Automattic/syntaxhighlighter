@@ -6,11 +6,15 @@ import {
 	TextControl,
 } from '@wordpress/components';
 
-import { InspectorControls } from '@wordpress/editor';
+import { Fragment } from '@wordpress/element';
+
+import { InspectorControls, BlockControls } from '@wordpress/editor';
 import { __ } from '@wordpress/i18n';
+import languageToolbar from './toolbar.language';
 
 export default ( { attributes, setAttributes } ) => {
 	const blockSettings = [];
+	const toolbar = [];
 
 	const {
 		language,
@@ -42,8 +46,10 @@ export default ( { attributes, setAttributes } ) => {
 					options={ options }
 					onChange={ ( nextLanguage ) => setAttributes( { language: nextLanguage } ) }>
 				</SelectControl>
-			</PanelRow>,
+			</PanelRow>
 		);
+
+		toolbar.push( languageToolbar( { attributes, setAttributes, options } ) );
 	}
 
 	// Line numbers
@@ -128,11 +134,14 @@ export default ( { attributes, setAttributes } ) => {
 		);
 	}
 
-	return (
+	return <Fragment>
+		<BlockControls>
+			{ toolbar }
+		</BlockControls>
 		<InspectorControls key="syntaxHighlighterInspectorControls">
 			<PanelBody title={ __( 'Settings', 'syntaxhighlighter' ) }>
 				{ blockSettings }
 			</PanelBody>
 		</InspectorControls>
-	);
+	</Fragment>;
 };
