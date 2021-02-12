@@ -40,6 +40,22 @@ Try excluding this plugin's Javascript from any performance optimizations your s
 
 == ChangeLog ==
 
+= Version 3.6.0 =
+
+* New: Add ```language shortcut. #180
+* New: Add block alignment support. #179
+* New: Add language selector to block toolbar. #172
+* Fix: Content attribute selector. #178
+* Fix: Escaping for shortcodes and URLs. #177
+* Fix: Escaping issues with HTML entities. #160
+* Fix: MatLab brush key in brush map. #188
+* Fix: Remove <code> wrapper. #163
+* Fix: escaping for non-admin authored posts. #187
+* Tweak: Bump "tested up to" version. #183
+* Tweak: Refactor block JS code. #171
+* Tweak: Update plugin tags. #181
+* Tweak: Use tab size from plugin settings in block editor. #174
+
 = Version 3.5.5 =
 
 * Allow setting text to include br and code tags. #144
