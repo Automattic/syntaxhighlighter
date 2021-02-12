@@ -2,9 +2,9 @@
 Contributors: Viper007Bond, automattic, donncha
 Donate link: https://alex.blog/2019/03/13/in-memory-of-alex-donation-link-update/
 Tags: code, source, sourcecode, php, syntax highlighting, syntax, highlight, highlighting, highlighter, WordPress.com
-Requires at least: 4.2.3
+Requires at least: 5.2
 Tested up to: 5.6
-Stable tag: 3.5.5
+Stable tag: 3.6.0
 
 Easily post syntax-highlighted code to your site without having to modify the code at all. As seen on WordPress.com.
 
