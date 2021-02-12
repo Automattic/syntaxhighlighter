@@ -2,9 +2,9 @@
 Contributors: Viper007Bond, automattic, donncha
 Donate link: https://alex.blog/2019/03/13/in-memory-of-alex-donation-link-update/
 Tags: code, source, sourcecode, php, syntax highlighting, syntax, highlight, highlighting, highlighter, WordPress.com
-Requires at least: 4.2.3
+Requires at least: 5.2
 Tested up to: 5.6
-Stable tag: 3.5.5
+Stable tag: 3.6.0
 
 Easily post syntax-highlighted code to your site without having to modify the code at all. As seen on WordPress.com.
 
@@ -39,6 +39,22 @@ Try excluding this plugin's Javascript from any performance optimizations your s
 2. An example use of the editor block.
 
 == ChangeLog ==
+
+= Version 3.6.0 =
+
+* New: Add ```language shortcut. #180
+* New: Add block alignment support. #179
+* New: Add language selector to block toolbar. #172
+* Fix: Content attribute selector. #178
+* Fix: Escaping for shortcodes and URLs. #177
+* Fix: Escaping issues with HTML entities. #160
+* Fix: MatLab brush key in brush map. #188
+* Fix: Remove <code> wrapper. #163
+* Fix: escaping for non-admin authored posts. #187
+* Tweak: Bump "tested up to" version. #183
+* Tweak: Refactor block JS code. #171
+* Tweak: Update plugin tags. #181
+* Tweak: Use tab size from plugin settings in block editor. #174
 
 = Version 3.5.5 =
 
