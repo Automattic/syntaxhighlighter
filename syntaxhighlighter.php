@@ -937,7 +937,7 @@ class SyntaxHighlighter {
 		wp_print_scripts( $scripts );
 
 		// Stylesheets can't be in the footer, so inject them via Javascript
-		echo "<script type='text/javascript'>\n";
+		echo "<script>\n";
 		echo "	(function(){\n";
 		echo "		var corecss = document.createElement('link');\n";
 		echo "		var themecss = document.createElement('link');\n";
