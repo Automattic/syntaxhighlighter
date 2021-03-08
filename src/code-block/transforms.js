@@ -1,4 +1,6 @@
 import { createBlock } from '@wordpress/blocks';
+import { escapeHTML } from '@wordpress/escape-html';
+import unescape from 'lodash.unescape';
 
 export default {
 	from: [
@@ -35,7 +37,7 @@ export default {
 			type: 'block',
 			blocks: [ 'core/code' ],
 			transform: ( { content } ) => {
-				return createBlock( 'syntaxhighlighter/code', { content } );
+				return createBlock( 'syntaxhighlighter/code', { content: unescape( content ) } );
 			},
 		},
 	],
@@ -44,7 +46,7 @@ export default {
 			type: 'block',
 			blocks: [ 'core/code' ],
 			transform: ( { content } ) => {
-				return createBlock( 'core/code', { content } );
+				return createBlock( 'core/code', { content: escapeHTML( content ) } );
 			},
 		},
 	],
