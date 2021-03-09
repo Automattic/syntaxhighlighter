@@ -4,6 +4,7 @@ import {
 	SelectControl,
 	ToggleControl,
 	TextControl,
+	ToolbarGroup,
 } from '@wordpress/components';
 
 import { Fragment } from '@wordpress/element';
@@ -136,7 +137,9 @@ export default ( { attributes, setAttributes } ) => {
 
 	return <Fragment>
 		<BlockControls>
-			{ toolbar }
+			<ToolbarGroup>
+				{ toolbar }
+			</ToolbarGroup>
 		</BlockControls>
 		<InspectorControls key="syntaxHighlighterInspectorControls">
 			<PanelBody title={ __( 'Settings', 'syntaxhighlighter' ) }>
