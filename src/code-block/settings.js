@@ -39,7 +39,7 @@ export default ( { attributes, setAttributes } ) => {
 		}
 
 		blockSettings.push(
-			<PanelRow>
+			<PanelRow key="code-language">
 				<SelectControl
 					label={ __( 'Code Language', 'syntaxhighlighter' ) }
 					value={ language }
@@ -55,7 +55,7 @@ export default ( { attributes, setAttributes } ) => {
 	// Line numbers
 	if ( settings.lineNumbers.supported ) {
 		blockSettings.push(
-			<PanelRow>
+			<PanelRow key="show-line-numbers">
 				<ToggleControl
 					label={ __( 'Show Line Numbers', 'syntaxhighlighter' ) }
 					checked={ lineNumbers }
@@ -68,7 +68,7 @@ export default ( { attributes, setAttributes } ) => {
 	// First line number
 	if ( lineNumbers && settings.firstLineNumber.supported ) {
 		blockSettings.push(
-			<PanelRow>
+			<PanelRow key="first-line-number">
 				<TextControl
 					label={ __( 'First Line Number', 'syntaxhighlighter' ) }
 					type="number"
@@ -84,7 +84,7 @@ export default ( { attributes, setAttributes } ) => {
 	// Highlight line(s)
 	if ( settings.highlightLines.supported ) {
 		blockSettings.push(
-			<PanelRow>
+			<PanelRow key="highlight-lines">
 				<TextControl
 					label={ __( 'Highlight Lines', 'syntaxhighlighter' ) }
 					value={ highlightLines }
@@ -98,7 +98,7 @@ export default ( { attributes, setAttributes } ) => {
 	// Wrap long lines
 	if ( settings.wrapLines.supported ) {
 		blockSettings.push(
-			<PanelRow>
+			<PanelRow key="wrap-long-lines">
 				<ToggleControl
 					label={ __( 'Wrap Long Lines', 'syntaxhighlighter' ) }
 					checked={ wrapLines }
@@ -111,7 +111,7 @@ export default ( { attributes, setAttributes } ) => {
 	// Make URLs clickable
 	if ( settings.makeURLsClickable.supported ) {
 		blockSettings.push(
-			<PanelRow>
+			<PanelRow key="make-urls-clickable">
 				<ToggleControl
 					label={ __( 'Make URLs Clickable', 'syntaxhighlighter' ) }
 					checked={ makeURLsClickable }
@@ -124,7 +124,7 @@ export default ( { attributes, setAttributes } ) => {
 	// Quick code
 	if ( settings.quickCode.supported ) {
 		blockSettings.push(
-			<PanelRow>
+			<PanelRow key="edit-mode">
 				<ToggleControl
 					label={ __( 'Enable edit mode on double click', 'syntaxhighlighter' ) }
 					checked={ quickCode }

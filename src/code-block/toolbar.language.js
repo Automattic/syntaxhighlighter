@@ -15,6 +15,7 @@ export default ( { attributes, setAttributes, options } ) => {
 	const selectedLanguage = options.find( o => o.value === language );
 
 	return <ToolbarGroup
+		key="code-language"
 		isCollapsed={ true }
 		noIcons={ true }
 		label={ __( 'Code Language', 'syntaxhighlighter' ) }
