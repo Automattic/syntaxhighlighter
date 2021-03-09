@@ -1,17 +1,17 @@
 
 import { PlainText } from '@wordpress/editor';
 import { __ } from '@wordpress/i18n';
+import { HighlightLines } from './highlight';
 import settings from './settings';
 import { Fragment } from '@wordpress/element';
 
-export default function editSyntaxHighlighterBlock( { attributes, setAttributes, className } ) {
-	const {
-		content,
-	} = attributes;
+export default function editSyntaxHighlighterBlock( props ) {
+	const { attributes: { content }, setAttributes, className } = props;
 
 	const { settings: { tabSize } } = window.syntaxHighlighterData;
 
 	const editView = <div className={ className + ' wp-block-code' }>
+		<HighlightLines { ... props } />
 		<PlainText
 			className="wp-block-syntaxhighlighter__textarea"
 			style={ { tabSize, '-moz-tab-size': '' + tabSize } }
@@ -23,7 +23,7 @@ export default function editSyntaxHighlighterBlock( { attributes, setAttributes,
 	</div>;
 
 	return <Fragment>
-		{ settings( { attributes, setAttributes } ) }
+		{ settings( props ) }
 		{ editView }
 	</Fragment>
 	;
