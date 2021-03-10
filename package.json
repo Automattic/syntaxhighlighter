@@ -22,6 +22,7 @@
 		"@wordpress/escape-html": "1.9.0",
 		"cgb-scripts": "1.23.0",
 		"classnames": "2.2.6",
+		"lodash.unescape": "4.0.1",
 		"npm-force-resolutions": "0.0.3"
 	},
 	"resolutions": {
