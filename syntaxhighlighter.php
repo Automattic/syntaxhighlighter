@@ -1411,7 +1411,12 @@ class SyntaxHighlighter {
 			<td>
 				<fieldset>
 					<legend class="hidden"><?php esc_html_e( 'Load All Brushes', 'syntaxhighlighter' ); ?></legend>
-					<label for="syntaxhighlighter-loadallbrushes"><input name="syntaxhighlighter_settings[loadallbrushes]" type="checkbox" id="syntaxhighlighter-loadallbrushes" value="1" <?php checked( $this->settings['loadallbrushes'], 1 ); ?> /> <?php wp_kses( _e( 'Always load all language files (for directly using <code>&lt;pre&gt;</code> tags rather than shortcodes). If left unchecked (default), then language files will only be loaded when needed. If unsure, leave this box unchecked.', 'syntaxhighlighter' ), array( 'code' => array(), 'br' => array() ) ); ?></label>
+					<label for="syntaxhighlighter-loadallbrushes">
+						<input name="syntaxhighlighter_settings[loadallbrushes]" type="checkbox" id="syntaxhighlighter-loadallbrushes" value="1" <?php checked( $this->settings['loadallbrushes'], 1 ); ?> />
+						<?php
+							echo wp_kses( __( 'Always load all language files (for directly using <code>&lt;pre&gt;</code> tags rather than shortcodes). If left unchecked (default), then language files will only be loaded when needed. If unsure, leave this box unchecked.', 'syntaxhighlighter' ), array( 'code' => array(), 'br' => array() ) );
+						?>
+					</label>
 				</fieldset>
 			</td>
 		</tr>
