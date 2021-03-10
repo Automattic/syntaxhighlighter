@@ -45,6 +45,8 @@ Try excluding this plugin's Javascript from any performance optimizations your s
 * New: Add ```language shortcut. #180
 * New: Add block alignment support. #179
 * New: Add language selector to block toolbar. #172
+* Fix: transform issue. #201
+* Fix: toolbar code selection for latest Gutenberg versions #200
 * Fix: Content attribute selector. #178
 * Fix: Escaping for shortcodes and URLs. #177
 * Fix: Escaping issues with HTML entities. #160
