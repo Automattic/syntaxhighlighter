@@ -7,30 +7,30 @@
  *
  * @version
  * 2.1.364 (October 15 2009)
- * 
+ *
  * @copyright
  * Copyright (C) 2004-2009 Alex Gorbatchev.
  *
  * @license
  * This file is part of SyntaxHighlighter.
- * 
+ *
  * SyntaxHighlighter is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * SyntaxHighlighter is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with SyntaxHighlighter.  If not, see <http://www.gnu.org/copyleft/lesser.html>.
  */
 SyntaxHighlighter.brushes.Cpp = function()
 {
 	// Copyright 2006 Shin, YoungJin
-	
+
 	var datatypes =	'ATOM BOOL BOOLEAN BYTE CHAR COLORREF DWORD DWORDLONG DWORD_PTR ' +
 					'DWORD32 DWORD64 FLOAT HACCEL HALF_PTR HANDLE HBITMAP HBRUSH ' +
 					'HCOLORSPACE HCONV HCONVLIST HCURSOR HDC HDDEDATA HDESK HDROP HDWP ' +
@@ -66,7 +66,7 @@ SyntaxHighlighter.brushes.Cpp = function()
 					'sizeof static static_cast struct switch template this ' +
 					'thread throw true false try typedef typeid typename union ' +
 					'using uuid virtual void volatile whcar_t while';
-					
+
 	var functions =	'assert isalnum isalpha iscntrl isdigit isgraph islower isprint' +
 					'ispunct isspace isupper isxdigit tolower toupper errno localeconv ' +
 					'setlocale acos asin atan atan2 ceil cos cosh exp fabs floor fmod ' +
