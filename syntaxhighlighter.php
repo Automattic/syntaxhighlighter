@@ -341,6 +341,7 @@ class SyntaxHighlighter {
 		wp_enqueue_style(
 			'syntaxhighlighter-blocks-css', // Handle.
 			plugins_url( 'dist/blocks.editor.build.css', __FILE__ ),
+			[],
 			( ( defined( 'WP_DEBUG' ) && WP_DEBUG ) || ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) )
 				? filemtime( plugin_dir_path( __FILE__ ) . 'dist/blocks.editor.build.css' )
 				: $this->pluginver
@@ -1410,7 +1411,12 @@ class SyntaxHighlighter {
 			<td>
 				<fieldset>
 					<legend class="hidden"><?php esc_html_e( 'Load All Brushes', 'syntaxhighlighter' ); ?></legend>
-					<label for="syntaxhighlighter-loadallbrushes"><input name="syntaxhighlighter_settings[loadallbrushes]" type="checkbox" id="syntaxhighlighter-loadallbrushes" value="1" <?php checked( $this->settings['loadallbrushes'], 1 ); ?> /> <?php wp_kses( _e( 'Always load all language files (for directly using <code>&lt;pre&gt;</code> tags rather than shortcodes). If left unchecked (default), then language files will only be loaded when needed. If unsure, leave this box unchecked.', 'syntaxhighlighter' ), array( 'code' => array(), 'br' => array() ) ); ?></label>
+					<label for="syntaxhighlighter-loadallbrushes">
+						<input name="syntaxhighlighter_settings[loadallbrushes]" type="checkbox" id="syntaxhighlighter-loadallbrushes" value="1" <?php checked( $this->settings['loadallbrushes'], 1 ); ?> />
+						<?php
+							echo wp_kses( __( 'Always load all language files (for directly using <code>&lt;pre&gt;</code> tags rather than shortcodes). If left unchecked (default), then language files will only be loaded when needed. If unsure, leave this box unchecked.', 'syntaxhighlighter' ), array( 'code' => array(), 'br' => array() ) );
+						?>
+					</label>
 				</fieldset>
 			</td>
 		</tr>
@@ -1546,20 +1552,200 @@ class SyntaxHighlighter {
 	<p><?php printf( __( 'These are the parameters you can pass to the shortcode and what they do. For the booleans (i.e. on/off), pass %1$s/%2$s or %3$s/%4$s.', 'syntaxhighlighter' ), '<code>true</code>', '<code>1</code>', '<code>false</code>', '<code>0</code>' ); ?></p>
 
 	<ul class="ul-disc">
-		<li><?php printf( esc_html_x( '%1$s or %2$s &#8212; The language syntax to highlight with. You can alternately just use that as the tag, such as <code>[php]code[/php]</code>. <a href="%3$s">Click here</a> for a list of valid tags (under &quot;aliases&quot;).', 'language parameter', 'syntaxhighlighter' ), '<code>lang</code>', '<code>language</code>', 'http://alexgorbatchev.com/SyntaxHighlighter/manual/brushes/' ); ?></li>
-		<li><?php printf( esc_html_x( '%s &#8212; Toggle automatic URL linking.', 'autolinks parameter', 'syntaxhighlighter' ), '<code>autolinks</code>' ); ?></li>
-		<li><?php printf( esc_html_x( '%s &#8212; Add an additional CSS class to the code box.', 'classname parameter', 'syntaxhighlighter' ), '<code>classname</code>' ); ?></li>
-		<li><?php printf( esc_html_x( '%s &#8212; Toggle collapsing the code box by default, requiring a click to expand it. Good for large code posts.', 'collapse parameter', 'syntaxhighlighter' ), '<code>collapse</code>' ); ?></li>
-		<li><?php printf( esc_html_x( '%s &#8212; An interger specifying what number the first line should be (for the line numbering).', 'firstline parameter', 'syntaxhighlighter' ), '<code>firstline</code>' ); ?></li>
-		<li><?php printf( esc_html_x( '%s &#8212; Toggle the left-side line numbering.', 'gutter parameter', 'syntaxhighlighter' ), '<code>gutter</code>' ); ?></li>
-		<li><?php printf( esc_html_x( '%1$s &#8212; A comma-separated list of line numbers to highlight. You can also specify a range. Example: %2$s', 'highlight parameter', 'syntaxhighlighter' ), '<code>highlight</code>', '<code>2,5-10,12</code>' ); ?></li>
-		<li><?php printf( esc_html_x( "%s &#8212; Toggle highlighting any extra HTML/XML. Good for when you're mixing HTML/XML with another language, such as having PHP inside an HTML web page. The above preview has it enabled for example. This only works with certain languages.", 'htmlscript parameter', 'syntaxhighlighter' ), '<code>htmlscript</code>' ); ?></li>
-		<li><?php printf( esc_html_x( '%s &#8212; Toggle light mode which disables the gutter and toolbar all at once.', 'light parameter', 'syntaxhighlighter' ), '<code>light</code>' ); ?></li>
-		<li><?php printf( esc_html_x( '%s &#8212; Controls line number padding. Valid values are <code>false</code> (no padding), <code>true</code> (automatic padding), or an integer (forced padding).', 'padlinenumbers parameter', 'syntaxhighlighter' ), '<code>padlinenumbers</code>' ); ?></li>
-		<li><?php printf( esc_html_x( '%1$s (v3 only) &#8212; Sets some text to show up before the code. Very useful when combined with the %2$s parameter.', 'title parameter', 'syntaxhighlighter' ), '<code>title</code>', '<code>collapse</code>' ); ?></li>
-		<li><?php printf( esc_html_x( '%s &#8212; Toggle the toolbar (buttons in v2, the about question mark in v3)', 'toolbar parameter', 'syntaxhighlighter' ), '<code>toolbar</code>' ); ?></li>
-		<li><?php printf( esc_html_x( '%s (v2 only) &#8212; Toggle line wrapping.', 'wraplines parameter', 'syntaxhighlighter'), '<code>wraplines</code>' ); ?></li>
-		<li><?php printf( esc_html_x( '%s &#8212; Enable edit mode on double click.', 'quickcode parameter', 'syntaxhighlighter' ), '<code>quickcode</code>' ); ?></li>
+		<li>
+			<?php
+				echo wp_kses(
+					sprintf(
+						// translators: %1$s Lang parameter; %2$s Language parameter; %3$s Valid tags link.
+						_x(
+							'%1$s or %2$s &#8212; The language syntax to highlight with. You can alternately just use that as the tag, such as <code>[php]code[/php]</code>. <a href="%3$s">Click here</a> for a list of valid tags (under &quot;aliases&quot;).',
+							'language parameter',
+							'syntaxhighlighter'
+						),
+						'<code>lang</code>',
+						'<code>language</code>',
+						'http://alexgorbatchev.com/SyntaxHighlighter/manual/brushes/'
+					),
+					array(
+						'a' => array(
+							'href' => array(),
+						),
+						'code' => array(),
+					)
+				);
+			?>
+		</li>
+		<li>
+			<?php
+				printf(
+					// translators: %s Autolinks parameter.
+					esc_html_x(
+						'%s &#8212; Toggle automatic URL linking.',
+						'autolinks parameter',
+						'syntaxhighlighter'
+					),
+					'<code>autolinks</code>'
+				);
+			?>
+		</li>
+		<li>
+			<?php
+				printf(
+					// translators: %s Classname parameter.
+					esc_html_x(
+						'%s &#8212; Add an additional CSS class to the code box.',
+						'classname parameter',
+						'syntaxhighlighter'
+					),
+					'<code>classname</code>'
+				);
+			?>
+		</li>
+		<li>
+			<?php
+				printf(
+					// translators: %s Collapse parameter.
+					esc_html_x(
+						'%s &#8212; Toggle collapsing the code box by default, requiring a click to expand it. Good for large code posts.',
+						'collapse parameter',
+						'syntaxhighlighter'
+					),
+					'<code>collapse</code>'
+				);
+			?>
+		</li>
+		<li>
+			<?php
+				printf(
+					// translators: %s Firstline parameter.
+					esc_html_x(
+						'%s &#8212; An interger specifying what number the first line should be (for the line numbering).',
+						'firstline parameter',
+						'syntaxhighlighter'
+					),
+					'<code>firstline</code>'
+				);
+			?>
+		</li>
+		<li>
+			<?php
+				printf(
+					// translators: %s Gutter parameter.
+					esc_html_x(
+						'%s &#8212; Toggle the left-side line numbering.',
+						'gutter parameter',
+						'syntaxhighlighter'
+					),
+					'<code>gutter</code>'
+				);
+			?>
+		</li>
+		<li>
+			<?php
+				printf(
+					// translators: %1$s Highlight parameter; %2$s Example.
+					esc_html_x(
+						'%1$s &#8212; A comma-separated list of line numbers to highlight. You can also specify a range. Example: %2$s',
+						'highlight parameter',
+						'syntaxhighlighter'
+					),
+					'<code>highlight</code>',
+					'<code>2,5-10,12</code>'
+				);
+			?>
+		</li>
+		<li>
+			<?php
+				printf(
+					// translators: %s Htmlscript parameter.
+					esc_html_x(
+						"%s &#8212; Toggle highlighting any extra HTML/XML. Good for when you're mixing HTML/XML with another language, such as having PHP inside an HTML web page. The above preview has it enabled for example. This only works with certain languages.",
+						'htmlscript parameter',
+						'syntaxhighlighter'
+					),
+					'<code>htmlscript</code>'
+				);
+			?>
+		</li>
+		<li>
+			<?php
+				printf(
+					// translators: %s Light parameter.
+					esc_html_x(
+						'%s &#8212; Toggle light mode which disables the gutter and toolbar all at once.',
+						'light parameter',
+						'syntaxhighlighter'
+					),
+					'<code>light</code>'
+				);
+			?>
+		</li>
+		<li>
+			<?php
+				printf(
+					// translators: %s Padlinenumbers parameter.
+					esc_html_x(
+						'%s &#8212; Controls line number padding. Valid values are <code>false</code> (no padding), <code>true</code> (automatic padding), or an integer (forced padding).',
+						'padlinenumbers parameter',
+						'syntaxhighlighter'
+					),
+					'<code>padlinenumbers</code>'
+				);
+			?>
+		</li>
+		<li>
+			<?php
+				printf(
+					// translators: %1$s Title parameter; %2$s Collapse parameter.
+					esc_html_x(
+						'%1$s (v3 only) &#8212; Sets some text to show up before the code. Very useful when combined with the %2$s parameter.',
+						'title parameter',
+						'syntaxhighlighter'
+					),
+					'<code>title</code>',
+					'<code>collapse</code>'
+				);
+			?>
+		</li>
+		<li>
+			<?php
+				printf(
+					// translators: %s Toolbar parameter.
+					esc_html_x(
+						'%s &#8212; Toggle the toolbar (buttons in v2, the about question mark in v3)',
+						'toolbar parameter',
+						'syntaxhighlighter'
+					),
+					'<code>toolbar</code>'
+				);
+			?>
+		</li>
+		<li>
+			<?php
+				printf(
+					// translators: %s Wraplines parameter.
+					esc_html_x(
+						'%s (v2 only) &#8212; Toggle line wrapping.',
+						'wraplines parameter',
+						'syntaxhighlighter'
+					),
+					'<code>wraplines</code>'
+				);
+			?>
+		</li>
+		<li>
+			<?php
+				printf(
+					// translators: %s Quickcode parameter.
+					esc_html_x(
+						'%s &#8212; Enable edit mode on double click.',
+						'quickcode parameter',
+						'syntaxhighlighter'
+					),
+					'<code>quickcode</code>'
+				);
+			?>
+		</li>
 	</ul>
 
 	<p><?php esc_html_e( 'Some example shortcodes:', 'syntaxhighlighter' ); ?></p>
