@@ -1568,9 +1568,9 @@ class SyntaxHighlighter {
 					),
 					array(
 						'a' => array(
-							'href' => array()
+							'href' => array(),
 						),
-						'code' => array()
+						'code' => array(),
 					)
 				);
 			?>
