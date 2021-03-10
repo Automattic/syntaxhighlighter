@@ -1,27 +1,17 @@
-import {
-	ToolbarGroup,
-} from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
+
+import ToolbarDropdown from '../toolbar-dropdown';
 
 export default ( { attributes, setAttributes, options } ) => {
 	const { language } = attributes;
 
-	const languageControl = ( { label, value } ) => ( {
-		title: label,
-		onClick: () => setAttributes( { language: value } ),
-		isActive: value === language,
-	} );
-
-	const selectedLanguage = options.find( o => o.value === language );
-
-	return <ToolbarGroup
-		isCollapsed={ true }
-		noIcons={ true }
-		label={ __( 'Code Language', 'syntaxhighlighter' ) }
-		icon={ null }
-		menuProps={ { className: 'wp-block-syntaxhighlighter__language_toolbar' } }
-		toggleProps={ { children: <b> { selectedLanguage.label } </b> } }
-		controls={ options.map( languageControl ) }
-	>
-	</ToolbarGroup>;
+	return (
+		<ToolbarDropdown
+			key="code-language"
+			options={ options }
+			optionsLabel={ __( 'Code Language', 'syntaxhighlighter' ) }
+			value={ language }
+			onChange={ ( value ) => setAttributes( { language: value } ) }
+		/>
+	);
 };
