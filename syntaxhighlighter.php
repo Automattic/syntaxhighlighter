@@ -19,18 +19,18 @@ Requires PHP: 7.0
 
 class SyntaxHighlighter {
 	// All of these variables are private. Filters are provided for things that can be modified.
-	private $pluginver            = '3.6.0';  // Plugin version
-	private $agshver              = false;    // Alex Gorbatchev's SyntaxHighlighter version (dynamically set below due to v2 vs v3)
-	private $shfolder             = false;    // Controls what subfolder to load SyntaxHighlighter from (v2 or v3)
-	private $settings             = array();  // Contains the user's settings
-	private $defaultsettings      = array();  // Contains the default settings
-	private $brushes              = array();  // Array of aliases => brushes
-	private $shortcodes           = array();  // Array of shortcodes to use
-	private $themes               = array();  // Array of themes
-	private $usedbrushes          = array();  // Stores used brushes so we know what to output
-	private $encoded              = false;    // Used to mark that a character encode took place
-	private $codeformat           = false;    // If set, SyntaxHighlighter::get_code_format() will return this value
-	private $content_save_pre_ran = false;    // It's possible for the "content_save_pre" filter to run multiple times, so keep track
+	public $pluginver            = '3.6.0';  // Plugin version
+	public $agshver              = false;    // Alex Gorbatchev's SyntaxHighlighter version (dynamically set below due to v2 vs v3)
+	public $shfolder             = false;    // Controls what subfolder to load SyntaxHighlighter from (v2 or v3)
+	public $settings             = array();  // Contains the user's settings
+	public $defaultsettings      = array();  // Contains the default settings
+	public $brushes              = array();  // Array of aliases => brushes
+	public $shortcodes           = array();  // Array of shortcodes to use
+	public $themes               = array();  // Array of themes
+	public $usedbrushes          = array();  // Stores used brushes so we know what to output
+	public $encoded              = false;    // Used to mark that a character encode took place
+	public $codeformat           = false;    // If set, SyntaxHighlighter::get_code_format() will return this value
+	public $content_save_pre_ran = false;    // It's possible for the "content_save_pre" filter to run multiple times, so keep track
 
 	// Initalize the plugin by registering the hooks
 	function __construct() {
