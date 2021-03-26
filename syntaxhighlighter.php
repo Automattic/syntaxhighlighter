@@ -136,6 +136,7 @@ class SyntaxHighlighter {
 		wp_register_script( 'syntaxhighlighter-brush-delphi',     plugins_url( $this->shfolder . '/scripts/shBrushDelphi.js',     __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-diff',       plugins_url( $this->shfolder . '/scripts/shBrushDiff.js',       __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-erlang',     plugins_url( $this->shfolder . '/scripts/shBrushErlang.js',     __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
+		wp_register_script( 'syntaxhighlighter-brush-go',         plugins_url( $this->shfolder . '/scripts/shBrushGo.js',         __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-groovy',     plugins_url( $this->shfolder . '/scripts/shBrushGroovy.js',     __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-java',       plugins_url( $this->shfolder . '/scripts/shBrushJava.js',       __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-javafx',     plugins_url( $this->shfolder . '/scripts/shBrushJavaFX.js',     __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
@@ -197,6 +198,8 @@ class SyntaxHighlighter {
 			'erl'           => 'erlang',
 			'erlang'        => 'erlang',
 			'fsharp'        => 'fsharp',
+			'go'            => 'go',
+			'golang'        => 'go',
 			'groovy'        => 'groovy',
 			'java'          => 'java',
 			'jfx'           => 'javafx',
@@ -251,6 +254,7 @@ class SyntaxHighlighter {
 			'diff'       => __( 'diff / patch',              'syntaxhighlighter' ),
 			'erlang'     => __( 'Erlang',                    'syntaxhighlighter' ),
 			'fsharp'     => __( 'F#',                        'syntaxhighlighter' ),
+			'go'         => __( 'Go',                        'syntaxhighlighter' ),
 			'groovy'     => __( 'Groovy',                    'syntaxhighlighter' ),
 			'java'       => __( 'Java',                      'syntaxhighlighter' ),
 			'javafx'     => __( 'JavaFX',                    'syntaxhighlighter' ),
