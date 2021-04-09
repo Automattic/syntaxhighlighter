@@ -138,6 +138,7 @@ class SyntaxHighlighter {
 		wp_register_script( 'syntaxhighlighter-brush-erlang',     plugins_url( $this->shfolder . '/scripts/shBrushErlang.js',     __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-go',         plugins_url( $this->shfolder . '/scripts/shBrushGo.js',         __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-groovy',     plugins_url( $this->shfolder . '/scripts/shBrushGroovy.js',     __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
+		wp_register_script( 'syntaxhighlighter-brush-haskell',    plugins_url( $this->shfolder . '/scripts/shBrushHaskell.js',    __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-java',       plugins_url( $this->shfolder . '/scripts/shBrushJava.js',       __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-javafx',     plugins_url( $this->shfolder . '/scripts/shBrushJavaFX.js',     __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-jscript',    plugins_url( $this->shfolder . '/scripts/shBrushJScript.js',    __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
@@ -201,6 +202,7 @@ class SyntaxHighlighter {
 			'go'            => 'go',
 			'golang'        => 'go',
 			'groovy'        => 'groovy',
+			'haskell'       => 'haskell',
 			'java'          => 'java',
 			'jfx'           => 'javafx',
 			'javafx'        => 'javafx',
@@ -256,6 +258,7 @@ class SyntaxHighlighter {
 			'fsharp'     => __( 'F#',                        'syntaxhighlighter' ),
 			'go'         => __( 'Go',                        'syntaxhighlighter' ),
 			'groovy'     => __( 'Groovy',                    'syntaxhighlighter' ),
+			'haskell'    => __( 'Haskell',                   'syntaxhighlighter' ),
 			'java'       => __( 'Java',                      'syntaxhighlighter' ),
 			'javafx'     => __( 'JavaFX',                    'syntaxhighlighter' ),
 			'jscript'    => __( 'JavaScript',                'syntaxhighlighter' ),
