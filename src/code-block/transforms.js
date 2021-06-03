@@ -21,6 +21,16 @@ export default {
 				node.children.length === 1 &&
 				node.firstChild.nodeName === 'CODE'
 			),
+			transform( node ) {
+				const content = node.firstChild.textContent;
+				const [ startingMatch, language ] = content.match( /^```(\w+)?\n/ ) || [ null, null ];
+				const attributes = language ? { language } : {};
+
+				// Extract content without backticks and (optionally) language.
+				attributes.content = startingMatch ? content.replace( startingMatch, '' ).replace( /```$/, '' ) : content;
+
+				return createBlock( 'syntaxhighlighter/code', attributes );
+			},
 			schema: {
 				pre: {
 					children: {
