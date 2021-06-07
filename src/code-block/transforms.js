@@ -27,7 +27,7 @@ export default {
 				const attributes = language ? { language } : {};
 
 				// Extract content without backticks and (optionally) language.
-				attributes.content = startingMatch ? content.replace( startingMatch, '' ).replace( /```$/, '' ) : content;
+				attributes.content = startingMatch ? content.replace( startingMatch, '' ).replace( /```\s*$/, '' ) : content;
 
 				return createBlock( 'syntaxhighlighter/code', attributes );
 			},
