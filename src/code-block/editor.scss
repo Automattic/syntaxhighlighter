@@ -1,1 +1,6 @@
 @import '../toolbar-dropdown/style'
+
+// to override the "color: inherit" value set here https://github.com/WordPress/gutenberg/blob/trunk/packages/block-editor/src/components/plain-text/style.scss#L5
+.wp-block-syntaxhighlighter__textarea {
+    color: initial;
+}
