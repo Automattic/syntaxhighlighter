@@ -1594,13 +1594,13 @@ class SyntaxHighlighter {
 					sprintf(
 						// translators: %1$s Lang parameter; %2$s Language parameter; %3$s Valid tags link.
 						_x(
-							'%1$s or %2$s &#8212; The language syntax to highlight with. You can alternately just use that as the tag, such as <code>[php]code[/php]</code>. <a href="%3$s">Click here</a> for a list of valid tags (under &quot;aliases&quot;).',
+							'%1$s or %2$s &#8212; The language syntax to highlight with. You can alternately just use that as the tag, such as <code>[php]code[/php]</code>. Available tags: %3$s.',
 							'language parameter',
 							'syntaxhighlighter'
 						),
 						'<code>lang</code>',
 						'<code>language</code>',
-						'http://alexgorbatchev.com/SyntaxHighlighter/manual/brushes/'
+						implode(', ', array_keys($this->brushes))
 					),
 					array(
 						'a' => array(
