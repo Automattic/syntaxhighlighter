@@ -1600,7 +1600,7 @@ class SyntaxHighlighter {
 						),
 						'<code>lang</code>',
 						'<code>language</code>',
-						implode(', ', array_keys($this->brushes))
+						implode( ', ', array_keys( $this->brushes ) )
 					),
 					array(
 						'a' => array(
