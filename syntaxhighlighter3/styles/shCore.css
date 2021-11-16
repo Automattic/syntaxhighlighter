@@ -7,7 +7,7 @@
  *
  * @version
  * 3.0.83 (July 02 2010)
- * 
+ *
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -94,6 +94,11 @@
 }
 .syntaxhighlighter table td.code .container {
   position: relative !important;
+}
+.syntaxhighlighter table td.code .container:after,
+.syntaxhighlighter table td.code .container:before {
+  display: block !important;
+  content: "";
 }
 .syntaxhighlighter table td.code .container textarea {
   box-sizing: border-box !important;
