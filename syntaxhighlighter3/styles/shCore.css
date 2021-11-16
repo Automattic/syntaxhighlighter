@@ -91,6 +91,7 @@
 }
 .syntaxhighlighter table td.code {
   width: 100% !important;
+  padding: 1em !important;
 }
 .syntaxhighlighter table td.code .container {
   position: relative !important;
