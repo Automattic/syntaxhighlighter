@@ -1592,7 +1592,7 @@ class SyntaxHighlighter {
 			<?php
 				echo wp_kses(
 					sprintf(
-						// translators: %1$s Lang parameter; %2$s Language parameter; %3$s Valid tags link.
+						// translators: %1$s Lang parameter; %2$s Language parameter; %3$s List of brush names.
 						_x(
 							'%1$s or %2$s &#8212; The language syntax to highlight with. You can alternately just use that as the tag, such as <code>[php]code[/php]</code>. Available tags: %3$s.',
 							'language parameter',
