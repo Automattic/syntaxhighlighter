@@ -1,24 +1,24 @@
 {
-  "name": "automattic/syntaxhighlighter",
-  "description": "Easily post syntax-highlighted code to your WordPress site without having to modify the code at all.",
-  "type": "wordpress-plugin",
-  "license": "GPL-2.0-or-later",
-  "require": {},
-  "archive": {
-	"exclude": [
-	  "/*",
-	  "!/dist",
-	  "!/syntaxhighlighter2",
-	  "!/syntaxhighlighter3",
-	  "!/third-party-brushes",
-	  "!/syntaxhighlighter_mce-4.js",
-	  "!/syntaxhighlighter_mce.js",
-	  "!/syntaxhighlighter.js",
-	  "!/syntaxhighlighter.php",
-	  "!/readme.txt",
-	  ".DS_Store",
-	  ".*",
-	  "*.test.js"
-	]
-  }
+	"name": "automattic/syntaxhighlighter",
+	"description": "Easily post syntax-highlighted code to your WordPress site without having to modify the code at all.",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0-or-later",
+	"require": {},
+	"archive": {
+		"exclude": [
+			"/*",
+			"!/dist",
+			"!/syntaxhighlighter2",
+			"!/syntaxhighlighter3",
+			"!/third-party-brushes",
+			"!/syntaxhighlighter_mce-4.js",
+			"!/syntaxhighlighter_mce.js",
+			"!/syntaxhighlighter.js",
+			"!/syntaxhighlighter.php",
+			"!/readme.txt",
+			".DS_Store",
+			".*",
+			"*.test.js"
+		]
+	}
 }
