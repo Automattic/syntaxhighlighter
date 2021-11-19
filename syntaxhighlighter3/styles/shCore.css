@@ -95,6 +95,9 @@
 .syntaxhighlighter table td.code .container {
   position: relative !important;
 }
+/**
+ * The following rule was added to resolve conflict with themes that use Bootstrap CSS.
+ */
 .syntaxhighlighter table td.code .container:after,
 .syntaxhighlighter table td.code .container:before {
   display: block !important;
