@@ -14,11 +14,11 @@
   },
   "scripts": {
     "start": "cgb-scripts start",
-    "build": "cgb-scripts build",
+    "build": "npm run build:assets && npm run archive",
+    "build:assets": "cgb-scripts build",
     "distclean": "rm -rf node_modules && rm -rf dist",
     "preinstall": "npx npm-force-resolutions",
-    "archive": "composer archive --file=$npm_package_name --format=zip",
-    "release": "npm run build && npm run archive"
+    "archive": "composer archive --file=$npm_package_name --format=zip"
   },
   "dependencies": {
     "@wordpress/escape-html": "1.9.0",
