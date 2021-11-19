@@ -65,6 +65,7 @@
   overflow: auto !important;
   overflow-y: hidden !important;
   font-size: 1em !important;
+  padding: 0.5em 1em !important;
 }
 .syntaxhighlighter code {
   display: inline !important;
@@ -91,7 +92,6 @@
 }
 .syntaxhighlighter table td.code {
   width: 100% !important;
-  padding: 1em !important;
 }
 .syntaxhighlighter table td.code .container {
   position: relative !important;
@@ -119,10 +119,11 @@
 }
 .syntaxhighlighter table td.gutter .line {
   text-align: right !important;
-  padding: 0 0.5em 0 1em !important;
+  padding: 0 0.5em 0 0 !important;
+  margin-right: 1em !important;
 }
 .syntaxhighlighter table td.code .line {
-  padding: 0 1em !important;
+  padding: 0 !important;
 }
 .syntaxhighlighter.nogutter td.code .container textarea, .syntaxhighlighter.nogutter td.code .line {
   padding-left: 0em !important;
