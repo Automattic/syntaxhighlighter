@@ -88,7 +88,7 @@
 }
 .syntaxhighlighter table caption {
   text-align: left !important;
-  padding: .5em 0 0.5em 1em !important;
+  padding: 0 0 0.5em 0 !important;
 }
 .syntaxhighlighter table td.code {
   width: 100% !important;
