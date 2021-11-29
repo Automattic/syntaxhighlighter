@@ -40,6 +40,15 @@ Try excluding this plugin's Javascript from any performance optimizations your s
 
 == ChangeLog ==
 
+= Version 3.6.1 =
+
+* New: Set code block language when pasting into editor. #215
+* New: Add syntax highlight for Haskell. #210
+* New: Display the list of available brushes. #221
+* Fix: Line alignment for bootstrap themes. #222
+* Fix: Add space around code. #223
+* Fix: XML brush - use the last occurrence of the tag. #225
+
 = Version 3.6.0 =
 
 * New: Add ```language shortcut. #180
