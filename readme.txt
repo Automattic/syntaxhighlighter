@@ -2,9 +2,9 @@
 Contributors: Viper007Bond, automattic, donncha
 Donate link: https://alex.blog/2019/03/13/in-memory-of-alex-donation-link-update/
 Tags: code, source, sourcecode, php, syntax highlighting, syntax, highlight, highlighting, highlighter, WordPress.com
-Requires at least: 5.2
-Tested up to: 5.7
-Stable tag: 3.6.0
+Requires at least: 5.6
+Tested up to: 5.8
+Stable tag: 3.6.1
 
 Easily post syntax-highlighted code to your site without having to modify the code at all. As seen on WordPress.com.
 
@@ -39,6 +39,15 @@ Try excluding this plugin's Javascript from any performance optimizations your s
 2. An example use of the editor block.
 
 == ChangeLog ==
+
+= Version 3.6.1 =
+
+* New: Set code block language when pasting into editor. #215
+* New: Add syntax highlight for Haskell. #210
+* New: Display the list of available brushes. #221
+* Fix: Line alignment for bootstrap themes. #222
+* Fix: Add space around code. #223
+* Fix: XML brush - use the last occurrence of the tag. #225
 
 = Version 3.6.0 =
 
