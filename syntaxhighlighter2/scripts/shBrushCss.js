@@ -7,23 +7,23 @@
  *
  * @version
  * 2.1.364 (October 15 2009)
- * 
+ *
  * @copyright
  * Copyright (C) 2004-2009 Alex Gorbatchev.
  *
  * @license
  * This file is part of SyntaxHighlighter.
- * 
+ *
  * SyntaxHighlighter is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * SyntaxHighlighter is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with SyntaxHighlighter.  If not, see <http://www.gnu.org/copyleft/lesser.html>.
  */
@@ -33,7 +33,7 @@ SyntaxHighlighter.brushes.CSS = function()
 	{
 		return '\\b([a-z_]|)' + str.replace(/ /g, '(?=:)\\b|\\b([a-z_\\*]|\\*|)') + '(?=:)\\b';
 	};
-	
+
 	function getValuesCSS(str)
 	{
 		return '\\b' + str.replace(/ /g, '(?!-)(?!:)\\b|\\b()') + '\:\\b';
@@ -70,7 +70,7 @@ SyntaxHighlighter.brushes.CSS = function()
 					'upper-roman url visible wait white wider w-resize x-fast x-high x-large x-loud x-low x-slow x-small x-soft xx-large xx-small yellow';
 
 	var fonts =		'[mM]onospace [tT]ahoma [vV]erdana [aA]rial [hH]elvetica [sS]ans-serif [sS]erif [cC]ourier mono sans serif';
-	
+
 	this.regexList = [
 		{ regex: SyntaxHighlighter.regexLib.multiLineCComments,		css: 'comments' },	// multiline comments
 		{ regex: SyntaxHighlighter.regexLib.doubleQuotedString,		css: 'string' },	// double quoted strings
@@ -83,9 +83,9 @@ SyntaxHighlighter.brushes.CSS = function()
 		{ regex: new RegExp(this.getKeywords(fonts), 'g'),			css: 'color1' }		// fonts
 		];
 
-	this.forHtmlScript({ 
-		left: /(&lt;|<)\s*style.*?(&gt;|>)/gi, 
-		right: /(&lt;|<)\/\s*style\s*(&gt;|>)/gi 
+	this.forHtmlScript({
+		left: /(&lt;|<)\s*style.*?(&gt;|>)/gi,
+		right: /(&lt;|<)\/\s*style\s*(&gt;|>)/gi
 		});
 };
 

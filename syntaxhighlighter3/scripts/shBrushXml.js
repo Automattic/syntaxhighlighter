@@ -48,7 +48,7 @@
 
 			if (tag != null)
 				result.push(
-					new constructor(tag.name, match.index + tag[0].indexOf(tag.name), 'keyword')
+					new constructor(tag.name, match.index + tag[0].lastIndexOf(tag.name), 'keyword')
 				);
 
 			return result;

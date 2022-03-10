@@ -7,30 +7,30 @@
  *
  * @version
  * 2.1.364 (October 15 2009)
- * 
+ *
  * @copyright
  * Copyright (C) 2004-2009 Alex Gorbatchev.
  *
  * @license
  * This file is part of SyntaxHighlighter.
- * 
+ *
  * SyntaxHighlighter is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * SyntaxHighlighter is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with SyntaxHighlighter.  If not, see <http://www.gnu.org/copyleft/lesser.html>.
  */
 SyntaxHighlighter.brushes.Python = function()
 {
 	// Contributed by Gheorghe Milas and Ahmad Sherif
-	
+
 	var keywords =  'and assert break class continue def del elif else ' +
 					'except exec finally for from global if import in is ' +
 					'lambda not or pass print raise return try yield while';
@@ -58,7 +58,7 @@ SyntaxHighlighter.brushes.Python = function()
 			{ regex: new RegExp(this.getKeywords(keywords), 'gm'), 		css: 'keyword' },
 			{ regex: new RegExp(this.getKeywords(special), 'gm'), 		css: 'color1' }
 			];
-			
+
 	this.forHtmlScript(SyntaxHighlighter.regexLib.aspScriptTags);
 };
 

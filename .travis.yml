@@ -68,6 +68,7 @@ before_script:
           exit 1
           ;;
       esac
+    composer global require "yoast/phpunit-polyfills:^1.0"
     fi
   - |
     # Install PHP_CodeSniffer if it's requested for this test
