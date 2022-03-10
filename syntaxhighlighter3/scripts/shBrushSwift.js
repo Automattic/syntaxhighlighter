@@ -38,7 +38,7 @@
 					} else if (chunk == "*/") {
 						level--;
 						if (level == 0) {
-							result.push(new Match(str.substring(matchStart, pos + 2), matchStart + match.index, regexInfo.css));
+							result.push(new SyntaxHighlighter.Match(str.substring(matchStart, pos + 2), matchStart + match.index, regexInfo.css));
 						}
 						pos += 2;
 					} else {
@@ -60,7 +60,7 @@
 			while (pos < str.length - 1) {
 				if (level == 0) {
 					if (str.substr(pos, 2) == "\\(") {
-						result.push(new Match(str.substring(matchStart, pos + 2), matchStart + match.index, regexInfo.css));
+						result.push(new SyntaxHighlighter.Match(str.substring(matchStart, pos + 2), matchStart + match.index, regexInfo.css));
 						level++;
 						pos += 2;
 					} else {
