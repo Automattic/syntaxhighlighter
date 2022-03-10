@@ -128,9 +128,10 @@
 			'return self Self static struct subscript super switch Type typealias ' +
 			'var where while __COLUMN__ __FILE__ __FUNCTION__ __LINE__ associativity ' +
 			'didSet get infix inout left mutating none nonmutating operator override ' +
-			'postfix precedence prefix right set try unowned unowned(safe) unowned(unsafe) weak willSet';
+			'postfix precedence prefix right set try unowned unowned(safe) unowned(unsafe) weak willSet' +
+			'actor associatedtype async await guard convenience defer dynamic fileprivate internal open public repeat throw throws unowned';
 
-		var attributes = 'assignment class_protocol exported final lazy noreturn NSCopying NSManaged objc optional required auto_closure noreturn IBAction IBDesignable IBInspectable IBOutlet infix prefix postfix';
+		var attributes = 'assignment class_protocol exported final lazy noreturn NSCopying NSManaged objc optional required auto_closure IBAction IBDesignable IBInspectable IBOutlet infix prefix postfix';
 
 		var datatypes =	'char bool BOOL double float int long short id instancetype void ' +
 			' Class IMP SEL _cmd';
