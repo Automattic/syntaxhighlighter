@@ -1,5 +1,5 @@
-  // Swift brush contributed by Nate Cook
-  // http://natecook.com/code/swift-syntax-highlighting
+// Swift brush based on contributions by Alex Gorbatchev
+// https://github.com/syntaxhighlighter/brush-swift/blob/master/brush.js
 
 ;(function()
 {
