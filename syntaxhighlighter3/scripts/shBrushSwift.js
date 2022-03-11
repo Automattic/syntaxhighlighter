@@ -8,8 +8,6 @@
 
 	function Brush()
 	{
-
-
 		function getKeywordsPrependedBy(keywords, by) {
 			return '(?:' + keywords.replace(/^\s+|\s+$/g, '').replace(/\s+/g, '|' + by + '\\b').replace(/^/, by + '\\b') + ')\\b';
 		}
@@ -58,8 +56,8 @@
 				level = 0;
 
 			while (pos < str.length - 1) {
-				if (level == 0) {
-					if (str.substr(pos, 2) == "\\(") {
+				if (level === 0) {
+					if (str.substr(pos, 2) === "\\(") {
 						result.push(new SyntaxHighlighter.Match(str.substring(matchStart, pos + 2), matchStart + match.index, regexInfo.css));
 						level++;
 						pos += 2;
@@ -67,20 +65,20 @@
 						pos++;
 					}
 				} else {
-					if (str[pos] == "(") {
+					if (str[pos] === "(") {
 						level++;
 					}
-					if (str[pos] == ")") {
+					if (str[pos] === ")") {
 						level--;
-						if (level == 0) {
+						if (level === 0) {
 							matchStart = pos;
 						}
 					}
 					pos++;
 				}
 			}
-			if (level == 0) {
-				result.push(new Match(str.substring(matchStart, str.length), matchStart + match.index, regexInfo.css));
+			if (level === 0) {
+				result.push(new SyntaxHighlighter.Match(str.substring(matchStart, str.length), matchStart + match.index, regexInfo.css));
 			}
 
 			return result;
@@ -179,9 +177,9 @@
 			{
 			  regex: new RegExp('\\b([a-zA-Z_][a-zA-Z0-9_]*)\\b', 'gi'),
 			  css: 'variable'
-			},
+			}
 		];
-	};
+	}
 
 	Brush.prototype	= new SyntaxHighlighter.Highlighter();
 	Brush.aliases	= ['swift'];
