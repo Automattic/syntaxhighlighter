@@ -109,8 +109,8 @@
 		this.regexList = [
 			// HTML entities
 			{
-			  regex: new RegExp('\&[a-z]+;', 'gi'),
-			  css: 'plain'
+				regex: new RegExp('\&[a-z]+;', 'gi'),
+				css: 'plain'
 			},
 			// Single line comments
 			{
@@ -129,8 +129,8 @@
 			},
 			// Types in Swift foundation
 			{
-			  regex: new RegExp(this.getKeywords(datatypes), 'gm'),
-			  css: 'datatypes'
+				regex: new RegExp(this.getKeywords(datatypes), 'gm'),
+				css: 'datatypes'
 			},
 			// Handle string interpolation in Swift
 			{
@@ -140,23 +140,23 @@
 			},
 			// Numeric literals in Swift
 			{
-			  regex: new RegExp('\\b([\\d_]+(\\.[\\de_]+)?|0x[a-f0-9_]+(\\.[a-f0-9p_]+)?|0b[01_]+|0o[0-7_]+)\\b', 'gi'),
-			  css: 'value'
+				regex: new RegExp('\\b([\\d_]+(\\.[\\de_]+)?|0x[a-f0-9_]+(\\.[a-f0-9p_]+)?|0b[01_]+|0o[0-7_]+)\\b', 'gi'),
+				css: 'value'
 			},
 			// Keywords in Swift
 			{
-			  regex: new RegExp(this.getKeywords(keywords), 'gm'),
-			  css: 'keyword'
+				regex: new RegExp(this.getKeywords(keywords), 'gm'),
+				css: 'keyword'
 			},
 			// Common declaration and type attributes in Swift
 			{
-			  regex: new RegExp(getKeywordsPrependedBy(attributes, '@'), 'gm'),
-			  css: 'color1'
+				regex: new RegExp(getKeywordsPrependedBy(attributes, '@'), 'gm'),
+				css: 'color1'
 			},
 			// Common native types in Swift
 			{
-			  regex: new RegExp(this.getKeywords(swiftTypes), 'gm'),
-			  css: 'color2'
+				regex: new RegExp(this.getKeywords(swiftTypes), 'gm'),
+				css: 'color2'
 			},
 			// UIKit/NS/Core Graphics types
 			{
@@ -165,8 +165,8 @@
 			},
 			// Any variables
 			{
-			  regex: new RegExp('\\b([a-zA-Z_][a-zA-Z0-9_]*)\\b', 'gi'),
-			  css: 'variable'
+				regex: new RegExp('\\b([a-zA-Z_][a-zA-Z0-9_]*)\\b', 'gi'),
+				css: 'variable'
 			}
 		];
 	}
