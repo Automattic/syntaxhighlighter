@@ -83,7 +83,7 @@
 			'reflect reinterpretCast reverse roundUpToAlignment sizeof sizeofValue sort split startsWith ' +
 			'strideof strideofValue swap swift toString transcode true underestimateCount unsafeReflect ' +
 			'withExtendedLifetime withObjectAtPlusZero withUnsafePointer withUnsafePointerToObject ' +
-			'ßwithUnsafePointers withVaList CGFloat ' +
+			'ßwithUnsafePointers withVaList ' +
 			'fatalError assert assertionFailure precondition preconditionFailure ' +
 			'Set AnyPublisher AnyCancellable sink store compactMap flatMap ObservableObject ';
 
@@ -97,7 +97,7 @@
 			// Swift concurrency
 			'actor associatedtype async await ';
 
-		var attributes = 'assignment class_protocol exported noreturn escaping NSCopying NSManaged objc optional required auto_closure IBAction IBDesignable IBInspectable IBOutlet infix prefix postfix unknown ' +
+		var attributes = 'assignment class_protocol exported noreturn escaping NSCopying NSManaged objc nonobjc optional required auto_closure IBAction IBDesignable IBInspectable IBOutlet infix prefix postfix unknown available ' +
 			// SwiftUI property wrappers
 			'Binding State StateObject ObservedObject EnvironmentObject ViewBuilder Environment ScaledMetric ' +
 			// Swift concurrency
@@ -157,6 +157,11 @@
 			{
 			  regex: new RegExp(this.getKeywords(swiftTypes), 'gm'),
 			  css: 'color2'
+			},
+			// UIKit/NS/Core Graphics types
+			{
+				regex: new RegExp(/\b(?:UI|NS|CG)[a-zA-Z0-9_]+\b/, 'g'),
+				css: 'color2'
 			},
 			// Any variables
 			{
