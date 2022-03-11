@@ -12,42 +12,6 @@
 			return '(?:' + keywords.replace(/^\s+|\s+$/g, '').replace(/\s+/g, '|' + by + '\\b').replace(/^/, by + '\\b') + ')\\b';
 		}
 
-		function multiLineCCommentsAdd(match, regexInfo) {
-			var str = match[0],
-			  result = [],
-			  pos = 0,
-			  matchStart = 0,
-			  level = 0;
-
-			while (pos < str.length - 1) {
-				var chunk = str.substr(pos, 2);
-				if (level == 0) {
-					if (chunk == "/*") {
-						matchStart = pos;
-						level++;
-						pos += 2;
-					} else {
-						pos++;
-					}
-				} else {
-					if (chunk == "/*") {
-						level++;
-						pos += 2;
-					} else if (chunk == "*/") {
-						level--;
-						if (level == 0) {
-							result.push(new SyntaxHighlighter.Match(str.substring(matchStart, pos + 2), matchStart + match.index, regexInfo.css));
-						}
-						pos += 2;
-					} else {
-						pos++;
-					}
-				}
-			}
-
-			return result;
-		}
-
 		function stringAdd(match, regexInfo) {
 			var str = match[0],
 				result = [],
@@ -119,61 +83,82 @@
 			'reflect reinterpretCast reverse roundUpToAlignment sizeof sizeofValue sort split startsWith ' +
 			'strideof strideofValue swap swift toString transcode true underestimateCount unsafeReflect ' +
 			'withExtendedLifetime withObjectAtPlusZero withUnsafePointer withUnsafePointerToObject ' +
-			'ßwithUnsafePointers withVaList';
+			'ßwithUnsafePointers withVaList CGFloat ' +
+			'fatalError assert assertionFailure precondition preconditionFailure ' +
+			'Set AnyPublisher AnyCancellable sink store compactMap flatMap ObservableObject ';
 
 		var keywords = 'as break catch case class continue default deinit do dynamicType else enum ' +
-			'extension fallthrough for func if import in init is let new protocol ' +
+			'extension fallthrough for forEach func if import in init is let new protocol ' +
 			'return self Self static struct subscript super switch Type typealias ' +
 			'var where while __COLUMN__ __FILE__ __FUNCTION__ __LINE__ associativity ' +
-			'didSet get infix inout left mutating none nonmutating operator override ' +
-			'postfix precedence prefix right set try unowned unowned(safe) unowned(unsafe) weak willSet' +
-			'actor associatedtype async await guard convenience defer dynamic fileprivate internal open public repeat throw throws unowned';
+			'didSet get infix inout left mutating none nonmutating operator override required ' +
+			'postfix precedence prefix right set try unowned unowned(safe) unowned(unsafe) weak willSet ' +
+			'guard convenience defer dynamic final fileprivate private internal open public repeat throw throws unowned lazy ' +
+			// Swift concurrency
+			'actor associatedtype async await ';
 
-		var attributes = 'assignment class_protocol exported final lazy noreturn NSCopying NSManaged objc optional required auto_closure IBAction IBDesignable IBInspectable IBOutlet infix prefix postfix';
+		var attributes = 'assignment class_protocol exported noreturn escaping NSCopying NSManaged objc optional required auto_closure IBAction IBDesignable IBInspectable IBOutlet infix prefix postfix unknown ' +
+			// SwiftUI property wrappers
+			'Binding State StateObject ObservedObject EnvironmentObject ViewBuilder Environment ScaledMetric ' +
+			// Swift concurrency
+			'MainActor Sendable ';
 
 		var datatypes =	'char bool BOOL double float int long short id instancetype void ' +
 			' Class IMP SEL _cmd';
 
 		this.regexList = [
-			// html entities
+			// HTML entities
 			{
 			  regex: new RegExp('\&[a-z]+;', 'gi'),
 			  css: 'plain'
 			},
+			// Single line comments
 			{
-			  regex: SyntaxHighlighter.regexLib.singleLineCComments,
-			  css: 'comments'
+				regex: SyntaxHighlighter.regexLib.singleLineCComments,
+				css: 'comments'
 			},
+			// Multiline comments in Swift
 			{
-			  regex: new RegExp('\\/\\*[\\s\\S]*\\*\\/', 'g'),
-			  css: 'comments',
-			  func: multiLineCCommentsAdd
+				regex: SyntaxHighlighter.regexLib.multiLineCComments,
+				css: 'comments'
 			},
+			// Multiline strings in Swift
+			{
+				regex: new RegExp(/"""(?:\\(?:#+\((?:[^()]|\([^()]*\))*\)|[^#])|[^\\])*?"""/, 'gm'),
+				css: 'string'
+			},
+			// Types in Swift foundation
 			{
 			  regex: new RegExp(this.getKeywords(datatypes), 'gm'),
 			  css: 'datatypes'
 			},
+			// Handle string interpolation in Swift
 			{
-			  regex: SyntaxHighlighter.regexLib.doubleQuotedString,
-			  css: 'string',
-			  func: stringAdd
+				regex: SyntaxHighlighter.regexLib.doubleQuotedString,
+				css: 'string',
+				func: stringAdd
 			},
+			// Numeric literals in Swift
 			{
 			  regex: new RegExp('\\b([\\d_]+(\\.[\\de_]+)?|0x[a-f0-9_]+(\\.[a-f0-9p_]+)?|0b[01_]+|0o[0-7_]+)\\b', 'gi'),
 			  css: 'value'
 			},
+			// Keywords in Swift
 			{
 			  regex: new RegExp(this.getKeywords(keywords), 'gm'),
 			  css: 'keyword'
 			},
+			// Common declaration and type attributes in Swift
 			{
 			  regex: new RegExp(getKeywordsPrependedBy(attributes, '@'), 'gm'),
 			  css: 'color1'
 			},
+			// Common native types in Swift
 			{
 			  regex: new RegExp(this.getKeywords(swiftTypes), 'gm'),
 			  css: 'color2'
 			},
+			// Any variables
 			{
 			  regex: new RegExp('\\b([a-zA-Z_][a-zA-Z0-9_]*)\\b', 'gi'),
 			  css: 'variable'
