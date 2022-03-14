@@ -126,6 +126,11 @@
 				regex: SyntaxHighlighter.regexLib.multiLineCComments,
 				css: 'comments'
 			},
+			// Nested comments are supported up to 2 levels
+			{
+				regex: new RegExp(/(^|[^\\:])(?:\/\/.*|\/\*(?:[^/*]|\/(?!\*)|\*(?!\/)|\/\*(?:[^*]|\*(?!\/))*\*\/)*\*\/)/, 'gs'),
+				css: 'comments'
+			},
 			// Multiline strings in Swift
 			{
 				regex: new RegExp(/"""(?:\\(?:#+\((?:[^()]|\([^()]*\))*\)|[^#])|[^\\])*?"""/, 'gm'),
