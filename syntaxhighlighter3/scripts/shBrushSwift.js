@@ -93,15 +93,19 @@
 			'var where while __COLUMN__ __FILE__ __FUNCTION__ __LINE__ associativity ' +
 			'didSet get infix inout left mutating none nonmutating operator override required ' +
 			'postfix precedence prefix right set try unowned unowned(safe) unowned(unsafe) weak willSet ' +
-			'guard convenience defer dynamic final fileprivate private internal open public repeat throw throws unowned lazy ' +
+			'guard convenience defer dynamic final fileprivate private internal open public repeat throw throws rethrows unowned lazy ' +
+			'isolated nonisolated safe unsafe some optional assignment indirect ' +
+			// Precedence group
+			'precedencegroup higherThan lowerThan ' +
 			// Swift concurrency
 			'actor associatedtype async await ';
 
 		var attributes = 'assignment class_protocol exported noreturn escaping NSCopying NSManaged objc nonobjc optional required auto_closure IBAction IBDesignable IBInspectable IBOutlet infix prefix postfix unknown available ' +
+			'resultBuilder propertyWrapper autoclosure convention ' +
 			// SwiftUI property wrappers
-			'Binding State StateObject ObservedObject EnvironmentObject ViewBuilder Environment ScaledMetric ' +
+			'Binding State StateObject ObservedObject EnvironmentObject ViewBuilder Environment ScaledMetric main ' +
 			// Swift concurrency
-			'MainActor Sendable ';
+			'MainActor Sendable globalActor ';
 
 		var datatypes =	'char bool BOOL double float int long short id instancetype void ' +
 			' Class IMP SEL _cmd';
@@ -160,8 +164,13 @@
 			},
 			// UIKit/NS/Core Graphics types
 			{
-				regex: new RegExp(/\b(?:UI|NS|CG)[a-zA-Z0-9_]+\b/, 'g'),
+				regex: new RegExp(/\b(?:UI|NS|CG|CA|MK|XC)[a-zA-Z0-9_]+\b/, 'g'),
 				css: 'color2'
+			},
+			// Compiler directives
+			{
+				regex: new RegExp(/^ *#[a-zA-Z0-9_]+/, 'gm'),
+				css: 'preprocessor'
 			},
 			// Any variables
 			{
