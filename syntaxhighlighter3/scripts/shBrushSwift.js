@@ -167,7 +167,7 @@
 				regex: new RegExp(this.getKeywords(swiftTypes), 'gm'),
 				css: 'color2'
 			},
-			// UIKit/NS/Core Graphics types
+			// UIKit/NS/Core Graphics/Core Animation/MapKit/XCFrameworks types
 			{
 				regex: new RegExp(/\b(?:UI|NS|CG|CA|MK|XC)[a-zA-Z0-9_]+\b/, 'g'),
 				css: 'color2'
