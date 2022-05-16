@@ -27,9 +27,9 @@ php:
 
 # Test against these versions of WordPress.
 env:
-  - WP_VERSION=5.2 # Plugin minimum version
-  - WP_VERSION=5.3
-  - WP_VERSION=5.4
+  - WP_VERSION=5.7 # Plugin minimum version
+  - WP_VERSION=5.8
+  - WP_VERSION=5.9
   - WP_VERSION=latest
 
 before_script:
