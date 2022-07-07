@@ -1596,11 +1596,7 @@ class SyntaxHighlighter {
 				echo wp_kses(
 					sprintf(
 						// translators: %1$s Lang parameter; %2$s Language parameter; %3$s List of brush names.
-						_x(
-							'%1$s or %2$s &#8212; The language syntax to highlight with. You can alternately just use that as the tag, such as <code>[php]code[/php]</code>. Available tags: %3$s.',
-							'language parameter',
-							'syntaxhighlighter'
-						),
+						_x( '%1$s or %2$s &#8212; The language syntax to highlight with. You can alternately just use that as the tag, such as <code>[php]code[/php]</code>. Available tags: %3$s.', 'language parameter', 'syntaxhighlighter' ),
 						'<code>lang</code>',
 						'<code>language</code>',
 						implode( ', ', array_keys( $this->brushes ) )
@@ -1618,11 +1614,7 @@ class SyntaxHighlighter {
 			<?php
 				printf(
 					// translators: %s Autolinks parameter.
-					esc_html_x(
-						'%s &#8212; Toggle automatic URL linking.',
-						'autolinks parameter',
-						'syntaxhighlighter'
-					),
+					esc_html_x( '%s &#8212; Toggle automatic URL linking.', 'autolinks parameter', 'syntaxhighlighter' ),
 					'<code>autolinks</code>'
 				);
 			?>
@@ -1631,11 +1623,7 @@ class SyntaxHighlighter {
 			<?php
 				printf(
 					// translators: %s Classname parameter.
-					esc_html_x(
-						'%s &#8212; Add an additional CSS class to the code box.',
-						'classname parameter',
-						'syntaxhighlighter'
-					),
+					esc_html_x( '%s &#8212; Add an additional CSS class to the code box.', 'classname parameter', 'syntaxhighlighter' ),
 					'<code>classname</code>'
 				);
 			?>
@@ -1644,11 +1632,7 @@ class SyntaxHighlighter {
 			<?php
 				printf(
 					// translators: %s Collapse parameter.
-					esc_html_x(
-						'%s &#8212; Toggle collapsing the code box by default, requiring a click to expand it. Good for large code posts.',
-						'collapse parameter',
-						'syntaxhighlighter'
-					),
+					esc_html_x( '%s &#8212; Toggle collapsing the code box by default, requiring a click to expand it. Good for large code posts.', 'collapse parameter', 'syntaxhighlighter' ),
 					'<code>collapse</code>'
 				);
 			?>
@@ -1657,11 +1641,7 @@ class SyntaxHighlighter {
 			<?php
 				printf(
 					// translators: %s Firstline parameter.
-					esc_html_x(
-						'%s &#8212; An interger specifying what number the first line should be (for the line numbering).',
-						'firstline parameter',
-						'syntaxhighlighter'
-					),
+					esc_html_x( '%s &#8212; An interger specifying what number the first line should be (for the line numbering).', 'firstline parameter', 'syntaxhighlighter' ),
 					'<code>firstline</code>'
 				);
 			?>
@@ -1670,11 +1650,7 @@ class SyntaxHighlighter {
 			<?php
 				printf(
 					// translators: %s Gutter parameter.
-					esc_html_x(
-						'%s &#8212; Toggle the left-side line numbering.',
-						'gutter parameter',
-						'syntaxhighlighter'
-					),
+					esc_html_x( '%s &#8212; Toggle the left-side line numbering.', 'gutter parameter', 'syntaxhighlighter' ),
 					'<code>gutter</code>'
 				);
 			?>
@@ -1683,11 +1659,7 @@ class SyntaxHighlighter {
 			<?php
 				printf(
 					// translators: %1$s Highlight parameter; %2$s Example.
-					esc_html_x(
-						'%1$s &#8212; A comma-separated list of line numbers to highlight. You can also specify a range. Example: %2$s',
-						'highlight parameter',
-						'syntaxhighlighter'
-					),
+					esc_html_x( '%1$s &#8212; A comma-separated list of line numbers to highlight. You can also specify a range. Example: %2$s', 'highlight parameter', 'syntaxhighlighter' ),
 					'<code>highlight</code>',
 					'<code>2,5-10,12</code>'
 				);
@@ -1697,11 +1669,7 @@ class SyntaxHighlighter {
 			<?php
 				printf(
 					// translators: %s Htmlscript parameter.
-					esc_html_x(
-						"%s &#8212; Toggle highlighting any extra HTML/XML. Good for when you're mixing HTML/XML with another language, such as having PHP inside an HTML web page. The above preview has it enabled for example. This only works with certain languages.",
-						'htmlscript parameter',
-						'syntaxhighlighter'
-					),
+					esc_html_x( "%s &#8212; Toggle highlighting any extra HTML/XML. Good for when you're mixing HTML/XML with another language, such as having PHP inside an HTML web page. The above preview has it enabled for example. This only works with certain languages.", 'htmlscript parameter', 'syntaxhighlighter' ),
 					'<code>htmlscript</code>'
 				);
 			?>
@@ -1710,11 +1678,7 @@ class SyntaxHighlighter {
 			<?php
 				printf(
 					// translators: %s Light parameter.
-					esc_html_x(
-						'%s &#8212; Toggle light mode which disables the gutter and toolbar all at once.',
-						'light parameter',
-						'syntaxhighlighter'
-					),
+					esc_html_x( '%s &#8212; Toggle light mode which disables the gutter and toolbar all at once.', 'light parameter', 'syntaxhighlighter' ),
 					'<code>light</code>'
 				);
 			?>
@@ -1723,11 +1687,7 @@ class SyntaxHighlighter {
 			<?php
 				printf(
 					// translators: %s Padlinenumbers parameter.
-					esc_html_x(
-						'%s &#8212; Controls line number padding. Valid values are <code>false</code> (no padding), <code>true</code> (automatic padding), or an integer (forced padding).',
-						'padlinenumbers parameter',
-						'syntaxhighlighter'
-					),
+					esc_html_x( '%s &#8212; Controls line number padding. Valid values are <code>false</code> (no padding), <code>true</code> (automatic padding), or an integer (forced padding).', 'padlinenumbers parameter', 'syntaxhighlighter' ),
 					'<code>padlinenumbers</code>'
 				);
 			?>
@@ -1736,11 +1696,7 @@ class SyntaxHighlighter {
 			<?php
 				printf(
 					// translators: %1$s Title parameter; %2$s Collapse parameter.
-					esc_html_x(
-						'%1$s (v3 only) &#8212; Sets some text to show up before the code. Very useful when combined with the %2$s parameter.',
-						'title parameter',
-						'syntaxhighlighter'
-					),
+					esc_html_x( '%1$s (v3 only) &#8212; Sets some text to show up before the code. Very useful when combined with the %2$s parameter.', 'title parameter', 'syntaxhighlighter' ),
 					'<code>title</code>',
 					'<code>collapse</code>'
 				);
@@ -1750,11 +1706,7 @@ class SyntaxHighlighter {
 			<?php
 				printf(
 					// translators: %s Toolbar parameter.
-					esc_html_x(
-						'%s &#8212; Toggle the toolbar (buttons in v2, the about question mark in v3)',
-						'toolbar parameter',
-						'syntaxhighlighter'
-					),
+					esc_html_x( '%s &#8212; Toggle the toolbar (buttons in v2, the about question mark in v3)', 'toolbar parameter', 'syntaxhighlighter' ),
 					'<code>toolbar</code>'
 				);
 			?>
@@ -1763,11 +1715,7 @@ class SyntaxHighlighter {
 			<?php
 				printf(
 					// translators: %s Wraplines parameter.
-					esc_html_x(
-						'%s (v2 only) &#8212; Toggle line wrapping.',
-						'wraplines parameter',
-						'syntaxhighlighter'
-					),
+					esc_html_x( '%s (v2 only) &#8212; Toggle line wrapping.', 'wraplines parameter', 'syntaxhighlighter' ),
 					'<code>wraplines</code>'
 				);
 			?>
@@ -1776,11 +1724,7 @@ class SyntaxHighlighter {
 			<?php
 				printf(
 					// translators: %s Quickcode parameter.
-					esc_html_x(
-						'%s &#8212; Enable edit mode on double click.',
-						'quickcode parameter',
-						'syntaxhighlighter'
-					),
+					esc_html_x( '%s &#8212; Enable edit mode on double click.', 'quickcode parameter', 'syntaxhighlighter' ),
 					'<code>quickcode</code>'
 				);
 			?>
