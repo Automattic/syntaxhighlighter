@@ -9,8 +9,8 @@ export default {
 			regExp: /^```\w*$/,
 			transform: ( { content = '' } ) => {
 				const [ , language ] = content.match( /^```(\w+)/ ) || [ null, null ];
-
-				const attributes = language ? { language } : undefined;
+				const { brushes } = window.syntaxHighlighterData;
+				const attributes = language && brushes[ language ] ? { language } : { language: 'plain' };
 				return createBlock( 'syntaxhighlighter/code', attributes );
 			},
 		},
