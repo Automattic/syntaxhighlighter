@@ -681,6 +681,9 @@ class SyntaxHighlighter {
 
 			// Normal, safe parsing
 			$content = do_shortcode( $content, true );
+
+			// Escape all shortcodes still pending so WP doesn't parse them for us
+			$content = preg_replace('/\[(\/?[^\[\]]+)\]/', '[[$1]]', $content);
 		} else {
 			// Extra escape escaped shortcodes because do_shortcode_tag() called by do_shortcode() is going to strip a pair of square brackets when it runs.
 			// Then call do_shortcode_tag(). This is basically do_shortcode() without calling do_shortcodes_in_html_tags() which breaks things.
