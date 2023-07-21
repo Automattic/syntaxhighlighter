@@ -683,9 +683,9 @@ class SyntaxHighlighter {
 			$content = do_shortcode( $content, true );
 
 			// Escape all shortcodes still pending so WP doesn't parse them for us
-			$orig_tagnames = array_keys($orig_shortcode_tags);
+			$orig_tagnames = array_keys( $orig_shortcode_tags );
 			$orig_regex    = '/' . get_shortcode_regex( $orig_tagnames ). '/';
-			$content = preg_replace_callback($orig_regex, array( $this, 'shortcode_hack_escape_shortcode' ), $content);
+			$content       = preg_replace_callback($orig_regex, array( $this, 'shortcode_hack_escape_shortcode' ), $content);
 		} else {
 			// Extra escape escaped shortcodes because do_shortcode_tag() called by do_shortcode() is going to strip a pair of square brackets when it runs.
 			// Then call do_shortcode_tag(). This is basically do_shortcode() without calling do_shortcodes_in_html_tags() which breaks things.
@@ -748,17 +748,20 @@ class SyntaxHighlighter {
 	 * @return string The shortcode with extra square brackets.
 	 */
 	function shortcode_hack_escape_shortcode( $match ) {
-		if (! empty($match[5])) {
+		if ( ! empty( $match[5] ) ) {
 			$content = $match[5];
-			if ( $content[0] === $match[6]) {
-				$content = substr($content, 1);
+			// Removes additional ] from and [ from the start and end of content
+			// In case the shortcode with the content is already "escaped"
+			if ( $content[0] === $match[6] ) {
+				$content = substr( $content, 1 );
 			}
-			if (substr( $content, -1) === $match[1]) {
-				$content = substr($content, 0, -1);
+			if ( substr( $content, -1 ) === $match[1] ) {
+				$content = substr( $content, 0, -1 );
 			}
-			return '[['.$match[1].$match[2].$match[3].$match[6].']'.$content.'['.$match[1].'/'. $match[2].$match[6].']]';
+			// Escapes shortcodes with content
+			return '[[' . $match[1] . $match[2] . $match[3] . $match[6] . ']' . $content . '[' . $match[1] . '/' . $match[2] . $match[6] . ']]';
 		}
-		return '[['.$match[1].$match[2].$match[3].$match[6].']]';
+		return '[[' . $match[1] . $match[2] . $match[3] . $match[6] . ']]';
 	}
 
 	/**
