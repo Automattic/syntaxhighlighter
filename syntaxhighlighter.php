@@ -1183,7 +1183,7 @@ class SyntaxHighlighter {
 
 		// Escape all shortcodes still pending so WP doesn't parse them for us
 		if ( ! empty( $this->orig_tagnames ) ) {
-			$orig_regex    = '/' . get_shortcode_regex( $this->orig_tagnames ). '/';
+			$orig_regex = '/' . get_shortcode_regex( $this->orig_tagnames ). '/';
 			$code       = preg_replace_callback($orig_regex, array( $this, 'shortcode_hack_escape_shortcode' ), $code);
 		}
 
