@@ -31,6 +31,7 @@ class SyntaxHighlighter {
 	public $encoded              = false;    // Used to mark that a character encode took place
 	public $codeformat           = false;    // If set, SyntaxHighlighter::get_code_format() will return this value
 	public $content_save_pre_ran = false;    // It's possible for the "content_save_pre" filter to run multiple times, so keep track
+	private $orig_tagnames       = array(); // Used to store the original shortcode tag names so we escape them properly
 
 	// Initalize the plugin by registering the hooks
 	function __construct() {
@@ -661,6 +662,7 @@ class SyntaxHighlighter {
 
 		// Backup current registered shortcodes and clear them all out
 		$orig_shortcode_tags = $shortcode_tags;
+		$this->orig_tagnames = array_keys( $orig_shortcode_tags );
 		remove_all_shortcodes();
 
 		// Register all of this plugin's shortcodes
@@ -681,11 +683,6 @@ class SyntaxHighlighter {
 
 			// Normal, safe parsing
 			$content = do_shortcode( $content, true );
-
-			// Escape all shortcodes still pending so WP doesn't parse them for us
-			$orig_tagnames = array_keys( $orig_shortcode_tags );
-			$orig_regex    = '/' . get_shortcode_regex( $orig_tagnames ). '/';
-			$content       = preg_replace_callback($orig_regex, array( $this, 'shortcode_hack_escape_shortcode' ), $content);
 		} else {
 			// Extra escape escaped shortcodes because do_shortcode_tag() called by do_shortcode() is going to strip a pair of square brackets when it runs.
 			// Then call do_shortcode_tag(). This is basically do_shortcode() without calling do_shortcodes_in_html_tags() which breaks things.
@@ -1180,6 +1177,10 @@ class SyntaxHighlighter {
 		if ( false === $tag || empty( $code ) ) {
 			return $code;
 		}
+
+		// Escape all shortcodes still pending so WP doesn't parse them for us
+		$orig_regex    = '/' . get_shortcode_regex( $this->orig_tagnames ). '/';
+		$code       = preg_replace_callback($orig_regex, array( $this, 'shortcode_hack_escape_shortcode' ), $code);
 
 		// Avoid PHP notices
 		if ( ! isset( $post ) ) {
