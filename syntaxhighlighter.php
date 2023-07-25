@@ -530,7 +530,6 @@ class SyntaxHighlighter {
 	 * @return string The rendered content.
 	 */
 	public function render_block( $attributes, $content ) {
-		global $shortcode_tags;
 
 		$remaps = array(
 			'lineNumbers'       => 'gutter',
@@ -563,7 +562,7 @@ class SyntaxHighlighter {
 		$code = htmlspecialchars_decode( $code );
 		$code = preg_replace( '/^(\s*https?:)&#0?47;&#0?47;([^\s<>"]+\s*)$/m', '$1//$2', $code );
 
-		$this->orig_tagnames = array_keys( $shortcode_tags );
+		$this->orig_tagnames = array();
 		$code = $this->shortcode_callback( $attributes, $code, 'code' );
 
 		return '<div class="wp-block-syntaxhighlighter-code ' . esc_attr( join( ' ', $classnames ) ) . '">' . $code . '</div>';
