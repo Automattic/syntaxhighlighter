@@ -565,8 +565,26 @@ class SyntaxHighlighter {
 		$code = htmlspecialchars_decode( $code );
 		$code = preg_replace( '/^(\s*https?:)&#0?47;&#0?47;([^\s<>"]+\s*)$/m', '$1//$2', $code );
 
-		$this->orig_tagnames = array();
-		$code = $this->shortcode_callback( $attributes, $code, 'code' );
+
+		// build shortcode string with $attributes as the attributes and $code as the content of the shortcode
+		$attribute_str = '';
+		foreach ($attributes as $key => $value) {
+			$attribute_str .= " $key=\"$value\"";
+		}
+
+		$regex = '/'. get_shortcode_regex() . '/';
+		$code = preg_replace_callback( $regex, function ( $m ) {
+			return '[' . $m[0] . ']';
+		}, $code );
+
+		// This is a very ugly hack to try to ignore shortcodes inside the syntax highlighter block
+
+		$code = "[code" . $attribute_str . "]" . $code . "[/code]";
+		global $shortcode_tags;
+		$orig_shortcodes  = $shortcode_tags;
+		remove_all_shortcodes();
+		$code = $this->parse_shortcodes( $code );
+		$shortcode_tags = $orig_shortcodes;
 
 		return '<div class="wp-block-syntaxhighlighter-code ' . esc_attr( join( ' ', $classnames ) ) . '">' . $code . '</div>';
 	}
