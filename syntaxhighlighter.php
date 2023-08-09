@@ -555,8 +555,7 @@ class SyntaxHighlighter {
 				unset( $attributes[ $from ] );
 			}
 		}
-
-		$code = preg_replace( '#<pre [^>]+>([^<]+)?</pre>#', '$1', $content );
+		$code = preg_replace( '#<pre [^>]+>(.*)</pre>#s', '$1', $content );
 
 		// Undo escaping done by WordPress
 		$code = htmlspecialchars_decode( $code );
