@@ -628,7 +628,11 @@ class SyntaxHighlighter {
 	 *
 	 * First we need to clear out all existing shortcodes, then register
 	 * just this plugin's ones, process them, and then restore the original
-	 * list of shortcodes.
+	 * list of shortcodes. Additionally, we have to add another hack to other
+	 * shortcodes, such as [gallery], to return the entire shortcode string as
+	 * it appears in the original content to allow SyntaxHighlighter's shortcode
+	 * strings (e.g., [c]) be used within other shortcodes without interference
+	 * from SyntaxHighlighter.
 	 *
 	 * To make matters more complicated, if someone has done [[code]foo[/code]]
 	 * in order to display the shortcode (not render it), then do_shortcode()
@@ -638,10 +642,6 @@ class SyntaxHighlighter {
 	 * So instead before do_shortcode() runs for the first time, we add
 	 * even more brackets escaped shortcodes in order to result in
 	 * the shortcodes actually being displayed instead rendered.
-	 *
-	 * We only need to do this for this plugin's shortcodes however
-	 * as all other shortcodes such as [[gallery]] will be untouched
-	 * by this pass of do_shortcode.
 	 *
 	 * Phew!
 	 *
@@ -668,7 +668,12 @@ class SyntaxHighlighter {
 			add_shortcode( $shortcode, $callback );
 		}
 
-		$regex = '/' . get_shortcode_regex( $this->shortcodes ) . '/';
+		// Register all other shortcodes, ensuring their content remains unchanged using yet another hack.
+		foreach ( $orig_shortcode_tags as $shortcode_tagname => $shortcode ) {
+			add_shortcode( $shortcode_tagname, array( $this, 'return_entire_shortcode_callback' ) );
+		}
+
+		$regex = '/' . get_shortcode_regex( array_merge( $this->shortcodes, array_keys( $orig_shortcode_tags ) ) ) . '/';
 
 		// Parse the shortcodes (only this plugins's are registered)
 		if ( $ignore_html ) {
@@ -749,6 +754,44 @@ class SyntaxHighlighter {
 		return do_shortcode_tag( $match );
 	}
 
+	/**
+	 * Callback function to return the entire shortcode string as it appears in content.
+	 *
+	 * @param array       $atts    Array of attributes passed to the shortcode.
+	 * @param string|null $content Content enclosed between the opening and closing shortcode tags. Default is null.
+	 * @param string      $tag     Shortcode name/tag.
+	 *
+	 * @return string              The complete shortcode string including the opening and closing tags, attributes, and content.
+	 */
+	function return_entire_shortcode_callback( $atts, $content = null, $tag = '' ) {
+		$shortcode_string = '[' . $tag;
+
+		if ( ! empty( $atts ) ) {
+			foreach ( $atts as $key => $value ) {
+				if ( strpos( $value, "'" ) !== false && strpos( $value, '"' ) === false ) {
+					// Use double quotes if value contains a single quote but not a double quote.
+					$shortcode_string .= ' ' . $key . '="' . $value . '"';
+				} elseif ( strpos( $value, '"' ) !== false && strpos( $value, "'" ) === false ) {
+					// Use single quotes if value contains a double quote but not a single quote.
+					$shortcode_string .= ' ' . $key . "='" . $value . "'";
+				} elseif ( strpos( $value, "'" ) !== false && strpos( $value, '"' ) !== false ) {
+					// If value contains both types of quotes, use double quotes and escape inner double quotes.
+					$pattern           = '/(?<!\\\\)"/'; // This pattern looks for double quotes that aren't preceded by a backslash.
+					$escaped_value     = preg_replace( $pattern, '\"', $content );
+					$shortcode_string .= ' ' . $key . '="' . $escaped_value . '"';
+				} else {
+					$shortcode_string .= ' ' . $key . '="' . $value . '"';
+				}
+			}
+		}
+ 
+		$shortcode_string .= ']';
+
+		if ( $content !== null ) {
+			$shortcode_string .= $content . '[/' . $tag . ']';
+		}
+		return $shortcode_string;
+	}
 
 	// The main filter for the post contents. The regular shortcode filter can't be used as it's post-wpautop().
 	function parse_shortcodes( $content ) {
