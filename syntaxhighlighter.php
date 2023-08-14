@@ -659,8 +659,8 @@ class SyntaxHighlighter {
 			return $content;
 		}
 
-		// Backup current registered shortcodes and clear them all out
-		$orig_shortcode_tags = $shortcode_tags;
+		// Backup current registered shortcodes and clear them all out (we do not backup our own, because we will add and parse them below)
+		$orig_shortcode_tags = array_diff_key( $shortcode_tags, array_flip( $this->shortcodes ) );
 		remove_all_shortcodes();
 
 		// Register all of this plugin's shortcodes
