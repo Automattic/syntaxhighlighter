@@ -1377,7 +1377,7 @@ class SyntaxHighlighter {
 		$code = ( false === strpos( $code, '<' ) && false === strpos( $code, '>' ) && 2 == $this->get_code_format( $post ) ) ? strip_tags( $code ) : htmlspecialchars( $code );
 
 		// Escape shortcodes
-		$code = preg_replace( '/\[/', '&#91;', $code );
+		$code = preg_replace( '/\[/', '&#x5B;', $code );
 
 		$params[] = 'notranslate'; // For Google, see http://otto42.com/9k
 
