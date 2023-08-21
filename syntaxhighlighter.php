@@ -673,7 +673,7 @@ class SyntaxHighlighter {
 			add_shortcode( $shortcode_tagname, array( $this, 'return_entire_shortcode_callback' ) );
 		}
 
-		$regex = '/' . get_shortcode_regex( array_merge( $this->shortcodes, array_keys( $orig_shortcode_tags ) ) ) . '/';
+		$regex = '/' . get_shortcode_regex() . '/';
 
 		// Parse the shortcodes (only this plugins's are registered)
 		if ( $ignore_html ) {
