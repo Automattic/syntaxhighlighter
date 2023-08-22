@@ -618,6 +618,24 @@ class SyntaxHighlighter {
 
 
 	/**
+	 * Returns all shortcodes not handled by SyntaxHighlighter unchanged, so they
+	 * can be processed by their original handlers after SyntaxHighlighter has
+	 * run.
+	 * 
+	 * @param mixed $output The shortcode's returned value (false by default).
+	 * @param string $tag The name of the shortcode.
+	 * @param array|null $attr The shortcode attributes.
+	 * @param array $m Regular expression match array.
+	 * @return string|false Return the matched shortcode as-is for all shortcodes not handled by SyntaxHighlighter, returns $output otherwise.
+	 */
+	function pre_do_shortcode_shortcode_hack_skip_others( $output, $tag, $attr, $m ) {
+		if ( ! in_array( $tag, $this->shortcodes, true ) ) {
+			return $m[0];
+		}
+		return $output;
+	}
+
+	/**
 	 * Process only this plugin's shortcodes.
 	 *
 	 * If we waited for the normal do_shortcode() call at priority 11,
@@ -670,7 +688,8 @@ class SyntaxHighlighter {
 
 		// Register all other shortcodes, ensuring their content remains unchanged using yet another hack.
 		foreach ( $orig_shortcode_tags as $shortcode_tagname => $shortcode ) {
-			add_shortcode( $shortcode_tagname, array( $this, 'return_entire_shortcode_callback' ) );
+			add_shortcode( $shortcode_tagname, '__return_empty_string' );
+			add_filter( 'pre_do_shortcode_tag', array( $this, 'pre_do_shortcode_shortcode_hack_skip_others' ), 10, 4 );
 		}
 
 		$regex = '/' . get_shortcode_regex() . '/';
@@ -697,8 +716,9 @@ class SyntaxHighlighter {
 			);
 		}
 
-		// Put the original shortcodes back
+		// Put the original shortcodes back, and remove the hacky pre_do_shortcode_tag filter
 		$shortcode_tags = $orig_shortcode_tags;
+		remove_filter('pre_do_shortcode_tag', array($this, 'pre_do_shortcode_shortcode_hack_skip_others'), 10);
 
 		return $content;
 	}
@@ -752,45 +772,6 @@ class SyntaxHighlighter {
 		$match[0] = $this->shortcode_hack_extra_escape_escaped_shortcodes( $match );
 
 		return do_shortcode_tag( $match );
-	}
-
-	/**
-	 * Callback function to return the entire shortcode string as it appears in content.
-	 *
-	 * @param array       $atts    Array of attributes passed to the shortcode.
-	 * @param string|null $content Content enclosed between the opening and closing shortcode tags. Default is null.
-	 * @param string      $tag     Shortcode name/tag.
-	 *
-	 * @return string              The complete shortcode string including the opening and closing tags, attributes, and content.
-	 */
-	function return_entire_shortcode_callback( $atts, $content = null, $tag = '' ) {
-		$shortcode_string = '[' . $tag;
-
-		if ( ! empty( $atts ) ) {
-			foreach ( $atts as $key => $value ) {
-				if ( strpos( $value, "'" ) !== false && strpos( $value, '"' ) === false ) {
-					// Use double quotes if value contains a single quote but not a double quote.
-					$shortcode_string .= ' ' . $key . '="' . $value . '"';
-				} elseif ( strpos( $value, '"' ) !== false && strpos( $value, "'" ) === false ) {
-					// Use single quotes if value contains a double quote but not a single quote.
-					$shortcode_string .= ' ' . $key . "='" . $value . "'";
-				} elseif ( strpos( $value, "'" ) !== false && strpos( $value, '"' ) !== false ) {
-					// If value contains both types of quotes, use double quotes and escape inner double quotes.
-					$pattern           = '/(?<!\\\\)"/'; // This pattern looks for double quotes that aren't preceded by a backslash.
-					$escaped_value     = preg_replace( $pattern, '\"', $content );
-					$shortcode_string .= ' ' . $key . '="' . $escaped_value . '"';
-				} else {
-					$shortcode_string .= ' ' . $key . '="' . $value . '"';
-				}
-			}
-		}
- 
-		$shortcode_string .= ']';
-
-		if ( $content !== null ) {
-			$shortcode_string .= $content . '[/' . $tag . ']';
-		}
-		return $shortcode_string;
 	}
 
 	// The main filter for the post contents. The regular shortcode filter can't be used as it's post-wpautop().
