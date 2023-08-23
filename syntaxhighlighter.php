@@ -689,8 +689,8 @@ class SyntaxHighlighter {
 		// Register all other shortcodes, ensuring their content remains unchanged using yet another hack.
 		foreach ( $orig_shortcode_tags as $shortcode_tagname => $shortcode ) {
 			add_shortcode( $shortcode_tagname, '__return_empty_string' );
-			add_filter( 'pre_do_shortcode_tag', array( $this, 'pre_do_shortcode_shortcode_hack_skip_others' ), 10, 4 );
 		}
+		add_filter( 'pre_do_shortcode_tag', array( $this, 'pre_do_shortcode_shortcode_hack_skip_others' ), 10, 4 );
 
 		$regex = '/' . get_shortcode_regex() . '/';
 
