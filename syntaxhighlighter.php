@@ -618,6 +618,24 @@ class SyntaxHighlighter {
 
 
 	/**
+	 * Returns all shortcodes not handled by SyntaxHighlighter unchanged, so they
+	 * can be processed by their original handlers after SyntaxHighlighter has
+	 * run.
+	 * 
+	 * @param mixed $output The shortcode's returned value (false by default).
+	 * @param string $tag The name of the shortcode.
+	 * @param array|null $attr The shortcode attributes.
+	 * @param array $m Regular expression match array.
+	 * @return string|false Return the matched shortcode as-is for all shortcodes not handled by SyntaxHighlighter, returns $output otherwise.
+	 */
+	function pre_do_shortcode_shortcode_hack_skip_others( $output, $tag, $attr, $m ) {
+		if ( ! in_array( $tag, $this->shortcodes, true ) ) {
+			return $m[0];
+		}
+		return $output;
+	}
+
+	/**
 	 * Process only this plugin's shortcodes.
 	 *
 	 * If we waited for the normal do_shortcode() call at priority 11,
@@ -628,7 +646,11 @@ class SyntaxHighlighter {
 	 *
 	 * First we need to clear out all existing shortcodes, then register
 	 * just this plugin's ones, process them, and then restore the original
-	 * list of shortcodes.
+	 * list of shortcodes. Additionally, we have to add another hack to other
+	 * shortcodes, such as [gallery], to return the entire shortcode string as
+	 * it appears in the original content to allow SyntaxHighlighter's shortcode
+	 * strings (e.g., [c]) be used within other shortcodes without interference
+	 * from SyntaxHighlighter.
 	 *
 	 * To make matters more complicated, if someone has done [[code]foo[/code]]
 	 * in order to display the shortcode (not render it), then do_shortcode()
@@ -638,10 +660,6 @@ class SyntaxHighlighter {
 	 * So instead before do_shortcode() runs for the first time, we add
 	 * even more brackets escaped shortcodes in order to result in
 	 * the shortcodes actually being displayed instead rendered.
-	 *
-	 * We only need to do this for this plugin's shortcodes however
-	 * as all other shortcodes such as [[gallery]] will be untouched
-	 * by this pass of do_shortcode.
 	 *
 	 * Phew!
 	 *
@@ -659,8 +677,8 @@ class SyntaxHighlighter {
 			return $content;
 		}
 
-		// Backup current registered shortcodes and clear them all out
-		$orig_shortcode_tags = $shortcode_tags;
+		// Backup current registered shortcodes and clear them all out (we do not backup our own, because we will add and parse them below)
+		$orig_shortcode_tags = array_diff_key( $shortcode_tags, array_flip( $this->shortcodes ) );
 		remove_all_shortcodes();
 
 		// Register all of this plugin's shortcodes
@@ -668,7 +686,13 @@ class SyntaxHighlighter {
 			add_shortcode( $shortcode, $callback );
 		}
 
-		$regex = '/' . get_shortcode_regex( $this->shortcodes ) . '/';
+		// Register all other shortcodes, ensuring their content remains unchanged using yet another hack.
+		foreach ( $orig_shortcode_tags as $shortcode_tagname => $shortcode ) {
+			add_shortcode( $shortcode_tagname, '__return_empty_string' );
+		}
+		add_filter( 'pre_do_shortcode_tag', array( $this, 'pre_do_shortcode_shortcode_hack_skip_others' ), 10, 4 );
+
+		$regex = '/' . get_shortcode_regex() . '/';
 
 		// Parse the shortcodes (only this plugins's are registered)
 		if ( $ignore_html ) {
@@ -692,8 +716,9 @@ class SyntaxHighlighter {
 			);
 		}
 
-		// Put the original shortcodes back
+		// Put the original shortcodes back, and remove the hacky pre_do_shortcode_tag filter
 		$shortcode_tags = $orig_shortcode_tags;
+		remove_filter('pre_do_shortcode_tag', array($this, 'pre_do_shortcode_shortcode_hack_skip_others'), 10);
 
 		return $content;
 	}
@@ -748,7 +773,6 @@ class SyntaxHighlighter {
 
 		return do_shortcode_tag( $match );
 	}
-
 
 	// The main filter for the post contents. The regular shortcode filter can't be used as it's post-wpautop().
 	function parse_shortcodes( $content ) {
@@ -1377,7 +1401,7 @@ class SyntaxHighlighter {
 		$code = ( false === strpos( $code, '<' ) && false === strpos( $code, '>' ) && 2 == $this->get_code_format( $post ) ) ? strip_tags( $code ) : htmlspecialchars( $code );
 
 		// Escape shortcodes
-		$code = preg_replace( '/\[/', '&#91;', $code );
+		$code = preg_replace( '/\[/', '&#x5B;', $code );
 
 		$params[] = 'notranslate'; // For Google, see http://otto42.com/9k
 
