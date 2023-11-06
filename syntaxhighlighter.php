@@ -9,7 +9,7 @@ Description:  Easily post syntax-highlighted code to your site without having to
 Author:       Alex Mills (Viper007Bond)
 Author URI:   https://alex.blog/
 Text Domain:  syntaxhighlighter
-License:      GPL2
+License:      GPL2+
 License URI:  https://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 5.7
 Tested up to: 6.2
@@ -621,7 +621,7 @@ class SyntaxHighlighter {
 	 * Returns all shortcodes not handled by SyntaxHighlighter unchanged, so they
 	 * can be processed by their original handlers after SyntaxHighlighter has
 	 * run.
-	 * 
+	 *
 	 * @param mixed $output The shortcode's returned value (false by default).
 	 * @param string $tag The name of the shortcode.
 	 * @param array|null $attr The shortcode attributes.
