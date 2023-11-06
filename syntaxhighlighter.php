@@ -31,8 +31,9 @@ class SyntaxHighlighter {
 	public $encoded              = false;    // Used to mark that a character encode took place
 	public $codeformat           = false;    // If set, SyntaxHighlighter::get_code_format() will return this value
 	public $content_save_pre_ran = false;    // It's possible for the "content_save_pre" filter to run multiple times, so keep track
+	public $brush_names          = array();  // Array of brush names for use.
+	public $specialchars         = array(); // Array of special characters to be encoded.
 
-	// Initalize the plugin by registering the hooks
 	function __construct() {
 		if ( ! function_exists( 'do_shortcodes_in_html_tags' ) )
 			return;
@@ -621,7 +622,7 @@ class SyntaxHighlighter {
 	 * Returns all shortcodes not handled by SyntaxHighlighter unchanged, so they
 	 * can be processed by their original handlers after SyntaxHighlighter has
 	 * run.
-	 * 
+	 *
 	 * @param mixed $output The shortcode's returned value (false by default).
 	 * @param string $tag The name of the shortcode.
 	 * @param array|null $attr The shortcode attributes.
