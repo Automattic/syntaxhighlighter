@@ -1,6 +1,6 @@
 {
   "name": "syntaxhighlighter",
-  "version": "3.6.2",
+  "version": "3.7.0",
   "description": "Easily post syntax-highlighted code to your WordPress site without having to modify the code at all.",
   "homepage": "https://alex.blog/wordpress-plugins/syntaxhighlighter/",
   "author": "Alex Mills (Viper007Bond)",
@@ -13,21 +13,18 @@
     "url": "https://github.com/Viper007Bond/syntaxhighlighter/issues"
   },
   "scripts": {
-    "start": "cgb-scripts start",
+    "start": "wp-scripts start",
     "build": "npm run build:assets && npm run archive",
-    "build:assets": "cgb-scripts build",
-    "distclean": "rm -rf node_modules && rm -rf dist",
-    "preinstall": "npx npm-force-resolutions",
+    "build:assets": "wp-scripts build && npm run create-dist",
+    "create-dist": "mkdir -p dist && mv build/index.js dist/blocks.build.js && mv build/index.css dist/blocks.editor.build.css && mv build/style-index.css dist/blocks.style.build.css",
+    "distclean": "rm -rf node_modules && rm -rf dist && rm -rf build",
     "archive": "composer archive --file=$npm_package_name --format=zip"
   },
   "dependencies": {
-    "@wordpress/escape-html": "1.9.0",
-    "cgb-scripts": "1.23.0",
-    "classnames": "2.2.6",
-    "lodash.unescape": "4.0.1",
-    "npm-force-resolutions": "0.0.3"
-  },
-  "resolutions": {
-    "mem": "4.0.0"
+    "@wordpress/escape-html": "^2.46.0",
+    "@wordpress/create-block": "^4.30.0",
+    "@wordpress/scripts": "^26.17.0",
+    "lodash.unescape": "^4.0.1",
+    "lodash.flow": "^3.5.0"
   }
 }
