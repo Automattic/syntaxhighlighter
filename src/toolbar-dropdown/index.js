@@ -1,4 +1,3 @@
-import classnames from 'classnames';
 import {
 	Button,
 	Dropdown,
@@ -42,9 +41,7 @@ const ToolbarDropdown = ( {
 				isAlternate: true,
 				position: 'bottom right left',
 				focusOnMount: true,
-				className: classnames(
-					'syntaxhighlighter-toolbar-dropdown__popover'
-				),
+				className: 'syntaxhighlighter-toolbar-dropdown__popover',
 			} }
 			renderToggle={ ( { isOpen, onToggle } ) => (
 				<Button
@@ -63,15 +60,16 @@ const ToolbarDropdown = ( {
 						{ options.map( ( option ) => {
 							const isSelected =
 								option.value === selectedOption.value;
+							let itemClassNames = 'syntaxhighlighter-toolbar-dropdown__option';
+							if ( isSelected ) {
+								itemClassNames += ' is-selected';
+							}
 							return (
 								<MenuItem
 									key={ option.value }
 									role="menuitemradio"
 									isSelected={ isSelected }
-									className={ classnames(
-										'syntaxhighlighter-toolbar-dropdown__option',
-										{ 'is-selected': isSelected },
-									) }
+									className={ itemClassNames }
 									onClick={ () => {
 										onChange( option.value );
 										onClose();
