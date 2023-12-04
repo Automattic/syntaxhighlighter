@@ -42,9 +42,10 @@ Try excluding this plugin's Javascript from any performance optimizations your s
 
 = Version 3.7.0 =
 
-* Update npm dependencies
-* Migrate project from cgb-scripts to wp-scripts
-* Fix lodash dependencies issue
+- Update translations with translator comment to a single line. #245
+- Fix nested shortcode bugs. #261
+- PHP 8 Compat: declare class properties. #265
+- Migrate project to wp-scripts and fix lodash deps. #269
 
 = Version 3.6.2 =
 
