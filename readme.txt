@@ -3,7 +3,7 @@ Contributors: Viper007Bond, automattic, donncha
 Donate link: https://alex.blog/2019/03/13/in-memory-of-alex-donation-link-update/
 Tags: code, source, sourcecode, php, syntax highlighting, syntax, highlight, highlighting, highlighter, WordPress.com
 Requires at least: 5.7
-Tested up to: 6.2
+Tested up to: 6.4
 Stable tag: 3.7.0
 
 Easily post syntax-highlighted code to your site without having to modify the code at all. As seen on WordPress.com.
@@ -42,9 +42,10 @@ Try excluding this plugin's Javascript from any performance optimizations your s
 
 = Version 3.7.0 =
 
-* Update npm dependencies
-* Migrate project from cgb-scripts to wp-scripts
-* Fix lodash dependencies issue
+- Update translations with translator comment to a single line. #245
+- Fix nested shortcode bugs. #261
+- PHP 8 Compat: declare class properties. #265
+- Migrate project to wp-scripts and fix lodash deps. #269
 
 = Version 3.6.2 =
 
