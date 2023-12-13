@@ -143,6 +143,7 @@ class SyntaxHighlighter {
 		wp_register_script( 'syntaxhighlighter-brush-java',       plugins_url( $this->shfolder . '/scripts/shBrushJava.js',       __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-javafx',     plugins_url( $this->shfolder . '/scripts/shBrushJavaFX.js',     __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-jscript',    plugins_url( $this->shfolder . '/scripts/shBrushJScript.js',    __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
+		wp_register_script( 'syntaxhighlighter-brush-kotlin',     plugins_url( $this->shfolder . '/scripts/shBrushKotlin.js',     __FILE__ ), array('syntaxhighlighter-core'), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-perl',       plugins_url( $this->shfolder . '/scripts/shBrushPerl.js',       __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-php',        plugins_url( $this->shfolder . '/scripts/shBrushPhp.js',        __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
 		wp_register_script( 'syntaxhighlighter-brush-plain',      plugins_url( $this->shfolder . '/scripts/shBrushPlain.js',      __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
@@ -211,6 +212,7 @@ class SyntaxHighlighter {
 			'js'            => 'jscript',
 			'jscript'       => 'jscript',
 			'javascript'    => 'jscript',
+			'kotlin'        => 'kotlin',
 			'latex'         => 'latex', // Not used as a shortcode
 			'tex'           => 'latex',
 			'matlab'        => 'matlabkey',
@@ -265,6 +267,7 @@ class SyntaxHighlighter {
 			'java'       => __( 'Java',                      'syntaxhighlighter' ),
 			'javafx'     => __( 'JavaFX',                    'syntaxhighlighter' ),
 			'jscript'    => __( 'JavaScript',                'syntaxhighlighter' ),
+			'kotlin'     => __( 'Kotlin',                    'syntaxhighlighter' ),
 			'latex'      => __( 'LaTeX',                     'syntaxhighlighter' ),
 			'matlabkey'  => __( 'MATLAB',                    'syntaxhighlighter' ),
 			'objc'       => __( 'Objective-C',               'syntaxhighlighter' ),
