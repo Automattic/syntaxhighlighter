@@ -59,6 +59,7 @@
 }
 
 .syntaxhighlighter {
+  box-sizing: border-box;
   width: 100% !important;
   margin: 1em 0 1em 0 !important;
   position: relative !important;
@@ -80,7 +81,7 @@
   font-style: italic !important;
 }
 .syntaxhighlighter .line {
-  white-space: pre !important;
+  white-space: pre-wrap;
 }
 .syntaxhighlighter table {
   table-layout: auto !important;
