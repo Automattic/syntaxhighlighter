@@ -63,10 +63,13 @@
   width: 100% !important;
   margin: 1em 0 1em 0 !important;
   position: relative !important;
-  overflow: auto !important;
+  overflow-x: scroll !important;
   overflow-y: hidden !important;
   font-size: 1em !important;
   padding: 0.5em 1em !important;
+}
+.entry-content:has(.syntaxhighlighter) {
+  max-width: 100% !important;
 }
 .syntaxhighlighter code {
   display: inline !important;
@@ -81,7 +84,7 @@
   font-style: italic !important;
 }
 .syntaxhighlighter .line {
-  white-space: pre-wrap;
+  white-space: pre !important;
 }
 .syntaxhighlighter table {
   table-layout: auto !important;
