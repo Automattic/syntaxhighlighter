@@ -63,13 +63,10 @@
   width: 100% !important;
   margin: 1em 0 1em 0 !important;
   position: relative !important;
-  overflow-x: scroll !important;
+  overflow-x: auto !important;
   overflow-y: hidden !important;
   font-size: 1em !important;
   padding: 0.5em 1em !important;
-}
-.entry-content:has(.syntaxhighlighter) {
-  max-width: 100% !important;
 }
 .syntaxhighlighter code {
   display: inline !important;
