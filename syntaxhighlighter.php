@@ -4,7 +4,7 @@
 
 Plugin Name:  SyntaxHighlighter Evolved
 Plugin URI:   https://alex.blog/wordpress-plugins/syntaxhighlighter/
-Version:      3.7.0
+Version:      3.7.1
 Description:  Easily post syntax-highlighted code to your site without having to modify the code at all. Uses Alex Gorbatchev's <a href="http://alexgorbatchev.com/SyntaxHighlighter/">SyntaxHighlighter</a>. Includes a new editor block.
 Author:       Alex Mills (Viper007Bond)
 Author URI:   https://alex.blog/
@@ -12,7 +12,7 @@ Text Domain:  syntaxhighlighter
 License:      GPL2
 License URI:  https://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 5.7
-Tested up to: 6.4
+Tested up to: 6.7
 Requires PHP: 7.0
 
 **************************************************************************/
