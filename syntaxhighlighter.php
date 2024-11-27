@@ -19,7 +19,7 @@ Requires PHP: 7.0
 
 class SyntaxHighlighter {
 	// All of these variables are private. Filters are provided for things that can be modified.
-	public $pluginver            = '3.7.0';  // Plugin version
+	public $pluginver            = '3.7.1';  // Plugin version
 	public $agshver              = false;    // Alex Gorbatchev's SyntaxHighlighter version (dynamically set below due to v2 vs v3)
 	public $shfolder             = false;    // Controls what subfolder to load SyntaxHighlighter from (v2 or v3)
 	public $settings             = array();  // Contains the user's settings
