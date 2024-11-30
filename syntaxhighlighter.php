@@ -9,7 +9,7 @@ Description:  Easily post syntax-highlighted code to your site without having to
 Author:       Alex Mills (Viper007Bond)
 Author URI:   https://alex.blog/
 Text Domain:  syntaxhighlighter
-License:      GPL2
+License:      GPL2+
 License URI:  https://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 5.7
 Tested up to: 6.7
