@@ -62,6 +62,7 @@
   box-sizing: border-box;
   width: 100% !important;
   margin: 1em 0 1em 0 !important;
+  padding: 1em 0 1em 0 !important;
   position: relative !important;
   overflow: auto !important;
   overflow-y: hidden !important;
