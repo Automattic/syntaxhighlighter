@@ -557,8 +557,14 @@ class SyntaxHighlighter {
 
 		$code = preg_replace( '#<pre [^>]+>([^<]+)?</pre>#', '$1', $content );
 
-		// Undo escaping done by WordPress
-		$code = htmlspecialchars_decode( $code );
+		$language = null;
+		if ( isset( $attributes['language'] ) ) {
+			$language = $attributes['language'];
+		}
+		if ( isset( $this->brushes[ $language ] ) )  {
+			// Undo escaping done by WordPress
+			$code = htmlspecialchars_decode( $code );
+		}
 		$code = preg_replace( '/^(\s*https?:)&#0?47;&#0?47;([^\s<>"]+\s*)$/m', '$1//$2', $code );
 
 		$code = $this->shortcode_callback( $attributes, $code, 'code' );
