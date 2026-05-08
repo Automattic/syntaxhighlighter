@@ -1112,10 +1112,10 @@ class SyntaxHighlighter {
 			case 'true':
 				echo 'true';
 				break;
-			case 'false';
+			case 'false':
 				echo 'false';
 				break;
-			default;
+			default:
 				echo (int) $this->settings['padlinenumbers'];
 		}
 		echo ";\n";
