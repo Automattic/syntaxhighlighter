@@ -618,7 +618,7 @@ class SyntaxHighlighter {
 		foreach ( $this->shortcodes as $shortcode )
 			$shortcodes[] = preg_quote( $shortcode );
 
-		echo "<script type='text/javascript'>\n";
+		echo "<script>\n";
 		echo "	var syntaxHLcodes = '" . implode( '|', $shortcodes ) . "';\n";
 		echo "</script>\n";
 	}
@@ -990,7 +990,7 @@ class SyntaxHighlighter {
 		wp_print_scripts( $scripts );
 
 		// Stylesheets can't be in the footer, so inject them via Javascript
-		echo "<script type='text/javascript'>\n";
+		echo "<script>\n";
 		echo "	(function(){\n";
 		echo "		var corecss = document.createElement('link');\n";
 		echo "		var themecss = document.createElement('link');\n";
@@ -1421,7 +1421,7 @@ class SyntaxHighlighter {
 	// Settings page
 	function settings_page() { ?>
 
-<script type="text/javascript">
+<script>
 // <![CDATA[
 	jQuery(document).ready(function( $ ) {
 		// Confirm pressing of the "Reset to Defaults" button
