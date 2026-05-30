@@ -26,5 +26,9 @@
     "@wordpress/scripts": "^26.17.0",
     "lodash.unescape": "^4.0.1",
     "lodash.flow": "^3.5.0"
+  },
+  "overrides": {
+    "basic-ftp": "5.2.2",
+    "form-data": "4.0.4"
   }
 }
