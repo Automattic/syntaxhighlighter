@@ -21,14 +21,20 @@
     "archive": "composer archive --file=$npm_package_name --format=zip"
   },
   "dependencies": {
-    "@wordpress/escape-html": "^2.46.0",
-    "@wordpress/create-block": "^4.30.0",
-    "@wordpress/scripts": "^26.17.0",
+    "@wordpress/escape-html": "^3.47.0",
+    "@wordpress/create-block": "^4.90.0",
+    "@wordpress/scripts": "32.3.0",
     "lodash.unescape": "^4.0.1",
     "lodash.flow": "^3.5.0"
   },
   "overrides": {
-    "basic-ftp": "5.2.2",
-    "form-data": "4.0.4"
+    "basic-ftp": "5.3.1",
+    "cookie": "0.7.2",
+    "cross-spawn": "7.0.6",
+    "form-data": "4.0.4",
+    "minimatch": "10.2.5",
+    "serialize-javascript": "7.0.5",
+    "tar-fs": "3.1.2",
+    "ws": "8.21.0"
   }
 }
