@@ -173,6 +173,7 @@ class SyntaxHighlighter {
 		wp_register_style( 'syntaxhighlighter-theme-fadetogrey', plugins_url( $this->shfolder . '/styles/shThemeFadeToGrey.css', __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
 		wp_register_style( 'syntaxhighlighter-theme-midnight',   plugins_url( $this->shfolder . '/styles/shThemeMidnight.css',   __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
 		wp_register_style( 'syntaxhighlighter-theme-rdark',      plugins_url( $this->shfolder . '/styles/shThemeRDark.css',      __FILE__ ), array( 'syntaxhighlighter-core' ), $this->agshver );
+		wp_register_style( 'syntaxhighlighter-blocks-css',      plugins_url( 'dist/blocks.style.build.css', __FILE__ ), array(),                             $this->agshver );
 		// phpcs:enable
 
 		// Create list of brush aliases and map them to their real brushes
@@ -973,7 +974,7 @@ class SyntaxHighlighter {
 
 	// Output any needed scripts. This is meant for the footer.
 	function maybe_output_scripts() {
-		global $wp_styles;
+		global $post, $wp_styles;
 
 		if ( 1 == $this->settings['loadallbrushes'] ) {
 			$this->usedbrushes = array_flip( array_values( $this->brushes ) );
@@ -992,12 +993,32 @@ class SyntaxHighlighter {
 		// Stylesheets can't be in the footer, so inject them via Javascript
 		echo "<script>\n";
 		echo "	(function(){\n";
+		echo "		var blockcss = document.createElement('link');\n";
 		echo "		var corecss = document.createElement('link');\n";
 		echo "		var themecss = document.createElement('link');\n";
 
 		if ( ! is_a( $wp_styles, 'WP_Styles' ) ) {
 			$wp_styles = new WP_Styles();
 		}
+
+		// The block queries its own stylesheet below, so it needs registration data.
+		if ( ! empty( $post->post_content ) && ( has_block( 'syntaxhighlighter/code', $post->post_content ) || has_block( 'core/block', $post->post_content ) ) ) : // Reusable
+			if ( ! empty( $wp_styles->registered['syntaxhighlighter-blocks-css'] ) && ! empty( $wp_styles->registered['syntaxhighlighter-blocks-css']->src ) ) :
+				$blockcssurl = add_query_arg( 'ver', $this->agshver, $wp_styles->registered['syntaxhighlighter-blocks-css']->src );
+?>
+			var blockcssurl = "<?php echo esc_js( $blockcssurl ); ?>";
+			if ( blockcss.setAttribute ) {
+				blockcss.setAttribute( "rel", "stylesheet" );
+				blockcss.setAttribute( "type", "text/css" );
+				blockcss.setAttribute( "href", blockcssurl );
+			} else {
+				blockcss.rel = "stylesheet";
+				blockcss.href = blockcssurl;
+			}
+			document.head.appendChild( blockcss );
+<?php
+			endif; // Endif block css registered
+		endif; // Endif block present
 
 		$needcore = false;
 		if ( 'none' == $this->settings['theme'] ) {

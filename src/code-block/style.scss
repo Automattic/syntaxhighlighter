@@ -1,0 +1,18 @@
+/**
+ * Frontend styles for the syntaxhighlighter/code block.
+ *
+ * The block output is wrapped in a `.wp-block-syntaxhighlighter-code`
+ * container (see render_block). These rules fix the highlighter table
+ * layout inside that container only, leaving shortcode output untouched.
+ */
+
+// Keep the line-number gutter from stretching to fill the table's
+// auto width. See https://github.com/Automattic/syntaxhighlighter/issues/287
+.wp-block-syntaxhighlighter-code .syntaxhighlighter table td.gutter {
+	max-width: fit-content;
+}
+
+// Keep the gutter and code cells on the same line on narrow screens.
+.wp-block-syntaxhighlighter-code .syntaxhighlighter tr {
+	display: inline-table;
+}
