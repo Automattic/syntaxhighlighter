@@ -101,6 +101,7 @@ class SyntaxHighlighter {
 			'collapse'       => 0,
 			'firstline'      => 1,
 			'gutter'         => 1,
+			'maxheight'      => 0, // 0 disables the max-height cap
 			'htmlscript'     => 0,
 			'light'          => 0,
 			'padlinenumbers' => 'false',
@@ -1138,6 +1139,14 @@ class SyntaxHighlighter {
 			echo "	SyntaxHighlighter.defaults['quick-code'] = false;\n";
 		}
 
+		if ( ! empty( $this->settings['maxheight'] ) ) {
+			$maxheight = (int) $this->settings['maxheight'];
+			echo "	var maxheightcss = document.createElement( 'style' );\n";
+			echo "	maxheightcss.setAttribute( 'type', 'text/css' );\n";
+			echo "	maxheightcss.appendChild( document.createTextNode( '" . esc_attr( ".syntaxhighlighter { max-height: {$maxheight}px !important; overflow-y: auto !important; }" ) . "' ) );\n";
+			echo "	document.head.appendChild( maxheightcss );\n";
+		}
+
 ?>	SyntaxHighlighter.all();
 
 	// Infinite scroll support
@@ -1490,6 +1499,14 @@ class SyntaxHighlighter {
 				</fieldset>
 			</td>
 		</tr>
+		<tr valign="top">
+			<th scope="row"><label for="syntaxhighlighter-maxheight"><?php esc_html_e( 'Max Height (in pixels)', 'syntaxhighlighter' ); ?></label></th>
+			<td>
+				<input name="syntaxhighlighter_settings[maxheight]" type="text" id="syntaxhighlighter-maxheight" value="<?php echo esc_attr( $this->settings['maxheight'] ); ?>" class="small-text" />
+				<br />
+				<?php esc_html_e( 'The maximum height of a code block before a vertical scrollbar appears. Set to 0 to disable.', 'syntaxhighlighter' ); ?>
+			</td>
+		</tr>
 	</table>
 
 	<h3><?php esc_html_e( 'Defaults', 'syntaxhighlighter' ); ?></h3>
@@ -1811,6 +1828,7 @@ class SyntaxHighlighter {
 			$settings['classname']      = ( ! empty( $settings['classname'] ) ) ? preg_replace( '/[^ A-Za-z0-9_-]*/', '', $settings['classname'] ) : '';
 			$settings['firstline']      = (int) ( ( ! empty( $settings['firstline'] ) ) ? $settings['firstline'] : $this->defaultsettings['firstline'] );
 			$settings['tabsize']        = (int) ( ( ! empty( $settings['tabsize'] ) ) ? $settings['tabsize'] : $this->defaultsettings['tabsize'] );
+			$settings['maxheight']       = (int) max( 0, ( $settings['maxheight'] ?? $this->defaultsettings['maxheight'] ) );
 		}
 
 		return $settings;
