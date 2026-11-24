@@ -83,6 +83,42 @@ class SyntaxHighlighter_Evolved_Tests_Rendering extends WP_UnitTestCase {
 		$this->assertSame( 'if ( $a &lt; $b &amp;&amp; $c )', $rendered );
 	}
 
+	/**
+	 * The editor saves `<` and `&` as entities. They have to be displayed as the characters that were typed,
+	 * whatever the language, and whether or not the post is marked as having encoded shortcodes.
+	 *
+	 * @dataProvider data_block_escaping
+	 */
+	public function test_block_code_is_escaped_exactly_once( $attributes, $encoded_shortcodes ) {
+		$post_id = self::factory()->post->create();
+		if ( $encoded_shortcodes ) {
+			add_post_meta( $post_id, '_syntaxhighlighter_encoded', true );
+		}
+		$GLOBALS['post'] = get_post( $post_id );
+
+		$rendered = $this->render_block( $attributes, "&lt;foo>\nbar &amp; baz\n&amp;lt;" );
+
+		$this->assertStringContainsString( "&lt;foo&gt;\nbar &amp; baz\n&amp;lt;</pre>", $rendered );
+	}
+
+	public static function data_block_escaping() {
+		return array(
+			'default language'                    => array( '', false ),
+			'default language, encoded post'      => array( '', true ),
+			'plain text'                          => array( '{"language":"plain"}', false ),
+			'php'                                 => array( '{"language":"php"}', false ),
+			'php, encoded post'                   => array( '{"language":"php"}', true ),
+			'uppercase language'                  => array( '{"language":"PHP"}', false ),
+			'default language with other options' => array( '{"lineNumbers":false}', false ),
+		);
+	}
+
+	public function test_block_without_a_language_is_plain_text() {
+		$rendered = $this->render_block( '{"lang":"zzz","type":"php"}', 'echo 1;' );
+
+		$this->assertStringContainsString( '<pre class="brush: plain;', $rendered );
+	}
+
 	public function test_known_language_block_is_highlighted() {
 		$rendered = $this->render_block( '{"language":"php"}', '&lt;?php echo 1; ?&gt;' );
 

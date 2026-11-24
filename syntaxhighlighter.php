@@ -566,17 +566,29 @@ class SyntaxHighlighter {
 
 		$code = preg_replace( '#<pre [^>]+>([^<]+)?</pre>#', '$1', $content );
 
-		$language = null;
-		if ( isset( $attributes['language'] ) ) {
-			$language = $attributes['language'];
+		// The block doesn't save its language when it's the default one, plain text
+		if ( ! isset( $attributes['language'] ) ) {
+			$attributes['language'] = 'plain';
 		}
-		if ( isset( $this->brushes[ $language ] ) )  {
-			// Undo escaping done by WordPress
+
+		/*
+		 * Undo the escaping done by the editor, but only when shortcode_callback() is going to highlight the code,
+		 * which is when it escapes the code again. The language is checked in the same way as it is there.
+		 */
+		$language = is_string( $attributes['language'] ) ? strtolower( $attributes['language'] ) : '';
+		$decoded  = isset( $this->brushes[ $language ] );
+		if ( $decoded ) {
 			$code = htmlspecialchars_decode( $code );
 		}
 		$code = preg_replace( '/^(\s*https?:)&#0?47;&#0?47;([^\s<>"]+\s*)$/m', '$1//$2', $code );
 
-		$code = $this->shortcode_callback( $attributes, $code, 'code' );
+		// Decoded code is raw, whatever format the post's shortcodes are stored in, so it always has to be escaped
+		$previous_codeformat = $this->codeformat;
+		if ( $decoded ) {
+			$this->codeformat = 1;
+		}
+		$code             = $this->shortcode_callback( $attributes, $code, 'code' );
+		$this->codeformat = $previous_codeformat;
 
 		return '<div class="wp-block-syntaxhighlighter-code ' . esc_attr( join( ' ', $classnames ) ) . '">' . $code . '</div>';
 	}
