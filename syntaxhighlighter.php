@@ -247,40 +247,40 @@ class SyntaxHighlighter {
 
 		// phpcs:disable Generic.Functions.FunctionCallArgumentSpacing.TooMuchSpaceAfterComma
 		$this->brush_names = (array) apply_filters( 'syntaxhighlighter_brush_names', array(
-			'as3'        => __( 'ActionScript',              'syntaxhighlighter' ),
-			'arduino'    => __( 'Arduino',                   'syntaxhighlighter' ),
-			'bash'       => __( 'BASH / Shell',              'syntaxhighlighter' ),
-			'coldfusion' => __( 'ColdFusion',                'syntaxhighlighter' ),
-			'clojure'    => __( 'Clojure',                   'syntaxhighlighter' ),
-			'cpp'        => __( 'C / C++',                   'syntaxhighlighter' ),
-			'csharp'     => __( 'C#',                        'syntaxhighlighter' ),
-			'css'        => __( 'CSS',                       'syntaxhighlighter' ),
-			'delphi'     => __( 'Delphi / Pascal',           'syntaxhighlighter' ),
-			'diff'       => __( 'diff / patch',              'syntaxhighlighter' ),
-			'erlang'     => __( 'Erlang',                    'syntaxhighlighter' ),
-			'fsharp'     => __( 'F#',                        'syntaxhighlighter' ),
-			'go'         => __( 'Go',                        'syntaxhighlighter' ),
-			'groovy'     => __( 'Groovy',                    'syntaxhighlighter' ),
-			'haskell'    => __( 'Haskell',                   'syntaxhighlighter' ),
-			'java'       => __( 'Java',                      'syntaxhighlighter' ),
-			'javafx'     => __( 'JavaFX',                    'syntaxhighlighter' ),
-			'jscript'    => __( 'JavaScript',                'syntaxhighlighter' ),
-			'latex'      => __( 'LaTeX',                     'syntaxhighlighter' ),
-			'matlabkey'  => __( 'MATLAB',                    'syntaxhighlighter' ),
-			'objc'       => __( 'Objective-C',               'syntaxhighlighter' ),
-			'perl'       => __( 'Perl',                      'syntaxhighlighter' ),
-			'php'        => __( 'PHP',                       'syntaxhighlighter' ),
+			'as3'        => _x( 'ActionScript',              'Programming language', 'syntaxhighlighter' ),
+			'arduino'    => _x( 'Arduino',                   'Programming language', 'syntaxhighlighter' ),
+			'bash'       => _x( 'BASH / Shell',              'Programming language', 'syntaxhighlighter' ),
+			'coldfusion' => _x( 'ColdFusion',                'Programming language', 'syntaxhighlighter' ),
+			'clojure'    => _x( 'Clojure',                   'Programming language', 'syntaxhighlighter' ),
+			'cpp'        => _x( 'C / C++',                   'Programming language', 'syntaxhighlighter' ),
+			'csharp'     => _x( 'C#',                        'Programming language', 'syntaxhighlighter' ),
+			'css'        => _x( 'CSS',                       'Programming language', 'syntaxhighlighter' ),
+			'delphi'     => _x( 'Delphi / Pascal',           'Programming language', 'syntaxhighlighter' ),
+			'diff'       => _x( 'diff / patch',              'Programming language', 'syntaxhighlighter' ),
+			'erlang'     => _x( 'Erlang',                    'Programming language', 'syntaxhighlighter' ),
+			'fsharp'     => _x( 'F#',                        'Programming language', 'syntaxhighlighter' ),
+			'go'         => _x( 'Go',                        'Programming language', 'syntaxhighlighter' ),
+			'groovy'     => _x( 'Groovy',                    'Programming language', 'syntaxhighlighter' ),
+			'haskell'    => _x( 'Haskell',                   'Programming language', 'syntaxhighlighter' ),
+			'java'       => _x( 'Java',                      'Programming language', 'syntaxhighlighter' ),
+			'javafx'     => _x( 'JavaFX',                    'Programming language', 'syntaxhighlighter' ),
+			'jscript'    => _x( 'JavaScript',                'Programming language', 'syntaxhighlighter' ),
+			'latex'      => _x( 'LaTeX',                     'Programming language', 'syntaxhighlighter' ),
+			'matlabkey'  => _x( 'MATLAB',                    'Programming language', 'syntaxhighlighter' ),
+			'objc'       => _x( 'Objective-C',               'Programming language', 'syntaxhighlighter' ),
+			'perl'       => _x( 'Perl',                      'Programming language', 'syntaxhighlighter' ),
+			'php'        => _x( 'PHP',                       'Programming language', 'syntaxhighlighter' ),
 			'plain'      => __( 'Plain Text',                'syntaxhighlighter' ),
-			'powershell' => __( 'PowerShell',                'syntaxhighlighter' ),
-			'python'     => __( 'Python',                    'syntaxhighlighter' ),
-			'r'          => __( 'R',                         'syntaxhighlighter' ),
-			'ruby'       => __( 'Ruby / Ruby on Rails',      'syntaxhighlighter' ),
-			'scala'      => __( 'Scala',                     'syntaxhighlighter' ),
-			'swift'      => __( 'Swift',                     'syntaxhighlighter' ),
-			'sql'        => __( 'SQL',                       'syntaxhighlighter' ),
-			'vb'         => __( 'Visual Basic',              'syntaxhighlighter' ),
-			'xml'        => __( 'HTML / XHTML / XML / XSLT', 'syntaxhighlighter' ),
-			'yaml'        => __( 'YAML',                     'syntaxhighlighter' ),
+			'powershell' => _x( 'PowerShell',                'Programming language', 'syntaxhighlighter' ),
+			'python'     => _x( 'Python',                    'Programming language', 'syntaxhighlighter' ),
+			'r'          => _x( 'R',                         'Programming language', 'syntaxhighlighter' ),
+			'ruby'       => _x( 'Ruby / Ruby on Rails',      'Programming language', 'syntaxhighlighter' ),
+			'scala'      => _x( 'Scala',                     'Programming language', 'syntaxhighlighter' ),
+			'swift'      => _x( 'Swift',                     'Programming language', 'syntaxhighlighter' ),
+			'sql'        => _x( 'SQL',                       'Programming language', 'syntaxhighlighter' ),
+			'vb'         => _x( 'Visual Basic',              'Programming language', 'syntaxhighlighter' ),
+			'xml'        => _x( 'HTML / XHTML / XML / XSLT', 'Programming language', 'syntaxhighlighter' ),
+			'yaml'        => _x( 'YAML',                     'Programming language', 'syntaxhighlighter' ),
 		) );
 		// phpcs:enable
 
@@ -1141,13 +1141,31 @@ class SyntaxHighlighter {
 ?>	SyntaxHighlighter.all();
 
 	// Infinite scroll support
-	if ( typeof( jQuery ) !== 'undefined' ) {
-		jQuery( function( $ ) {
-			$( document.body ).on( 'post-load', function() {
+	( function() {
+		var highlightQueued = false;
+
+		// Jetpack triggers both of the events below for the same posts, so only highlight once for them
+		function highlightNewPosts() {
+			if ( highlightQueued ) {
+				return;
+			}
+
+			highlightQueued = true;
+			setTimeout( function() {
+				highlightQueued = false;
 				SyntaxHighlighter.highlight();
+			}, 0 );
+		}
+
+		document.addEventListener( 'is.post-load', highlightNewPosts );
+
+		// Older versions of Jetpack, and some themes, only trigger the jQuery event
+		if ( typeof( jQuery ) !== 'undefined' ) {
+			jQuery( function( $ ) {
+				$( document.body ).on( 'post-load', highlightNewPosts );
 			} );
-		} );
-	}
+		}
+	} )();
 </script>
 <?php
 
