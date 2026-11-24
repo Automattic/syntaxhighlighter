@@ -247,40 +247,40 @@ class SyntaxHighlighter {
 
 		// phpcs:disable Generic.Functions.FunctionCallArgumentSpacing.TooMuchSpaceAfterComma
 		$this->brush_names = (array) apply_filters( 'syntaxhighlighter_brush_names', array(
-			'as3'        => __( 'ActionScript',              'syntaxhighlighter' ),
-			'arduino'    => __( 'Arduino',                   'syntaxhighlighter' ),
-			'bash'       => __( 'BASH / Shell',              'syntaxhighlighter' ),
-			'coldfusion' => __( 'ColdFusion',                'syntaxhighlighter' ),
-			'clojure'    => __( 'Clojure',                   'syntaxhighlighter' ),
-			'cpp'        => __( 'C / C++',                   'syntaxhighlighter' ),
-			'csharp'     => __( 'C#',                        'syntaxhighlighter' ),
-			'css'        => __( 'CSS',                       'syntaxhighlighter' ),
-			'delphi'     => __( 'Delphi / Pascal',           'syntaxhighlighter' ),
-			'diff'       => __( 'diff / patch',              'syntaxhighlighter' ),
-			'erlang'     => __( 'Erlang',                    'syntaxhighlighter' ),
-			'fsharp'     => __( 'F#',                        'syntaxhighlighter' ),
-			'go'         => __( 'Go',                        'syntaxhighlighter' ),
-			'groovy'     => __( 'Groovy',                    'syntaxhighlighter' ),
-			'haskell'    => __( 'Haskell',                   'syntaxhighlighter' ),
-			'java'       => __( 'Java',                      'syntaxhighlighter' ),
-			'javafx'     => __( 'JavaFX',                    'syntaxhighlighter' ),
-			'jscript'    => __( 'JavaScript',                'syntaxhighlighter' ),
-			'latex'      => __( 'LaTeX',                     'syntaxhighlighter' ),
-			'matlabkey'  => __( 'MATLAB',                    'syntaxhighlighter' ),
-			'objc'       => __( 'Objective-C',               'syntaxhighlighter' ),
-			'perl'       => __( 'Perl',                      'syntaxhighlighter' ),
-			'php'        => __( 'PHP',                       'syntaxhighlighter' ),
+			'as3'        => _x( 'ActionScript',              'Programming language', 'syntaxhighlighter' ),
+			'arduino'    => _x( 'Arduino',                   'Programming language', 'syntaxhighlighter' ),
+			'bash'       => _x( 'BASH / Shell',              'Programming language', 'syntaxhighlighter' ),
+			'coldfusion' => _x( 'ColdFusion',                'Programming language', 'syntaxhighlighter' ),
+			'clojure'    => _x( 'Clojure',                   'Programming language', 'syntaxhighlighter' ),
+			'cpp'        => _x( 'C / C++',                   'Programming language', 'syntaxhighlighter' ),
+			'csharp'     => _x( 'C#',                        'Programming language', 'syntaxhighlighter' ),
+			'css'        => _x( 'CSS',                       'Programming language', 'syntaxhighlighter' ),
+			'delphi'     => _x( 'Delphi / Pascal',           'Programming language', 'syntaxhighlighter' ),
+			'diff'       => _x( 'diff / patch',              'Programming language', 'syntaxhighlighter' ),
+			'erlang'     => _x( 'Erlang',                    'Programming language', 'syntaxhighlighter' ),
+			'fsharp'     => _x( 'F#',                        'Programming language', 'syntaxhighlighter' ),
+			'go'         => _x( 'Go',                        'Programming language', 'syntaxhighlighter' ),
+			'groovy'     => _x( 'Groovy',                    'Programming language', 'syntaxhighlighter' ),
+			'haskell'    => _x( 'Haskell',                   'Programming language', 'syntaxhighlighter' ),
+			'java'       => _x( 'Java',                      'Programming language', 'syntaxhighlighter' ),
+			'javafx'     => _x( 'JavaFX',                    'Programming language', 'syntaxhighlighter' ),
+			'jscript'    => _x( 'JavaScript',                'Programming language', 'syntaxhighlighter' ),
+			'latex'      => _x( 'LaTeX',                     'Programming language', 'syntaxhighlighter' ),
+			'matlabkey'  => _x( 'MATLAB',                    'Programming language', 'syntaxhighlighter' ),
+			'objc'       => _x( 'Objective-C',               'Programming language', 'syntaxhighlighter' ),
+			'perl'       => _x( 'Perl',                      'Programming language', 'syntaxhighlighter' ),
+			'php'        => _x( 'PHP',                       'Programming language', 'syntaxhighlighter' ),
 			'plain'      => __( 'Plain Text',                'syntaxhighlighter' ),
-			'powershell' => __( 'PowerShell',                'syntaxhighlighter' ),
-			'python'     => __( 'Python',                    'syntaxhighlighter' ),
-			'r'          => __( 'R',                         'syntaxhighlighter' ),
-			'ruby'       => __( 'Ruby / Ruby on Rails',      'syntaxhighlighter' ),
-			'scala'      => __( 'Scala',                     'syntaxhighlighter' ),
-			'swift'      => __( 'Swift',                     'syntaxhighlighter' ),
-			'sql'        => __( 'SQL',                       'syntaxhighlighter' ),
-			'vb'         => __( 'Visual Basic',              'syntaxhighlighter' ),
-			'xml'        => __( 'HTML / XHTML / XML / XSLT', 'syntaxhighlighter' ),
-			'yaml'        => __( 'YAML',                     'syntaxhighlighter' ),
+			'powershell' => _x( 'PowerShell',                'Programming language', 'syntaxhighlighter' ),
+			'python'     => _x( 'Python',                    'Programming language', 'syntaxhighlighter' ),
+			'r'          => _x( 'R',                         'Programming language', 'syntaxhighlighter' ),
+			'ruby'       => _x( 'Ruby / Ruby on Rails',      'Programming language', 'syntaxhighlighter' ),
+			'scala'      => _x( 'Scala',                     'Programming language', 'syntaxhighlighter' ),
+			'swift'      => _x( 'Swift',                     'Programming language', 'syntaxhighlighter' ),
+			'sql'        => _x( 'SQL',                       'Programming language', 'syntaxhighlighter' ),
+			'vb'         => _x( 'Visual Basic',              'Programming language', 'syntaxhighlighter' ),
+			'xml'        => _x( 'HTML / XHTML / XML / XSLT', 'Programming language', 'syntaxhighlighter' ),
+			'yaml'        => _x( 'YAML',                     'Programming language', 'syntaxhighlighter' ),
 		) );
 		// phpcs:enable
 
@@ -530,6 +530,15 @@ class SyntaxHighlighter {
 	 * @return string The rendered content.
 	 */
 	public function render_block( $attributes, $content ) {
+		/*
+		 * Only named attributes with scalar values are meaningful.
+		 *
+		 * shortcode_callback() treats a positional `0` attribute as the language, which would change the
+		 * language after the code has been decoded below. Arrays and objects can't be used as a setting.
+		 */
+		$attributes = array_filter( (array) $attributes, 'is_scalar' );
+		$attributes = array_filter( $attributes, 'is_string', ARRAY_FILTER_USE_KEY );
+
 		$remaps = array(
 			'lineNumbers'       => 'gutter',
 			'firstLineNumber'   => 'firstline',
@@ -557,19 +566,34 @@ class SyntaxHighlighter {
 
 		$code = preg_replace( '#<pre [^>]+>([^<]+)?</pre>#', '$1', $content );
 
-		$language = null;
-		if ( isset( $attributes['language'] ) ) {
-			$language = $attributes['language'];
+		// The block doesn't save its language when it's the default one, plain text
+		if ( ! isset( $attributes['language'] ) || '' === $attributes['language'] ) {
+			$attributes['language'] = 'plain';
 		}
-		if ( isset( $this->brushes[ $language ] ) )  {
-			// Undo escaping done by WordPress
+
+		/*
+		 * Undo the escaping done by the editor, but only when shortcode_callback() is going to highlight the code,
+		 * which is when it escapes the code again. The language is checked in the same way as it is there.
+		 */
+		$language = is_string( $attributes['language'] ) ? strtolower( $attributes['language'] ) : '';
+		$decoded  = isset( $this->brushes[ $language ] );
+		if ( $decoded ) {
 			$code = htmlspecialchars_decode( $code );
 		}
 		$code = preg_replace( '/^(\s*https?:)&#0?47;&#0?47;([^\s<>"]+\s*)$/m', '$1//$2', $code );
 
-		$code = $this->shortcode_callback( $attributes, $code, 'code' );
+		// Decoded code is raw, whatever format the post's shortcodes are stored in, so it always has to be escaped
+		$previous_codeformat = $this->codeformat;
+		if ( $decoded ) {
+			$this->codeformat = 1;
+		}
+		try {
+			$code = $this->shortcode_callback( $attributes, $code, 'code' );
+		} finally {
+			$this->codeformat = $previous_codeformat;
+		}
 
-		return '<div class="wp-block-syntaxhighlighter-code ' . esc_attr( join( ' ', $classnames ) ) . '">' . $code . '</div>';
+		return '<div class="wp-block-syntaxhighlighter-code ' . esc_attr( implode( ' ', $classnames ) ) . '">' . $code . '</div>';
 	}
 
 	// Add the custom TinyMCE plugin which wraps plugin shortcodes in <pre> in TinyMCE
@@ -1141,13 +1165,31 @@ class SyntaxHighlighter {
 ?>	SyntaxHighlighter.all();
 
 	// Infinite scroll support
-	if ( typeof( jQuery ) !== 'undefined' ) {
-		jQuery( function( $ ) {
-			$( document.body ).on( 'post-load', function() {
+	( function() {
+		var highlightQueued = false;
+
+		// Jetpack triggers both of the events below for the same posts, so only highlight once for them
+		function highlightNewPosts() {
+			if ( highlightQueued ) {
+				return;
+			}
+
+			highlightQueued = true;
+			setTimeout( function() {
+				highlightQueued = false;
 				SyntaxHighlighter.highlight();
+			}, 0 );
+		}
+
+		document.addEventListener( 'is.post-load', highlightNewPosts );
+
+		// Older versions of Jetpack, and some themes, only trigger the jQuery event
+		if ( typeof( jQuery ) !== 'undefined' ) {
+			jQuery( function( $ ) {
+				$( document.body ).on( 'post-load', highlightNewPosts );
 			} );
-		} );
-	}
+		}
+	} )();
 </script>
 <?php
 
@@ -1172,6 +1214,56 @@ class SyntaxHighlighter {
 		}
 
 		return $atts;
+	}
+
+
+	/**
+	 * Turns a list of line numbers and line ranges, such as "2,5-10,12", into a list of line numbers.
+	 *
+	 * Ranges are limited to the lines the code actually has. Otherwise a range such as "1-99999999"
+	 * would use up all of the available memory, and anyone who can leave a comment can use the shortcode.
+	 *
+	 * @since 3.7.3
+	 *
+	 * @param string $value      Comma-separated line numbers and line ranges.
+	 * @param int    $first_line The number of the first line of code.
+	 * @param int    $last_line  The number of the last line of code.
+	 *
+	 * @return string Comma-separated line numbers.
+	 */
+	function expand_highlight_ranges( $value, $first_line, $last_line ) {
+		$highlights = array();
+		$ranges     = array();
+
+		foreach ( explode( ',', $value ) as $line ) {
+			if ( false === strpos( $line, '-' ) ) {
+				$highlights[] = (int) $line;
+				continue;
+			}
+
+			list( $range_start, $range_end ) = array_map( 'intval', explode( '-', $line ) );
+			if ( ! $range_start || ! $range_end || $range_end <= $range_start ) {
+				continue;
+			}
+
+			$ranges[] = array( max( $range_start, $first_line ), min( $range_end, $last_line ) );
+		}
+
+		// Go through the ranges in order, so that each line is only visited once no matter how many ranges overlap
+		sort( $ranges );
+		$next_line = $first_line;
+		foreach ( $ranges as $range ) {
+			for ( $i = max( $range[0], $next_line ); $i <= $range[1]; $i++ ) {
+				$highlights[] = $i;
+			}
+
+			$next_line = max( $next_line, $range[1] + 1 );
+		}
+
+		$highlights = array_unique( $highlights );
+		natsort( $highlights );
+
+		return implode( ',', $highlights );
 	}
 
 
@@ -1238,6 +1330,10 @@ class SyntaxHighlighter {
 			elseif ( false !== $atts['lang'] )
 				$lang = $atts['lang'];
 
+			// Check for the "type" attribute, but only use it when it's a language we know
+			elseif ( false !== $atts['type'] && isset( $this->brushes[ strtolower( $atts['type'] ) ] ) )
+				$lang = $atts['type'];
+
 			// Default to plain text
 			else
 				$lang = 'text';
@@ -1247,7 +1343,8 @@ class SyntaxHighlighter {
 
 			// Validate passed attribute
 			if ( ! isset( $this->brushes[ $lang ] ) ) {
-				return $code;
+				// Never return the code unescaped: render_block() may have already decoded it.
+				return esc_html( $code );
 			}
 		}
 
@@ -1301,7 +1398,20 @@ class SyntaxHighlighter {
 			'quick-code'       => 'boolean',
 		) );
 
+		// The largest numbers that make sense for these parameters
+		$integer_limits = array(
+			'font-size'        => 1000, // A percentage
+			'pad-line-numbers' => 20,   // The number of digits line numbers are padded to
+			'tab-size'         => 32,   // The number of spaces a tab is replaced with
+		);
+
 		$title = '';
+
+		// The numbers of the first and last lines of code, which line ranges to highlight are limited to
+		$line_breaks = (int) preg_match_all( '/\r\n|\r|\n/', $code );
+		$first_line  = (int) ( ( false !== $atts['firstline'] ) ? $atts['firstline'] : $this->settings['firstline'] );
+		$first_line  = min( $first_line, PHP_INT_MAX - $line_breaks - 1 ); // Keeps the line numbers below from overflowing
+		$last_line   = $first_line + $line_breaks;
 
 		// Sanitize configuration parameters and such
 		foreach ( $atts as $key => $value ) {
@@ -1335,6 +1445,11 @@ class SyntaxHighlighter {
 					break;
 			}
 
+			// The highlighter scripts loop this many times in the visitor's browser, so keep these numbers reasonable
+			if ( isset( $integer_limits[ $key ] ) && is_int( $value ) ) {
+				$value = max( 0, min( $integer_limits[ $key ], $value ) );
+			}
+
 			// Sanitize the "classname" parameter
 			if ( 'class-name' == $key )
 				$value = "'" . trim( preg_replace( '/[^a-zA-Z0-9 _-]/i', '', $value ) ) . "'";
@@ -1347,7 +1462,7 @@ class SyntaxHighlighter {
 				elseif ( 'false' === $value || '0' === $value )
 					$value = 'false';
 				else
-					$value = (int) $value;
+					$value = max( 0, min( $integer_limits[ $key ], (int) $value ) );
 			}
 
 			// Add % sign to "font-size"
@@ -1363,26 +1478,7 @@ class SyntaxHighlighter {
 				if ( false === strpos( $value, ',' ) && false === strpos( $value, '-' ) ) {
 					$value = (int) $value;
 				} else {
-					$lines = explode( ',', $value );
-					$highlights = array();
-
-					foreach ( $lines as $line ) {
-						// Line range
-						if ( false !== strpos( $line, '-' ) ) {
-							list( $range_start, $range_end ) = array_map( 'intval', explode( '-', $line ) );
-							if ( ! $range_start || ! $range_end || $range_end <= $range_start )
-								continue;
-
-							for ( $i = $range_start; $i <= $range_end; $i++ )
-								$highlights[] = $i;
-						} else {
-							$highlights[] = (int) $line;
-						}
-					}
-
-					natsort( $highlights );
-
-					$value = implode( ',', $highlights );
+					$value = $this->expand_highlight_ranges( $value, $first_line, $last_line );
 				}
 
 				if ( empty( $value ) )
