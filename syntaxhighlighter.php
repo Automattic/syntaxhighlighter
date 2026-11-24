@@ -567,7 +567,7 @@ class SyntaxHighlighter {
 		$code = preg_replace( '#<pre [^>]+>([^<]+)?</pre>#', '$1', $content );
 
 		// The block doesn't save its language when it's the default one, plain text
-		if ( ! isset( $attributes['language'] ) ) {
+		if ( ! isset( $attributes['language'] ) || '' === $attributes['language'] ) {
 			$attributes['language'] = 'plain';
 		}
 
@@ -587,8 +587,11 @@ class SyntaxHighlighter {
 		if ( $decoded ) {
 			$this->codeformat = 1;
 		}
-		$code             = $this->shortcode_callback( $attributes, $code, 'code' );
-		$this->codeformat = $previous_codeformat;
+		try {
+			$code = $this->shortcode_callback( $attributes, $code, 'code' );
+		} finally {
+			$this->codeformat = $previous_codeformat;
+		}
 
 		return '<div class="wp-block-syntaxhighlighter-code ' . esc_attr( implode( ' ', $classnames ) ) . '">' . $code . '</div>';
 	}

@@ -98,6 +98,9 @@ class SyntaxHighlighter_Evolved_Tests_Rendering extends WP_UnitTestCase {
 
 		$rendered = $this->render_block( $attributes, "&lt;foo>\nbar &amp; baz\n&amp;lt;" );
 
+		// Other tests shouldn't be affected by this post
+		unset( $GLOBALS['post'] );
+
 		$this->assertStringContainsString( "&lt;foo&gt;\nbar &amp; baz\n&amp;lt;</pre>", $rendered );
 	}
 
@@ -117,6 +120,31 @@ class SyntaxHighlighter_Evolved_Tests_Rendering extends WP_UnitTestCase {
 		$rendered = $this->render_block( '{"lang":"zzz","type":"php"}', 'echo 1;' );
 
 		$this->assertStringContainsString( '<pre class="brush: plain;', $rendered );
+	}
+
+	public function test_block_with_an_empty_language_is_plain_text() {
+		$rendered = $this->render_block( '{"language":""}', "&lt;foo>\nbar" );
+
+		$this->assertStringContainsString( '<pre class="brush: plain;', $rendered );
+		$this->assertStringContainsString( "&lt;foo&gt;\nbar</pre>", $rendered );
+	}
+
+	public function test_code_format_is_restored_when_rendering_a_block_fails() {
+		$throw = function () {
+			throw new Exception( 'Failed' );
+		};
+		add_filter( 'syntaxhighlighter_htmlresult', $throw );
+
+		$thrown = false;
+		try {
+			$GLOBALS['SyntaxHighlighter']->render_block( array( 'language' => 'php' ), '<pre class="wp-block-syntaxhighlighter-code">echo 1;</pre>' );
+		} catch ( Exception $e ) {
+			$thrown = true;
+		}
+		remove_filter( 'syntaxhighlighter_htmlresult', $throw );
+
+		$this->assertTrue( $thrown );
+		$this->assertFalse( $GLOBALS['SyntaxHighlighter']->codeformat );
 	}
 
 	public function test_known_language_block_is_highlighted() {
