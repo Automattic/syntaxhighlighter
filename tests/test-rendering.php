@@ -122,6 +122,52 @@ class SyntaxHighlighter_Evolved_Tests_Rendering extends WP_UnitTestCase {
 	}
 
 	/**
+	 * @dataProvider data_highlights
+	 */
+	public function test_highlight( $attributes, $expected ) {
+		$rendered = apply_filters( 'the_content', '[code ' . $attributes . "]one\ntwo\nthree\nfour\nfive[/code]" );
+
+		if ( null === $expected ) {
+			$this->assertStringNotContainsString( 'highlight:', $rendered );
+		} else {
+			$this->assertStringContainsString( ' highlight: [' . $expected . '];', $rendered );
+		}
+	}
+
+	public static function data_highlights() {
+		return array(
+			'single line'              => array( 'highlight="3"', '3' ),
+			'list'                     => array( 'highlight="4,2"', '2,4' ),
+			'range'                    => array( 'highlight="2-4"', '2,3,4' ),
+			'list and ranges'          => array( 'highlight="5,1-2,4"', '1,2,4,5' ),
+			'overlapping ranges'       => array( 'highlight="2-4,1-3,3-5"', '1,2,3,4,5' ),
+			'range past the last line' => array( 'highlight="4-99999999999"', '4,5' ),
+			'range outside the code'   => array( 'highlight="2,100-99999999999"', '2' ),
+			'only out of range'        => array( 'highlight="100-99999999999"', null ),
+			'backwards range'          => array( 'highlight="4-2,3"', '3' ),
+			'different first line'     => array( 'firstline="10" highlight="1-12,14"', '10,11,12,14' ),
+		);
+	}
+
+	/**
+	 * A huge range used to build a list of every number in it, however short the code was.
+	 * Shortcodes are parsed in comments, so anyone able to comment could use up all the memory.
+	 */
+	public function test_huge_highlight_range_in_a_comment_is_limited_to_the_code() {
+		$rendered = apply_filters( 'comment_text', '[code highlight="1-99999999999,' . str_repeat( '1-99999999999,', 1000 ) . "2-88888888888\"]one\ntwo[/code]" );
+
+		$this->assertStringContainsString( ' highlight: [1,2];', $rendered );
+		$this->assertLessThan( 1000, strlen( $rendered ) );
+	}
+
+	public function test_huge_first_line_does_not_overflow() {
+		$rendered = apply_filters( 'the_content', '[code firstline="9999999999999999999999" highlight="1-99999999999999999999999"]' . "one\ntwo[/code]" );
+
+		$this->assertStringContainsString( '<pre class="brush: plain;', $rendered );
+		$this->assertLessThan( 1000, strlen( $rendered ) );
+	}
+
+	/**
 	 * @dataProvider data_shortcodes
 	 */
 	public function test_shortcode_language_forms( $shortcode, $expected_brush ) {

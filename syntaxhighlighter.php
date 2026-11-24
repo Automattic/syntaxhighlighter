@@ -1184,6 +1184,56 @@ class SyntaxHighlighter {
 	}
 
 
+	/**
+	 * Turns a list of line numbers and line ranges, such as "2,5-10,12", into a list of line numbers.
+	 *
+	 * Ranges are limited to the lines the code actually has. Otherwise a range such as "1-99999999"
+	 * would use up all of the available memory, and anyone who can leave a comment can use the shortcode.
+	 *
+	 * @since 3.7.3
+	 *
+	 * @param string $value      Comma-separated line numbers and line ranges.
+	 * @param int    $first_line The number of the first line of code.
+	 * @param int    $last_line  The number of the last line of code.
+	 *
+	 * @return string Comma-separated line numbers.
+	 */
+	function expand_highlight_ranges( $value, $first_line, $last_line ) {
+		$highlights = array();
+		$ranges     = array();
+
+		foreach ( explode( ',', $value ) as $line ) {
+			if ( false === strpos( $line, '-' ) ) {
+				$highlights[] = (int) $line;
+				continue;
+			}
+
+			list( $range_start, $range_end ) = array_map( 'intval', explode( '-', $line ) );
+			if ( ! $range_start || ! $range_end || $range_end <= $range_start ) {
+				continue;
+			}
+
+			$ranges[] = array( max( $range_start, $first_line ), min( $range_end, $last_line ) );
+		}
+
+		// Go through the ranges in order, so that each line is only visited once no matter how many ranges overlap
+		sort( $ranges );
+		$next_line = $first_line;
+		foreach ( $ranges as $range ) {
+			for ( $i = max( $range[0], $next_line ); $i <= $range[1]; $i++ ) {
+				$highlights[] = $i;
+			}
+
+			$next_line = max( $next_line, $range[1] + 1 );
+		}
+
+		$highlights = array_unique( $highlights );
+		natsort( $highlights );
+
+		return implode( ',', $highlights );
+	}
+
+
 	// Shortcode handler for transforming the shortcodes to their final <pre>'s
 	function shortcode_callback( $atts, $code = '', $tag = false ) {
 		global $post;
@@ -1313,6 +1363,12 @@ class SyntaxHighlighter {
 
 		$title = '';
 
+		// The numbers of the first and last lines of code, which line ranges to highlight are limited to
+		$line_breaks = (int) preg_match_all( '/\r\n|\r|\n/', $code );
+		$first_line  = (int) ( ( false !== $atts['firstline'] ) ? $atts['firstline'] : $this->settings['firstline'] );
+		$first_line  = min( $first_line, PHP_INT_MAX - $line_breaks - 1 ); // Keeps the line numbers below from overflowing
+		$last_line   = $first_line + $line_breaks;
+
 		// Sanitize configuration parameters and such
 		foreach ( $atts as $key => $value ) {
 			$key = strtolower( $key );
@@ -1373,26 +1429,7 @@ class SyntaxHighlighter {
 				if ( false === strpos( $value, ',' ) && false === strpos( $value, '-' ) ) {
 					$value = (int) $value;
 				} else {
-					$lines = explode( ',', $value );
-					$highlights = array();
-
-					foreach ( $lines as $line ) {
-						// Line range
-						if ( false !== strpos( $line, '-' ) ) {
-							list( $range_start, $range_end ) = array_map( 'intval', explode( '-', $line ) );
-							if ( ! $range_start || ! $range_end || $range_end <= $range_start )
-								continue;
-
-							for ( $i = $range_start; $i <= $range_end; $i++ )
-								$highlights[] = $i;
-						} else {
-							$highlights[] = (int) $line;
-						}
-					}
-
-					natsort( $highlights );
-
-					$value = implode( ',', $highlights );
+					$value = $this->expand_highlight_ranges( $value, $first_line, $last_line );
 				}
 
 				if ( empty( $value ) )
