@@ -530,6 +530,15 @@ class SyntaxHighlighter {
 	 * @return string The rendered content.
 	 */
 	public function render_block( $attributes, $content ) {
+		/*
+		 * Only named attributes with scalar values are meaningful.
+		 *
+		 * shortcode_callback() treats a positional `0` attribute as the language, which would change the
+		 * language after the code has been decoded below. Arrays and objects can't be used as a setting.
+		 */
+		$attributes = array_filter( (array) $attributes, 'is_scalar' );
+		$attributes = array_filter( $attributes, 'is_string', ARRAY_FILTER_USE_KEY );
+
 		$remaps = array(
 			'lineNumbers'       => 'gutter',
 			'firstLineNumber'   => 'firstline',
@@ -1247,7 +1256,8 @@ class SyntaxHighlighter {
 
 			// Validate passed attribute
 			if ( ! isset( $this->brushes[ $lang ] ) ) {
-				return $code;
+				// Never return the code unescaped: render_block() may have already decoded it.
+				return esc_html( $code );
 			}
 		}
 
