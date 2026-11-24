@@ -44,6 +44,7 @@ Try excluding this plugin's Javascript from any performance optimizations your s
 
 - Security: Fix escaping of block code when the block's language is changed by another attribute #315
 - Security: Limit highlighted line ranges to the lines of the code #315
+- Security: Limit the tab size, line number padding and font size #315
 - Fix Plain Text blocks displaying `<` and `&` as `&lt;` and `&amp;` #315
 - Use the `type` shortcode attribute as the language when it's a known one #315
 - Add translation context to language names #314
