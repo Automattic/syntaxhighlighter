@@ -17,7 +17,7 @@ class SyntaxHighlighter_Evolved_Tests_Scripts extends WP_UnitTestCase {
 		$output = ob_get_clean();
 
 		// The event Jetpack's Infinite Scroll dispatches, and the jQuery event it and some themes trigger.
-		$this->assertStringContainsString( "document.addEventListener( 'is.post-load'", $output );
-		$this->assertStringContainsString( "$( document.body ).on( 'post-load'", $output );
+		$this->assertStringContainsString( "document.addEventListener( 'is.post-load', highlightNewPosts );", $output );
+		$this->assertStringContainsString( "$( document.body ).on( 'post-load', highlightNewPosts );", $output );
 	}
 }

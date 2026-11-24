@@ -1141,18 +1141,31 @@ class SyntaxHighlighter {
 ?>	SyntaxHighlighter.all();
 
 	// Infinite scroll support
-	document.addEventListener( 'is.post-load', function() {
-		SyntaxHighlighter.highlight();
-	} );
+	( function() {
+		var highlightQueued = false;
 
-	// Older versions of Jetpack, and some themes, only trigger the jQuery event
-	if ( typeof( jQuery ) !== 'undefined' ) {
-		jQuery( function( $ ) {
-			$( document.body ).on( 'post-load', function() {
+		// Jetpack triggers both of the events below for the same posts, so only highlight once for them
+		function highlightNewPosts() {
+			if ( highlightQueued ) {
+				return;
+			}
+
+			highlightQueued = true;
+			setTimeout( function() {
+				highlightQueued = false;
 				SyntaxHighlighter.highlight();
+			}, 0 );
+		}
+
+		document.addEventListener( 'is.post-load', highlightNewPosts );
+
+		// Older versions of Jetpack, and some themes, only trigger the jQuery event
+		if ( typeof( jQuery ) !== 'undefined' ) {
+			jQuery( function( $ ) {
+				$( document.body ).on( 'post-load', highlightNewPosts );
 			} );
-		} );
-	}
+		}
+	} )();
 </script>
 <?php
 
