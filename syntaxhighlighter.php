@@ -590,7 +590,7 @@ class SyntaxHighlighter {
 		$code             = $this->shortcode_callback( $attributes, $code, 'code' );
 		$this->codeformat = $previous_codeformat;
 
-		return '<div class="wp-block-syntaxhighlighter-code ' . esc_attr( join( ' ', $classnames ) ) . '">' . $code . '</div>';
+		return '<div class="wp-block-syntaxhighlighter-code ' . esc_attr( implode( ' ', $classnames ) ) . '">' . $code . '</div>';
 	}
 
 	// Add the custom TinyMCE plugin which wraps plugin shortcodes in <pre> in TinyMCE
