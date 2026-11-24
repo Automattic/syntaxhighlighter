@@ -4,7 +4,7 @@ Donate link: https://alex.blog/2019/03/13/in-memory-of-alex-donation-link-update
 Tags: code, source, sourcecode, php, syntax highlighting, syntax, highlight, highlighting, highlighter, WordPress.com
 Requires at least: 5.7
 Tested up to: 6.7
-Stable tag: 3.7.2
+Stable tag: 3.7.3
 
 Easily post syntax-highlighted code to your site without having to modify the code at all. As seen on WordPress.com.
 
@@ -39,6 +39,18 @@ Try excluding this plugin's Javascript from any performance optimizations your s
 2. An example use of the editor block.
 
 == ChangeLog ==
+
+= Version 3.7.3 =
+
+- Security: Fix escaping of block code when the block's language is changed by another attribute #315
+- Security: Limit highlighted line ranges to the lines of the code #315
+- Fix Plain Text blocks displaying `<` and `&` as `&lt;` and `&amp;` #315
+- Use the `type` shortcode attribute as the language when it's a known one #315
+- Add translation context to language names #314
+- Re-highlight code after Jetpack's Infinite Scroll loads more posts, without needing jQuery #314
+- PHP 8.5 compatibility: use a colon after `case` in switch statements #291
+- Remove the redundant `type` attribute from inline script tags #292
+- Update build dependencies #293 #294
 
 = Version 3.7.2 =
 
