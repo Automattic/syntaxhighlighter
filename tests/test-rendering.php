@@ -203,6 +203,33 @@ class SyntaxHighlighter_Evolved_Tests_Rendering extends WP_UnitTestCase {
 		$this->assertLessThan( 1000, strlen( $rendered ) );
 	}
 
+	/**
+	 * The highlighter scripts loop as many times as these numbers say, in the browser of everyone viewing the page.
+	 *
+	 * @dataProvider data_integer_limits
+	 */
+	public function test_numbers_are_limited( $attributes, $expected ) {
+		$rendered = apply_filters( 'comment_text', '[code ' . $attributes . ']echo 1;[/code]' );
+
+		$this->assertStringContainsString( ' ' . $expected . ';', $rendered );
+	}
+
+	public static function data_integer_limits() {
+		return array(
+			'tab size'                 => array( 'tabsize="8"', 'tab-size: 8' ),
+			'huge tab size'            => array( 'tabsize="2000000000"', 'tab-size: 32' ),
+			'negative tab size'        => array( 'tabsize="-5"', 'tab-size: 0' ),
+			'padding'                  => array( 'padlinenumbers="4"', 'pad-line-numbers: 4' ),
+			'automatic padding'        => array( 'padlinenumbers="true"', 'pad-line-numbers: true' ),
+			'no padding'               => array( 'padlinenumbers="false"', 'pad-line-numbers: false' ),
+			'huge padding'             => array( 'padlinenumbers="999999999"', 'pad-line-numbers: 20' ),
+			'negative padding'         => array( 'padlinenumbers="-3"', 'pad-line-numbers: 0' ),
+			'font size'                => array( 'fontsize="120"', 'font-size: 120%' ),
+			'huge font size'           => array( 'fontsize="99999999"', 'font-size: 1000%' ),
+			'first line isn\'t limited' => array( 'firstline="5000000"', 'first-line: 5000000' ),
+		);
+	}
+
 	public function test_type_is_a_language_alias() {
 		$rendered = apply_filters( 'the_content', '[code type="php"]echo 1;[/code]' );
 

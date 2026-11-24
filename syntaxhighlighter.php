@@ -1377,6 +1377,13 @@ class SyntaxHighlighter {
 			'quick-code'       => 'boolean',
 		) );
 
+		// The largest numbers that make sense for these parameters
+		$integer_limits = array(
+			'font-size'        => 1000, // A percentage
+			'pad-line-numbers' => 20,   // The number of digits line numbers are padded to
+			'tab-size'         => 32,   // The number of spaces a tab is replaced with
+		);
+
 		$title = '';
 
 		// The numbers of the first and last lines of code, which line ranges to highlight are limited to
@@ -1417,6 +1424,11 @@ class SyntaxHighlighter {
 					break;
 			}
 
+			// The highlighter scripts loop this many times in the visitor's browser, so keep these numbers reasonable
+			if ( isset( $integer_limits[ $key ] ) && is_int( $value ) ) {
+				$value = max( 0, min( $integer_limits[ $key ], $value ) );
+			}
+
 			// Sanitize the "classname" parameter
 			if ( 'class-name' == $key )
 				$value = "'" . trim( preg_replace( '/[^a-zA-Z0-9 _-]/i', '', $value ) ) . "'";
@@ -1429,7 +1441,7 @@ class SyntaxHighlighter {
 				elseif ( 'false' === $value || '0' === $value )
 					$value = 'false';
 				else
-					$value = (int) $value;
+					$value = max( 0, min( $integer_limits[ $key ], (int) $value ) );
 			}
 
 			// Add % sign to "font-size"
