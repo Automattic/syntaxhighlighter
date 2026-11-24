@@ -167,6 +167,24 @@ class SyntaxHighlighter_Evolved_Tests_Rendering extends WP_UnitTestCase {
 		$this->assertLessThan( 1000, strlen( $rendered ) );
 	}
 
+	public function test_type_is_a_language_alias() {
+		$rendered = apply_filters( 'the_content', '[code type="php"]echo 1;[/code]' );
+
+		$this->assertStringContainsString( '<pre class="brush: php;', $rendered );
+	}
+
+	public function test_unknown_type_is_still_highlighted_as_plain_text() {
+		$rendered = apply_filters( 'the_content', '[code type="zzz"]echo 1;[/code]' );
+
+		$this->assertStringContainsString( '<pre class="brush: plain;', $rendered );
+	}
+
+	public function test_language_wins_over_type() {
+		$rendered = apply_filters( 'the_content', '[code lang="js" type="php"]echo 1;[/code]' );
+
+		$this->assertStringContainsString( '<pre class="brush: jscript;', $rendered );
+	}
+
 	/**
 	 * @dataProvider data_shortcodes
 	 */

@@ -1297,6 +1297,10 @@ class SyntaxHighlighter {
 			elseif ( false !== $atts['lang'] )
 				$lang = $atts['lang'];
 
+			// Check for the "type" attribute, but only use it when it's a language we know
+			elseif ( false !== $atts['type'] && isset( $this->brushes[ strtolower( $atts['type'] ) ] ) )
+				$lang = $atts['type'];
+
 			// Default to plain text
 			else
 				$lang = 'text';
