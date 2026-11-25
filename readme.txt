@@ -12,7 +12,7 @@ Easily post syntax-highlighted code to your site without having to modify the co
 
 *Now with support for the new block editor in WordPress 5.0!*
 
-SyntaxHighlighter Evolved allows you to easily post syntax-highlighted code to your site without losing its formatting or making any manual changes. It uses the [SyntaxHighlighter JavaScript package by Alex Gorbatchev](http://alexgorbatchev.com/wiki/SyntaxHighlighter).
+SyntaxHighlighter Evolved allows you to easily post syntax-highlighted code to your site without losing its formatting or making any manual changes. It uses the SyntaxHighlighter JavaScript package by Alex Gorbatchev.
 
 For a live demo, see [this plugin's homepage](https://alex.blog/wordpress-plugins/syntaxhighlighter/).
 
