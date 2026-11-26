@@ -659,7 +659,7 @@ class SyntaxHighlighter {
 	 * @param array $m Regular expression match array.
 	 * @return string|false Return the matched shortcode as-is for all shortcodes not handled by SyntaxHighlighter, returns $output otherwise.
 	 */
-	function pre_do_shortcode_shortcode_hack_skip_others( $output, $tag, $attr, $m ) {
+	public function pre_do_shortcode_shortcode_hack_skip_others( $output, $tag, $attr, $m ) {
 		if ( ! in_array( $tag, $this->shortcodes, true ) ) {
 			return $m[0];
 		}
@@ -749,7 +749,7 @@ class SyntaxHighlighter {
 
 		// Put the original shortcodes back, and remove the hacky pre_do_shortcode_tag filter
 		$shortcode_tags = $orig_shortcode_tags;
-		remove_filter('pre_do_shortcode_tag', array($this, 'pre_do_shortcode_shortcode_hack_skip_others'), 10);
+		remove_filter( 'pre_do_shortcode_tag', array( $this, 'pre_do_shortcode_shortcode_hack_skip_others' ), 10 );
 
 		return $content;
 	}
@@ -1231,7 +1231,7 @@ class SyntaxHighlighter {
 	 *
 	 * @return string Comma-separated line numbers.
 	 */
-	function expand_highlight_ranges( $value, $first_line, $last_line ) {
+	public function expand_highlight_ranges( $value, $first_line, $last_line ) {
 		$highlights = array();
 		$ranges     = array();
 
@@ -1322,21 +1322,19 @@ class SyntaxHighlighter {
 		else {
 			$atts = $this->attributefix( $atts );
 
-			// Check for the "language" attribute
-			if ( false !== $atts['language'] )
+			if ( false !== $atts['language'] ) {
+				// Check for the "language" attribute
 				$lang = $atts['language'];
-
-			// Check for the "lang" attribute
-			elseif ( false !== $atts['lang'] )
+			} elseif ( false !== $atts['lang'] ) {
+				// Check for the "lang" attribute
 				$lang = $atts['lang'];
-
-			// Check for the "type" attribute, but only use it when it's a language we know
-			elseif ( false !== $atts['type'] && isset( $this->brushes[ strtolower( $atts['type'] ) ] ) )
+			} elseif ( false !== $atts['type'] && isset( $this->brushes[ strtolower( $atts['type'] ) ] ) ) {
+				// Check for the "type" attribute, but only use it when it's a language we know
 				$lang = $atts['type'];
-
-			// Default to plain text
-			else
+			} else {
+				// Default to plain text
 				$lang = 'text';
+			}
 
 			// All language aliases are lowercase
 			$lang = strtolower( $lang );
@@ -1457,12 +1455,13 @@ class SyntaxHighlighter {
 			// Special sanitization for "pad-line-numbers"
 			if ( 'pad-line-numbers' == $key ) {
 				$value = strtolower( $value );
-				if ( 'true' === $value || '1' === $value )
+				if ( 'true' === $value || '1' === $value ) {
 					$value = 'true';
-				elseif ( 'false' === $value || '0' === $value )
+				} elseif ( 'false' === $value || '0' === $value ) {
 					$value = 'false';
-				else
+				} else {
 					$value = max( 0, min( $integer_limits[ $key ], (int) $value ) );
+				}
 			}
 
 			// Add % sign to "font-size"
