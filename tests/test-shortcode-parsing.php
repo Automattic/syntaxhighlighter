@@ -261,6 +261,57 @@ class SyntaxHighlighter_Evolved_Tests_Shortcode_Parsing extends WP_UnitTestCase 
 		$this->assertStringContainsString( '<pre class="brush: plain;', $rendered );
 	}
 
+	/**
+	 * WordPress ends an opening tag at the first "]" that follows a "/", so this is a [code] tag without a closing tag.
+	 */
+	public function test_closing_tag_text_in_an_attribute_is_not_a_closing_tag() {
+		$content = 'See [code title="What [/code] means"] for more.';
+
+		$this->assertSame( $content, $GLOBALS['SyntaxHighlighter']->encode_shortcode_contents( $content ) );
+		$this->assertSame( $content, $GLOBALS['SyntaxHighlighter']->decode_shortcode_contents( $content ) );
+		$this->assertSame( $content, do_shortcode( $content ) );
+
+		$rendered = $this->render( $content );
+
+		$this->assertStringContainsString( 'What [/code] means', $rendered );
+		$this->assertStringNotContainsString( '<pre', $rendered );
+	}
+
+	/**
+	 * Unlike a tag without a closing tag, this is code. With no code in it there's nothing to output, as before.
+	 */
+	public function test_empty_code_with_a_closing_tag_is_not_left_as_text() {
+		$this->assertSame( 'A  B', $GLOBALS['SyntaxHighlighter']->parse_shortcodes( 'A [php][/php] B' ) );
+	}
+
+	/**
+	 * Another plugin can use the pre_do_shortcode_tag filter to output something else for a shortcode, or nothing.
+	 *
+	 * @dataProvider data_output_from_another_filter
+	 */
+	public function test_output_from_another_pre_do_shortcode_tag_filter_is_kept( $output ) {
+		$filter = function ( $return, $tag ) use ( $output ) {
+			return in_array( $tag, array( 'code', 'c' ), true ) ? $output : $return;
+		};
+
+		add_filter( 'pre_do_shortcode_tag', $filter, 5, 2 );
+
+		$from_do_shortcode = do_shortcode( 'A [code]echo 1;[/code] B [c] C' );
+		$from_the_plugin   = $GLOBALS['SyntaxHighlighter']->parse_shortcodes( 'A [code]echo 1;[/code] B [c] C' );
+
+		remove_filter( 'pre_do_shortcode_tag', $filter, 5 );
+
+		$this->assertSame( "A $output B $output C", $from_do_shortcode );
+		$this->assertSame( "A $output B $output C", $from_the_plugin );
+	}
+
+	public static function data_output_from_another_filter() {
+		return array(
+			'replaced'   => array( 'REPLACED' ),
+			'suppressed' => array( '' ),
+		);
+	}
+
 	/*
 	 * The plugin's shortcodes stay registered, so WordPress knows what they are
 	 */

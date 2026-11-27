@@ -676,9 +676,17 @@ class SyntaxHighlighter {
 	public function leave_shortcodes_as_written( $output, $tag, $attr, $m ) {
 		global $shortcode_tags;
 
+		// Another filter has already decided what this shortcode's output is
+		if ( false !== $output ) {
+			return $output;
+		}
+
 		// While this plugin parses its shortcodes, they are the only ones registered
 		if ( $this->parsing_shortcodes ) {
-			return ( false === strpos( $m[0], '[/' . $tag . ']' ) ) ? $m[0] : $output;
+			// What the match is when there is no closing tag. "[/tag]" can't be searched for, as it can be in an attribute.
+			$without_closing_tag = $m[1] . '[' . $m[2] . $m[3] . $m[4] . ']' . $m[6];
+
+			return ( $m[0] === $without_closing_tag ) ? $m[0] : $output;
 		}
 
 		// Otherwise, only the placeholders are this plugin's. Another plugin may have replaced one with a shortcode of its own.
