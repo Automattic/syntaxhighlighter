@@ -258,6 +258,164 @@ class SyntaxHighlighter_Evolved_Tests_Rendering extends WP_UnitTestCase {
 		);
 	}
 
+	/**
+	 * Reads the parameters out of a rendered <pre>'s class the way the highlighter scripts do.
+	 *
+	 * This is the regular expression from parseParams() in shCore.js. It doesn't need parameters to be separated
+	 * by anything, so any "name: value" in the class is a parameter.
+	 *
+	 * @param string $rendered The rendered shortcode.
+	 *
+	 * @return array {
+	 *     @type array  $parameters The parameters, as name => value.
+	 *     @type string $leftover   What's left of the class without them.
+	 * }
+	 */
+	private function parse_highlighter_parameters( $rendered ) {
+		$this->assertSame( 1, preg_match( '#^<pre class="([^"]*)"( title="[^"]*")?>#', $rendered, $pre ), $rendered );
+
+		$class = html_entity_decode( $pre[1], ENT_QUOTES );
+		$regex = '/([\w-]+)\s*:\s*([\w%#-]+|\[.*?\]|".*?"|\'.*?\')\s*;?/';
+
+		preg_match_all( $regex, $class, $matches, PREG_SET_ORDER );
+
+		$parameters = array();
+		foreach ( $matches as $match ) {
+			$parameters[ $match[1] ] = $match[2];
+		}
+
+		return array(
+			'parameters' => $parameters,
+			'leftover'   => trim( preg_replace( $regex, '', $class ) ),
+		);
+	}
+
+	/**
+	 * Whatever is put in a shortcode's attribute, it can only ever set that attribute's own parameter,
+	 * and only to a value of the right kind.
+	 *
+	 * @dataProvider data_hostile_attributes
+	 */
+	public function test_attribute_can_only_set_its_own_parameter( $attribute, $value ) {
+		$formats = array(
+			'brush'            => '/^plain$/',
+			'auto-links'       => '/^(true|false)$/',
+			'class-name'       => '/^\'[a-zA-Z0-9 _-]*\'$/',
+			'collapse'         => '/^(true|false)$/',
+			'first-line'       => '/^-?\d+$/',
+			'font-size'        => '/^\d+%$/',
+			'gutter'           => '/^(true|false)$/',
+			'highlight'        => '/^\[\d+(,\d+)*\]$/',
+			'html-script'      => '/^(true|false)$/',
+			'light'            => '/^(true|false)$/',
+			'pad-line-numbers' => '/^(true|false|\d+)$/',
+			'smart-tabs'       => '/^(true|false)$/',
+			'tab-size'         => '/^\d+$/',
+			'toolbar'          => '/^(true|false)$/',
+			'wrap-lines'       => '/^(true|false)$/',
+			'quick-code'       => '/^(true|false)$/',
+		);
+		$names   = array(
+			'autolinks'      => 'auto-links',
+			'classname'      => 'class-name',
+			'firstline'      => 'first-line',
+			'fontsize'       => 'font-size',
+			'htmlscript'     => 'html-script',
+			'padlinenumbers' => 'pad-line-numbers',
+			'smarttabs'      => 'smart-tabs',
+			'tabsize'        => 'tab-size',
+			'wraplines'      => 'wrap-lines',
+			'quickcode'      => 'quick-code',
+		);
+		$own     = isset( $names[ $attribute ] ) ? $names[ $attribute ] : $attribute;
+
+		$rendered = $GLOBALS['SyntaxHighlighter']->shortcode_callback( array( $attribute => $value ), "one\ntwo\nthree", 'code' );
+		$parsed   = $this->parse_highlighter_parameters( $rendered );
+
+		$this->assertSame( 'notranslate', $parsed['leftover'], $rendered );
+
+		foreach ( $parsed['parameters'] as $name => $parameter ) {
+			$this->assertContains( $name, array( 'brush', $own ), $rendered );
+			$this->assertArrayHasKey( $name, $formats, $rendered );
+			$this->assertMatchesRegularExpression( $formats[ $name ], $parameter, $rendered );
+		}
+	}
+
+	public static function data_hostile_attributes() {
+		$attributes = array( 'autolinks', 'classname', 'collapse', 'firstline', 'fontsize', 'gutter', 'highlight', 'htmlscript', 'light', 'padlinenumbers', 'smarttabs', 'tabsize', 'title', 'toolbar', 'wraplines', 'quickcode' );
+		$values     = array(
+			'another parameter'   => 'see pad-line-numbers: 999999999',
+			'after a semicolon'   => 'true; tab-size: 2000000000; smart-tabs: false',
+			'without spaces'      => '1;tab-size:2000000000',
+			'in single quotes'    => "x' tab-size: 2000000000 '",
+			'in double quotes'    => 'x" tab-size: 2000000000 "',
+			'a quoted value'      => "see class-name: 'a\" onmouseover=\"alert(1)'",
+			'a list'              => '1,2 highlight: [1,2,3] collapse: true',
+			'on another line'     => "4\ntab-size: 2000000000",
+			'as entities'         => 'see tab-size&#58; 2000000000 pad-line-numbers&colon; 999999999',
+			'a different brush'   => 'x brush: php; gutter: false',
+		);
+
+		$data = array();
+		foreach ( $attributes as $attribute ) {
+			foreach ( $values as $name => $value ) {
+				$data[ $attribute . ', ' . $name ] = array( $attribute, $value );
+			}
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Sites can add parameters of their own with filters. Their values can't add other parameters either.
+	 */
+	public function test_custom_parameter_can_only_have_a_single_word_as_its_value( $value = "see tab-size: 2000000000 'x' [1]", $expected = array( 'brush' => 'plain' ) ) {
+		$add_attribute = function ( $atts ) use ( $value ) {
+			$atts['custom'] = $value;
+
+			return $atts;
+		};
+		$allow         = function ( $allowed ) {
+			$allowed['custom'] = 'other';
+
+			return $allowed;
+		};
+		add_filter( 'syntaxhighlighter_shortcodeatts', $add_attribute );
+		add_filter( 'syntaxhighlighter_allowedatts', $allow );
+
+		$rendered = $GLOBALS['SyntaxHighlighter']->shortcode_callback( array(), 'one', 'code' );
+
+		remove_filter( 'syntaxhighlighter_shortcodeatts', $add_attribute );
+		remove_filter( 'syntaxhighlighter_allowedatts', $allow );
+
+		$parsed = $this->parse_highlighter_parameters( $rendered );
+
+		$this->assertSame( $expected, $parsed['parameters'] );
+		$this->assertSame( 'notranslate', $parsed['leftover'] );
+	}
+
+	public function test_custom_parameter_with_a_single_word_is_kept() {
+		$this->test_custom_parameter_can_only_have_a_single_word_as_its_value(
+			'dark-mode_2',
+			array(
+				'brush'  => 'plain',
+				'custom' => 'dark-mode_2',
+			)
+		);
+	}
+
+	public function test_title_is_only_in_the_title_attribute() {
+		$rendered = apply_filters( 'the_content', '[code title="My <b>example</b> &amp; more" collapse="true"]echo 1;[/code]' );
+
+		$this->assertStringContainsString( '<pre class="brush: plain; collapse: true; light: false; toolbar: true; notranslate" title="My example &amp; more">', $rendered );
+	}
+
+	public function test_code_without_a_title_has_no_title_attribute() {
+		$rendered = apply_filters( 'the_content', '[code]echo 1;[/code]' );
+
+		$this->assertStringContainsString( '<pre class="brush: plain; notranslate">', $rendered );
+	}
+
 	public function test_type_is_a_language_alias() {
 		$rendered = apply_filters( 'the_content', '[code type="php"]echo 1;[/code]' );
 

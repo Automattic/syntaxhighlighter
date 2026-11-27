@@ -1403,6 +1403,9 @@ class SyntaxHighlighter {
 			'tab-size'         => 32,   // The number of spaces a tab is replaced with
 		);
 
+		// Parameters whose values are sanitized in their own way below
+		$sanitized_parameters = array( 'class-name', 'pad-line-numbers' );
+
 		$title = '';
 
 		// The numbers of the first and last lines of code, which line ranges to highlight are limited to
@@ -1488,16 +1491,29 @@ class SyntaxHighlighter {
 				continue;
 			}
 
-			// Don't allow HTML in the title parameter
-			if ( 'title' == $key ) {
+			/*
+			 * The title is free text, so it's only ever passed in the title attribute, which is where the highlighter
+			 * scripts read it from. They read anything in the class that looks like "name: value" as a parameter,
+			 * so text in there could set any parameter to any value.
+			 */
+			if ( 'title' === $key ) {
+				// Don't allow HTML in the title parameter
 				$value = strip_tags( html_entity_decode( strip_tags( $value ) ) );
+
+				// Not for feeds
+				if ( '' !== $value && ! is_feed() ) {
+					$title = ' title="' . esc_attr( $value ) . '"';
+				}
+
+				continue;
+			}
+
+			// Any other parameter can only have a single word as its value, for the same reason. Anything else is ditched.
+			if ( ! in_array( $key, $sanitized_parameters, true ) && ! preg_match( '/^[\w%#-]+$/D', (string) $value ) ) {
+				continue;
 			}
 
 			$params[] = "$key: $value;";
-
-			// Set the title variable if the title parameter is set (but not for feeds)
-			if ( 'title' == $key && ! is_feed() )
-				$title = ' title="' . esc_attr( $value ) . '"';
 		}
 
 		$code = ( false === strpos( $code, '<' ) && false === strpos( $code, '>' ) && 2 == $this->get_code_format( $post ) ) ? strip_tags( $code ) : htmlspecialchars( $code );
