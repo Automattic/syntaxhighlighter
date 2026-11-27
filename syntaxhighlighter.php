@@ -33,6 +33,7 @@ class SyntaxHighlighter {
 	public $content_save_pre_ran = false;    // It's possible for the "content_save_pre" filter to run multiple times, so keep track
 	public $brush_names          = array();  // Array of brush names for use.
 	public $specialchars         = array(); // Array of special characters to be encoded.
+	public $parsing_shortcodes   = false;    // Whether SyntaxHighlighter::shortcode_hack() is parsing this plugin's shortcodes right now
 
 	function __construct() {
 		if ( ! function_exists( 'do_shortcodes_in_html_tags' ) )
@@ -42,6 +43,7 @@ class SyntaxHighlighter {
 		load_plugin_textdomain( 'syntaxhighlighter' );
 
 		// Display hooks
+		add_filter( 'pre_do_shortcode_tag', array( $this, 'leave_shortcodes_as_written' ), 10, 4 );
 		add_filter( 'the_content', array( $this, 'parse_shortcodes' ), 7 ); // Posts
 		add_filter( 'comment_text', array( $this, 'parse_shortcodes_comment' ), 7 ); // Comments
 		add_filter( 'bp_get_the_topic_post_content', array( $this, 'parse_shortcodes' ), 7 ); // BuddyPress
@@ -649,20 +651,56 @@ class SyntaxHighlighter {
 
 
 	/**
-	 * Returns all shortcodes not handled by SyntaxHighlighter unchanged, so they
-	 * can be processed by their original handlers after SyntaxHighlighter has
-	 * run.
+	 * Leaves this plugin's shortcodes in the content exactly as they were written, unless they have code to highlight.
+	 *
+	 * All of this plugin's shortcodes are registered with a placeholder callback, so that WordPress knows about them.
+	 * Many of them are short language names, such as `[c]` and `[go]`. Without this, any text that looks like one of
+	 * them would be replaced with the nothing that the placeholder returns. It's left alone in two cases:
+	 *
+	 * - When someone other than this plugin is parsing shortcodes, such as do_shortcode() running on the post content.
+	 *   By then this plugin has turned all of the code into HTML, so anything that is left isn't code.
+	 * - When there's a tag without a closing tag, such as the `[c]` in `data[c]`. There's no code to highlight in it.
+	 *   WordPress does pair such a tag with a closing tag of the same name later in the content, if there is one.
+	 *
+	 * A shortcode with one of these names that another plugin has registered is none of this plugin's business.
+	 *
+	 * @since 3.7.4
+	 *
+	 * @param false|string $output The shortcode's output, or false to have the shortcode's callback make it.
+	 * @param string       $tag    The name of the shortcode.
+	 * @param array|string $attr   The shortcode's attributes.
+	 * @param array        $m      The regular expression match for the shortcode.
+	 *
+	 * @return false|string The shortcode as it was written, or $output.
+	 */
+	public function leave_shortcodes_as_written( $output, $tag, $attr, $m ) {
+		global $shortcode_tags;
+
+		// While this plugin parses its shortcodes, they are the only ones registered
+		if ( $this->parsing_shortcodes ) {
+			return ( false === strpos( $m[0], '[/' . $tag . ']' ) ) ? $m[0] : $output;
+		}
+
+		// Otherwise, only the placeholders are this plugin's. Another plugin may have replaced one with a shortcode of its own.
+		if ( ! isset( $shortcode_tags[ $tag ] ) || '__return_empty_string' !== $shortcode_tags[ $tag ] || ! in_array( $tag, $this->shortcodes, true ) ) {
+			return $output;
+		}
+
+		return $m[0];
+	}
+
+	/**
+	 * No longer used. Shortcodes that aren't this plugin's are no longer registered while this plugin parses its own.
+	 *
+	 * @deprecated 3.7.4
 	 *
 	 * @param mixed $output The shortcode's returned value (false by default).
-	 * @param string $tag The name of the shortcode.
-	 * @param array|null $attr The shortcode attributes.
-	 * @param array $m Regular expression match array.
-	 * @return string|false Return the matched shortcode as-is for all shortcodes not handled by SyntaxHighlighter, returns $output otherwise.
+	 *
+	 * @return mixed $output, unchanged.
 	 */
-	public function pre_do_shortcode_shortcode_hack_skip_others( $output, $tag, $attr, $m ) {
-		if ( ! in_array( $tag, $this->shortcodes, true ) ) {
-			return $m[0];
-		}
+	public function pre_do_shortcode_shortcode_hack_skip_others( $output ) {
+		_deprecated_function( __METHOD__, '3.7.4' );
+
 		return $output;
 	}
 
@@ -677,11 +715,10 @@ class SyntaxHighlighter {
 	 *
 	 * First we need to clear out all existing shortcodes, then register
 	 * just this plugin's ones, process them, and then restore the original
-	 * list of shortcodes. Additionally, we have to add another hack to other
-	 * shortcodes, such as [gallery], to return the entire shortcode string as
-	 * it appears in the original content to allow SyntaxHighlighter's shortcode
-	 * strings (e.g., [c]) be used within other shortcodes without interference
-	 * from SyntaxHighlighter.
+	 * list of shortcodes. Other shortcodes aren't registered while that happens,
+	 * so they are left as they are, and code inside of them is still processed.
+	 * Tags that only look like this plugin's shortcodes, such as the [c] in
+	 * data[c], are left alone by SyntaxHighlighter::leave_shortcodes_as_written().
 	 *
 	 * To make matters more complicated, if someone has done [[code]foo[/code]]
 	 * in order to display the shortcode (not render it), then do_shortcode()
@@ -708,8 +745,9 @@ class SyntaxHighlighter {
 			return $content;
 		}
 
-		// Backup current registered shortcodes and clear them all out (we do not backup our own, because we will add and parse them below)
-		$orig_shortcode_tags = array_diff_key( $shortcode_tags, array_flip( $this->shortcodes ) );
+		// Backup current registered shortcodes and clear them all out
+		$orig_shortcode_tags = $shortcode_tags;
+		$was_parsing         = $this->parsing_shortcodes;
 		remove_all_shortcodes();
 
 		// Register all of this plugin's shortcodes
@@ -717,15 +755,33 @@ class SyntaxHighlighter {
 			add_shortcode( $shortcode, $callback );
 		}
 
-		// Register all other shortcodes, ensuring their content remains unchanged using yet another hack.
-		foreach ( $orig_shortcode_tags as $shortcode_tagname => $shortcode ) {
-			add_shortcode( $shortcode_tagname, '__return_empty_string' );
-		}
-		add_filter( 'pre_do_shortcode_tag', array( $this, 'pre_do_shortcode_shortcode_hack_skip_others' ), 10, 4 );
+		$this->parsing_shortcodes = true;
 
+		try {
+			$content = $this->parse_registered_shortcodes( $content, $ignore_html );
+		} finally {
+			// Put the original shortcodes back, including this plugin's placeholders
+			$shortcode_tags           = $orig_shortcode_tags; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+			$this->parsing_shortcodes = $was_parsing;
+		}
+
+		return $content;
+	}
+
+
+	/**
+	 * Parses the shortcodes that are registered right now, which are only this plugin's ones.
+	 *
+	 * @since 3.7.4
+	 *
+	 * @param string $content     The post content.
+	 * @param bool   $ignore_html When true, shortcodes inside HTML elements will be skipped.
+	 *
+	 * @return string The filtered content.
+	 */
+	private function parse_registered_shortcodes( $content, $ignore_html ) {
 		$regex = '/' . get_shortcode_regex() . '/';
 
-		// Parse the shortcodes (only this plugins's are registered)
 		if ( $ignore_html ) {
 			// Extra escape escaped shortcodes because do_shortcode_tag() called by do_shortcode() is going to strip a pair of square brackets when it runs
 			$content = preg_replace_callback(
@@ -746,10 +802,6 @@ class SyntaxHighlighter {
 				$content
 			);
 		}
-
-		// Put the original shortcodes back, and remove the hacky pre_do_shortcode_tag filter
-		$shortcode_tags = $orig_shortcode_tags;
-		remove_filter( 'pre_do_shortcode_tag', array( $this, 'pre_do_shortcode_shortcode_hack_skip_others' ), 10 );
 
 		return $content;
 	}
